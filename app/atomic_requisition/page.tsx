@@ -1,5 +1,7 @@
 import { Flag } from "lucide-react"
 
+import { ReplyForm } from "./reply_form"
+
 export default function AtomicRequisitionPage() {
   return (
     <section className="mt-16">
@@ -28,7 +30,7 @@ function Table() {
         <div className="w-1/2 flex-grow border-l border-gray-100">
           <div className="flex flex-row">
             <div className="w-3/12 p-4 font-semibold">2.1.a.(i)</div>
-            <div className="w-6/12 p-4">mains</div>
+            <div className="w-6/12 p-4"><ReplyForm/></div>
             <div className="w-3/12 p-4">
               <Flag size={20} color="red" />
             </div>
