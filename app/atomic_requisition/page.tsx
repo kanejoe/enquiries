@@ -29,8 +29,10 @@ function Table() {
         </div>
         <div className="w-1/2 flex-grow border-l border-gray-100">
           <div className="flex flex-row">
-            <div className="w-3/12 p-4 font-semibold">2.1.a.(i)</div>
-            <div className="w-6/12 p-4"><ReplyForm/></div>
+            <div className="w-2/12 p-4 font-semibold">2.1.a.(i)</div>
+            <div className="w-7/12 p-4">
+              <ReplyForm />
+            </div>
             <div className="w-3/12 p-4">
               <Flag size={20} color="red" />
             </div>

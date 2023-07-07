@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -12,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 
 const formSchema = z.object({
   reqId: z.string(),
@@ -19,6 +21,8 @@ const formSchema = z.object({
 })
 
 export function ReplyForm() {
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,9 +38,30 @@ export function ReplyForm() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     // only submit if something has changed in the form
-    console.log(form.formState.isDirty)
     if (form.formState.isDirty) console.log(values)
   }
+
+  const adjustHeight = () => {
+    if (textareaRef.current !== null) {
+      textareaRef.current.style.height = "inherit" // reset the height
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px` // then set it to scrollHeight
+    }
+  }
+
+  useEffect(() => {
+    adjustHeight() // adjust the height when component mounts
+  }, [])
+
+  useEffect(() => {
+    const textareaNode = textareaRef.current
+    const handleInput = (e: any) => {
+      e.target.style.height = "auto"
+      e.target.style.height = e.target.scrollHeight + "px"
+    }
+
+    textareaNode?.addEventListener("input", handleInput)
+    return () => textareaNode?.removeEventListener("input", handleInput)
+  }, [])
 
   return (
     <Form {...form}>
@@ -51,7 +76,12 @@ export function ReplyForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="reply..." {...field} />
+                <Textarea
+                  placeholder="reply..."
+                  {...field}
+                  ref={textareaRef}
+                  className="min-h-[40px]"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
