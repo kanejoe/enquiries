@@ -7,7 +7,7 @@ export default function AtomicRequisitionLayout({
 }: AtomicRequisitionLayoutProps) {
   return (
     <>
-      <div className="container">{children}</div>
+      <div className="container font-albertsans">{children}</div>
     </>
   )
 }
