@@ -1,4 +1,4 @@
-import { Flag } from "lucide-react"
+import { CheckCircle, FileText, Flag } from "lucide-react"
 
 import { ReplyForm } from "./reply_form"
 
@@ -19,7 +19,7 @@ function Table() {
       <div className="flex flex-row space-x-1 items-stretch">
         <div className="w-1/2 flex-grow border-r border-gray-100">
           <div className="flex flex-row ">
-            <div className="w-1/12 p-4">(i)</div>
+            <div className="w-1/12 p-4 font-semibold">(i)</div>
             <div className="w-11/12 p-4">
               if so, state whether by Irish Water mains, on-site domestic septic
               tank or other on-site domestic waste water treatment system, or
@@ -29,12 +29,26 @@ function Table() {
         </div>
         <div className="w-1/2 flex-grow border-l border-gray-100">
           <div className="flex flex-row">
-            <div className="w-2/12 p-4 font-semibold">2.1.a.(i)</div>
+            <div className="w-2/12 p-4 font-semibold shrink-0">2.1.a.(i)</div>
             <div className="w-7/12 p-4">
               <ReplyForm />
             </div>
             <div className="w-3/12 p-4">
-              <Flag size={20} color="red" />
+              <div className="flex flex-row space-x-4">
+                <Flag size={20} color="black" fill="red" strokeWidth={1.5} />
+                <FileText
+                  size={20}
+                  color="black"
+                  fill="#76D7C4"
+                  strokeWidth={1.25}
+                />
+                <CheckCircle
+                  size={20}
+                  color="black"
+                  fill="#76D7C4"
+                  strokeWidth={1.25}
+                />
+              </div>
             </div>
           </div>
         </div>
