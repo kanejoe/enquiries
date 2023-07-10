@@ -35,7 +35,7 @@ function Table() {
             </div>
             <div className="2xl:w-7/12 p-4 w-9/12">
               <div className="flex flex-col">
-                <ReplyForm />
+                <ReplyForm reply="not applicable" />
                 <div className="2xl:hidden">
                   <SectionOptions />
                 </div>
@@ -51,37 +51,13 @@ function Table() {
   )
 }
 
-function SectionOptions() {
-  return (
-    <div className="flex flex-row space-x-4 mt-3">
-      <CheckCircle
-        size={20}
-        color="black"
-        className="fill-teal-300 hover:cursor-pointer hover:fill-teal-100 transition"
-        strokeWidth={1.15}
-      />
-      <FileText
-        size={20}
-        color="black"
-        strokeWidth={1.25}
-        className="fill-teal-300 hover:cursor-pointer hover:fill-teal-100 transition"
-      />
-      <Flag
-        size={20}
-        strokeWidth={1.75}
-        className="fill-red-500 hover:fill-red-100 hover:cursor-pointer transition dark:text-gray-300 text-gray-900"
-      />
-    </div>
-  )
-}
-
 function AtomicReq() {
   return (
     <div className="w-full border border-gray-100 p-4">
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col gap-y-4 lg:gap-y-0 lg:gap-x-6 lg:flex-row lg:items-start">
         <SectionIndicatorLong clauseRef="2.1.(a)" />
-        <SectionQuery query='if so, state whether by Irish Water mains, on-site domestic septic tank or other on-site domestic waste water treatment system, or other' />
-        <ReplyForm />
+        <SectionQuery query="if so, state whether by Irish Water mains, on-site domestic septic tank or other on-site domestic waste water treatment system, or other" />
+        <SectionReply reply="not applicable" />
         <SectionOptions />
       </div>
     </div>
@@ -90,22 +66,50 @@ function AtomicReq() {
 
 function SectionIndicatorLong({ clauseRef }: { clauseRef: string }) {
   return (
-    <div className="font-semibold">
-      {clauseRef}
+    <div className="lg:w-[48px] shrink-0">
+      <div className="font-semibold">{clauseRef}</div>
     </div>
   )
 }
 
 function SectionIndicatorShort({ clauseRef }: { clauseRef: string }) {
+  return <div className="font-semibold">{clauseRef}</div>
+}
+
+function SectionQuery({ query }: { query: string }) {
+  return <div className="lg:w-5/12">{query}</div>
+}
+
+function SectionReply({ reply }: { reply: string }) {
   return (
-    <div className="font-semibold">
-      {clauseRef}
+    <div className="lg:w-5/12">
+      <ReplyForm reply={reply} />
     </div>
   )
 }
 
-function SectionQuery({ query }: { query: string }) {
+function SectionOptions() {
   return (
-    <div className="">{query}</div>
+    <div className="lg:w-[84px] shrink-0">
+      <div className="flex flex-row space-x-4 mt-3">
+        <CheckCircle
+          size={20}
+          color="black"
+          className="fill-teal-300 hover:cursor-pointer hover:fill-teal-100 transition"
+          strokeWidth={1.15}
+        />
+        <FileText
+          size={20}
+          color="black"
+          strokeWidth={1.25}
+          className="fill-teal-300 hover:cursor-pointer hover:fill-teal-100 transition"
+        />
+        <Flag
+          size={20}
+          strokeWidth={1.75}
+          className="fill-red-500 hover:fill-red-100 hover:cursor-pointer transition dark:text-gray-300 text-gray-900"
+        />
+      </div>
+    </div>
   )
 }
