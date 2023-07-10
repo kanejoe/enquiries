@@ -29,30 +29,42 @@ function Table() {
         </div>
         <div className="w-1/2 flex-grow border-l border-gray-100">
           <div className="flex flex-row">
-            <div className="w-2/12 p-4 font-semibold shrink-0">2.1.a.(i)</div>
-            <div className="w-7/12 p-4">
-              <ReplyForm />
-            </div>
-            <div className="w-3/12 p-4">
-              <div className="flex flex-row space-x-4">
-                <Flag size={20} color="black" fill="red" strokeWidth={1.5} />
-                <FileText
-                  size={20}
-                  color="black"
-                  fill="#76D7C4"
-                  strokeWidth={1.25}
-                />
-                <CheckCircle
-                  size={20}
-                  color="black"
-                  fill="#76D7C4"
-                  strokeWidth={1.25}
-                />
+            <div className="2xl:w-2/12 p-4 w-3/12 font-semibold">2.1.a.(i)</div>
+            <div className="2xl:w-7/12 p-4 w-9/12">
+              <div className="flex flex-col">
+                <ReplyForm />
+                <div className="2xl:hidden">
+                  <IconOptions />
+                </div>
               </div>
+            </div>
+            <div className="2xl:w-3/12 p-4 hidden 2xl:block">
+              <IconOptions />
             </div>
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function IconOptions() {
+  return (
+    <div className="flex flex-row space-x-4 mt-3">
+      <Flag
+        size={20}
+        color="black"
+        strokeWidth={1.75}
+        className="fill-red-500"
+      />
+      <FileText size={20} color="black" fill="#76D7C4" strokeWidth={1.25} />
+      <CheckCircle
+        size={20}
+        color="black"
+        // fill="#76D7C4"
+        className="fill-teal-300"
+        strokeWidth={1.25}
+      />
     </div>
   )
 }
