@@ -20,7 +20,7 @@ const formSchema = z.object({
   reqReply: z.string(),
 })
 
-export function ReplyForm({ reply }: { reply: string }) {
+export function ReplyForm({ reply, reqId }: { reply?: string; reqId: string }) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   // 1. Define your form.

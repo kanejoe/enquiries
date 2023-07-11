@@ -2,62 +2,51 @@ import { CheckCircle, FileText, Flag } from "lucide-react"
 
 import { ReplyForm } from "./reply_form"
 
+const req = {
+  reqId: "R43FKLF",
+  clauseRef: "2.1.(a)",
+  query:
+    "if so, state whether by Irish Water mains, on-site domestic septic tank or other on-site domestic waste water treatment system, or other",
+  reply: "not applicable",
+  level: 2,
+}
+
+interface AtomicRequisitionProps {
+  reqId: string
+  clauseRef: string
+  query: string
+  reply?: string
+  level?: string
+}
+
 export default function AtomicRequisitionPage() {
   return (
     <section className="mt-16">
       <h1 className="text-xl font-semibold">Atomic Requisition</h1>
       <div className="mt-6 rounded p-6">
-        {/* <Table /> */}
-        <AtomicReq />
+        <AtomicRequisition
+          reqId={req.reqId}
+          clauseRef={req.clauseRef}
+          query={req.query}
+          reply={req.reply}
+        />
       </div>
     </section>
   )
 }
 
-function Table() {
-  return (
-    <div className="w-full border border-gray-100">
-      <div className="flex flex-col lg:flex-row space-x-1 items-stretch">
-        <div className="lg:w-1/2 flex-grow border-r border-gray-200 border-dashed">
-          <div className="flex flex-row ">
-            <div className="w-1/12 p-4 font-semibold">(i)</div>
-            <div className="w-11/12 p-4">
-              if so, state whether by Irish Water mains, on-site domestic septic
-              tank or other on-site domestic waste water treatment system, or
-              other
-            </div>
-          </div>
-        </div>
-        <div className="lg:w-1/2 flex-grow border-l border-gray-200 border-dashed">
-          <div className="flex flex-row">
-            <div className="hidden lg:block 2xl:w-2/12 p-4 w-3/12 font-semibold">
-              2.1.a.(i)
-            </div>
-            <div className="2xl:w-7/12 p-4 w-9/12">
-              <div className="flex flex-col">
-                <ReplyForm reply="not applicable" />
-                <div className="2xl:hidden">
-                  <SectionOptions />
-                </div>
-              </div>
-            </div>
-            <div className="2xl:w-3/12 p-4 hidden 2xl:block">
-              <SectionOptions />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function AtomicReq() {
+function AtomicRequisition({
+  reqId,
+  clauseRef,
+  query,
+  reply,
+}: AtomicRequisitionProps) {
   return (
     <div className="w-full border border-gray-100 p-4">
       <div className="flex flex-col gap-y-4 lg:gap-y-0 lg:gap-x-6 lg:flex-row lg:items-start">
-        <SectionIndicatorLong clauseRef="2.1.(a)" />
-        <SectionQuery query="if so, state whether by Irish Water mains, on-site domestic septic tank or other on-site domestic waste water treatment system, or other" />
-        <SectionReply reply="not applicable" />
+        <SectionIndicatorLong clauseRef={clauseRef} />
+        <SectionQuery query={query} />
+        <SectionReply reply={reply} reqId={reqId} />
         <SectionOptions />
       </div>
     </div>
@@ -72,18 +61,14 @@ function SectionIndicatorLong({ clauseRef }: { clauseRef: string }) {
   )
 }
 
-function SectionIndicatorShort({ clauseRef }: { clauseRef: string }) {
-  return <div className="font-semibold">{clauseRef}</div>
-}
-
 function SectionQuery({ query }: { query: string }) {
   return <div className="lg:w-5/12">{query}</div>
 }
 
-function SectionReply({ reply }: { reply: string }) {
+function SectionReply({ reply, reqId }: { reply?: string; reqId: string }) {
   return (
     <div className="lg:w-5/12">
-      <ReplyForm reply={reply} />
+      <ReplyForm reply={reply} reqId={reqId} />
     </div>
   )
 }
