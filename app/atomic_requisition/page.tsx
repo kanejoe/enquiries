@@ -113,7 +113,7 @@ function AtomicRequisition({
   replyRequired,
 }: AtomicRequisitionProps) {
   return (
-    <div className="border-box w-full rounded-md focus-within:border-x-2 focus-within:border-slate-300 focus-within:bg-slate-50">
+    <div className="border-box w-full rounded-md transition focus-within:border-x-2 focus-within:border-slate-300 focus-within:bg-slate-50 dark:focus-within:bg-slate-900">
       <div className="flex flex-col gap-y-4 px-4 pb-4 lg:flex-row lg:items-start lg:gap-x-6 lg:gap-y-0 lg:p-4">
         <div className="lg:flex lg:w-1/2 lg:flex-row">
           <SectionSpacer level={level} />
@@ -167,19 +167,19 @@ function SectionOptions() {
     <div className="shrink-0 lg:w-[84px]">
       <div className="mt-3 flex flex-row space-x-4">
         <CheckCircle
-          size={20}
-          color="black"
-          className="fill-teal-300 transition hover:cursor-pointer hover:fill-teal-100"
-          strokeWidth={1.15}
+          size={24}
+          // color="black"
+          className="hover:fill-teal-10 fill-teal-300 stroke-black transition hover:cursor-pointer"
+          strokeWidth={1.25}
         />
         <FileText
-          size={20}
+          size={24}
           color="black"
           strokeWidth={1.25}
           className="fill-teal-300 transition hover:cursor-pointer hover:fill-teal-100"
         />
         <Flag
-          size={20}
+          size={24}
           strokeWidth={1.75}
           className="fill-red-500 text-gray-900 transition hover:cursor-pointer hover:fill-red-100 dark:text-gray-300"
         />
