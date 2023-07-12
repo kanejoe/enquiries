@@ -3,6 +3,7 @@ import { CheckCircle, FileText, Flag } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 import { ReplyForm } from "./reply_form"
+import { IsApplicableSwitch } from "./SwitchApplicable"
 
 const req = {
   reqId: "R43FKLF",
@@ -88,9 +89,16 @@ function AtomicRequisitionHeading({
 }) {
   return (
     <div className="w-full">
-      <div className="flex flex-row">
-        <div className="mr-4 text-lg font-bold">{clauseRef}</div>
-        <div className="text-lg font-bold uppercase">{query}</div>
+      <div className="flex flex-row justify-between border-b border-dotted">
+        <div className="my-2 basis-3/4">
+          <div className="inline-flex">
+            <div className="mr-4 text-lg font-bold">{clauseRef}</div>
+            <div className="text-lg font-bold uppercase">{query}</div>
+          </div>
+        </div>
+        <div className="flex basis-1/4 place-content-end place-items-center pr-2">
+          <IsApplicableSwitch />
+        </div>
       </div>
     </div>
   )
