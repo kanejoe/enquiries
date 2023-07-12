@@ -2,6 +2,7 @@ import { CheckCircle, FileText, Flag } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+import { DropdownMenuOpts } from "./DropdownOpts"
 import { ReplyForm } from "./reply_form"
 import { IsApplicableSwitch } from "./SwitchApplicable"
 
@@ -41,8 +42,7 @@ interface AtomicRequisitionProps {
 
 export default function AtomicRequisitionPage() {
   return (
-    <section className="mt-16">
-      <h1 className="text-xl font-semibold">Atomic Requisition</h1>
+    <section className="mt-4">
       <div className="mt-6 flex flex-col rounded p-6">
         {req0.level === 0 ? (
           <AtomicRequisitionHeading
@@ -88,16 +88,21 @@ function AtomicRequisitionHeading({
   reqIsApplicable: boolean
 }) {
   return (
-    <div className="w-full">
-      <div className="flex flex-row justify-between border-b border-dotted">
-        <div className="my-2 basis-3/4">
-          <div className="inline-flex">
+    <div className="mb-4 w-full">
+      <div className="flex flex-col justify-between border-b border-dotted pb-2 lg:flex-row">
+        <div className="mb-4 mt-1 basis-3/4">
+          <div className="ml-0.5 inline-flex justify-center ">
             <div className="mr-4 text-lg font-bold">{clauseRef}</div>
             <div className="text-lg font-bold uppercase">{query}</div>
           </div>
         </div>
-        <div className="flex basis-1/4 place-content-end place-items-center pr-2">
-          <IsApplicableSwitch />
+        <div className="flex basis-1/4 justify-between border-0">
+          <div className="mr-2 flex place-content-end place-items-center pr-2">
+            <IsApplicableSwitch />
+          </div>
+          <div className="flex place-items-center justify-center border-0">
+            <DropdownMenuOpts />
+          </div>
         </div>
       </div>
     </div>
@@ -114,7 +119,7 @@ function AtomicRequisition({
 }: AtomicRequisitionProps) {
   return (
     <div className="border-box w-full rounded-md transition focus-within:border-x-2 focus-within:border-slate-300 focus-within:bg-slate-50 dark:focus-within:bg-slate-900">
-      <div className="flex flex-col gap-y-4 px-4 pb-4 lg:flex-row lg:items-start lg:gap-x-6 lg:gap-y-0 lg:p-4">
+      <div className="flex flex-col gap-y-4 px-4 pb-4 pt-2 lg:flex-row lg:items-start lg:gap-x-6 lg:gap-y-0 lg:p-4">
         <div className="lg:flex lg:w-1/2 lg:flex-row">
           <SectionSpacer level={level} />
           <SectionIndicator clauseRef={clauseRef} />
@@ -135,6 +140,7 @@ function AtomicRequisition({
 
 function SectionSpacer({ level }: { level: number }) {
   const spacer_class = cn({
+    "hidden lg:block": true,
     "lg:w-[4px]": level === 1,
     "lg:w-[18px]": level === 2,
     "lg:w-[36px]": level === 3,
@@ -164,22 +170,22 @@ function SectionReply({ reply, reqId }: { reply?: string; reqId: string }) {
 
 function SectionOptions() {
   return (
-    <div className="shrink-0 lg:w-[84px]">
+    <div className="shrink-0 lg:w-[108px]">
       <div className="mt-3 flex flex-row space-x-4">
         <CheckCircle
-          size={24}
+          size={28}
           // color="black"
-          className="hover:fill-teal-10 fill-teal-300 stroke-black transition hover:cursor-pointer"
+          className="fill-teal-300 stroke-black transition hover:cursor-pointer hover:fill-white dark:fill-teal-800 dark:stroke-slate-100"
           strokeWidth={1.25}
         />
         <FileText
-          size={24}
+          size={28}
           color="black"
           strokeWidth={1.25}
-          className="fill-teal-300 transition hover:cursor-pointer hover:fill-teal-100"
+          className="fill-teal-300 transition hover:cursor-pointer hover:fill-white"
         />
         <Flag
-          size={24}
+          size={28}
           strokeWidth={1.75}
           className="fill-red-500 text-gray-900 transition hover:cursor-pointer hover:fill-red-100 dark:text-gray-300"
         />

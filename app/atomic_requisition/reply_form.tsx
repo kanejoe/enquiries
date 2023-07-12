@@ -80,7 +80,7 @@ export function ReplyForm({ reply, reqId }: { reply?: string; reqId: string }) {
                   placeholder="reply..."
                   {...field}
                   ref={textareaRef}
-                  className="min-h-[32px]"
+                  className="min-h-[32px] dark:text-slate-900 dark:placeholder:text-slate-500"
                 />
               </FormControl>
               <FormMessage />
