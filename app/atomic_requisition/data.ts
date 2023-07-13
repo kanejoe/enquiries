@@ -1,18 +1,21 @@
 type RequisitionHeading = {
-  id: string
-  status: "pending" | "processing" | "success" | "failed"
+  reqId: string
+  clauseRef: string
+  status: "pending" | "locked"
   query: string
 }
 
 export const headings: RequisitionHeading[] = [
   {
-    id: "728ed52f",
+    reqId: "728ed52f",
+    clauseRef: "1.",
     status: "pending",
     query: "Premises",
   },
   {
-    id: "489e1d42",
-    status: "processing",
+    reqId: "489e1d42",
+    clauseRef: "2.",
+    status: "locked",
     query: "Easements",
   },
 ]

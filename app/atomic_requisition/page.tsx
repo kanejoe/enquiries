@@ -43,11 +43,11 @@ interface AtomicRequisitionProps {
 
 export default function AtomicRequisitionPage() {
   return (
-    <section className="mt-4 flex">
-      <div className="mt-12 hidden lg:block lg:w-1/6">
+    <section className="mt-4 lg:flex lg:gap-x-8">
+      <div className="mt-24 hidden lg:block lg:w-1/5">
         <ReqHeadingDataTable />
       </div>
-      <div className="lg:w-5/6">
+      <div className="lg:w-4/5">
         <div className="mt-6 flex flex-col rounded p-6 dark:bg-slate-950">
           {req0.level === 0 ? (
             <AtomicRequisitionHeading
