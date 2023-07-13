@@ -42,33 +42,36 @@ interface AtomicRequisitionProps {
 
 export default function AtomicRequisitionPage() {
   return (
-    <section className="mt-4">
-      <div className="mt-6 flex flex-col rounded p-6">
-        {req0.level === 0 ? (
-          <AtomicRequisitionHeading
-            reqId={req0.reqId}
-            clauseRef={req0.clauseRef}
-            query={req0.query}
-            level={req0.level}
-            reqIsApplicable={req0.reqIsApplicable}
+    <section className="mt-4 flex">
+      <div className="mt-12 hidden lg:block lg:w-1/6">table</div>
+      <div className="lg:w-5/6">
+        <div className="mt-6 flex flex-col rounded p-6 dark:bg-slate-950">
+          {req0.level === 0 ? (
+            <AtomicRequisitionHeading
+              reqId={req0.reqId}
+              clauseRef={req0.clauseRef}
+              query={req0.query}
+              level={req0.level}
+              reqIsApplicable={req0.reqIsApplicable}
+            />
+          ) : null}
+          <AtomicRequisition
+            reqId={req1.reqId}
+            clauseRef={req1.clauseRef}
+            query={req1.query}
+            reply={req1.reply}
+            level={req1.level}
+            replyRequired={req1.replyRequired}
           />
-        ) : null}
-        <AtomicRequisition
-          reqId={req1.reqId}
-          clauseRef={req1.clauseRef}
-          query={req1.query}
-          reply={req1.reply}
-          level={req1.level}
-          replyRequired={req1.replyRequired}
-        />
-        <AtomicRequisition
-          reqId={req.reqId}
-          clauseRef={req.clauseRef}
-          query={req.query}
-          reply={req.reply}
-          level={req.level}
-          replyRequired={req.replyRequired}
-        />
+          <AtomicRequisition
+            reqId={req.reqId}
+            clauseRef={req.clauseRef}
+            query={req.query}
+            reply={req.reply}
+            level={req.level}
+            replyRequired={req.replyRequired}
+          />
+        </div>
       </div>
     </section>
   )
@@ -90,13 +93,13 @@ function AtomicRequisitionHeading({
   return (
     <div className="mb-4 w-full">
       <div className="flex flex-col justify-between border-b border-dotted pb-2 lg:flex-row">
-        <div className="mb-4 mt-1 basis-3/4">
+        <div className="mb-4 mt-1 basis-2/3">
           <div className="ml-0.5 inline-flex justify-center ">
             <div className="mr-4 text-lg font-bold">{clauseRef}</div>
             <div className="text-lg font-bold uppercase">{query}</div>
           </div>
         </div>
-        <div className="flex basis-1/4 justify-between border-0">
+        <div className="flex basis-1/3 justify-between border-0">
           <div className="mr-2 flex place-content-end place-items-center pr-2">
             <IsApplicableSwitch />
           </div>
@@ -118,7 +121,7 @@ function AtomicRequisition({
   replyRequired,
 }: AtomicRequisitionProps) {
   return (
-    <div className="border-box w-full rounded-md transition focus-within:border-x-2 focus-within:border-slate-300 focus-within:bg-slate-50 dark:focus-within:bg-slate-900">
+    <div className="border-box w-full rounded-md transition focus-within:border-x-2 focus-within:border-slate-300 focus-within:bg-slate-50 dark:focus-within:bg-slate-800">
       <div className="flex flex-col gap-y-4 px-4 pb-4 pt-2 lg:flex-row lg:items-start lg:gap-x-6 lg:gap-y-0 lg:p-4">
         <div className="lg:flex lg:w-1/2 lg:flex-row">
           <SectionSpacer level={level} />
@@ -182,7 +185,7 @@ function SectionOptions() {
           size={28}
           color="black"
           strokeWidth={1.25}
-          className="fill-teal-300 transition hover:cursor-pointer hover:fill-white"
+          className="fill-teal-300 transition hover:cursor-pointer hover:fill-white dark:stroke-slate-800"
         />
         <Flag
           size={28}
