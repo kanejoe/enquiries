@@ -3,6 +3,7 @@ import { CheckCircle, FileText, Flag } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 import { DropdownMenuOpts } from "./DropdownOpts"
+import { ReqHeadingDataTable } from "./heading-page"
 import { ReplyForm } from "./reply_form"
 import { IsApplicableSwitch } from "./SwitchApplicable"
 
@@ -43,7 +44,9 @@ interface AtomicRequisitionProps {
 export default function AtomicRequisitionPage() {
   return (
     <section className="mt-4 flex">
-      <div className="mt-12 hidden lg:block lg:w-1/6">table</div>
+      <div className="mt-12 hidden lg:block lg:w-1/6">
+        <ReqHeadingDataTable />
+      </div>
       <div className="lg:w-5/6">
         <div className="mt-6 flex flex-col rounded p-6 dark:bg-slate-950">
           {req0.level === 0 ? (
