@@ -176,7 +176,7 @@ function SectionReply({ reply, reqId }: { reply?: string; reqId: string }) {
 
 function SectionOptions() {
   return (
-    <div className="shrink-0 lg:w-[108px]">
+    <div className="shrink-0 lg:w-[96px]">
       <div className="mt-3 flex flex-row space-x-4">
         <CheckCircle
           size={28}

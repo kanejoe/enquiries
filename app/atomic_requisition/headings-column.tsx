@@ -2,30 +2,36 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type AtomicRequisition = {
   reqId: string
-  status: "pending" | "locked"
   query: string
+  clauseRef: string
+  replyRequired: boolean
 }
 
 export const columns: ColumnDef<AtomicRequisition>[] = [
   {
-    accessorKey: "clauseRef",
-    header: "",
-  },
-  {
     accessorKey: "query",
-    header: "Heading",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
+    header: "Requisition Heading",
     cell: ({ row }) => {
-      return <div>{row.original.status}</div>
+      return (
+        <div className="flex flex-row">
+          <div className="mr-1 w-6 flex-none tabular-nums">
+            {row.original.clauseRef}
+          </div>
+          <div
+            className={`${
+              row.original.replyRequired === true ? "" : "line-through"
+            }`}
+          >
+            {row.original.query}
+          </div>
+        </div>
+      )
     },
   },
 ]
