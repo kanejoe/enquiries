@@ -20,7 +20,15 @@ const formSchema = z.object({
   reqReply: z.string(),
 })
 
-export function ReplyForm({ reply, reqId }: { reply?: string; reqId: string }) {
+export function ReplyForm({
+  reply,
+  reqId,
+  formDisabled,
+}: {
+  reply?: string
+  reqId: string
+  formDisabled?: boolean
+}) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   // 1. Define your form.
@@ -70,35 +78,37 @@ export function ReplyForm({ reply, reqId }: { reply?: string; reqId: string }) {
         onBlur={form.handleSubmit(onSubmit)}
         className=""
       >
-        <FormField
-          control={form.control}
-          name="reqReply"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Textarea
-                  placeholder="reply..."
-                  {...field}
-                  ref={textareaRef}
-                  className="min-h-[32px] dark:text-slate-900 dark:placeholder:text-slate-500"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="reqId"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input className="hidden" placeholder="reply..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <fieldset disabled={false} className="group">
+          <FormField
+            control={form.control}
+            name="reqReply"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    placeholder="reply..."
+                    {...field}
+                    ref={textareaRef}
+                    className="min-h-[32px] dark:text-slate-900 dark:placeholder:text-slate-500"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="reqId"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input className="hidden" placeholder="reply..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </fieldset>
       </form>
     </Form>
   )

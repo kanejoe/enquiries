@@ -18,16 +18,17 @@ const req = {
 }
 const req1 = {
   reqId: "R43FKLF",
-  clauseRef: "2.1",
-  query: "Is the property serviced with:",
+  clauseRef: "3.1.a",
+  query:
+    "Are there any pipes drains sewers wires cables or septic tank on under or over other property which serve the property in sale.",
   reply: "not applicable",
-  level: 1,
-  replyRequired: false,
+  level: 2,
+  replyRequired: true,
 }
 const req0 = {
   reqId: "43FJK",
-  clauseRef: "2.",
-  query: "Water Services/Local Authority",
+  clauseRef: "3.",
+  query: "Easements and Rights",
   level: 0,
   reqIsApplicable: false,
 }
@@ -35,7 +36,7 @@ const req0 = {
 interface AtomicRequisitionProps {
   reqId: string
   clauseRef: string
-  query: string
+  query?: string
   reply?: string
   level: number
   replyRequired: boolean
@@ -124,7 +125,7 @@ function AtomicRequisition({
   replyRequired,
 }: AtomicRequisitionProps) {
   return (
-    <div className="border-box w-full rounded-md transition focus-within:border-x-2 focus-within:border-slate-300 focus-within:bg-slate-50 dark:focus-within:bg-slate-800">
+    <div className="border-box w-full rounded-md opacity-100 transition focus-within:border-x-2 focus-within:border-slate-300 focus-within:bg-slate-50 dark:focus-within:bg-slate-800">
       <div className="flex flex-col gap-y-4 px-4 pb-4 pt-2 lg:flex-row lg:items-start lg:gap-x-6 lg:gap-y-0 lg:p-4">
         <div className="lg:flex lg:w-1/2 lg:flex-row">
           <SectionSpacer level={level} />
@@ -147,9 +148,9 @@ function AtomicRequisition({
 function SectionSpacer({ level }: { level: number }) {
   const spacer_class = cn({
     "hidden lg:block": true,
-    "lg:w-[4px]": level === 1,
-    "lg:w-[18px]": level === 2,
-    "lg:w-[36px]": level === 3,
+    "lg:w-[2px]": level === 1,
+    "lg:w-[12px]": level === 2,
+    "lg:w-[20px]": level === 3,
   })
   return <div className={spacer_class}> &nbsp; </div>
 }
@@ -162,7 +163,7 @@ function SectionIndicator({ clauseRef }: { clauseRef: string }) {
   )
 }
 
-function SectionQuery({ query }: { query: string }) {
+function SectionQuery({ query }: { query?: string }) {
   return <div className="lg:w-9/12">{query}</div>
 }
 
