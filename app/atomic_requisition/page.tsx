@@ -1,52 +1,28 @@
 import { CheckCircle, FileText, Flag } from "lucide-react"
 
+import { AtomicRequisitionProps } from "@/types/AtomicRequisition"
 import { cn } from "@/lib/utils"
 
+import { req, req0, req1 } from "./data"
+import { DetailsCard } from "./detail_card"
 import { DropdownMenuOpts } from "./DropdownOpts"
+import { Footer } from "./Footer"
 import { ReqHeadingDataTable } from "./heading-page"
-import { ReplyForm } from "./reply_form"
-import { IsApplicableSwitch } from "./SwitchApplicable"
+import { IsApplicableSwitch } from "./IsApplicableSwitch"
+import { ReplyForm } from "./ReplyForm"
 
-const req = {
-  reqId: "R43FKLF",
-  clauseRef: "2.1.(a)",
-  query:
-    "if so, state whether by Irish Water mains, on-site domestic septic tank or other on-site domestic waste water treatment system, or other",
-  reply: "not applicable",
-  level: 2,
-  replyRequired: true,
-}
-const req1 = {
-  reqId: "R43FKLF",
-  clauseRef: "3.1.a",
-  query:
-    "Are there any pipes drains sewers wires cables or septic tank on under or over other property which serve the property in sale.",
-  reply: "not applicable",
-  level: 2,
-  replyRequired: true,
-}
-const req0 = {
-  reqId: "43FJK",
-  clauseRef: "3.",
-  query: "Easements and Rights",
-  level: 0,
-  reqIsApplicable: false,
-}
-
-interface AtomicRequisitionProps {
-  reqId: string
-  clauseRef: string
-  query?: string
-  reply?: string
-  level: number
-  replyRequired: boolean
-}
-
+/**
+ *
+ * @returns
+ */
 export default function AtomicRequisitionPage() {
   return (
     <section className="mt-4 lg:flex lg:gap-x-8">
-      <div className="mt-24 hidden lg:block lg:w-1/5">
-        <ReqHeadingDataTable />
+      <div className="mt-8 hidden lg:block lg:w-1/5">
+        <div className="flex flex-col gap-y-6">
+          <DetailsCard />
+          <ReqHeadingDataTable />
+        </div>
       </div>
       <div className="lg:w-4/5">
         <div className="mt-6 flex flex-col rounded p-6 dark:bg-slate-950">
@@ -75,6 +51,7 @@ export default function AtomicRequisitionPage() {
             level={req.level}
             replyRequired={req.replyRequired}
           />
+          <Footer />
         </div>
       </div>
     </section>
