@@ -72,7 +72,7 @@ function AtomicRequisitionHeading({
   reqIsApplicable: boolean
 }) {
   return (
-    <div className="mb-4 w-full">
+    <div className="mb-6 w-full">
       <div className="flex flex-col justify-between border-b border-dotted pb-2 lg:flex-row">
         <div className="mb-4 mt-1 basis-2/3">
           <div className="ml-0.5 inline-flex justify-center ">
