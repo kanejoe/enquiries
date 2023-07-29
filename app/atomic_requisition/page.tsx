@@ -8,7 +8,7 @@ import { DetailsCard } from "./detail_card"
 import { DropdownMenuOpts } from "./DropdownOpts"
 import { Footer } from "./Footer"
 import { ReqHeadingDataTable } from "./heading-page"
-import { IsApplicableSwitch } from "./IsApplicableSwitch"
+import { IsApplicableSwitchForm } from "./IsApplicableSwitch"
 import { ReplyForm } from "./ReplyForm"
 
 /**
@@ -74,15 +74,15 @@ function AtomicRequisitionHeading({
   return (
     <div className="mb-6 w-full">
       <div className="flex flex-col justify-between border-b border-dotted pb-2 lg:flex-row">
-        <div className="mb-4 mt-1 basis-2/3">
+        <div className="mb-4 mt-1 basis-3/5">
           <div className="ml-0.5 inline-flex justify-center ">
             <div className="mr-4 text-lg font-bold">{clauseRef}</div>
             <div className="text-lg font-bold uppercase">{query}</div>
           </div>
         </div>
-        <div className="flex basis-1/3 justify-between border-0">
+        <div className="flex basis-2/5 justify-between border-0">
           <div className="mr-2 flex place-content-end place-items-center pr-2">
-            <IsApplicableSwitch />
+            <IsApplicableSwitchForm />
           </div>
           <div className="flex place-items-center justify-center border-0">
             <DropdownMenuOpts />
