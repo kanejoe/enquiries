@@ -49,5 +49,5 @@ export const req0 = {
   clauseRef: "3.",
   query: "Easements and Rights",
   level: 0,
-  reqIsApplicable: false,
+  isApplicable: false,
 }

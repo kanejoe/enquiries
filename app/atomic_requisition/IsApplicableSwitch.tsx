@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { useToast } from "@/components/ui/use-toast"
 
+import { useReqStore } from "./store"
+
 const FormSchema = z.object({
   isApplicable: z.boolean().default(false),
   reqId: z.string(),
@@ -23,17 +25,22 @@ const FormSchema = z.object({
 
 export function IsApplicableSwitchForm() {
   const { toast } = useToast()
+  const [reqId, isApplicable, updateIsApplicable] = useReqStore((state) => [
+    state.reqId,
+    state.isApplicable,
+    state.updateIsApplicable,
+  ])
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      isApplicable: true,
-      reqId: "dfak",
+      isApplicable,
+      reqId,
     },
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("🚀 ~ file: IsApplicableSwitch.tsx:35 ~ onSubmit ~ data:", data)
+    updateIsApplicable(data.isApplicable)
     toast({
       title: "You submitted the following values:",
       description: (

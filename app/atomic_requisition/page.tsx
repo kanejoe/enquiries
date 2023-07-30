@@ -1,3 +1,5 @@
+"use client"
+
 import { CheckCircle, FileText, Flag } from "lucide-react"
 
 import { AtomicRequisitionProps } from "@/types/AtomicRequisition"
@@ -10,12 +12,15 @@ import { Footer } from "./Footer"
 import { ReqHeadingDataTable } from "./heading-page"
 import { IsApplicableSwitchForm } from "./IsApplicableSwitch"
 import { ReplyForm } from "./ReplyForm"
+import { useReqStore } from "./store"
 
 /**
  *
  * @returns
  */
 export default function AtomicRequisitionPage() {
+  const store = useReqStore()
+
   return (
     <section className="mt-4 lg:flex lg:gap-x-8">
       <div className="mt-8 hidden lg:block lg:w-1/5">
@@ -32,25 +37,10 @@ export default function AtomicRequisitionPage() {
               clauseRef={req0.clauseRef}
               query={req0.query}
               level={req0.level}
-              reqIsApplicable={req0.reqIsApplicable}
+              isApplicable={req0.isApplicable}
             />
           ) : null}
-          <AtomicRequisition
-            reqId={req1.reqId}
-            clauseRef={req1.clauseRef}
-            query={req1.query}
-            reply={req1.reply}
-            level={req1.level}
-            replyRequired={req1.replyRequired}
-          />
-          <AtomicRequisition
-            reqId={req.reqId}
-            clauseRef={req.clauseRef}
-            query={req.query}
-            reply={req.reply}
-            level={req.level}
-            replyRequired={req.replyRequired}
-          />
+          <SectionContainer isApplicable={store.isApplicable} />
           <Footer />
         </div>
       </div>
@@ -63,16 +53,16 @@ function AtomicRequisitionHeading({
   clauseRef,
   query,
   level,
-  reqIsApplicable,
+  isApplicable,
 }: {
   reqId: string
   clauseRef: string
   query: string
   level: number
-  reqIsApplicable: boolean
+  isApplicable: boolean
 }) {
   return (
-    <div className="mb-6 w-full">
+    <div className="mb-6 w-full group-disabled:opacity-10">
       <div className="flex flex-col justify-between border-b border-dotted pb-2 lg:flex-row">
         <div className="mb-4 mt-1 basis-3/5">
           <div className="ml-0.5 inline-flex justify-center ">
@@ -175,5 +165,35 @@ function SectionOptions() {
         />
       </div>
     </div>
+  )
+}
+
+function SectionContainer({ isApplicable }: { isApplicable: boolean }) {
+  const fieldsetCSS = cn(
+    "group transition delay-200",
+    { "opacity-100": isApplicable },
+    { "opacity-50": !isApplicable }
+  )
+  return (
+    <section className="">
+      <fieldset className={fieldsetCSS} disabled={!isApplicable}>
+        <AtomicRequisition
+          reqId={req1.reqId}
+          clauseRef={req1.clauseRef}
+          query={req1.query}
+          reply={req1.reply}
+          level={req1.level}
+          replyRequired={req1.replyRequired}
+        />
+        <AtomicRequisition
+          reqId={req.reqId}
+          clauseRef={req.clauseRef}
+          query={req.query}
+          reply={req.reply}
+          level={req.level}
+          replyRequired={req.replyRequired}
+        />
+      </fieldset>
+    </section>
   )
 }
