@@ -12,13 +12,13 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form"
-import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
-import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 
 const FormSchema = z.object({
   isApplicable: z.boolean().default(false),
+  reqId: z.string(),
 })
 
 export function IsApplicableSwitchForm() {
@@ -28,10 +28,12 @@ export function IsApplicableSwitchForm() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       isApplicable: true,
+      reqId: "dfak",
     },
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log("🚀 ~ file: IsApplicableSwitch.tsx:35 ~ onSubmit ~ data:", data)
     toast({
       title: "You submitted the following values:",
       description: (
@@ -49,32 +51,43 @@ export function IsApplicableSwitchForm() {
           <FormField
             control={form.control}
             name="isApplicable"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                <div className="mr-4 space-y-0.5">
-                  <FormLabel>Is Applicable?</FormLabel>
-                  <FormDescription>
-                    This Requisition is Applicable
-                  </FormDescription>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
+            render={({ field }) => {
+              return (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="mr-4 space-y-0.5">
+                    <FormLabel>Is Applicable?</FormLabel>
+                    <FormDescription>
+                      This Requisition is Applicable
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={(e) => {
+                        field.onChange(e)
+                        form.handleSubmit(onSubmit)()
+                      }}
+                    />
+                  </FormControl>
+                </FormItem>
+              )
+            }}
+          ></FormField>
+          <FormField
+            control={form.control}
+            name="reqId"
+            render={({ field }) => {
+              return (
+                <FormItem className="">
+                  <FormControl>
+                    <Input {...field} type="hidden" />
+                  </FormControl>
+                </FormItem>
+              )
+            }}
           ></FormField>
         </div>
       </form>
     </Form>
   )
 }
-
-/*
- <Label htmlFor="heading-applicable-mode" className="ml-2">
-              Is this Requisition Applicable?
-            </Label>
-            <Switch checked={field.value}
-                      onCheckedChange={field.onChange} />*/
