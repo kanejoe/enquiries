@@ -70,11 +70,11 @@ function AtomicRequisitionHeading({
             <div className="text-lg font-bold uppercase">{query}</div>
           </div>
         </div>
-        <div className="flex basis-2/5 justify-between border-0">
+        <div className="flex flex-initial justify-between lg:min-w-[360px]">
           <div className="mr-2 flex place-content-end place-items-center pr-2">
             <IsApplicableSwitchForm />
           </div>
-          <div className="flex place-items-center justify-center border-0">
+          <div className="flex flex-none place-items-center justify-center border-0">
             <DropdownMenuOpts />
           </div>
         </div>
@@ -172,7 +172,7 @@ function SectionContainer({ isApplicable }: { isApplicable: boolean }) {
   const fieldsetCSS = cn(
     "group transition delay-200",
     { "opacity-100": isApplicable },
-    { "opacity-50": !isApplicable }
+    { "opacity-50 bg-slate-50": !isApplicable }
   )
   return (
     <section className="">
