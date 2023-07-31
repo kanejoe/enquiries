@@ -36,7 +36,7 @@ export const useReqStore = create<State & Action>((set) => ({
 type RequisitionStore = {
   requisitions: State[]
   addRequisition: (newRequisition: State) => void
-  editRequisitionIsApplicable: (reqId: string, isApplicable: boolean) => void
+  patchRequisitionIsApplicable: (reqId: string, isApplicable: boolean) => void
 }
 
 const useRequisitionStore = create(
@@ -46,7 +46,7 @@ const useRequisitionStore = create(
       set((state) => ({
         requisitions: [...state.requisitions, newRequisition],
       })),
-    editRequisitionIsApplicable: (reqId, isApplicable) =>
+    patchRequisitionIsApplicable: (reqId, isApplicable) =>
       set((state) => {
         state.requisitions[reqId].isApplicable = isApplicable
       }),
