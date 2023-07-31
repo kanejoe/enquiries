@@ -19,7 +19,7 @@ import { useReqStore } from "./store"
  * @returns
  */
 export default function AtomicRequisitionPage() {
-  const store = useReqStore()
+  const isApplicable = useReqStore((state) => state.isApplicable)
 
   return (
     <section className="mt-4 lg:flex lg:gap-x-8">
@@ -40,7 +40,7 @@ export default function AtomicRequisitionPage() {
               isApplicable={req0.isApplicable}
             />
           ) : null}
-          <SectionContainer isApplicable={store.isApplicable} />
+          <SectionContainer isApplicable={isApplicable} />
           <Footer />
         </div>
       </div>

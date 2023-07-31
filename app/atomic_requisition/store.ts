@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { devtools } from "zustand/middleware"
+import { immer } from "zustand/middleware/immer"
 
 type State = {
   reqId: string
@@ -32,3 +32,23 @@ export const useReqStore = create<State & Action>((set) => ({
   updateReplyRequired: (replyRequired) => set(() => ({ replyRequired })),
   updateIsApplicable: (isApplicable) => set(() => ({ isApplicable })),
 }))
+
+type RequisitionStore = {
+  requisitions: State[]
+  addRequisition: (newRequisition: State) => void
+  editRequisitionIsApplicable: (reqId: string, isApplicable: boolean) => void
+}
+
+const useRequisitionStore = create(
+  immer<RequisitionStore>((set) => ({
+    requisitions: [],
+    addRequisition: (newRequisition) =>
+      set((state) => ({
+        requisitions: [...state.requisitions, newRequisition],
+      })),
+    editRequisitionIsApplicable: (reqId, isApplicable) =>
+      set((state) => {
+        state.requisitions[reqId].isApplicable = isApplicable
+      }),
+  }))
+)
