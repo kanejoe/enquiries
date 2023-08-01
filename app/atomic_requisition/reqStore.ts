@@ -10,9 +10,12 @@ export interface AtomicReq {
   query?: string
   reply?: string
   level: number
-  replyRequired: boolean
   isApplicable: boolean
+  isFlagged: boolean
+  hasDoc: boolean
+  isComplete: boolean
 }
+
 export interface AtomicReqs {
   requisitions: AtomicReq[]
   headings: AtomicReq[]
@@ -23,6 +26,15 @@ interface AtomicReqActions {
   patchIsApplicable: (
     reqId: AtomicReq["reqId"],
     isApplicable: AtomicReq["isApplicable"]
+  ) => void
+  patchIsFlagged: (
+    reqId: AtomicReq["reqId"],
+    isFlagged: AtomicReq["isFlagged"]
+  ) => void
+  patchHasDoc: (reqId: AtomicReq["reqId"], hasDoc: AtomicReq["hasDoc"]) => void
+  patchIsComplete: (
+    reqId: AtomicReq["reqId"],
+    hasDoc: AtomicReq["isComplete"]
   ) => void
 }
 
@@ -52,6 +64,36 @@ export const useAtomicReqStore = create<AtomicReqState>((set) => ({
             (el: AtomicReq) => el.reqId === reqId
           )
           atomicHeading.isApplicable = isApplicable
+        })
+      ),
+    patchIsFlagged: (reqId, isFlagged) =>
+      set(
+        produce((draft) => {
+          // Logic for `requisition` goes here
+          const atomicRequisition = draft.requisitions.find(
+            (el: AtomicReq) => el.reqId === reqId
+          )
+          atomicRequisition.isFlagged = isFlagged
+        })
+      ),
+    patchHasDoc: (reqId, hasDoc) =>
+      set(
+        produce((draft) => {
+          // Logic for `requisition` goes here
+          const atomicRequisition = draft.requisitions.find(
+            (el: AtomicReq) => el.reqId === reqId
+          )
+          atomicRequisition.hasDoc = hasDoc
+        })
+      ),
+    patchIsComplete: (reqId, isComplete) =>
+      set(
+        produce((draft) => {
+          // Logic for `requisition` goes here
+          const atomicRequisition = draft.requisitions.find(
+            (el: AtomicReq) => el.reqId === reqId
+          )
+          atomicRequisition.hasDoc = isComplete
         })
       ),
   },

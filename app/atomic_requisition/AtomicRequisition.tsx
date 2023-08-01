@@ -1,7 +1,10 @@
-import { CheckCircle, FileText, Flag } from "lucide-react"
+import { CheckCircle, FileText } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+import { FlaggedForm } from "./FlaggedForm"
+import { HasDocForm } from "./HasDocForm"
+import { IsCompleteForm } from "./IsCompleteForm"
 import { ReplyForm } from "./ReplyForm"
 import { AtomicReq } from "./reqStore"
 
@@ -10,6 +13,9 @@ interface AtomicRequisitionProps {
 }
 
 export function AtomicRequisition({ requisition }: AtomicRequisitionProps) {
+  if (requisition.isApplicable === false && requisition.query?.trim() === "")
+    return null
+
   return (
     <div className="border-box w-full rounded-md opacity-100 transition focus-within:border focus-within:border-slate-200 focus-within:bg-slate-50 dark:focus-within:bg-slate-800">
       <div className="flex flex-col gap-y-4 px-4 pb-4 pt-2 lg:flex-row lg:items-start lg:gap-x-6 lg:gap-y-0 lg:p-4">
@@ -19,13 +25,18 @@ export function AtomicRequisition({ requisition }: AtomicRequisitionProps) {
           <SectionQuery query={requisition.query} />
         </div>
         <div className="lg:flex lg:w-1/2 lg:flex-row">
-          {requisition.replyRequired ? (
+          {requisition.isApplicable ? (
             <>
               <SectionReply
                 reply={requisition.reply}
                 reqId={requisition.reqId}
               />
-              <SectionOptions />
+              <SectionOptions
+                isComplete={requisition.isComplete}
+                hasDoc={requisition.hasDoc}
+                isFlagged={requisition.isFlagged}
+                reqId={requisition.reqId}
+              />
             </>
           ) : null}
         </div>
@@ -64,27 +75,25 @@ function SectionReply({ reply, reqId }: { reply?: string; reqId: string }) {
   )
 }
 
-function SectionOptions() {
+interface SectionOptionProps {
+  isComplete: AtomicReq["isComplete"]
+  isFlagged: AtomicReq["isFlagged"]
+  hasDoc: AtomicReq["hasDoc"]
+  reqId: AtomicReq["reqId"]
+}
+
+function SectionOptions({
+  isComplete,
+  isFlagged,
+  hasDoc,
+  reqId,
+}: SectionOptionProps) {
   return (
     <div className="shrink-0 lg:w-[96px]">
-      <div className="mt-3 flex flex-row space-x-4">
-        <CheckCircle
-          size={28}
-          // color="black"
-          className="fill-teal-300 stroke-black transition hover:cursor-pointer hover:fill-white dark:fill-teal-800 dark:stroke-slate-100"
-          strokeWidth={1.25}
-        />
-        <FileText
-          size={28}
-          color="black"
-          strokeWidth={1.25}
-          className="fill-teal-300 transition hover:cursor-pointer hover:fill-white dark:stroke-slate-800"
-        />
-        <Flag
-          size={28}
-          strokeWidth={1.75}
-          className="fill-red-500 text-gray-900 transition hover:cursor-pointer hover:fill-red-100 dark:text-gray-300"
-        />
+      <div className="mt-3 flex flex-row space-x-4 pr-4">
+        <IsCompleteForm isComplete={isComplete} reqId={reqId} />
+        <HasDocForm hasDoc={hasDoc} reqId={reqId} />
+        <FlaggedForm isFlagged={isFlagged} reqId={reqId} />
       </div>
     </div>
   )
