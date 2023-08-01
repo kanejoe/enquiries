@@ -29,7 +29,9 @@ interface IsApplicableSwitchFormProps {
   headingReq: AtomicReq
 }
 
-export function IsApplicableSwitchForm({ ...headingReq }) {
+export function IsApplicableSwitchForm({
+  headingReq,
+}: IsApplicableSwitchFormProps) {
   const { toast } = useToast()
   const useAtomicReqActions = useAtomicReqStore((state) => state.actions)
   const { isApplicable, reqId } = headingReq
@@ -58,13 +60,13 @@ export function IsApplicableSwitchForm({ ...headingReq }) {
   }
 
   const descriptionCSS = cn(
-    "",
+    "transition delay-150",
     { "text-teal-800": isApplicable },
     { "text-red-800": !isApplicable }
   )
 
   const isApplicableBgCSS = cn(
-    "rounded-lg",
+    "rounded-lg transition delay-150",
     { "bg-teal-50": isApplicable },
     { "bg-red-50": !isApplicable }
   )
