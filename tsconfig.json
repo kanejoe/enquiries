@@ -35,7 +35,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/atomic_requisition/ReplyForm.tsx"
+    "app/atomic_requisition/ReplyForm.tsx",
+    "app/index.test.js"
   ],
   "exclude": [
     "node_modules"
