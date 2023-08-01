@@ -1,5 +1,7 @@
 import { AtomicRequisitionProps } from "@/types/AtomicRequisition"
 
+import { AtomicReqs } from "./reqStore"
+
 export const headings: AtomicRequisitionProps[] = [
   {
     reqId: "728ed52f",
@@ -50,4 +52,55 @@ export const req0 = {
   query: "Easements and Rights",
   level: 0,
   isApplicable: false,
+}
+
+// Initial state
+export const initialState: AtomicReqs = {
+  requisitions: [
+    {
+      reqId: "43FJK",
+      clauseRef: "3.",
+      query: "Easements and Rights",
+      level: 0,
+      isApplicable: true,
+      replyRequired: false,
+    },
+    // {
+    //   reqId: "R43FKLR",
+    //   clauseRef: "3.1",
+    //   query: "",
+    //   reply: "",
+    //   level: 1,
+    //   replyRequired: false,
+    //   isApplicable: false,
+    // },
+    {
+      reqId: "R43FKLF",
+      clauseRef: "3.1.a",
+      query:
+        "Are there any pipes drains sewers wires cables or septic tank on under or over other property which serve the property in sale.",
+      reply: "not applicable",
+      level: 2,
+      replyRequired: true,
+      isApplicable: true,
+    },
+  ],
+  headings: [
+    {
+      reqId: "43FJK",
+      clauseRef: "3.",
+      query: "Easements and Rights",
+      level: 0,
+      isApplicable: true,
+      replyRequired: false,
+    },
+    {
+      reqId: "43FJKA",
+      clauseRef: "5.",
+      query: "Forestry",
+      level: 0,
+      isApplicable: true,
+      replyRequired: false,
+    },
+  ],
 }

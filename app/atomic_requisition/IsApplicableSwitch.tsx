@@ -18,20 +18,21 @@ import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { useToast } from "@/components/ui/use-toast"
 
-import { useReqStore } from "./store"
+import { AtomicReq, useAtomicReqStore } from "./reqStore"
 
 const FormSchema = z.object({
   isApplicable: z.boolean().default(false),
   reqId: z.string(),
 })
 
-export function IsApplicableSwitchForm() {
+interface IsApplicableSwitchFormProps {
+  headingReq: AtomicReq
+}
+
+export function IsApplicableSwitchForm({ ...headingReq }) {
   const { toast } = useToast()
-  const [reqId, isApplicable, updateIsApplicable] = useReqStore((state) => [
-    state.reqId,
-    state.isApplicable,
-    state.updateIsApplicable,
-  ])
+  const useAtomicReqActions = useAtomicReqStore((state) => state.actions)
+  const { isApplicable, reqId } = headingReq
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -42,8 +43,8 @@ export function IsApplicableSwitchForm() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    updateIsApplicable(data.isApplicable)
-    toast({
+    useAtomicReqActions.patchIsApplicable(data.reqId, data.isApplicable)
+    /*toast({
       title: "Requisition",
       description: (
         <div className="mt-2 w-[340px] rounded-md bg-slate-200 p-4">
@@ -53,7 +54,7 @@ export function IsApplicableSwitchForm() {
           </div>
         </div>
       ),
-    })
+    })*/
   }
 
   const descriptionCSS = cn(
@@ -83,7 +84,7 @@ export function IsApplicableSwitchForm() {
                   <FormItem
                     className={`flex flex-row items-center justify-between rounded-lg border ${
                       isApplicable ? "border-teal-300" : "border-red-300"
-                    } p-3 shadow-sm`}
+                    } p-3 shadow-sm transition delay-150`}
                   >
                     <div className="mr-4 space-y-0.5">
                       <FormLabel>Is the Requisition Applicable?</FormLabel>

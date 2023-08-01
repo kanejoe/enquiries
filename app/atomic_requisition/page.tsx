@@ -2,45 +2,42 @@
 
 import { CheckCircle, FileText, Flag } from "lucide-react"
 
-import { AtomicRequisitionProps } from "@/types/AtomicRequisition"
 import { cn } from "@/lib/utils"
 
-import { req, req0, req1 } from "./data"
 import { DetailsCard } from "./detail_card"
 import { DropdownMenuOpts } from "./DropdownOpts"
 import { Footer } from "./Footer"
 import { ReqHeadingDataTable } from "./heading-page"
 import { IsApplicableSwitchForm } from "./IsApplicableSwitch"
 import { ReplyForm } from "./ReplyForm"
-import { useReqStore } from "./store"
+import { AtomicReq, useAtomicReqStore } from "./reqStore"
 
 /**
  *
  * @returns
  */
 export default function AtomicRequisitionPage() {
-  const isApplicable = useReqStore((state) => state.isApplicable)
+  const requisitions = useAtomicReqStore((state) => state.requisitions)
+  const headings = useAtomicReqStore((state) => state.headings)
+
+  const headingReq = requisitions.find((req) => req.level === 0)
+  const bodyReqs = requisitions.filter((req) => req.level !== 0)
 
   return (
     <section className="mt-4 lg:flex lg:gap-x-8">
       <div className="mt-8 hidden lg:block lg:w-1/5">
         <div className="flex flex-col gap-y-6">
           <DetailsCard />
-          <ReqHeadingDataTable />
+          <ReqHeadingDataTable headings={headings} />
         </div>
       </div>
       <div className="lg:w-4/5">
         <div className="mt-6 flex flex-col rounded p-6 dark:bg-slate-950">
-          {req0.level === 0 ? (
-            <AtomicRequisitionHeading
-              reqId={req0.reqId}
-              clauseRef={req0.clauseRef}
-              query={req0.query}
-              level={req0.level}
-              isApplicable={req0.isApplicable}
-            />
-          ) : null}
-          <SectionContainer isApplicable={isApplicable} />
+          <AtomicRequisitionHeading {...headingReq} />
+          <SectionContainer
+            bodyReqs={bodyReqs}
+            isApplicable={headingReq.isApplicable}
+          />
           <Footer />
         </div>
       </div>
@@ -48,31 +45,25 @@ export default function AtomicRequisitionPage() {
   )
 }
 
-function AtomicRequisitionHeading({
-  reqId,
-  clauseRef,
-  query,
-  level,
-  isApplicable,
-}: {
-  reqId: string
-  clauseRef: string
-  query: string
-  level: number
-  isApplicable: boolean
-}) {
+interface AtomicRequisitionHeadingProps {
+  headingReq: AtomicReq
+}
+
+function AtomicRequisitionHeading({ ...headingReq }) {
   return (
     <div className="mb-6 w-full group-disabled:opacity-10">
       <div className="flex flex-col justify-between border-b border-dotted pb-2 lg:flex-row">
         <div className="mb-4 mt-1 basis-3/5">
           <div className="ml-0.5 inline-flex justify-center ">
-            <div className="mr-4 text-lg font-bold">{clauseRef}</div>
-            <div className="text-lg font-bold uppercase">{query}</div>
+            <div className="mr-4 text-lg font-bold">{headingReq.clauseRef}</div>
+            <div className="text-lg font-bold uppercase">
+              {headingReq.query}
+            </div>
           </div>
         </div>
         <div className="flex flex-initial justify-between lg:min-w-[360px]">
           <div className="mr-2 flex place-content-end place-items-center pr-2">
-            <IsApplicableSwitchForm />
+            <IsApplicableSwitchForm {...headingReq} />
           </div>
           <div className="flex flex-none place-items-center justify-center border-0">
             <DropdownMenuOpts />
@@ -83,26 +74,26 @@ function AtomicRequisitionHeading({
   )
 }
 
-function AtomicRequisition({
-  reqId,
-  clauseRef,
-  query,
-  reply,
-  level,
-  replyRequired,
-}: AtomicRequisitionProps) {
+interface AtomicRequisitionProps {
+  requisition: AtomicReq
+}
+
+function AtomicRequisition({ requisition }: AtomicRequisitionProps) {
   return (
     <div className="border-box w-full rounded-md opacity-100 transition focus-within:border focus-within:border-slate-200 focus-within:bg-slate-50 dark:focus-within:bg-slate-800">
       <div className="flex flex-col gap-y-4 px-4 pb-4 pt-2 lg:flex-row lg:items-start lg:gap-x-6 lg:gap-y-0 lg:p-4">
         <div className="lg:flex lg:w-1/2 lg:flex-row">
-          <SectionSpacer level={level} />
-          <SectionIndicator clauseRef={clauseRef} />
-          <SectionQuery query={query} />
+          <SectionSpacer level={requisition.level} />
+          <SectionIndicator clauseRef={requisition.clauseRef} />
+          <SectionQuery query={requisition.query} />
         </div>
         <div className="lg:flex lg:w-1/2 lg:flex-row">
-          {replyRequired ? (
+          {requisition.replyRequired ? (
             <>
-              <SectionReply reply={reply} reqId={reqId} />
+              <SectionReply
+                reply={requisition.reply}
+                reqId={requisition.reqId}
+              />
               <SectionOptions />
             </>
           ) : null}
@@ -168,7 +159,13 @@ function SectionOptions() {
   )
 }
 
-function SectionContainer({ isApplicable }: { isApplicable: boolean }) {
+function SectionContainer({
+  bodyReqs,
+  isApplicable,
+}: {
+  bodyReqs: AtomicRequisitionProps[]
+  isApplicable: boolean
+}) {
   const fieldsetCSS = cn(
     "group transition delay-200",
     { "opacity-100": isApplicable },
@@ -177,22 +174,9 @@ function SectionContainer({ isApplicable }: { isApplicable: boolean }) {
   return (
     <section className="">
       <fieldset className={fieldsetCSS} disabled={!isApplicable}>
-        <AtomicRequisition
-          reqId={req1.reqId}
-          clauseRef={req1.clauseRef}
-          query={req1.query}
-          reply={req1.reply}
-          level={req1.level}
-          replyRequired={req1.replyRequired}
-        />
-        <AtomicRequisition
-          reqId={req.reqId}
-          clauseRef={req.clauseRef}
-          query={req.query}
-          reply={req.reply}
-          level={req.level}
-          replyRequired={req.replyRequired}
-        />
+        {bodyReqs.map((requisition) => {
+          return <AtomicRequisition requisition={requisition} />
+        })}
       </fieldset>
     </section>
   )

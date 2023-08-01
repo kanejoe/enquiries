@@ -11,6 +11,7 @@ export type AtomicRequisition = {
   query: string
   clauseRef: string
   replyRequired: boolean
+  isApplicable: boolean
 }
 
 export const columns: ColumnDef<AtomicRequisition>[] = [
@@ -25,7 +26,7 @@ export const columns: ColumnDef<AtomicRequisition>[] = [
           </div>
           <div
             className={`${
-              row.original.replyRequired === true ? "" : "line-through"
+              row.original.isApplicable === true ? "" : "line-through"
             }`}
           >
             {row.original.query}

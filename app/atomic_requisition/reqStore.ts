@@ -1,9 +1,10 @@
 import { produce } from "immer"
 import { create } from "zustand"
-import { devtools } from "zustand/middleware"
+
+import { initialState } from "./data"
 
 // Define a single req type
-interface AtomicReq {
+export interface AtomicReq {
   reqId: string
   clauseRef: string
   query?: string
@@ -11,6 +12,10 @@ interface AtomicReq {
   level: number
   replyRequired: boolean
   isApplicable: boolean
+}
+export interface AtomicReqs {
+  requisitions: AtomicReq[]
+  headings: AtomicReq[]
 }
 
 // Define actions
@@ -22,23 +27,31 @@ interface AtomicReqActions {
 }
 
 // Define the store's state shape
-interface AtomicReqState {
+export interface AtomicReqState {
   requisitions: AtomicReq[]
+  headings: AtomicReq[]
   actions: AtomicReqActions
 }
 
-const useAtomicReqStore = create<AtomicReqState>((set) => ({
-  requisitions: [],
+export const useAtomicReqStore = create<AtomicReqState>((set) => ({
+  requisitions: initialState.requisitions,
+  headings: initialState.headings,
   // ⬇️ separate "namespace" for actions
   actions: {
     patchIsApplicable: (reqId, isApplicable) =>
       set(
         produce((draft) => {
-          // Logic goes here
+          // Logic for `requisition` goes here
           const atomicRequisition = draft.requisitions.find(
             (el: AtomicReq) => el.reqId === reqId
           )
           atomicRequisition.isApplicable = isApplicable
+
+          // Logic for `heading` goes here
+          const atomicHeading = draft.headings.find(
+            (el: AtomicReq) => el.reqId === reqId
+          )
+          atomicHeading.isApplicable = isApplicable
         })
       ),
   },
