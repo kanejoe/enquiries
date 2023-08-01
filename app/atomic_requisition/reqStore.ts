@@ -13,15 +13,18 @@ interface AtomicReq {
   isApplicable: boolean
 }
 
+// Define actions
+interface AtomicReqActions {
+  patchIsApplicable: (
+    reqId: AtomicReq["reqId"],
+    isApplicable: AtomicReq["isApplicable"]
+  ) => void
+}
+
 // Define the store's state shape
 interface AtomicReqState {
   requisitions: AtomicReq[]
-  actions: {
-    patchIsApplicable: (
-      reqId: AtomicReq["reqId"],
-      isApplicable: AtomicReq["isApplicable"]
-    ) => void
-  }
+  actions: AtomicReqActions
 }
 
 const useAtomicReqStore = create<AtomicReqState>((set) => ({
