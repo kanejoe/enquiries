@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import _ from "lodash"
-import { Sparkles } from "lucide-react"
+import { ArrowDownWideNarrow, Dot, Sparkles } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -134,17 +134,19 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
                       <MenubarTrigger className="hover:cursor-pointer">
                         <Sparkles size={20} color="#949494" strokeWidth={1.5} />
                       </MenubarTrigger>
-                      <MenubarContent>
-                        <MenubarLabel className="bg-slate-50">
-                          ↓ Select an Option ↓
+                      <MenubarContent className="w-56">
+                        <MenubarLabel className="flex flex-row bg-slate-50">
+                          <ArrowDownWideNarrow size={20} strokeWidth={1.5} />
+                          <span className="ml-2 text-sm">Select an Option</span>
                         </MenubarLabel>
                         {presets.map((preset) => {
                           return (
                             <>
                               <MenubarItem
-                                className="text-xs"
+                                className="whitespace-normal break-words text-xs"
                                 onSelect={() => handleMenuItemClick(preset)}
                               >
+                                {/* <Dot className="text-slate-600" /> */}
                                 {preset}
                               </MenubarItem>
                               <MenubarSeparator />
