@@ -131,19 +131,26 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
                 <div className="">
                   <Menubar className="absolute right-3 top-1 border-0 bg-transparent px-0 py-1">
                     <MenubarMenu>
-                      <MenubarTrigger className="hover:cursor-pointer">
-                        <Sparkles size={20} color="#949494" strokeWidth={1.5} />
+                      <MenubarTrigger className="mr-1 hover:cursor-pointer">
+                        <Sparkles
+                          size={20}
+                          color="#949494"
+                          strokeWidth={1.5}
+                          className="mx-0"
+                        />
                       </MenubarTrigger>
-                      <MenubarContent className="w-56">
+                      <MenubarContent className="w-64 font-albertsans">
                         <MenubarLabel className="flex flex-row bg-slate-50">
                           <ArrowDownWideNarrow size={20} strokeWidth={1.5} />
-                          <span className="ml-2 text-sm">Select an Option</span>
+                          <span className="ml-2 text-sm">
+                            Select Precedent Text
+                          </span>
                         </MenubarLabel>
                         {presets.map((preset) => {
                           return (
                             <>
                               <MenubarItem
-                                className="whitespace-normal break-words text-xs"
+                                className="ml-1.5 whitespace-normal break-words text-sm"
                                 onSelect={() => handleMenuItemClick(preset)}
                               >
                                 {/* <Dot className="text-slate-600" /> */}
