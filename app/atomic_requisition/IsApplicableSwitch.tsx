@@ -98,6 +98,7 @@ export function IsApplicableSwitchForm({
                     </div>
                     <FormControl>
                       <Switch
+                        className="data-[state=checked]:bg-teal-400 data-[state=unchecked]:bg-red-400"
                         checked={field.value}
                         onCheckedChange={(e) => {
                           field.onChange(e)

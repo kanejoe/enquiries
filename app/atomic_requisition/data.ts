@@ -90,6 +90,18 @@ export const initialState: AtomicReqs = {
       hasDoc: false,
       isComplete: false,
     },
+    {
+      reqId: "R43FKLS",
+      clauseRef: "3.1.b",
+      query:
+        "If so, furnish details and evidence of the easement authorising same.",
+      reply: "not applicable",
+      level: 2,
+      isApplicable: true,
+      isFlagged: false,
+      hasDoc: false,
+      isComplete: true,
+    },
   ],
   headings: [
     {
