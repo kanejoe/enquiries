@@ -51,7 +51,7 @@ export function IsApplicableSwitchForm({
       description: (
         <div className="mt-2 w-[340px] rounded-md bg-slate-200 p-4">
           <div className="font-semibold text-slate-900">
-            <Check className="mr-2 inline-flex font-bold text-teal-700" />
+            <Check className="mr-2 inline-flex font-bold text-caribbean-700" />
             Updated to {data.isApplicable ? " Applicable" : " Not Applicable"}
           </div>
         </div>
@@ -61,13 +61,13 @@ export function IsApplicableSwitchForm({
 
   const descriptionCSS = cn(
     "transition delay-150",
-    { "text-teal-800": isApplicable },
+    { "text-caribbean-800": isApplicable },
     { "text-red-800": !isApplicable }
   )
 
   const isApplicableBgCSS = cn(
     "rounded-lg transition delay-150",
-    { "bg-teal-50": isApplicable },
+    { "bg-caribbean-50": isApplicable },
     { "bg-red-50": !isApplicable }
   )
 
@@ -75,7 +75,7 @@ export function IsApplicableSwitchForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div
-          className={`flex flex-row-reverse items-center space-x-2 lg:flex-row`}
+          className={`flex flex-row-reverse items-center space-x-2  lg:flex-row`}
         >
           <div className={isApplicableBgCSS}>
             <FormField
@@ -85,7 +85,7 @@ export function IsApplicableSwitchForm({
                 return (
                   <FormItem
                     className={`flex flex-row items-center justify-between rounded-lg border ${
-                      isApplicable ? "border-teal-300" : "border-red-300"
+                      isApplicable ? "border-caribbean-500" : "border-red-300"
                     } p-3 shadow-sm transition delay-150`}
                   >
                     <div className="mr-4 space-y-0.5">
@@ -98,7 +98,7 @@ export function IsApplicableSwitchForm({
                     </div>
                     <FormControl>
                       <Switch
-                        className="data-[state=checked]:bg-teal-400 data-[state=unchecked]:bg-red-400"
+                        className="data-[state=checked]:bg-caribbean-500 data-[state=unchecked]:bg-red-400"
                         checked={field.value}
                         onCheckedChange={(e) => {
                           field.onChange(e)

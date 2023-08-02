@@ -67,7 +67,12 @@ function SectionQuery({ query }: { query?: string }) {
   return <div className="lg:w-9/12">{query}</div>
 }
 
-function SectionReply({ reply, reqId }: { reply?: string; reqId: string }) {
+interface SectionReplyProps {
+  reply: AtomicReq["reply"]
+  reqId: AtomicReq["reqId"]
+}
+
+function SectionReply({ reply, reqId }: SectionReplyProps) {
   return (
     <div className="lg:mr-6 lg:w-9/12">
       <ReplyForm reply={reply} reqId={reqId} />

@@ -83,7 +83,7 @@ export const initialState: AtomicReqs = {
       clauseRef: "3.1.a",
       query:
         "Are there any pipes drains sewers wires cables or septic tank on under or over other property which serve the property in sale.",
-      reply: "not applicable",
+      reply: "",
       level: 2,
       isApplicable: true,
       isFlagged: false,

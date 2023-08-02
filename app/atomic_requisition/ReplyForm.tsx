@@ -15,34 +15,34 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
+import { AtomicReq } from "./reqStore"
+
 const formSchema = z.object({
   reqId: z.string(),
-  reqReply: z.string(),
+  reply: z.string(),
 })
 
-export function ReplyForm({
-  reply,
-  reqId,
-  formDisabled,
-}: {
-  reply?: string
-  reqId: string
-  formDisabled?: boolean
-}) {
+interface ReplyFormProps {
+  reply: AtomicReq["reply"]
+  reqId: AtomicReq["reqId"]
+}
+
+export function ReplyForm({ reply, reqId }: ReplyFormProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      reqId: "",
-      reqReply: "",
+      reqId: reqId,
+      reply: reply,
     },
     mode: "onBlur", // Set validation mode to onBlur
   })
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("🚀 ~ file: ReplyForm.tsx:45 ~ onSubmit ~ values:", values)
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     // only submit if something has changed in the form
@@ -78,10 +78,10 @@ export function ReplyForm({
         onBlur={form.handleSubmit(onSubmit)}
         className=""
       >
-        <fieldset disabled={false} className="group">
+        <fieldset className="group">
           <FormField
             control={form.control}
-            name="reqReply"
+            name="reply"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -102,7 +102,7 @@ export function ReplyForm({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input className="hidden" placeholder="reply..." {...field} />
+                  <Input className="hidden" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
