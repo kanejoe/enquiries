@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as Switch from "@radix-ui/react-switch"
 import { CheckCircle2 } from "lucide-react"
@@ -34,6 +35,10 @@ export function IsCompleteForm({ isComplete, reqId }: isCompleteProps) {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     useAtomicReqActions.patchIsComplete(data.reqId, data.isComplete)
   }
+
+  useEffect(() => {
+    form.setValue("isComplete", isComplete)
+  }, [isComplete])
 
   return (
     <Form {...form}>

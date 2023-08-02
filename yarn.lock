@@ -2778,6 +2778,11 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
+"@types/lodash@4.14.196":
+  version "4.14.196"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.196.tgz#a7c3d6fc52d8d71328b764e28e080b4169ec7a95"
+  integrity sha512-22y3o88f4a94mKljsZcanlNWPzO0uBsBdzLAngf2tp533LzZcQzb6+eZPJ+vCTt+bqF2XnvT9gejTLsAcJAJyQ==
+
 "@types/node@*", "@types/node@20.4.5":
   version "20.4.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.4.5.tgz#9dc0a5cb1ccce4f7a731660935ab70b9c00a5d69"
@@ -5597,7 +5602,7 @@ lodash.omit@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
   integrity sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==
 
-lodash@^4.17.15:
+lodash@4.17.21, lodash@^4.17.15:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==

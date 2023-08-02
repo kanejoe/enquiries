@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import _ from "lodash"
 import { Sparkles } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -48,17 +49,10 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
       reqId: reqId,
       reply: reply,
     },
-    // mode: "onBlur", // Set validation mode to onBlur
   })
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // console.log("🚀 ~ file: ReplyForm.tsx:45 ~ onSubmit ~ values:", values)
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // only submit if something has changed in the form
-    if (form.formState.isDirty) console.log(values)
-  }
+  const { watch } = form
+  const replyText = watch("reply")
 
   const adjustHeight = () => {
     if (textareaRef.current !== null) {
@@ -71,15 +65,34 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
     useAtomicReqActions.patchReply(reqId, item)
   }
 
+  // Define a function to handle the submission, with 1 second debounce
+  const debouncedSubmit = useCallback(
+    _.debounce((value: string) => {
+      // Handle the submission here
+      useAtomicReqActions.patchReply(reqId, value)
+    }, 1000),
+    []
+  )
+
+  useEffect(() => {
+    if (replyText !== undefined) {
+      debouncedSubmit(replyText)
+    }
+    // This will cancel the debounce on component unmount
+    return () => {
+      debouncedSubmit.cancel()
+    }
+  }, [replyText, debouncedSubmit])
+
   useEffect(() => {
     form.setValue("reply", reply)
   }, [reply])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     adjustHeight() // adjust the height when component mounts
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const textareaNode = textareaRef.current
     const handleInput = (e: any) => {
       e.target.style.height = "auto"
@@ -95,15 +108,12 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
     "Yes",
     "No",
     "See Special Conditions of Contract for Sale",
+    "Declined",
   ]
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        onBlur={form.handleSubmit(onSubmit)}
-        className=""
-      >
+      <form>
         <fieldset className="group">
           <FormField
             control={form.control}
@@ -115,7 +125,7 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
                     placeholder="reply..."
                     {...field}
                     ref={textareaRef}
-                    className="scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-100 min-h-[32px] flex-1 pr-14 dark:text-slate-900 dark:placeholder:text-slate-500"
+                    className="min-h-[32px] flex-1 pr-16 scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-500 dark:text-slate-900 dark:placeholder:text-slate-500"
                   />
                 </FormControl>
                 <div className="">

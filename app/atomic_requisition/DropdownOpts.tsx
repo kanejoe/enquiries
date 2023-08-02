@@ -16,7 +16,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { useAtomicReqStore } from "./reqStore"
+
 export function DropdownMenuOpts() {
+  const useAtomicReqActions = useAtomicReqStore((state) => state.actions)
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,6 +39,13 @@ export function DropdownMenuOpts() {
           <DropdownMenuItem>
             Suggest Replies
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={useAtomicReqActions.markAllComplete}>
+            Mark All as Complete
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={useAtomicReqActions.markAllInComplete}>
+            Mark All as Incomplete
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

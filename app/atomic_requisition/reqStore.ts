@@ -34,8 +34,10 @@ interface AtomicReqActions {
   patchHasDoc: (reqId: AtomicReq["reqId"], hasDoc: AtomicReq["hasDoc"]) => void
   patchIsComplete: (
     reqId: AtomicReq["reqId"],
-    hasDoc: AtomicReq["hasDoc"]
+    isComplete: AtomicReq["isComplete"]
   ) => void
+  markAllComplete: () => void
+  markAllInComplete: () => void
   patchReply: (reqId: AtomicReq["reqId"], reply: AtomicReq["reply"]) => void
 }
 
@@ -94,7 +96,31 @@ export const useAtomicReqStore = create<AtomicReqState>((set) => ({
           const atomicRequisition = draft.requisitions.find(
             (el: AtomicReq) => el.reqId === reqId
           )
-          atomicRequisition.hasDoc = isComplete
+          atomicRequisition.isComplete = isComplete
+        })
+      ),
+    markAllComplete: () =>
+      set(
+        produce((draft) => {
+          // Logic for `requisition` goes here
+          const atomicRequisitions = draft.requisitions.filter(
+            (el: AtomicReq) => el.level !== 0
+          )
+          atomicRequisitions.forEach((element: AtomicReq) => {
+            element.isComplete = true
+          })
+        })
+      ),
+    markAllInComplete: () =>
+      set(
+        produce((draft) => {
+          // Logic for `requisition` goes here
+          const atomicRequisitions = draft.requisitions.filter(
+            (el: AtomicReq) => el.level !== 0
+          )
+          atomicRequisitions.forEach((element: AtomicReq) => {
+            element.isComplete = false
+          })
         })
       ),
     patchReply: (reqId, reply) =>
@@ -105,6 +131,7 @@ export const useAtomicReqStore = create<AtomicReqState>((set) => ({
             (el: AtomicReq) => el.reqId === reqId
           )
           atomicRequisition.reply = reply
+          atomicRequisition.isComplete = true
         })
       ),
   },

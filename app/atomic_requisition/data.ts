@@ -100,7 +100,7 @@ export const initialState: AtomicReqs = {
       isApplicable: true,
       isFlagged: false,
       hasDoc: false,
-      isComplete: true,
+      isComplete: false,
     },
   ],
   headings: [
