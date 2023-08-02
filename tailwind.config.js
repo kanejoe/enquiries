@@ -1,3 +1,5 @@
+// const { nextui } = require("@nextui-org/react")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -89,7 +91,8 @@ module.exports = {
     },
   },
   plugins: [
-    require('tailwind-scrollbar'),
+    // nextui(),
+    require("tailwind-scrollbar"),
     require("tailwindcss-animate"),
     require("@tailwindcss/forms"),
   ],

@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 
+import { CompletedProgress } from "./CompletedProgress"
+
 /**
  *
  * @returns
@@ -13,8 +15,8 @@ export function Footer() {
   return (
     <div className="mt-8 w-full">
       <Separator />
-      <div className="mt-4 flex justify-between">
-        <div className="flex flex-row gap-x-4">
+      <div className="mt-4 flex w-full justify-between">
+        <div className="flex w-1/5 flex-row gap-x-4">
           <Button variant="outline" size="sm">
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -22,7 +24,10 @@ export function Footer() {
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
-        <div className="text-sm">&copy; {currentYear}</div>
+        <div className="w-3/5">
+          <CompletedProgress />
+        </div>
+        <div className="w-1/5 text-right text-sm">&copy; {currentYear}</div>
       </div>
     </div>
   )
