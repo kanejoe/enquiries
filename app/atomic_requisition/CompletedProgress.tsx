@@ -1,3 +1,5 @@
+import { motion } from "framer-motion"
+
 import { cn } from "@/lib/utils"
 import { Progress } from "@/components/ui/progress"
 
@@ -14,21 +16,33 @@ export function CompletedProgress() {
   const percent = calcPercent(completedReqs.length, totalReqs.length)
   const headingReq = requisitions.find((req: AtomicReq) => req.level === 0)
 
-  return (
-    <div
-      className={
-        (cn("mt-0.5 flex flex-col gap-y-1 transition-opacity delay-200"),
-        headingReq?.isApplicable ? "opacity-100" : "opacity-0")
-      }
-    >
-      <div className="text-sm">
-        <span className="mr-1 oldstyle-nums">{percent}%</span>
-        <span className="">complete</span>
-      </div>
+  // Animation variants for fading in and out
+  const variants = {
+    visible: { opacity: 1, transition: { duration: 0.6 } },
+    hidden: { opacity: 0, transition: { duration: 0.6 } },
+  }
 
-      <div className="">
-        <Progress value={percent} className="" />
-      </div>
+  return (
+    <div className="">
+      {headingReq?.isApplicable ? (
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          variants={variants}
+        >
+          <div className="mt-0.5 flex flex-col gap-y-1">
+            <div className="text-sm">
+              <span className="mr-1 oldstyle-nums">{percent}%</span>
+              <span className="">complete</span>
+            </div>
+
+            <div className="">
+              <Progress value={percent} className="" />
+            </div>
+          </div>
+        </motion.div>
+      ) : null}
     </div>
   )
 }
