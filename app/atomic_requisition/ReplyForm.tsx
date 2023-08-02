@@ -69,7 +69,7 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
   const debouncedSubmit = useCallback(
     _.debounce((value: string) => {
       // Handle the submission here
-      useAtomicReqActions.patchReply(reqId, value)
+      if (reply !== value) useAtomicReqActions.patchReply(reqId, value)
     }, 1000),
     []
   )
@@ -142,7 +142,7 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
                       <MenubarContent className="w-64 font-albertsans">
                         <MenubarLabel className="flex flex-row bg-slate-50">
                           <ArrowDownWideNarrow size={20} strokeWidth={1.5} />
-                          <span className="ml-2 text-sm">
+                          <span className="ml-2 text-sm text-slate-800">
                             Select Precedent Text
                           </span>
                         </MenubarLabel>

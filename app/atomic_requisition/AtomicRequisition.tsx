@@ -1,5 +1,3 @@
-import { CheckCircle, FileText } from "lucide-react"
-
 import { cn } from "@/lib/utils"
 
 import { FlaggedForm } from "./FlaggedForm"
@@ -22,7 +20,11 @@ export function AtomicRequisition({ requisition }: AtomicRequisitionProps) {
         <div className="lg:flex lg:w-1/2 lg:flex-row">
           <SectionSpacer level={requisition.level} />
           <SectionIndicator clauseRef={requisition.clauseRef} />
-          <SectionQuery query={requisition.query} />
+          <SectionQuery
+            query={requisition.query}
+            level={requisition.level}
+            isApplicable={requisition.isApplicable}
+          />
         </div>
         <div className="lg:flex lg:w-1/2 lg:flex-row">
           {requisition.isApplicable ? (
@@ -47,10 +49,10 @@ export function AtomicRequisition({ requisition }: AtomicRequisitionProps) {
 
 function SectionSpacer({ level }: { level: number }) {
   const spacer_class = cn({
-    "hidden lg:block": true,
+    "hidden lg:block shrink-0": true,
     "lg:w-[2px]": level === 1,
-    "lg:w-[12px]": level === 2,
-    "lg:w-[20px]": level === 3,
+    "lg:w-[8px]": level === 2,
+    "lg:w-[16px]": level === 3,
   })
   return <div className={spacer_class}> &nbsp; </div>
 }
@@ -63,8 +65,23 @@ function SectionIndicator({ clauseRef }: { clauseRef: string }) {
   )
 }
 
-function SectionQuery({ query }: { query?: string }) {
-  return <div className="lg:w-9/12">{query}</div>
+interface SectionQueryProps {
+  query: AtomicReq["query"]
+  level: AtomicReq["level"]
+  isApplicable: AtomicReq["isApplicable"]
+}
+
+function SectionQuery({ query, level, isApplicable }: SectionQueryProps) {
+  return (
+    <div
+      className={cn(
+        "lg:w-9/12",
+        level === 1 && isApplicable === false ? "font-semibold" : ""
+      )}
+    >
+      {query}
+    </div>
+  )
 }
 
 interface SectionReplyProps {

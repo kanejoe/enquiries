@@ -5,21 +5,21 @@ import { AtomicReq } from "./reqStore"
 
 interface AtomicSectionContainerProps {
   bodyReqs: AtomicReq[]
-  isApplicable: AtomicReq["isApplicable"]
+  headingIsApplicable: AtomicReq["isApplicable"]
 }
 
 export function AtomicSectionContainer({
   bodyReqs,
-  isApplicable,
+  headingIsApplicable,
 }: AtomicSectionContainerProps) {
   const fieldsetCSS = cn(
     "group transition delay-200",
-    { "opacity-100": isApplicable },
-    { "opacity-50 bg-slate-50": !isApplicable }
+    { "opacity-100": headingIsApplicable },
+    { "opacity-50 bg-slate-50": !headingIsApplicable }
   )
   return (
     <section className="">
-      <fieldset className={fieldsetCSS} disabled={!isApplicable}>
+      <fieldset className={fieldsetCSS} disabled={!headingIsApplicable}>
         {bodyReqs.map((requisition) => {
           return <AtomicRequisition requisition={requisition} />
         })}

@@ -34,7 +34,7 @@ export default function AtomicRequisitionPage() {
           {headingReq ? (
             <AtomicSectionContainer
               bodyReqs={bodyReqs}
-              isApplicable={headingReq.isApplicable}
+              headingIsApplicable={headingReq.isApplicable}
             />
           ) : null}
 

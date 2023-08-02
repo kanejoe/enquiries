@@ -131,7 +131,7 @@ export const useAtomicReqStore = create<AtomicReqState>((set) => ({
             (el: AtomicReq) => el.reqId === reqId
           )
           atomicRequisition.reply = reply
-          atomicRequisition.isComplete = true
+          atomicRequisition.isComplete = true // this is triggering automatically
         })
       ),
   },
