@@ -34,8 +34,9 @@ interface AtomicReqActions {
   patchHasDoc: (reqId: AtomicReq["reqId"], hasDoc: AtomicReq["hasDoc"]) => void
   patchIsComplete: (
     reqId: AtomicReq["reqId"],
-    hasDoc: AtomicReq["isComplete"]
+    hasDoc: AtomicReq["hasDoc"]
   ) => void
+  patchReply: (reqId: AtomicReq["reqId"], reply: AtomicReq["reply"]) => void
 }
 
 // Define the store's state shape
@@ -94,6 +95,16 @@ export const useAtomicReqStore = create<AtomicReqState>((set) => ({
             (el: AtomicReq) => el.reqId === reqId
           )
           atomicRequisition.hasDoc = isComplete
+        })
+      ),
+    patchReply: (reqId, reply) =>
+      set(
+        produce((draft) => {
+          // Logic for `requisition` goes here
+          const atomicRequisition = draft.requisitions.find(
+            (el: AtomicReq) => el.reqId === reqId
+          )
+          atomicRequisition.reply = reply
         })
       ),
   },

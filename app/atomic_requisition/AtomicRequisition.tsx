@@ -17,7 +17,7 @@ export function AtomicRequisition({ requisition }: AtomicRequisitionProps) {
     return null
 
   return (
-    <div className="border-box w-full rounded-md opacity-100 transition focus-within:border focus-within:border-slate-200 focus-within:bg-slate-50 dark:focus-within:bg-slate-800">
+    <div className="border-box w-full rounded-md border border-transparent opacity-100 transition focus-within:border focus-within:border-slate-200 focus-within:bg-slate-50 dark:focus-within:bg-slate-800">
       <div className="flex flex-col gap-y-4 px-4 pb-4 pt-2 lg:flex-row lg:items-start lg:gap-x-6 lg:gap-y-0 lg:p-4">
         <div className="lg:flex lg:w-1/2 lg:flex-row">
           <SectionSpacer level={requisition.level} />
