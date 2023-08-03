@@ -131,7 +131,7 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
                 <div className="">
                   <Menubar className="absolute right-3 top-1 border-0 bg-transparent px-0 py-1">
                     <MenubarMenu>
-                      <MenubarTrigger className="mr-1 hover:cursor-pointer">
+                      <MenubarTrigger className="mr-1.5 p-0.5 hover:cursor-pointer">
                         <Sparkles
                           size={20}
                           color="#949494"
@@ -153,7 +153,6 @@ export function ReplyForm({ reply, reqId }: ReplyFormProps) {
                                 className="ml-1.5 whitespace-normal break-words text-sm"
                                 onSelect={() => handleMenuItemClick(preset)}
                               >
-                                {/* <Dot className="text-slate-600" /> */}
                                 {preset}
                               </MenubarItem>
                               <MenubarSeparator />

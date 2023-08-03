@@ -97,3 +97,42 @@ export const initialState: AtomicReqs = {
     },
   ],
 }
+
+const testdata = [
+  {
+    reqId: "XX1",
+    parentId: "",
+    level: "0",
+    character: "1",
+    query: "Premises",
+  },
+  {
+    reqId: "XX11",
+    parentId: "XX1",
+    level: "1",
+    character: "1",
+    query: "",
+  },
+  {
+    reqId: "XX111",
+    parentId: "XX1",
+    level: "2",
+    character: "1",
+    query: "Are there any contents included?",
+  },
+  {
+    reqId: "XX112",
+    parentId: "XX1",
+    level: "2",
+    character: "2",
+    query:
+      "If so, furnish a list of same and give the Vendor's estimate of value",
+  },
+  {
+    reqId: "XX2",
+    parentId: "",
+    level: "0",
+    character: "1",
+    query: "Water Services/Local Authority",
+  },
+]
