@@ -1,4 +1,4 @@
-import { AtomicRequisitionProps } from "@/types/AtomicRequisition"
+import type { AtomicRequisition } from "@/types/AtomicRequisitionType"
 
 import { AtomicReqs } from "./reqStore"
 
@@ -98,41 +98,46 @@ export const initialState: AtomicReqs = {
   ],
 }
 
-const testdata = [
+export const testdata: AtomicRequisition[] = [
   {
-    reqId: "XX1",
-    parentId: "",
-    level: "0",
-    character: "1",
-    query: "Premises",
+    reqId: "XX111",
+    parentId: "XX11",
+    level: 2,
+    character: 1,
+    query: "Are there any contents included?",
+    isApplicable: true,
   },
   {
     reqId: "XX11",
     parentId: "XX1",
-    level: "1",
-    character: "1",
+    level: 1,
+    character: 1,
     query: "",
-  },
-  {
-    reqId: "XX111",
-    parentId: "XX1",
-    level: "2",
-    character: "1",
-    query: "Are there any contents included?",
-  },
-  {
-    reqId: "XX112",
-    parentId: "XX1",
-    level: "2",
-    character: "2",
-    query:
-      "If so, furnish a list of same and give the Vendor's estimate of value",
+    isApplicable: true,
   },
   {
     reqId: "XX2",
     parentId: "",
-    level: "0",
-    character: "1",
+    level: 0,
+    character: 2,
     query: "Water Services/Local Authority",
+    isApplicable: true,
+  },
+  {
+    reqId: "XX112",
+    parentId: "XX11",
+    level: 2,
+    character: 2,
+    query:
+      "If so, furnish a list of same and give the Vendor's estimate of value",
+    isApplicable: true,
+  },
+  {
+    reqId: "XX1",
+    parentId: "",
+    level: 0,
+    character: 1,
+    query: "Premises",
+    isApplicable: true,
   },
 ]
