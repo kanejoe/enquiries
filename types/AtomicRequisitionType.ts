@@ -4,7 +4,7 @@ export interface AtomicRequisition {
   characters?: number[]
   children?: AtomicRequisition[]
   level?: number
-  parentId: string
+  parentId?: string
   query?: string
   reply?: string
   isApplicable: boolean

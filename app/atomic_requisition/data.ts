@@ -104,21 +104,21 @@ export const testdata1: AtomicRequisition[] = [
     parentId: "XX11",
     character: 1,
     query: "Are there any contents included?",
-    isApplicable: true,
+    isApplicable: false,
   },
   {
     reqId: "XX11",
     parentId: "XX1",
     character: 1,
     query: "",
-    isApplicable: true,
+    isApplicable: false,
   },
   {
     reqId: "XX2",
     parentId: "",
     character: 2,
     query: "Water Services/Local Authority",
-    isApplicable: true,
+    isApplicable: false,
   },
   {
     reqId: "XX21",
@@ -163,6 +163,21 @@ export const testdata1: AtomicRequisition[] = [
     parentId: "",
     character: 1,
     query: "Premises",
+    isApplicable: true,
+  },
+  {
+    reqId: "XX3",
+    parentId: "",
+    character: 3,
+    query: "Easements and Rights",
+    isApplicable: true,
+  },
+  {
+    reqId: "XX31",
+    parentId: "XX3",
+    character: 1,
+    query:
+      "Are there any pipes drains sewers wires cables or septic tank on under or over other property which serve the property in sale",
     isApplicable: true,
   },
 ]
