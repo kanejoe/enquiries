@@ -1,25 +1,30 @@
 "use client"
 
+// import { performance } from "perf_hooks"
 import superjson from "superjson"
 
-import type { AtomicRequisition } from "@/types/AtomicRequisitionType"
+import { createTree, findNodeByReqId } from "@/lib/tree"
 
-import { testdata } from "../atomic_requisition/data"
+import { testdata1 } from "../atomic_requisition/data"
 
-const jsonString = superjson.stringify(testdata)
+const jsonString = superjson.stringify(testdata1)
 
 /**
  *
  * @returns
  */
 export default function AlgorithmPage() {
-  const createdTree = createTree(testdata)
+  //   const start = performance.now()
+  const tree = createTree(testdata1)
+  //   const end = performance.now()
+  //   console.log(`Execution time: ${end - start} milliseconds`)
 
-  console.log(
-    "🚀 ~ file: page.tsx:34 ~ AlgorithmPage ~ createdTree:",
-    createdTree
-  )
+  console.log("🚀 ~ file: page.tsx:34 ~ AlgorithmPage ~ createdTree:", tree)
   //   console.log("🚀 ~ file: page.tsx:30 ~ AlgorithmPage ~ tree:", tree)
+
+  const foundNode = findNodeByReqId(tree, "XX11")
+  console.log("🚀 ~ file: page.tsx:26 ~ AlgorithmPage ~ foundNode:", foundNode)
+
   return (
     <section className="mt-4 flex flex-col gap-y-6">
       <section className="">
@@ -28,7 +33,7 @@ export default function AlgorithmPage() {
       <section className="">{jsonString}</section>
       <hr className="bg-slate-100" />
       <section>
-        {testdata.map((req) => {
+        {testdata1.map((req) => {
           return (
             <div key={req.reqId} className="mb-2">
               <div className="flex flex-row gap-x-2">
@@ -45,7 +50,7 @@ export default function AlgorithmPage() {
       <hr className="bg-slate-100" />
 
       <section>
-        {createdTree.map((req) => {
+        {tree.map((req) => {
           return (
             <div key={req.reqId} className="mb-2">
               <div className="flex flex-row gap-x-2">
@@ -62,44 +67,4 @@ export default function AlgorithmPage() {
       <hr className="bg-slate-100" />
     </section>
   )
-}
-
-function createTree(data: AtomicRequisition[]): AtomicRequisition[] {
-  const map = new Map<string, AtomicRequisition>()
-  const rootNodes: AtomicRequisition[] = []
-
-  // Organize the nodes in a map and find the root nodes
-  data.forEach((item) => {
-    map.set(item.reqId, { ...item, children: [], characters: [item.character] })
-    if (item.parentId === "") {
-      rootNodes.push(map.get(item.reqId)!)
-    }
-  })
-
-  // Recursive function to sort and add children
-  function addChildren(node: AtomicRequisition) {
-    data
-      .filter((item) => item.parentId === node.reqId)
-      .sort((a, b) => {
-        const levelDiff = a.level - b.level
-        if (levelDiff !== 0) return levelDiff
-        return a.character - b.character
-      })
-      .forEach((child) => {
-        const childNode = map.get(child.reqId)!
-        childNode.characters = [...node.characters!, child.character]
-        node.children!.push(childNode)
-        addChildren(childNode)
-      })
-  }
-
-  // Add children to the root nodes and sort them
-  rootNodes.sort((a, b) => {
-    const levelDiff = a.level - b.level
-    if (levelDiff !== 0) return levelDiff
-    return a.character - b.character
-  })
-  rootNodes.forEach(addChildren)
-
-  return rootNodes
 }

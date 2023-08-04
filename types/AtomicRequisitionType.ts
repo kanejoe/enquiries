@@ -3,9 +3,10 @@ export interface AtomicRequisition {
   character: number
   characters?: number[]
   children?: AtomicRequisition[]
-  level: number
+  level?: number
   parentId: string
   query?: string
   reply?: string
   isApplicable: boolean
+  sources?: string[]
 }

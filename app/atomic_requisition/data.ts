@@ -98,11 +98,10 @@ export const initialState: AtomicReqs = {
   ],
 }
 
-export const testdata: AtomicRequisition[] = [
+export const testdata1: AtomicRequisition[] = [
   {
     reqId: "XX111",
     parentId: "XX11",
-    level: 2,
     character: 1,
     query: "Are there any contents included?",
     isApplicable: true,
@@ -110,7 +109,6 @@ export const testdata: AtomicRequisition[] = [
   {
     reqId: "XX11",
     parentId: "XX1",
-    level: 1,
     character: 1,
     query: "",
     isApplicable: true,
@@ -118,15 +116,43 @@ export const testdata: AtomicRequisition[] = [
   {
     reqId: "XX2",
     parentId: "",
-    level: 0,
     character: 2,
     query: "Water Services/Local Authority",
     isApplicable: true,
   },
   {
+    reqId: "XX21",
+    parentId: "XX2",
+    character: 1,
+    query: "Is the property serviced with:",
+    isApplicable: false,
+  },
+  {
+    reqId: "XX211",
+    parentId: "XX21",
+    character: 1,
+    query: "Sewerage",
+    isApplicable: false,
+  },
+  {
+    reqId: "XX2111",
+    parentId: "XX211",
+    character: 1,
+    query:
+      "if so, state whether by Irish Water mains, on-site domestic septic tank or other on-site domestic waste water treatment system, or other",
+    isApplicable: true,
+  },
+  {
+    reqId: "XX2112",
+    parentId: "XX211",
+    character: 2,
+    query:
+      "if by Irish Water mains, furnish evidence of registration with Irish Water",
+    isApplicable: true,
+  },
+  {
     reqId: "XX112",
     parentId: "XX11",
-    level: 2,
     character: 2,
     query:
       "If so, furnish a list of same and give the Vendor's estimate of value",
@@ -135,7 +161,6 @@ export const testdata: AtomicRequisition[] = [
   {
     reqId: "XX1",
     parentId: "",
-    level: 0,
     character: 1,
     query: "Premises",
     isApplicable: true,
