@@ -14,8 +14,8 @@ export function AtomicRequisitionHeading({
       <div className="flex flex-col justify-between border-b border-dotted pb-2 lg:flex-row">
         <div className="mb-4 mt-1 basis-3/5">
           <div className="ml-0.5 inline-flex justify-center ">
-            <div className="mr-4 text-lg font-bold">{headingReq.clauseRef}</div>
-            <div className="text-lg font-bold uppercase">
+            <div className="mr-4 text-xl font-bold">{headingReq.clauseRef}</div>
+            <div className="text-xl font-extrabold uppercase">
               {headingReq.query}
             </div>
           </div>

@@ -147,10 +147,13 @@ function getNonRootApplicableNodesGroupedByRoot(
 
   // Iterate through the root nodes of the tree
   tree.forEach((rootNode) => {
-    const nonRootApplicableNodes: AtomicRequisition[] = []
-    traverse(rootNode, nonRootApplicableNodes)
-    if (nonRootApplicableNodes.length > 0) {
-      result.push({ reqId: rootNode.reqId, nodes: nonRootApplicableNodes })
+    if (rootNode.isApplicable) {
+      // Check if the root node is applicable
+      const nonRootApplicableNodes: AtomicRequisition[] = []
+      traverse(rootNode, nonRootApplicableNodes)
+      if (nonRootApplicableNodes.length > 0) {
+        result.push({ reqId: rootNode.reqId, nodes: nonRootApplicableNodes })
+      }
     }
   })
 
