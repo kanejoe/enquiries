@@ -161,6 +161,22 @@ function getNonRootApplicableNodesGroupedByRoot(
 }
 
 /**
+ *
+ * @param data
+ * @param characterValue
+ * @returns
+ */
+function findRootNodeWithCharacter(
+  data: AtomicRequisition[],
+  characterValue: number
+): AtomicRequisition | undefined {
+  const resp = data.find(
+    (node) => node.character === characterValue && node.parentId === ""
+  )
+  return resp
+}
+
+/**
  * exports
  */
 export {
@@ -169,4 +185,5 @@ export {
   getHeaderNodes,
   getNonRootApplicableNodes,
   getNonRootApplicableNodesGroupedByRoot,
+  findRootNodeWithCharacter,
 }
