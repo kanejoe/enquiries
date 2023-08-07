@@ -10,7 +10,9 @@ interface pageProps {
 }
 
 const page: FC<pageProps> = async ({ params: { reqId } }) => {
-  const req = await fetch(`http://localhost:3000/api/atomic/${reqId}`)
+  const req = await fetch(`http://localhost:3000/api/atomic/${reqId}`, {
+    cache: "no-store",
+  })
   const data = await req.json()
   // useAtomicReqStore.setState({ requisitions: data })
 

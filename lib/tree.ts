@@ -185,7 +185,7 @@ function transformCharacters(arr?: number[]): string {
   // If arr is undefined, set it to an empty array
   arr = arr || []
 
-  if (arr.length > 3) {
+  if (arr.length > 4) {
     throw new Error("Array should have at most 3 elements")
   }
 
@@ -198,15 +198,53 @@ function transformCharacters(arr?: number[]): string {
 
   if (arr.length > 1) {
     // @ts-ignore
-    result += " " + arr[1] + "."
+    result += "" + arr[1] + "."
   }
 
   if (arr.length > 2) {
     // @ts-ignore
-    result += " (" + String.fromCharCode(97 + arr[2]) + ")"
+    result += " (" + String.fromCharCode(96 + arr[2]) + ")"
+  }
+
+  if (arr.length > 3) {
+    // @ts-ignore
+    result += " (" + numberToRoman(arr[3]) + ")"
   }
 
   return result.trim()
+}
+
+/**
+ *
+ * @param num
+ * @returns
+ */
+function numberToRoman(num: number): string {
+  const roman: { [key: number]: string } = {
+    1000: "m",
+    900: "cm",
+    500: "d",
+    400: "cd",
+    100: "c",
+    90: "xc",
+    50: "l",
+    40: "xl",
+    10: "x",
+    9: "ix",
+    5: "v",
+    4: "iv",
+    1: "i",
+  }
+
+  let str = ""
+
+  for (let key of Object.keys(roman).reverse()) {
+    const n = Math.floor(num / +key)
+    num -= n * +key
+    str += (roman[+key] as string).repeat(n) // Use type assertion here
+  }
+
+  return str
 }
 
 /**

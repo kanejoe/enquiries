@@ -12,10 +12,6 @@ interface AtomicRequisitionHeadingProps {
 export function AtomicRequisitionHeading({
   headingReq,
 }: AtomicRequisitionHeadingProps) {
-  console.log(
-    "🚀 ~ file: AtomicRequisitionHeading.tsx:14 ~ headingReq:",
-    headingReq
-  )
   return (
     <div className="mb-6 w-full group-disabled:opacity-10">
       <div className="flex flex-col justify-between border-b border-dotted pb-2 lg:flex-row">

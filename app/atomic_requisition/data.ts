@@ -176,6 +176,13 @@ export const testdata1: AtomicRequisition[] = [
     reqId: "XX31",
     parentId: "XX3",
     character: 1,
+    query: "",
+    isApplicable: true,
+  },
+  {
+    reqId: "XX311",
+    parentId: "XX31",
+    character: 1,
     query:
       "Are there any pipes drains sewers wires cables or septic tank on under or over other property which serve the property in sale",
     isApplicable: true,
