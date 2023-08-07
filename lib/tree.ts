@@ -177,6 +177,39 @@ function findRootNodeWithCharacter(
 }
 
 /**
+ *
+ * @param arr
+ * @returns
+ */
+function transformCharacters(arr?: number[]): string {
+  // If arr is undefined, set it to an empty array
+  arr = arr || []
+
+  if (arr.length > 3) {
+    throw new Error("Array should have at most 3 elements")
+  }
+
+  let result = ""
+
+  if (arr.length > 0) {
+    // @ts-ignore
+    result += arr[0] + "."
+  }
+
+  if (arr.length > 1) {
+    // @ts-ignore
+    result += " " + arr[1] + "."
+  }
+
+  if (arr.length > 2) {
+    // @ts-ignore
+    result += " (" + String.fromCharCode(97 + arr[2]) + ")"
+  }
+
+  return result.trim()
+}
+
+/**
  * exports
  */
 export {
@@ -186,4 +219,5 @@ export {
   getNonRootApplicableNodes,
   getNonRootApplicableNodesGroupedByRoot,
   findRootNodeWithCharacter,
+  transformCharacters,
 }
