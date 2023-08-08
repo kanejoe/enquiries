@@ -17,8 +17,8 @@ const page: FC<pageProps> = async ({ params: { reqId } }) => {
   // useAtomicReqStore.setState({ requisitions: data })
 
   return (
-    <main className="flex flex-col gap-y-6">
-      <section>id page {reqId}</section>
+    <main className="flex flex-col gap-y-2">
+      {/* <section>id page {reqId}</section> */}
       {/* <section>{JSON.stringify(data)}</section> */}
       <section>
         <AtomicReqContainer requisition={data} />

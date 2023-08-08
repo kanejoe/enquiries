@@ -1,7 +1,7 @@
-import type { AtomicRequisition } from "@/types"
+import { type AtomicRequisition } from "@/types"
 
-import { transformCharacters } from "@/lib/tree"
 import { AtomicRequisitionHeading } from "@/components/AtomicRequisitionHeading"
+import { AtomicRequisitionNode } from "@/components/AtomicRequisitionNode"
 
 interface AtomicReqContainerProps {
   requisition: AtomicRequisition
@@ -21,11 +21,7 @@ export function AtomicReqContainer({ requisition }: AtomicReqContainerProps) {
 const RecursiveTree: React.FC<{ node: AtomicRequisition }> = ({ node }) => {
   return (
     <>
-      {node.query && (
-        <div>
-          {transformCharacters(node.characters)} {node.query}
-        </div>
-      )}
+      {node.query && <AtomicRequisitionNode node={node} />}
       {node.children &&
         node.children.map((childNode, index) => (
           <RecursiveTree key={index} node={childNode} />
