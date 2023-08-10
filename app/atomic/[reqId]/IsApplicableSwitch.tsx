@@ -1,5 +1,6 @@
 "use client"
 
+import { type AtomicRequisition } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -16,7 +17,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 
-import { AtomicReq, useAtomicReqStore } from "./reqStore"
+import { IsApplicableAction } from "./IsApplicableAction"
+
+// import { useAtomicReqStore } from "../app/atomic_requisition/reqStore"
 
 const FormSchema = z.object({
   isApplicable: z.boolean().default(false),
@@ -24,13 +27,13 @@ const FormSchema = z.object({
 })
 
 interface IsApplicableSwitchFormProps {
-  headingReq: AtomicReq
+  headingReq: AtomicRequisition
 }
 
 export function IsApplicableSwitchForm({
   headingReq,
 }: IsApplicableSwitchFormProps) {
-  const useAtomicReqActions = useAtomicReqStore((state) => state.actions)
+  // const useAtomicReqActions = useAtomicReqStore((state) => state.actions)
   const { isApplicable, reqId } = headingReq
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -42,11 +45,13 @@ export function IsApplicableSwitchForm({
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    useAtomicReqActions.patchIsApplicable(data.reqId, data.isApplicable)
+    // console.log("🚀 ~ file: IsApplicableSwitch.tsx:49 ~ onSubmit ~ data:", data)
+    // useAtomicReqActions.patchIsApplicable(data.reqId, data.isApplicable)
+    IsApplicableAction(data)
   }
 
   const descriptionCSS = cn(
-    "transition delay-150",
+    "transition delay-150 font-semibold pt-1.5",
     { "text-caribbean-800": isApplicable },
     { "text-red-800": !isApplicable }
   )
@@ -75,7 +80,7 @@ export function IsApplicableSwitchForm({
                     } p-3 shadow-sm transition delay-150`}
                   >
                     <div className="mr-4 space-y-0.5">
-                      <FormLabel>Is the Requisition Applicable?</FormLabel>
+                      {/* <FormLabel>Is the Requisition Applicable?</FormLabel> */}
                       <FormDescription className={descriptionCSS}>
                         {isApplicable
                           ? "Requisition is Applicable"

@@ -14,6 +14,9 @@ const AtomicRequisitionNode: React.FC<{ node: AtomicRequisition }> = ({
           {node.characters && <SectionIndicator characters={node.characters} />}
           {node.query}
         </div>
+        <div className="lg:flex lg:w-1/2 lg:flex-row">
+          {node.isApplicable ? <div>reply</div> : null}
+        </div>
       </div>
     </div>
   )
@@ -26,14 +29,15 @@ function SectionSpacer({ level }: { level: number }) {
     "lg:w-[8px]": level === 2,
     "lg:w-[16px]": level === 3,
     "lg:w-[24px]": level === 4,
+    "lg:w-[32px]": level === 5,
   })
   return <div className={spacer_class}> &nbsp; </div>
 }
 
 function SectionIndicator({ characters }: { characters: number[] }) {
   return (
-    <div className="shrink-0 lg:mr-6 lg:min-w-[48px]">
-      <div className="">{transformCharacters(characters)}</div>
+    <div className="shrink-0 lg:mr-6 lg:w-[84px]">
+      {transformCharacters(characters)}
     </div>
   )
 }

@@ -1,9 +1,9 @@
 // import { DropdownMenuOpts } from "./DropdownOpts"
-// import { IsApplicableSwitchForm } from "./IsApplicableSwitch"
-// import { AtomicReq } from "./reqStore"
-import { AtomicRequisition } from "@/types"
+import { type AtomicRequisition } from "@/types"
 
 import { transformCharacters } from "@/lib/tree"
+
+import { IsApplicableSwitchForm } from "../app/atomic/[reqId]/IsApplicableSwitch"
 
 interface AtomicRequisitionHeadingProps {
   headingReq: AtomicRequisition
@@ -26,12 +26,12 @@ export function AtomicRequisitionHeading({
           </div>
         </div>
         <div className="flex flex-initial justify-between lg:min-w-[360px]">
-          {/* <div className="mr-2 flex place-content-end place-items-center pr-2">
+          <div className="mr-2 flex place-content-end place-items-center pr-2">
             <IsApplicableSwitchForm headingReq={headingReq} />
           </div>
           <div className="flex flex-none place-items-center justify-center border-0">
-            <DropdownMenuOpts />
-          </div> */}
+            {/* <DropdownMenuOpts /> */}
+          </div>
         </div>
       </div>
     </div>

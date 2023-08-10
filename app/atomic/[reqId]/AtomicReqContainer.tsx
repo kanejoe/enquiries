@@ -9,12 +9,14 @@ interface AtomicReqContainerProps {
 
 export function AtomicReqContainer({ requisition }: AtomicReqContainerProps) {
   return (
-    <section>
-      <AtomicRequisitionHeading headingReq={requisition} />
-      <div>
-        <TreeDisplay rootNode={requisition} />
-      </div>
-    </section>
+    <>
+      <section>
+        <AtomicRequisitionHeading headingReq={requisition} />
+        <div>
+          <TreeDisplay rootNode={requisition} />
+        </div>
+      </section>
+    </>
   )
 }
 

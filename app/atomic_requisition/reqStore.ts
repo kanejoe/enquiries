@@ -1,7 +1,7 @@
 import { produce } from "immer"
 import { create } from "zustand"
 
-import { initialState } from "./data"
+import { testdata1 as initialState } from "./data"
 
 // Define a single req type
 export interface AtomicReq {
@@ -17,8 +17,7 @@ export interface AtomicReq {
 }
 
 export interface AtomicReqs {
-  requisitions: AtomicReq[]
-  headings: AtomicReq[]
+  requisitions: AtomicRequisitions[]
 }
 
 // Define actions
@@ -44,13 +43,11 @@ interface AtomicReqActions {
 // Define the store's state shape
 export interface AtomicReqState {
   requisitions: AtomicReq[]
-  headings: AtomicReq[]
   actions: AtomicReqActions
 }
 
 export const useAtomicReqStore = create<AtomicReqState>((set) => ({
-  requisitions: initialState.requisitions,
-  headings: initialState.headings,
+  requisitions: initialState,
   // ⬇️ separate "namespace" for actions
   actions: {
     patchIsApplicable: (reqId, isApplicable) =>

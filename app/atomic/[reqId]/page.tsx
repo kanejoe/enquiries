@@ -1,7 +1,8 @@
 import { FC } from "react"
 import type { AtomicRequisition } from "@/types"
 
-// import { useAtomicReqStore } from "@/app/atomic_requisition/reqStore"
+import { StoreInitializer } from "@/components/StoreInitializer"
+import { useAtomicReqStore } from "@/app/atomic_requisition/reqStore"
 
 import { AtomicReqContainer } from "./AtomicReqContainer"
 
@@ -14,12 +15,11 @@ const page: FC<pageProps> = async ({ params: { reqId } }) => {
     cache: "no-store",
   })
   const data = await req.json()
-  // useAtomicReqStore.setState({ requisitions: data })
+  useAtomicReqStore.setState({ requisitions: data })
 
   return (
     <main className="flex flex-col gap-y-2">
-      {/* <section>id page {reqId}</section> */}
-      {/* <section>{JSON.stringify(data)}</section> */}
+      <StoreInitializer requisitions={data} />
       <section>
         <AtomicReqContainer requisition={data} />
       </section>
