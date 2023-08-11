@@ -1,46 +1,42 @@
-import type { AtomicRequisition } from "@/types/AtomicRequisitionType"
+import type { Requisition } from "@/types/RequisitionType"
 
 /**
  *
  * @param data
  * @returns
  */
-function createTree(data: AtomicRequisition[]): AtomicRequisition[] {
-  const map = new Map<string, AtomicRequisition>()
-  const rootNodes: AtomicRequisition[] = []
+function createRequisitionTree(data: Requisition[]): Requisition[] {
+  const map = new Map<string, Requisition>()
+  const rootNodes: Requisition[] = []
 
   // Organize the nodes in a map and find the root nodes
   data.forEach((item) => {
-    map.set(item.reqId, { ...item, children: [] })
-    if (item.parentId === "") {
-      const rootNode = map.get(item.reqId)!
+    map.set(item.id, { ...item, children: [] })
+    if (item.parent_id === null) {
+      const rootNode = map.get(item.id)!
       rootNode.level = 1 // Setting the level for root nodes
-      rootNode.characters = [rootNode.character] // Setting the characters for root nodes
+      rootNode.sequence_array = [rootNode.sequence] // Setting the characters for root nodes
       rootNodes.push(rootNode)
     }
   })
 
   // Recursive function to sort and add children
-  function addChildren(
-    node: AtomicRequisition,
-    level: number,
-    characters: number[]
-  ) {
+  function addChildren(node: Requisition, level: number, characters: number[]) {
     data
-      .filter((item) => item.parentId === node.reqId)
-      .sort((a, b) => a.character - b.character)
+      .filter((item) => item.parent_id === node.id)
+      .sort((a, b) => a.sequence - b.sequence)
       .forEach((child) => {
-        const childNode = map.get(child.reqId)!
+        const childNode = map.get(child.id)!
         childNode.level = level // Setting the level
-        childNode.characters = [...characters, childNode.character] // Adding the characters array
+        childNode.sequence_array = [...characters, childNode.sequence] // Adding the characters array
         node.children!.push(childNode)
-        addChildren(childNode, level + 1, childNode.characters) // Incrementing the level for children
+        addChildren(childNode, level + 1, childNode.sequence_array) // Incrementing the level for children
       })
   }
 
   // Add children to the root nodes and sort them
-  rootNodes.sort((a, b) => a.character - b.character)
-  rootNodes.forEach((node) => addChildren(node, 2, node.characters!)) // Starting children with level 2
+  rootNodes.sort((a, b) => a.sequence - b.sequence)
+  rootNodes.forEach((node) => addChildren(node, 2, node.sequence_array!)) // Starting children with level 2
 
   return rootNodes
 }
@@ -48,19 +44,19 @@ function createTree(data: AtomicRequisition[]): AtomicRequisition[] {
 /**
  * This gets a single node from the tree
  * @param tree
- * @param reqId
+ * @param id
  * @returns
  */
 function findNodeByReqId(
-  tree: AtomicRequisition[],
-  reqId: AtomicRequisition["reqId"]
-): AtomicRequisition | null {
+  tree: Requisition[],
+  id: Requisition["id"]
+): Requisition | null {
   for (const node of tree) {
-    if (node.reqId === reqId) {
+    if (node.id === id) {
       return node
     }
     if (node.children) {
-      const found = findNodeByReqId(node.children, reqId)
+      const found = findNodeByReqId(node.children, id)
       if (found) {
         return found
       }
@@ -74,19 +70,19 @@ function findNodeByReqId(
  * @param data
  * @returns
  */
-function getHeaderNodes(data: AtomicRequisition[]): AtomicRequisition[] {
-  // Filter the root nodes (those with parentId equal to an empty string)
-  const rootNodes = data.filter((item) => item.parentId === "")
+function getHeaderNodes(data: Requisition[]): Requisition[] {
+  // Filter the root nodes (those with parent_id equal to an empty string)
+  const rootNodes = data.filter((item) => item.parent_id === null)
 
-  // Sort the root nodes by the 'character' property in numeric order
-  rootNodes.sort((a, b) => a.character - b.character)
+  // Sort the root nodes by the 'sequence' property in numeric order
+  rootNodes.sort((a, b) => a.sequence - b.sequence)
 
   // Return only the relevant properties without children
   return rootNodes.map((node) => ({
-    reqId: node.reqId,
-    character: node.character,
+    id: node.id,
+    sequence: node.sequence,
     query: node.query,
-    isApplicable: node.isApplicable,
+    is_applicable: node.is_applicable,
   }))
 }
 
@@ -95,15 +91,13 @@ function getHeaderNodes(data: AtomicRequisition[]): AtomicRequisition[] {
  * @param tree
  * @returns
  */
-function getNonRootApplicableNodes(
-  tree: AtomicRequisition[]
-): AtomicRequisition[] {
-  let result: AtomicRequisition[] = []
+function getNonRootApplicableNodes(tree: Requisition[]): Requisition[] {
+  let result: Requisition[] = []
 
   // Recursive function to traverse the tree and filter non-root applicable nodes
-  function traverse(node: AtomicRequisition) {
+  function traverse(node: Requisition) {
     // Check if the node is not a root node and is applicable
-    if (node.parentId !== "" && node.isApplicable) {
+    if (node.parent_id !== "" && node.is_applicable) {
       result.push(node)
     }
 
@@ -125,17 +119,14 @@ function getNonRootApplicableNodes(
  * @returns
  */
 function getNonRootApplicableNodesGroupedByRoot(
-  tree: AtomicRequisition[]
-): { reqId: string; nodes: AtomicRequisition[] }[] {
-  const result: { reqId: string; nodes: AtomicRequisition[] }[] = []
+  tree: Requisition[]
+): { id: string; nodes: Requisition[] }[] {
+  const result: { id: string; nodes: Requisition[] }[] = []
 
   // Recursive function to traverse the tree and filter applicable non-root nodes
-  function traverse(
-    node: AtomicRequisition,
-    nonRootApplicableNodes: AtomicRequisition[]
-  ) {
-    // If the node is applicable and not at the root level (has a parentId), add it to the result
-    if (node.isApplicable && node.parentId !== "") {
+  function traverse(node: Requisition, nonRootApplicableNodes: Requisition[]) {
+    // If the node is applicable and not at the root level (has a parent_id), add it to the result
+    if (node.is_applicable && node.parent_id !== "") {
       nonRootApplicableNodes.push(node)
     }
 
@@ -147,12 +138,12 @@ function getNonRootApplicableNodesGroupedByRoot(
 
   // Iterate through the root nodes of the tree
   tree.forEach((rootNode) => {
-    if (rootNode.isApplicable) {
+    if (rootNode.is_applicable) {
       // Check if the root node is applicable
-      const nonRootApplicableNodes: AtomicRequisition[] = []
+      const nonRootApplicableNodes: Requisition[] = []
       traverse(rootNode, nonRootApplicableNodes)
       if (nonRootApplicableNodes.length > 0) {
-        result.push({ reqId: rootNode.reqId, nodes: nonRootApplicableNodes })
+        result.push({ id: rootNode.id, nodes: nonRootApplicableNodes })
       }
     }
   })
@@ -166,12 +157,12 @@ function getNonRootApplicableNodesGroupedByRoot(
  * @param characterValue
  * @returns
  */
-function findRootNodeWithCharacter(
-  data: AtomicRequisition[],
+function findRootNodeBySequence(
+  data: Requisition[],
   characterValue: number
-): AtomicRequisition | undefined {
+): Requisition | undefined {
   const resp = data.find(
-    (node) => node.character === characterValue && node.parentId === ""
+    (node) => node.sequence === characterValue && node.parent_id === null
   )
   return resp
 }
@@ -251,11 +242,11 @@ function numberToRoman(num: number): string {
  * exports
  */
 export {
-  createTree,
+  createRequisitionTree,
   findNodeByReqId,
   getHeaderNodes,
   getNonRootApplicableNodes,
   getNonRootApplicableNodesGroupedByRoot,
-  findRootNodeWithCharacter,
+  findRootNodeBySequence,
   transformCharacters,
 }

@@ -1,4 +1,4 @@
-import type { Requisition } from "@/types/AtomicRequisitionType"
+import type { Requisition } from "@/types/RequisitionType"
 
 export const testdata1: Requisition[] = [
   {
