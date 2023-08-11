@@ -1,15 +1,15 @@
-export interface AtomicRequisition {
-  character: number
-  characters?: number[]
-  children?: AtomicRequisition[]
-  hasDoc: boolean
-  isApplicable: boolean
-  isComplete: boolean
-  isFlagged: boolean
+export interface Requisition {
+  children?: Requisition[]
+  has_doc: boolean
+  id: string
+  is_applicable: boolean
+  is_complete: boolean
+  is_flagged: boolean
   level?: number
-  parentId?: string
+  parent_id?: string
   query?: string
   reply?: string
-  reqId: string
+  sequence: number
+  sequence_array?: number[]
   sources?: string[]
 }
