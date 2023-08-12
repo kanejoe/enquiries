@@ -23,9 +23,9 @@ export default async function ServerComponent() {
   return (
     <main className="flex flex-col gap-y-2">
       <section className="">
-        {/* <Suspense fallback={<p>Loading...</p>}> */}
-        <CreateContainer requisitions={tree} />
-        {/* </Suspense> */}
+        <Suspense fallback={<p>Loading...</p>}>
+          <CreateContainer requisitions={tree} />
+        </Suspense>
       </section>
     </main>
   )

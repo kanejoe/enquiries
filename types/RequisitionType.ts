@@ -1,14 +1,14 @@
 export interface Requisition {
   children?: Requisition[]
-  has_doc?: boolean
+  has_doc?: boolean | null
   id: number
-  is_applicable?: boolean
-  is_complete?: boolean
-  is_flagged?: boolean
+  is_applicable?: boolean | null
+  is_complete?: boolean | null
+  is_flagged?: boolean | null
   level?: number
-  parent_id?: number
-  query?: string
-  reply?: string
+  parent_id?: number | null
+  query?: string | null
+  reply?: string | null
   sequence: number
   sequence_array?: number[]
   sources?: string[]
@@ -16,7 +16,7 @@ export interface Requisition {
 
 export interface HeadingRequisition {
   id: number
-  query?: string
-  formatted_sequence: string // Now a string
-  is_applicable?: boolean
+  query?: string | null
+  level_sequence: string // Now a string
+  is_applicable?: boolean | null
 }

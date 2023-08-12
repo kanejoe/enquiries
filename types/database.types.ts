@@ -11,13 +11,13 @@ export interface Database {
     Tables: {
       requisitions: {
         Row: {
-          has_doc: boolean | null
+          has_doc: boolean
           id: number
-          is_applicable: boolean | null
-          is_complete: boolean | null
-          is_flagged: boolean | null
+          is_applicable: boolean
+          is_complete: boolean
+          is_flagged: boolean
           parent_id: number | null
-          query: string | null
+          query: string
           reply: string | null
           sequence: number
         }
@@ -49,7 +49,7 @@ export interface Database {
             columns: ["parent_id"]
             referencedRelation: "requisitions"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }

@@ -70,9 +70,15 @@ function findNodeByReqId(
  * @param data
  * @returns
  */
-function getHeaderNodes(data: Requisition[]): HeadingRequisition[] {
-  // Filter the root nodes (those with parent_id equal to an empty string)
+function getHeaderNodes(data?: Requisition[]): HeadingRequisition[] {
+  // Check if data is a valid array and has length
+  if (!Array.isArray(data) || !data.length) return []
+
+  // Filter the root nodes (those with parent_id equal to null)
   const rootNodes = data.filter((item) => item.parent_id === null)
+
+  // Ensure rootNodes is a valid array
+  if (!Array.isArray(rootNodes) || !rootNodes.length) return []
 
   // Sort the root nodes by the 'sequence' property in numeric order
   rootNodes.sort((a, b) => a.sequence - b.sequence)
@@ -81,8 +87,8 @@ function getHeaderNodes(data: Requisition[]): HeadingRequisition[] {
   return rootNodes.map((node) => ({
     id: node.id,
     sequence: node.sequence,
-    formatted_sequence: transformCharacters(node.sequence_array),
-    query: node.query,
+    level_sequence: transformCharacters(node.sequence_array),
+    query: node.query === null ? undefined : node.query,
     is_applicable: node.is_applicable,
   }))
 }
