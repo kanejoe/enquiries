@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
+import { Database } from "@/types/database.types"
 import { Requisition } from "@/types/RequisitionType"
 import { createRequisitionTree } from "@/lib/tree"
 
@@ -11,7 +12,7 @@ export const dynamic = "force-dynamic"
 
 export default async function ServerComponent() {
   // Create a Supabase client configured to use cookies
-  const supabase = createServerComponentClient({ cookies })
+  const supabase = createServerComponentClient<Database>({ cookies })
 
   const { data: requisitions, error } = await supabase
     .from("requisitions")
