@@ -13,3 +13,10 @@ export interface Requisition {
   sequence_array?: number[]
   sources?: string[]
 }
+
+export interface HeadingRequisition {
+  id: number
+  query?: string
+  formatted_sequence: string // Now a string
+  is_applicable?: boolean
+}

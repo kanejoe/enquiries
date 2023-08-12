@@ -1,4 +1,4 @@
-import type { Requisition } from "@/types/RequisitionType"
+import type { HeadingRequisition, Requisition } from "@/types/RequisitionType"
 
 /**
  *
@@ -70,7 +70,7 @@ function findNodeByReqId(
  * @param data
  * @returns
  */
-function getHeaderNodes(data: Requisition[]): Requisition[] {
+function getHeaderNodes(data: Requisition[]): HeadingRequisition[] {
   // Filter the root nodes (those with parent_id equal to an empty string)
   const rootNodes = data.filter((item) => item.parent_id === null)
 
@@ -81,6 +81,7 @@ function getHeaderNodes(data: Requisition[]): Requisition[] {
   return rootNodes.map((node) => ({
     id: node.id,
     sequence: node.sequence,
+    formatted_sequence: transformCharacters(node.sequence_array),
     query: node.query,
     is_applicable: node.is_applicable,
   }))

@@ -9,6 +9,7 @@ interface CreateContainerProps {
 
 const CreateContainer: React.FC<CreateContainerProps> = ({ requisitions }) => {
   const headers = getHeaderNodes(requisitions)
+  console.log("🚀 ~ file: CreateContainer.tsx:12 ~ headers:", headers)
   return (
     <div className="container">
       <div className="mt-4 flex flex-col gap-y-6">
