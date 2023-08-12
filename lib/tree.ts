@@ -6,7 +6,7 @@ import type { Requisition } from "@/types/RequisitionType"
  * @returns
  */
 function createRequisitionTree(data: Requisition[]): Requisition[] {
-  const map = new Map<string, Requisition>()
+  const map = new Map<number, Requisition>()
   const rootNodes: Requisition[] = []
 
   // Organize the nodes in a map and find the root nodes
@@ -97,7 +97,7 @@ function getNonRootApplicableNodes(tree: Requisition[]): Requisition[] {
   // Recursive function to traverse the tree and filter non-root applicable nodes
   function traverse(node: Requisition) {
     // Check if the node is not a root node and is applicable
-    if (node.parent_id !== "" && node.is_applicable) {
+    if (node.parent_id !== null && node.is_applicable) {
       result.push(node)
     }
 
@@ -120,13 +120,13 @@ function getNonRootApplicableNodes(tree: Requisition[]): Requisition[] {
  */
 function getNonRootApplicableNodesGroupedByRoot(
   tree: Requisition[]
-): { id: string; nodes: Requisition[] }[] {
-  const result: { id: string; nodes: Requisition[] }[] = []
+): { id: number; nodes: Requisition[] }[] {
+  const result: { id: number; nodes: Requisition[] }[] = []
 
   // Recursive function to traverse the tree and filter applicable non-root nodes
   function traverse(node: Requisition, nonRootApplicableNodes: Requisition[]) {
     // If the node is applicable and not at the root level (has a parent_id), add it to the result
-    if (node.is_applicable && node.parent_id !== "") {
+    if (node.is_applicable && null) {
       nonRootApplicableNodes.push(node)
     }
 

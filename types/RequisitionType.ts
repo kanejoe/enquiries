@@ -6,7 +6,7 @@ export interface Requisition {
   is_complete?: boolean
   is_flagged?: boolean
   level?: number
-  parent_id?: string
+  parent_id?: number
   query?: string
   reply?: string
   sequence: number

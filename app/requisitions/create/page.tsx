@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
@@ -15,6 +16,10 @@ export default async function ServerComponent() {
   const { data: requisitions, error } = await supabase
     .from("requisitions")
     .select()
+  console.log(
+    "🚀 ~ file: page.tsx:19 ~ ServerComponent ~ requisitions:",
+    requisitions
+  )
 
   // do a if not null check
   const tree = createRequisitionTree(requisitions as Requisition[])
@@ -22,7 +27,9 @@ export default async function ServerComponent() {
   return (
     <main className="flex flex-col gap-y-2">
       <section className="">
-        <CreateContainer requisitions={tree} />
+        <Suspense fallback={<p>Loading...</p>}>
+          <CreateContainer requisitions={tree} />
+        </Suspense>
       </section>
     </main>
   )
