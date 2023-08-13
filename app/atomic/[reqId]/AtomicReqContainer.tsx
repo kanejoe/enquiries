@@ -1,9 +1,8 @@
 import type { Requisition } from "@/types/RequisitionType"
-import { AtomicRequisitionHeading } from "@/components/AtomicRequisitionHeading"
 import { AtomicRequisitionNode } from "@/components/AtomicRequisitionNode"
 
 interface AtomicReqContainerProps {
-  requisition: Requisition
+  requisitions: Requisition[]
 }
 
 export function AtomicReqContainer({ requisitions }: AtomicReqContainerProps) {

@@ -17,27 +17,27 @@ export interface Database {
           is_complete: boolean
           is_flagged: boolean
           parent_id: number | null
-          query: string
+          query: string | null
           reply: string | null
           sequence: number
         }
         Insert: {
-          has_doc?: boolean | null
+          has_doc?: boolean
           id?: never
-          is_applicable?: boolean | null
-          is_complete?: boolean | null
-          is_flagged?: boolean | null
+          is_applicable?: boolean
+          is_complete?: boolean
+          is_flagged?: boolean
           parent_id?: number | null
           query?: string | null
           reply?: string | null
           sequence?: number
         }
         Update: {
-          has_doc?: boolean | null
+          has_doc?: boolean
           id?: never
-          is_applicable?: boolean | null
-          is_complete?: boolean | null
-          is_flagged?: boolean | null
+          is_applicable?: boolean
+          is_complete?: boolean
+          is_flagged?: boolean
           parent_id?: number | null
           query?: string | null
           reply?: string | null
@@ -49,7 +49,7 @@ export interface Database {
             columns: ["parent_id"]
             referencedRelation: "requisitions"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }
