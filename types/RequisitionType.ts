@@ -12,6 +12,7 @@ export interface Requisition {
   sequence: number
   sequence_array?: number[]
   sources?: string[]
+  siblings?: number[] // <-- Added
 }
 
 export interface HeadingRequisition {

@@ -9,9 +9,23 @@ function createRequisitionTree(data: Requisition[]): Requisition[] {
   const map = new Map<number, Requisition>()
   const rootNodes: Requisition[] = []
 
+  // Helper function to get sibling sequences
+  function getSiblingSequences(
+    id: number,
+    parentId: number | null | undefined
+  ): number[] {
+    return data
+      .filter((item) => item.parent_id === parentId && item.id !== id)
+      .map((item) => item.sequence)
+  }
+
   // Organize the nodes in a map and find the root nodes
   data.forEach((item) => {
-    map.set(item.id, { ...item, children: [] })
+    map.set(item.id, {
+      ...item,
+      children: [],
+      siblings: getSiblingSequences(item.id, item.parent_id),
+    })
     if (item.parent_id === null) {
       const rootNode = map.get(item.id)!
       rootNode.level = 1 // Setting the level for root nodes

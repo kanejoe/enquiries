@@ -7,8 +7,7 @@ import { Database } from "@/lib/database.types"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 
 import { RecursiveTree } from "../../_components/RecursiveTree"
-import TreeComponent from "../../_components/TreeComponent"
-import { RequisitionContainer } from "./RequisitionDetails"
+import { RequisitionContainer } from "./RequisitionContainer"
 
 interface HeadingRequisitionProps {
   params: {
@@ -19,8 +18,6 @@ interface HeadingRequisitionProps {
 const SingleHeadingRequisitionPage: FC<HeadingRequisitionProps> = async ({
   params: { id },
 }) => {
-  // Extract the ID from the slug
-  const slug = id?.split("-")[0] ?? id
   // Create a Supabase client configured to use cookies
   const supabase = createServerComponentClient<Database>({ cookies })
 
@@ -30,7 +27,7 @@ const SingleHeadingRequisitionPage: FC<HeadingRequisitionProps> = async ({
 
   // do a if not null check
   const tree = createRequisitionTree(requisitions as Requisition[])
-  const instantHeading = findNodeByReqId(tree, parseInt(slug))
+  const instantHeading = findNodeByReqId(tree, parseInt(id))
 
   return (
     <div className="font-albertsans">

@@ -41,12 +41,7 @@ const HeadingScrollArea: FC<
         {headers
           ? headers?.map((node: HeadingRequisition) => (
               <Fragment key={node.id}>
-                <Link
-                  href={`/requisitions/create/${generateSlug(
-                    node.id,
-                    node.query ?? ""
-                  )}`}
-                >
+                <Link href={`/requisitions/create/${node.id}`}>
                   <div className="flex flex-row">
                     <div className="w-8 text-sm">{node.level_sequence}</div>
                     <div className="text-sm">{node.query}</div>
@@ -62,13 +57,3 @@ const HeadingScrollArea: FC<
 }
 
 export { HeadingScrollArea }
-
-function generateSlug(id: number, name?: string) {
-  if (!name || name === undefined) return `${id}`
-
-  const formattedName = name
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w\-]+/g, "")
-  return `${id}-${formattedName}`
-}
