@@ -5,7 +5,7 @@ import type { HeadingRequisition, Requisition } from "@/types/RequisitionType"
  * @param data
  * @returns
  */
-function createRequisitionTree(data: Requisition[]): Requisition[] {
+function createRequisitionTree(data: Requisition[] = []): Requisition[] {
   const map = new Map<number, Requisition>()
   const rootNodes: Requisition[] = []
 
@@ -101,7 +101,7 @@ function getHeaderNodes(data?: Requisition[]): HeadingRequisition[] {
   return rootNodes.map((node) => ({
     id: node.id,
     sequence: node.sequence,
-    level_sequence: transformCharacters(node.sequence_array),
+    level_sequence: transformSequenceArray(node.sequence_array),
     query: node.query === null ? undefined : node.query,
     is_applicable: node.is_applicable,
   }))
@@ -193,7 +193,7 @@ function findRootNodeBySequence(
  * @param arr
  * @returns
  */
-function transformCharacters(arr?: number[]): string {
+function transformSequenceArray(arr?: number[]): string {
   // If arr is undefined, set it to an empty array
   arr = arr || []
 
@@ -269,5 +269,5 @@ export {
   getNonRootApplicableNodes,
   getNonRootApplicableNodesGroupedByRoot,
   findRootNodeBySequence,
-  transformCharacters,
+  transformSequenceArray,
 }
