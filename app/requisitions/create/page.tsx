@@ -2,10 +2,11 @@ import { Suspense } from "react"
 import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
-import { Database } from "@/types/database.types"
 import { Requisition } from "@/types/RequisitionType"
+import { Database } from "@/lib/database.types"
 import { createRequisitionTree } from "@/lib/tree"
 
+import { RequisitionForm } from "./[id]/RequisitionForm"
 import CreateContainer from "./CreateContainer"
 
 export const dynamic = "force-dynamic"
@@ -26,6 +27,7 @@ export default async function ServerComponent() {
       <section className="">
         <Suspense fallback={<p>Loading...</p>}>
           <CreateContainer requisitions={tree} />
+          <RequisitionForm />
         </Suspense>
       </section>
     </main>

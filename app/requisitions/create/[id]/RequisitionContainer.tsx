@@ -1,11 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import { Button, Callout } from "@radix-ui/themes"
+import { Pencil1Icon } from "@radix-ui/react-icons"
 
 import { Requisition } from "@/types/RequisitionType"
 import { transformSequenceArray } from "@/lib/tree"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 interface RequisitionContainerProps {
   data: Requisition
@@ -20,40 +29,37 @@ const RequisitionContainer: React.FC<RequisitionContainerProps> = ({
   )
 
   return (
-    <div>
-      {isEditing ? (
+    <Card
+      className={cn("mb-6 w-[380px] border-muted shadow-sm", {
+        "border-primary uppercase": data.level === 1,
+      })}
+    >
+      <CardHeader>
+        <CardTitle
+          className={cn("text-base font-normal", {
+            "text-4xl font-bold": data.level === 1,
+          })}
+        >
+          <div className="flex">
+            <div className="min-w-[48px] shrink-0 tabular-nums">
+              {transformSequenceArray(data.sequence_array)}
+            </div>
+            <div className="">{data.query}</div>
+          </div>
+        </CardTitle>
+        {/* <CardDescription>Card Description</CardDescription> */}
+      </CardHeader>
+      {/* <CardContent>
+        <p>Card Content</p>
+      </CardContent> */}
+      <CardFooter>
         <div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              // You can dispatch an action here or make an API call to save the edited query
-              setIsEditing(false)
-            }}
-          >
-            <input
-              type="text"
-              value={editedQuery || ""}
-              onChange={(e) => setEditedQuery(e.target.value)}
-            />
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => setIsEditing(false)}>
-              Cancel
-            </button>
-          </form>
+          <Button variant="outline" size="xs">
+            <Pencil1Icon className="mr-2 h-4 w-4" /> Edit
+          </Button>
         </div>
-      ) : (
-        <div className="mb-4 flex flex-col gap-y-2">
-          <Callout.Root variant="outline">
-            <Callout.Text>
-              {transformSequenceArray(data.sequence_array)} {data.query}
-            </Callout.Text>
-          </Callout.Root>
-          <p className="">
-            <Button onClick={() => setIsEditing(true)}>Edit</Button>
-          </p>
-        </div>
-      )}
-    </div>
+      </CardFooter>
+    </Card>
   )
 }
 

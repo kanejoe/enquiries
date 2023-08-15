@@ -1,7 +1,6 @@
 import "@/app/globals.css"
 
 import { Metadata } from "next"
-import { Theme } from "@radix-ui/themes"
 
 import { siteConfig } from "@/config/site"
 import { fontAlbertSans, fontMono, fontSans } from "@/lib/fonts"
@@ -10,8 +9,6 @@ import { Toaster } from "@/components/ui/toaster"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
-
-import "@radix-ui/themes/styles.css"
 
 export const metadata: Metadata = {
   title: {
@@ -48,13 +45,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Theme accentColor="yellow">
-              <div className="relative flex min-h-screen flex-col">
-                <SiteHeader />
-                <div className="flex-1">{children}</div>
-              </div>
-              <TailwindIndicator />
-            </Theme>
+            <div className="relative flex min-h-screen flex-col">
+              <SiteHeader />
+              <div className="flex-1">{children}</div>
+            </div>
+            <TailwindIndicator />
           </ThemeProvider>
           <Toaster />
         </body>

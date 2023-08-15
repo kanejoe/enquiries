@@ -9,7 +9,7 @@ const CreateContainer: React.FC<CreateContainerProps> = ({ requisitions }) => {
   const headers = getHeaderNodes(requisitions)
   return (
     <div className="container">
-      <div className="mt-4 flex flex-col gap-y-6">main section</div>
+      <div className="mt-4 flex flex-col gap-y-6"></div>
     </div>
   )
 }
