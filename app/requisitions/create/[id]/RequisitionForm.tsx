@@ -1,60 +1,107 @@
 "use client"
 
-// import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 import * as z from "zod"
 
+import { Requisition } from "@/types/RequisitionType"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { toast } from "@/components/ui/use-toast"
 
-const formSchema = z.object({
-  query: z.string(),
-  id: z.number(),
+const data = {
+  id: 20,
+  parent_id: 18,
+  sequence: 2,
+  query:
+    "If so, furnish a list of same and give the Vendor’s estimate of value",
+  reply: null,
+  is_applicable: true,
+  has_doc: false,
+  is_complete: false,
+  is_flagged: false,
+  children: [],
+  siblings: [1, 3],
+  level: 2,
+  sequence_array: [1, 2],
+}
+
+const FormSchema = z.object({
+  query: z.string().optional(),
+  id: z.number().optional(),
+  parent_id: z.number().optional(),
+  sequence: z.coerce.number().optional(),
 })
 
 export function RequisitionForm() {
-  let error: object | null | undefined = {}
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  })
 
-  async function updateQuery(formData: FormData) {
-    // "use server"
-
-    const query = formData.get("query") as string
-    console.log(
-      "🚀 ~ file: RequisitionForm.tsx:21 ~ updateQuery ~ query:",
-      query
-    )
-    const parsed = formSchema.safeParse(formData)
-    if (!parsed.success) {
-      // handle error then return
-      error = parsed.error.formErrors.fieldErrors
-      console.log(
-        "🚀 ~ file: RequisitionForm.tsx:31 ~ updateQuery ~ error:",
-        error
-      )
-    } else {
-      // do something
-      //   result.data
-      console.log("success")
-    }
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log("🚀 ~ file: RequisitionForm.tsx:57 ~ onSubmit ~ data:", data)
+    toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    })
   }
+
   return (
-    <form action={updateQuery}>
-      <div className="grid w-full gap-1.5">
-        <Label htmlFor="query">Query</Label>
-        <Textarea
-          placeholder="Type your message here."
-          id="query"
-          name="query"
-          className=""
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <FormField
+          control={form.control}
+          name="sequence"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Select Order</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value?.toString()}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Sequence" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {data?.siblings.map((sibling, idx) => {
+                    return (
+                      <SelectItem value={sibling.toString()} key={idx}>
+                        {sibling}
+                      </SelectItem>
+                    )
+                  })}
+                </SelectContent>
+              </Select>
+              <FormDescription>Select the order of the query.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      {/* {error && <Label className="text-red-500">{error.query ?? ""}</Label>} */}
-      <div className="my-4">
-        <Button type="submit" variant="default" size="xs" className="">
+        <Button type="submit" variant="default">
           Submit
         </Button>
-      </div>
-    </form>
+      </form>
+    </Form>
   )
 }

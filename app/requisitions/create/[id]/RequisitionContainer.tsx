@@ -23,6 +23,7 @@ interface RequisitionContainerProps {
 const RequisitionContainer: React.FC<RequisitionContainerProps> = ({
   data,
 }) => {
+  console.log("🚀 ~ file: RequisitionContainer.tsx:26 ~ data:", data)
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [editedQuery, setEditedQuery] = useState<string | null>(
     data.query || ""

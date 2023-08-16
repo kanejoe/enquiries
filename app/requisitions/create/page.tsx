@@ -27,7 +27,9 @@ export default async function ServerComponent() {
       <section className="">
         <Suspense fallback={<p>Loading...</p>}>
           <CreateContainer requisitions={tree} />
-          <RequisitionForm />
+          <div className="w-128">
+            <RequisitionForm />
+          </div>
         </Suspense>
       </section>
     </main>
