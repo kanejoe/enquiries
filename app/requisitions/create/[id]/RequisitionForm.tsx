@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { Requisition } from "@/types/RequisitionType"
+import { transformSequenceArray } from "@/lib/tree"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -39,7 +40,7 @@ const data = {
   is_complete: false,
   is_flagged: false,
   children: [],
-  siblings: [1, 3],
+  siblings: [1, 2, 3],
   level: 2,
   sequence_array: [1, 2],
 }
@@ -56,6 +57,10 @@ const FormSchema = z.object({
   sequence: z.coerce.string().optional(),
 })
 
+/**
+ *
+ * @returns
+ */
 export function RequisitionForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -64,8 +69,14 @@ export function RequisitionForm() {
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
+  const { watch } = form
+  const sequenceValue = watch("sequence")
+  console.log(
+    "🚀 ~ file: RequisitionForm.tsx:74 ~ RequisitionForm ~ sequenceValue:",
+    sequenceValue
+  )
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("🚀 ~ file: RequisitionForm.tsx:57 ~ onSubmit ~ data:", data)
     toast({
       title: "You submitted the following values:",
       description: (
@@ -79,7 +90,9 @@ export function RequisitionForm() {
   const adjustHeight = () => {
     if (textareaRef.current !== null) {
       textareaRef.current.style.height = "inherit" // reset the height
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px` // then set it to scrollHeight
+      textareaRef.current.style.height = `${
+        textareaRef.current.scrollHeight + 6
+      }px` // then set it to scrollHeight plus a bit to disappear the scrollbar
     }
   }
 
@@ -91,9 +104,8 @@ export function RequisitionForm() {
     const textareaNode = textareaRef.current
     const handleInput = (e: any) => {
       e.target.style.height = "auto"
-      e.target.style.height = e.target.scrollHeight + "px"
+      e.target.style.height = e.target.scrollHeight + +"px"
     }
-
     textareaNode?.addEventListener("input", handleInput)
     return () => textareaNode?.removeEventListener("input", handleInput)
   }, [])
@@ -111,7 +123,7 @@ export function RequisitionForm() {
                 <Textarea
                   {...field}
                   placeholder="type in the query..."
-                  className=""
+                  className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-500"
                   ref={textareaRef}
                 />
               </FormControl>
@@ -122,33 +134,41 @@ export function RequisitionForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="sequence"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Select Order</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Sequence" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {data?.siblings.map((sibling, idx) => {
-                    return (
-                      <SelectItem value={sibling.toString()} key={idx}>
-                        {sibling}
-                      </SelectItem>
-                    )
-                  })}
-                </SelectContent>
-              </Select>
-              <FormDescription>Select the order of the query.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="w-1/2">
+          <FormField
+            control={form.control}
+            name="sequence"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Select Order</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Sequence" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {data?.siblings.map((sibling, idx) => {
+                      return (
+                        <SelectItem value={sibling.toString()} key={idx}>
+                          {sibling}
+                        </SelectItem>
+                      )
+                    })}
+                  </SelectContent>
+                </Select>
+                <FormDescription className="tabular-nums">
+                  Currently: {transformSequenceArray(newData.sequence_array)}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <Button type="submit" variant="default">
           Submit
         </Button>

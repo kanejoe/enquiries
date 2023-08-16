@@ -5,17 +5,15 @@ import type { HeadingRequisition, Requisition } from "@/types/RequisitionType"
  * @param data
  * @returns
  */
+
 function createRequisitionTree(data: Requisition[] = []): Requisition[] {
   const map = new Map<number, Requisition>()
   const rootNodes: Requisition[] = []
 
-  // Helper function to get sibling sequences
-  function getSiblingSequences(
-    id: number,
-    parentId: number | null | undefined
-  ): number[] {
+  // Helper function to get sibling sequences including the current sequence
+  function getSiblingSequences(parentId: number | null | undefined): number[] {
     return data
-      .filter((item) => item.parent_id === parentId && item.id !== id)
+      .filter((item) => item.parent_id === parentId)
       .map((item) => item.sequence)
   }
 
@@ -24,7 +22,7 @@ function createRequisitionTree(data: Requisition[] = []): Requisition[] {
     map.set(item.id, {
       ...item,
       children: [],
-      siblings: getSiblingSequences(item.id, item.parent_id),
+      siblings: getSiblingSequences(item.parent_id), // <-- Updated line
     })
     if (item.parent_id === null) {
       const rootNode = map.get(item.id)!
