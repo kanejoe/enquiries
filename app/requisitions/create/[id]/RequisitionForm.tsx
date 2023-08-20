@@ -28,6 +28,8 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 
+import { addEntry } from "./_actions"
+
 const data = {
   id: 20,
   parent_id: 18,
@@ -50,11 +52,11 @@ const newData = {
   sequence: data.sequence.toString(),
 }
 
-const FormSchema = z.object({
-  query: z.string().optional(),
-  id: z.number().optional(),
+export const FormSchema = z.object({
+  query: z.string().trim().optional(),
+  id: z.number(),
   parent_id: z.number().optional(),
-  sequence: z.coerce.string().optional(),
+  sequence: z.coerce.string(),
 })
 
 /**
@@ -71,20 +73,43 @@ export function RequisitionForm() {
 
   const { watch } = form
   const sequenceValue = watch("sequence")
-  console.log(
-    "🚀 ~ file: RequisitionForm.tsx:74 ~ RequisitionForm ~ sequenceValue:",
-    sequenceValue
-  )
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    // const result = await addEntry(data)
+    // console.log(
+    //   "🚀 ~ file: RequisitionForm.tsx:80 ~ onSubmit ~ result:",
+    //   result
+    // )
+
     toast({
       title: "You submitted the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          <code className="text-white/80">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
     })
+  }
+
+  async function clientAction(formData: FormData) {
+    const valid = await form.trigger()
+    const errors = form.formState.errors
+
+    if (!valid) {
+      toast({
+        title: "The following errors occurred:",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white/80">
+              {JSON.stringify(errors, null, 2)}
+            </code>
+          </pre>
+        ),
+      })
+      return
+    }
+    const result = FormSchema.safeParse(form.getValues())
+    if (result.success) await addEntry(result.data)
   }
 
   const adjustHeight = () => {
@@ -104,7 +129,7 @@ export function RequisitionForm() {
     const textareaNode = textareaRef.current
     const handleInput = (e: any) => {
       e.target.style.height = "auto"
-      e.target.style.height = e.target.scrollHeight + +"px"
+      e.target.style.height = e.target.scrollHeight + 6 + "px"
     }
     textareaNode?.addEventListener("input", handleInput)
     return () => textareaNode?.removeEventListener("input", handleInput)
@@ -112,7 +137,7 @@ export function RequisitionForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form action={clientAction} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
           name="query"
@@ -127,9 +152,6 @@ export function RequisitionForm() {
                   ref={textareaRef}
                 />
               </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
