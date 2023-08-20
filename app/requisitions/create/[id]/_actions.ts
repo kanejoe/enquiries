@@ -1,21 +1,36 @@
 "use server"
 
-import { z } from "zod"
+import { cookies } from "next/headers"
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs"
 
-import { FormSchema } from "./RequisitionForm"
+import type { Database } from "@/lib/database.types"
 
-// type Inputs = z.infer<typeof FormSchema>
+export async function addEntry(requisition: any) {
+  const req = { ...requisition, sequence: Number(requisition.sequence) }
 
-export async function addEntry(requisition: unknown) {
+  const supabase = createServerActionClient<Database>({ cookies })
+
+  const { data: existingReq, error: existingReqError } = await supabase
+    .from("requisitions")
+    .select()
+    .filter("id", "eq", req.id)
+    .single()
+
   console.log(
-    "🚀 ~ file: _actions.ts:10 ~ addEntry ~ requisition:",
-    requisition
+    "🚀 ~ file: _actions.ts:18 ~ addEntry ~ existingReq:",
+    existingReq
   )
-  // const result = FormSchema.safeParse(data)
-  // if (result.success) {
-  //   return { success: true, data: result.data }
-  // }
-  // if (result.error) {
-  //   return { success: false, error: result.error.format() }
-  // }
+
+  const { data: updatedData, error: updatedDataError } = await (
+    supabase.rpc as any
+  )("add_sequence", {
+    p_parent_id: existingReq?.parent_id,
+    p_sequence_threshold: existingReq?.sequence,
+  })
+
+  if (updatedDataError) {
+    console.error("Error updating rows:", updatedDataError)
+  } else {
+    console.log("Updated rows:", updatedData)
+  }
 }

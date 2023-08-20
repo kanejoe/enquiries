@@ -33,7 +33,7 @@ import { addEntry } from "./_actions"
 const data = {
   id: 20,
   parent_id: 18,
-  sequence: 2,
+  sequence: 1,
   query:
     "Confirm that the Vendor shall furnish on closing an indemnity in favour of the Purchaser in respect of any dispute that is before the RTB relating to the property indemnifying the Purchaser from any damages and/or costs awarded in relation to the dispute.",
   reply: null,
@@ -74,23 +74,6 @@ export function RequisitionForm() {
   const { watch } = form
   const sequenceValue = watch("sequence")
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // const result = await addEntry(data)
-    // console.log(
-    //   "🚀 ~ file: RequisitionForm.tsx:80 ~ onSubmit ~ result:",
-    //   result
-    // )
-
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white/80">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }
-
   async function clientAction(formData: FormData) {
     const valid = await form.trigger()
     const errors = form.formState.errors
@@ -109,7 +92,19 @@ export function RequisitionForm() {
       return
     }
     const result = FormSchema.safeParse(form.getValues())
-    if (result.success) await addEntry(result.data)
+    if (result.success) {
+      await addEntry(result.data)
+      toast({
+        title: "You submitted the following values:",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white/80">
+              {JSON.stringify(result.data, null, 2)}
+            </code>
+          </pre>
+        ),
+      })
+    }
   }
 
   const adjustHeight = () => {
