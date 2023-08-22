@@ -17,15 +17,14 @@ export async function addEntry(requisition: any) {
     .single()
 
   console.log(
-    "🚀 ~ file: _actions.ts:18 ~ addEntry ~ existingReq:",
-    existingReq
+    "🚀 ~ file: _actions.ts:18 ~ addEntry ~ existingReq.parent_id:",
+    existingReq?.parent_id
   )
 
   const { data: updatedData, error: updatedDataError } = await (
     supabase.rpc as any
-  )("add_sequence", {
+  )("increment", {
     p_parent_id: existingReq?.parent_id,
-    p_sequence_threshold: existingReq?.sequence,
   })
 
   if (updatedDataError) {
