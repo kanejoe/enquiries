@@ -1,35 +1,67 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs"
 
+import { Requisition } from "@/types/RequisitionType"
 import type { Database } from "@/lib/database.types"
 
-export async function addEntry(requisition: any) {
-  const req = { ...requisition, sequence: Number(requisition.sequence) }
-
+/**
+ *
+ * @param requisition
+ */
+export async function addEntry(requisition: Requisition) {
   const supabase = createServerActionClient<Database>({ cookies })
-
   const { data: existingReq, error: existingReqError } = await supabase
     .from("requisitions")
     .select()
-    .filter("id", "eq", req.id)
+    .filter("id", "eq", requisition.id)
     .single()
 
-  console.log(
-    "🚀 ~ file: _actions.ts:18 ~ addEntry ~ existingReq.parent_id:",
-    existingReq?.parent_id
-  )
+  const oldSequence = existingReq?.sequence // original sequence before the update
+  const newSequence = Number(requisition.sequence)
 
-  const { data: updatedData, error: updatedDataError } = await (
-    supabase.rpc as any
-  )("increment", {
-    p_parent_id: existingReq?.parent_id,
-  })
+  const updateRequisition = async (
+    id: number,
+    parent_id: number | null | undefined,
+    query: string | null | undefined,
+    newSequence: number,
+    oldSequence: number | undefined
+  ) => {
+    try {
+      let { data, error } = await (supabase.rpc as any)("update_requisition", {
+        p_id: id,
+        p_new_sequence: newSequence,
+        p_old_sequence: oldSequence,
+        p_parent_id: parent_id,
+        p_query: query,
+      })
 
-  if (updatedDataError) {
-    console.error("Error updating rows:", updatedDataError)
-  } else {
-    console.log("Updated rows:", updatedData)
+      if (error) {
+        console.error(
+          "Error calling the adjust_sequence function:",
+          error.message
+        )
+      } else {
+        console.log("updated successfully")
+        revalidatePath("requisitions/create")
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        return {
+          message: `Things exploded (${err.message})`,
+        }
+      }
+    }
   }
+
+  if (existingReq?.sequence && typeof existingReq.sequence !== undefined)
+    updateRequisition(
+      requisition.id,
+      requisition.parent_id,
+      requisition.query,
+      newSequence,
+      oldSequence
+    )
 }

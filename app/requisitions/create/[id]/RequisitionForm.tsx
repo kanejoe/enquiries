@@ -17,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -30,28 +29,6 @@ import { toast } from "@/components/ui/use-toast"
 
 import { addEntry } from "./_actions"
 
-const data = {
-  id: 20,
-  parent_id: 18,
-  sequence: 1,
-  query:
-    "Confirm that the Vendor shall furnish on closing an indemnity in favour of the Purchaser in respect of any dispute that is before the RTB relating to the property indemnifying the Purchaser from any damages and/or costs awarded in relation to the dispute.",
-  reply: null,
-  is_applicable: true,
-  has_doc: false,
-  is_complete: false,
-  is_flagged: false,
-  children: [],
-  siblings: [1, 2, 3],
-  level: 2,
-  sequence_array: [1, 2],
-}
-
-const newData = {
-  ...data,
-  sequence: data.sequence.toString(),
-}
-
 export const FormSchema = z.object({
   query: z.string().trim().optional(),
   id: z.number(),
@@ -59,14 +36,26 @@ export const FormSchema = z.object({
   sequence: z.coerce.string(),
 })
 
+type RequisitionFormType = {
+  selectedNode: Requisition | null
+}
+
 /**
  *
  * @returns
  */
-export function RequisitionForm() {
+export function RequisitionForm({ selectedNode }: RequisitionFormType) {
+  const updatedNode = {
+    id: selectedNode?.id,
+    sequence: selectedNode?.sequence.toString(),
+    query: selectedNode?.query || null || undefined,
+    parent_id: selectedNode?.parent_id || null || undefined,
+    sequence_array: selectedNode?.sequence_array,
+  }
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: newData,
+    defaultValues: updatedNode,
   })
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
@@ -93,7 +82,8 @@ export function RequisitionForm() {
     }
     const result = FormSchema.safeParse(form.getValues())
     if (result.success) {
-      await addEntry(result.data)
+      const data = { ...result.data, sequence: Number(result.data.sequence) }
+      await addEntry(data)
       toast({
         title: "You submitted the following values:",
         description: (
@@ -168,17 +158,20 @@ export function RequisitionForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {data?.siblings.map((sibling, idx) => {
-                      return (
-                        <SelectItem value={sibling.toString()} key={idx}>
-                          {sibling}
-                        </SelectItem>
-                      )
-                    })}
+                    {selectedNode?.siblings?.map(
+                      (sibling: any, idx: number) => {
+                        return (
+                          <SelectItem value={sibling.toString()} key={idx}>
+                            {sibling}
+                          </SelectItem>
+                        )
+                      }
+                    )}
                   </SelectContent>
                 </Select>
                 <FormDescription className="tabular-nums">
-                  Currently: {transformSequenceArray(newData.sequence_array)}
+                  Currently:{" "}
+                  {transformSequenceArray(updatedNode.sequence_array)}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

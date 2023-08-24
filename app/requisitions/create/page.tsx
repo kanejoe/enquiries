@@ -4,7 +4,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Requisition } from "@/types/RequisitionType"
 import { Database } from "@/lib/database.types"
-import { createRequisitionTree } from "@/lib/tree"
+import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 
 import { RequisitionForm } from "./[id]/RequisitionForm"
 import CreateContainer from "./CreateContainer"
@@ -17,19 +17,20 @@ export default async function ServerComponent() {
 
   const { data: requisitions, error } = await supabase
     .from("requisitions")
-    .select()
+    .select("*")
 
   // do a if not null check
   const tree = createRequisitionTree(requisitions as Requisition[])
+  const selectedNode = findNodeByReqId(tree, 21)
 
   return (
     <main className="flex flex-col gap-y-2">
       <section className="">
         <Suspense fallback={<p>Loading...</p>}>
-          <CreateContainer requisitions={tree} />
           <div className="w-128">
-            <RequisitionForm />
+            <RequisitionForm selectedNode={selectedNode} />
           </div>
+          <CreateContainer requisitions={tree} />
         </Suspense>
       </section>
     </main>
