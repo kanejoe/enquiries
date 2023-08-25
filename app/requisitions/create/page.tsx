@@ -9,7 +9,7 @@ import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 import { RecursiveTree } from "@/components/RecursiveTree"
 
 import { RequisitionCard } from "../_components/RequisitionCard"
-import { RequisitionForm } from "./[id]/RequisitionForm"
+import { RequisitionForm } from "../_components/RequisitionForm"
 
 // export const dynamic = "force-dynamic"
 

@@ -23,7 +23,7 @@ async function RequisitionCardList() {
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
-      <section className="">
+      <section className="w-full">
         {instantHeadingNode ? (
           <RecursiveTree node={instantHeadingNode}>
             {(data) => <RequisitionCard data={data} />}

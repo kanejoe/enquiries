@@ -1,6 +1,8 @@
 "use client"
 
 import { useLayoutEffect, useRef } from "react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -27,7 +29,8 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 
-import { addEntry } from "./_actions"
+import { addEntry } from "../create/[id]/_actions"
+import { SubmitButton } from "./SubmitButton"
 
 export const FormSchema = z.object({
   query: z.string().trim().optional(),
@@ -57,6 +60,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
     resolver: zodResolver(FormSchema),
     defaultValues: updatedNode,
   })
+  const router = useRouter()
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
@@ -95,6 +99,8 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
             </pre>
           ),
         })
+        // route back
+        router.push("/requisitions/create")
       } catch (error: unknown) {
         console.log(
           "🚀 ~ file: RequisitionForm.tsx:90 ~ clientAction ~ error:",
@@ -129,7 +135,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
 
   return (
     <Form {...form}>
-      <form action={clientAction} className="w-2/3 space-y-6">
+      <form action={clientAction} className="space-y-6">
         <FormField
           control={form.control}
           name="query"
@@ -148,7 +154,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
             </FormItem>
           )}
         />
-        <div className="w-1/2">
+        <div className="w-1/4">
           <FormField
             control={form.control}
             name="sequence"
@@ -186,9 +192,12 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
           />
         </div>
 
-        <Button type="submit" variant="default">
-          Submit
-        </Button>
+        <div className="flex flex-row justify-between">
+          <SubmitButton>Submit</SubmitButton>
+          <Button type="button" variant="ghost" asChild>
+            <Link href={"../"}>Close</Link>
+          </Button>
+        </div>
       </form>
     </Form>
   )

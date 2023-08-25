@@ -56,12 +56,13 @@ export async function addEntry(requisition: Requisition) {
     }
   }
 
-  if (existingReq?.sequence && typeof existingReq.sequence !== undefined)
+  if (existingReq?.sequence && typeof existingReq.sequence !== undefined) {
     await updateRequisition(
       requisition.id,
-      requisition.parent_id,
+      requisition.parent_id ?? null,
       requisition.query,
       newSequence,
       oldSequence
     )
+  }
 }

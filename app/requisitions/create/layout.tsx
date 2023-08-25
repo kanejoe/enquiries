@@ -15,10 +15,10 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = ({ children }) => {
       </section>
       <section className="w-3/4">
         <div className="flex w-full">
-          <div className="w-1/2">
+          <div className="w-3/5">
             <RequisitionCardList />
           </div>
-          <div className="w-1/2">{children}</div>
+          <div className="w-2/5">{children}</div>
         </div>
       </section>
     </main>
