@@ -9,6 +9,7 @@ import * as z from "zod"
 
 import { Requisition } from "@/types/RequisitionType"
 import { transformSequenceArray } from "@/lib/tree"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -154,7 +155,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
             </FormItem>
           )}
         />
-        <div className="w-1/4">
+        <div className="flex space-x-4">
           <FormField
             control={form.control}
             name="sequence"
@@ -182,14 +183,16 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
                       })}
                   </SelectContent>
                 </Select>
-                <FormDescription className="tabular-nums">
-                  Currently:{" "}
-                  {transformSequenceArray(updatedNode.sequence_array)}
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
+          <Badge
+            variant="secondary"
+            className="mb-0.5 h-8 self-end rounded text-base"
+          >
+            {transformSequenceArray(updatedNode.sequence_array)}
+          </Badge>
         </div>
 
         <div className="flex flex-row justify-between">
