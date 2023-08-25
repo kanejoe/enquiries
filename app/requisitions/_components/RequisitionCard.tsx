@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { Pencil1Icon } from "@radix-ui/react-icons"
 
 import { Requisition } from "@/types/RequisitionType"
@@ -9,18 +8,11 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
-interface RequisitionContainerProps {
+interface RequisitionCardProps {
   data: Requisition
 }
 
-const RequisitionContainer: React.FC<RequisitionContainerProps> = ({
-  data,
-}) => {
-  const [isEditing, setIsEditing] = useState<boolean>(false)
-  const [editedQuery, setEditedQuery] = useState<string | null>(
-    data.query || ""
-  )
-
+const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
   return (
     <Card
       className={cn("mb-6 w-[380px] border-muted shadow-sm", {
@@ -52,4 +44,4 @@ const RequisitionContainer: React.FC<RequisitionContainerProps> = ({
   )
 }
 
-export { RequisitionContainer }
+export { RequisitionCard }

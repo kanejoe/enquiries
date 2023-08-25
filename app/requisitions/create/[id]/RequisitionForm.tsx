@@ -63,7 +63,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
   const { watch } = form
   const sequenceValue = watch("sequence")
 
-  async function clientAction(formData: FormData) {
+  async function clientAction() {
     const valid = await form.trigger()
     const errors = form.formState.errors
 
@@ -82,18 +82,25 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
     }
     const result = FormSchema.safeParse(form.getValues())
     if (result.success) {
-      const data = { ...result.data, sequence: Number(result.data.sequence) }
-      await addEntry(data)
-      toast({
-        title: "You submitted the following values:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white/80">
-              {JSON.stringify(result.data, null, 2)}
-            </code>
-          </pre>
-        ),
-      })
+      try {
+        const data = { ...result.data, sequence: Number(result.data.sequence) }
+        await addEntry(data)
+        toast({
+          title: "You submitted the following values:",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white/80">
+                {JSON.stringify(result.data, null, 2)}
+              </code>
+            </pre>
+          ),
+        })
+      } catch (error: unknown) {
+        console.log(
+          "🚀 ~ file: RequisitionForm.tsx:90 ~ clientAction ~ error:",
+          error
+        )
+      }
     }
   }
 
@@ -158,15 +165,15 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {selectedNode?.siblings?.map(
-                      (sibling: any, idx: number) => {
+                    {selectedNode?.siblings
+                      ?.sort((a, b) => a - b)
+                      .map((sibling: any, idx: number) => {
                         return (
                           <SelectItem value={sibling.toString()} key={idx}>
                             {sibling}
                           </SelectItem>
                         )
-                      }
-                    )}
+                      })}
                   </SelectContent>
                 </Select>
                 <FormDescription className="tabular-nums">
