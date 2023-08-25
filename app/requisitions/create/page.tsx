@@ -9,7 +9,7 @@ import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 import { RequisitionForm } from "./[id]/RequisitionForm"
 import CreateContainer from "./CreateContainer"
 
-export const dynamic = "force-dynamic"
+// export const dynamic = "force-dynamic"
 
 export default async function ServerComponent() {
   // Create a Supabase client configured to use cookies

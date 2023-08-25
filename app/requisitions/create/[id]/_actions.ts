@@ -45,7 +45,7 @@ export async function addEntry(requisition: Requisition) {
         )
       } else {
         console.log("updated successfully")
-        revalidatePath("requisitions/create")
+        revalidatePath("/requisitions/create")
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -57,7 +57,7 @@ export async function addEntry(requisition: Requisition) {
   }
 
   if (existingReq?.sequence && typeof existingReq.sequence !== undefined)
-    updateRequisition(
+    await updateRequisition(
       requisition.id,
       requisition.parent_id,
       requisition.query,
