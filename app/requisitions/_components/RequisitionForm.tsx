@@ -1,6 +1,5 @@
 "use client"
 
-import { useLayoutEffect, useRef } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,7 +13,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,10 +25,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 
 import { addEntry } from "../create/[id]/_actions"
+import { ResizableTextarea } from "./ResizeableTextarea"
 import { SubmitButton } from "./SubmitButton"
 
 export const FormSchema = z.object({
@@ -62,11 +60,6 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
     defaultValues: updatedNode,
   })
   const router = useRouter()
-
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-
-  const { watch } = form
-  const sequenceValue = watch("sequence")
 
   async function clientAction() {
     const valid = await form.trigger()
@@ -100,7 +93,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
             </pre>
           ),
         })
-        // route back
+        // route navigation
         router.push("/requisitions/create")
       } catch (error: unknown) {
         console.log(
@@ -111,32 +104,13 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
     }
   }
 
-  const adjustHeight = () => {
-    if (textareaRef.current !== null) {
-      textareaRef.current.style.height = "inherit" // reset the height
-      textareaRef.current.style.height = `${
-        textareaRef.current.scrollHeight + 6
-      }px` // then set it to scrollHeight plus a bit to disappear the scrollbar
-    }
-  }
-
-  useLayoutEffect(() => {
-    adjustHeight() // adjust the height when component mounts
-  }, [])
-
-  useLayoutEffect(() => {
-    const textareaNode = textareaRef.current
-    const handleInput = (e: any) => {
-      e.target.style.height = "auto"
-      e.target.style.height = e.target.scrollHeight + 6 + "px"
-    }
-    textareaNode?.addEventListener("input", handleInput)
-    return () => textareaNode?.removeEventListener("input", handleInput)
-  }, [])
-
   return (
     <Form {...form}>
-      <form action={clientAction} className="space-y-6">
+      <form
+        // onSubmit={handleFormSubmit}
+        action={clientAction}
+        className="space-y-6"
+      >
         <FormField
           control={form.control}
           name="query"
@@ -144,11 +118,10 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
             <FormItem>
               <FormLabel>Query</FormLabel>
               <FormControl>
-                <Textarea
-                  {...field}
+                <ResizableTextarea
+                  field={field}
                   placeholder="type in the query..."
                   className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-500"
-                  ref={textareaRef}
                 />
               </FormControl>
               <FormMessage />
