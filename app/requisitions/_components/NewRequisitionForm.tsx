@@ -10,42 +10,45 @@ import { Requisition } from "@/types/RequisitionType"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
-import { addEntry } from "../_actions/update"
+import { addEntry } from "../_actions/addnew"
+import { FormData } from "./formTypes"
 import { QueryField } from "./QueryField"
-import { SequenceSelect } from "./SequenceSelect"
+// import { SequenceSelect } from "./SequenceSelect"
 import { SubmitButton } from "./SubmitButton"
 import { showErrorToast, showSuccessToast } from "./toastHelpers"
 
 /**
  * Requisition Form Schema
  */
-export const FormSchema = z.object({
+export const NewRequisitionFormSchema = z.object({
   query: z.string().trim().optional(),
-  id: z.number(),
   parent_id: z.number().optional(),
   sequence: z.coerce.string(),
 })
 
-type RequisitionFormType = {
-  selectedNode: Requisition | null
+type NewRequisitionFormType = {
+  parent_id?: Requisition["parent_id"]
+}
+
+type ExtendedFormData = FormData & {
+  id?: number
+  sequence?: string
 }
 
 /**
  *
  * @returns
  */
-export function RequisitionForm({ selectedNode }: RequisitionFormType) {
-  const updatedNode = {
-    id: selectedNode?.id,
-    sequence: selectedNode?.sequence.toString(),
-    query: selectedNode?.query || null || undefined,
-    parent_id: selectedNode?.parent_id || null || undefined,
-    sequence_array: selectedNode?.sequence_array,
+export function NewRequisitionForm({ parent_id }: NewRequisitionFormType) {
+  const formValues = {
+    parent_id: parent_id === null ? undefined : parent_id,
+    query: "",
+    sequence: "1",
   }
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: updatedNode,
+  const form = useForm<ExtendedFormData>({
+    resolver: zodResolver(NewRequisitionFormSchema),
+    defaultValues: formValues,
   })
   const router = useRouter()
 
@@ -57,11 +60,12 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
       showErrorToast(errors)
       return
     }
-    const result = FormSchema.safeParse(form.getValues())
+    const result = NewRequisitionFormSchema.safeParse(form.getValues())
+
+    // now process
     if (result.success) {
       try {
-        const data = { ...result.data, sequence: Number(result.data.sequence) }
-        await addEntry(data)
+        await addEntry(result.data)
         showSuccessToast(result.data)
         router.push("/requisitions/create")
       } catch (error: unknown) {
@@ -75,17 +79,10 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
       <form action={clientAction} className="space-y-6">
         <QueryField form={form} />
 
-        <SequenceSelect
-          selectedNode={selectedNode}
-          sequence_array={
-            updatedNode.sequence_array?.map((num) => num.toString()) || []
-          }
-        />
-
         <div className="flex flex-row justify-between">
           <SubmitButton>Submit</SubmitButton>
           <Button type="button" variant="ghost" asChild>
-            <Link href={"../"}>Close</Link>
+            <Link href={"./"}>Close</Link>
           </Button>
         </div>
       </form>

@@ -1,4 +1,3 @@
-import React from "react"
 import { UseFormReturn } from "react-hook-form"
 
 import {
@@ -9,14 +8,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
+import { FormData } from "./formTypes"
 import { ResizableTextarea } from "./ResizeableTextarea" // Update the path accordingly
 
-type FormData = {
-  id: number
-  sequence: string
-  query?: string
-  parent_id?: number
-}
 interface QueryFieldProps {
   form: UseFormReturn<FormData>
 }

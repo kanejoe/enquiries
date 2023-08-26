@@ -1,9 +1,9 @@
 import { useFormContext } from "react-hook-form"
 
 import { Requisition } from "@/types/RequisitionType"
+import { transformSequenceArray } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
@@ -63,7 +63,7 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
         variant="secondary"
         className="mb-0.5 h-8 self-end rounded text-base"
       >
-        {sequence_array.join(".")}
+        {transformSequenceArray(sequence_array.map((v) => Number(v)))}
         {/* Assuming the sequence_array is a string array and you want it in 'x.x.x' format */}
       </Badge>
     </div>
