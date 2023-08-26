@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Pencil1Icon } from "@radix-ui/react-icons"
+import { ArrowBottomRightIcon, Pencil1Icon } from "@radix-ui/react-icons"
 
 import { Requisition } from "@/types/RequisitionType"
 import { transformSequenceArray } from "@/lib/tree"
@@ -38,10 +38,15 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
         </CardTitle>
       </CardHeader>
       <CardFooter>
-        <div>
+        <div className="flex flex-row space-x-4">
           <Button variant="outline" size="xs" asChild>
             <Link href={`/requisitions/create/form/${data.id}`}>
               <Pencil1Icon className="mr-2 h-4 w-4" /> Edit
+            </Link>
+          </Button>
+          <Button variant="secondary" size="xs" asChild>
+            <Link href={`/requisitions/create/form/?pid=${data.id}`}>
+              <ArrowBottomRightIcon className="mr-2 h-4 w-4" /> Add Child
             </Link>
           </Button>
         </div>

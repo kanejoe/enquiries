@@ -7,30 +7,18 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { Requisition } from "@/types/RequisitionType"
-import { transformSequenceArray } from "@/lib/tree"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { Form } from "@/components/ui/form"
 
 import { addEntry } from "../create/[id]/_actions"
-import { ResizableTextarea } from "./ResizeableTextarea"
+import { QueryField } from "./QueryField"
+import { SequenceSelect } from "./SequenceSelect"
 import { SubmitButton } from "./SubmitButton"
+import { showErrorToast, showSuccessToast } from "./toastHelpers"
 
+/**
+ * Requisition Form Schema
+ */
 export const FormSchema = z.object({
   query: z.string().trim().optional(),
   id: z.number(),
@@ -66,16 +54,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
     const errors = form.formState.errors
 
     if (!valid) {
-      toast({
-        title: "The following errors occurred:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white/80">
-              {JSON.stringify(errors, null, 2)}
-            </code>
-          </pre>
-        ),
-      })
+      showErrorToast(errors)
       return
     }
     const result = FormSchema.safeParse(form.getValues())
@@ -83,90 +62,25 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
       try {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
         await addEntry(data)
-        toast({
-          title: "You submitted the following values:",
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white/80">
-                {JSON.stringify(result.data, null, 2)}
-              </code>
-            </pre>
-          ),
-        })
-        // route navigation
+        showSuccessToast(result.data)
         router.push("/requisitions/create")
       } catch (error: unknown) {
-        console.log(
-          "🚀 ~ file: RequisitionForm.tsx:90 ~ clientAction ~ error:",
-          error
-        )
+        showErrorToast(error)
       }
     }
   }
 
   return (
     <Form {...form}>
-      <form
-        // onSubmit={handleFormSubmit}
-        action={clientAction}
-        className="space-y-6"
-      >
-        <FormField
-          control={form.control}
-          name="query"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Query</FormLabel>
-              <FormControl>
-                <ResizableTextarea
-                  field={field}
-                  placeholder="type in the query..."
-                  className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-500"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+      <form action={clientAction} className="space-y-6">
+        <QueryField form={form} />
+
+        <SequenceSelect
+          selectedNode={selectedNode}
+          sequence_array={
+            updatedNode.sequence_array?.map((num) => num.toString()) || []
+          }
         />
-        <div className="flex space-x-4">
-          <FormField
-            control={form.control}
-            name="sequence"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Select Order</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Sequence" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {selectedNode?.siblings
-                      ?.sort((a, b) => a - b)
-                      .map((sibling: any, idx: number) => {
-                        return (
-                          <SelectItem value={sibling.toString()} key={idx}>
-                            {sibling}
-                          </SelectItem>
-                        )
-                      })}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Badge
-            variant="secondary"
-            className="mb-0.5 h-8 self-end rounded text-base"
-          >
-            {transformSequenceArray(updatedNode.sequence_array)}
-          </Badge>
-        </div>
 
         <div className="flex flex-row justify-between">
           <SubmitButton>Submit</SubmitButton>
