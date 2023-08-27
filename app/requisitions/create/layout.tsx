@@ -14,7 +14,7 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = ({ children }) => {
         <HeadingScrollArea />
       </section>
       <section className="w-3/4">
-        <div className="flex w-full">
+        <div className="flex w-full space-x-24">
           <div className="w-3/5">
             <RequisitionCardList />
           </div>
