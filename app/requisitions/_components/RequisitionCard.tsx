@@ -39,7 +39,7 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
             >
               <div className="flex">
                 <div className="w-[72px] shrink-0 font-semibold tabular-nums">
-                  {transformSequenceArray(data.sequence_array)}
+                  {transformSequenceArray(data.sequence_in_levels)}
                 </div>
                 <div className="whitespace-pre-line">{data.query}</div>
               </div>
@@ -57,11 +57,16 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
                   <ArrowBottomRightIcon className="mr-2 h-4 w-4" /> Add Child
                 </Link>
               </Button>
-              <Button variant="ghost" size="xs" asChild>
+              <Button
+                variant="ghost"
+                size="xs"
+                asChild
+                className="text-secondary-foreground"
+              >
                 <Link
                   href={`/requisitions/create/form/?pid=${data.id}&sequence=${
                     Number(data.sequence) + 1
-                  }`}
+                  }&siblings=${data.siblings}`}
                 >
                   <ArrowRightIcon className="mr-2 h-4 w-4" /> Add Sibling
                 </Link>

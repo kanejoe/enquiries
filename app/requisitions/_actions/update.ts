@@ -7,11 +7,16 @@ import { createServerActionClient } from "@supabase/auth-helpers-nextjs"
 import { Requisition } from "@/types/RequisitionType"
 import type { Database } from "@/lib/database.types"
 
+type SelectedRequisitionProps = Pick<
+  Requisition,
+  "id" | "sequence" | "query" | "parent_id"
+>
+
 /**
  *
  * @param requisition
  */
-export async function addEntry(requisition: Requisition) {
+export async function updateRequisition(requisition: SelectedRequisitionProps) {
   const supabase = createServerActionClient<Database>({ cookies })
   const { data: existingReq, error: existingReqError } = await supabase
     .from("requisitions")

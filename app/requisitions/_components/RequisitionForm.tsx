@@ -10,7 +10,7 @@ import { Requisition } from "@/types/RequisitionType"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
-import { addEntry } from "../_actions/update"
+import { updateRequisition } from "../_actions/update"
 import { QueryField } from "./QueryField"
 import { SequenceSelect } from "./SequenceSelect"
 import { SubmitButton } from "./SubmitButton"
@@ -37,10 +37,11 @@ type RequisitionFormType = {
 export function RequisitionForm({ selectedNode }: RequisitionFormType) {
   const updatedNode = {
     id: selectedNode?.id,
-    sequence: selectedNode?.sequence.toString(),
+    sequence: selectedNode?.sequence ? selectedNode?.sequence.toString() : "1",
     query: selectedNode?.query || null || undefined,
     parent_id: selectedNode?.parent_id || null || undefined,
-    sequence_array: selectedNode?.sequence_array,
+    sequence_in_levels: selectedNode?.sequence_in_levels,
+    siblings: selectedNode?.siblings?.map((v) => v.toString()),
   }
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -61,7 +62,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
     if (result.success) {
       try {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
-        await addEntry(data)
+        await updateRequisition(data)
         showSuccessToast(result.data)
         router.push("/requisitions/create")
       } catch (error: unknown) {
@@ -75,12 +76,13 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
       <form action={clientAction} className="space-y-6">
         <QueryField form={form} />
 
-        <SequenceSelect
-          selectedNode={selectedNode}
-          sequence_array={
-            updatedNode.sequence_array?.map((num) => num.toString()) || []
-          }
-        />
+        {updatedNode.siblings && updatedNode.sequence_in_levels ? (
+          <SequenceSelect
+            sequence={updatedNode?.sequence}
+            siblings={updatedNode?.siblings}
+            sequence_in_levels={updatedNode.sequence_in_levels}
+          />
+        ) : null}
 
         <div className="flex flex-row justify-between">
           <SubmitButton>Submit</SubmitButton>

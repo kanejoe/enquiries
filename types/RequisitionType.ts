@@ -10,9 +10,9 @@ export interface Requisition {
   query?: string | null
   reply?: string | null
   sequence: number
-  sequence_array?: number[]
+  sequence_in_levels: number[]
   sources?: string[]
-  siblings?: number[] // <-- Added
+  siblings: number[] // <-- Added
 }
 
 export interface HeadingRequisition {

@@ -27,7 +27,7 @@ function createRequisitionTree(data: Requisition[] = []): Requisition[] {
     if (item.parent_id === null) {
       const rootNode = map.get(item.id)!
       rootNode.level = 1 // Setting the level for root nodes
-      rootNode.sequence_array = [rootNode.sequence] // Setting the characters for root nodes
+      rootNode.sequence_in_levels = [rootNode.sequence] // Setting the characters for root nodes
       rootNodes.push(rootNode)
     }
   })
@@ -40,15 +40,15 @@ function createRequisitionTree(data: Requisition[] = []): Requisition[] {
       .forEach((child) => {
         const childNode = map.get(child.id)!
         childNode.level = level // Setting the level
-        childNode.sequence_array = [...characters, childNode.sequence] // Adding the characters array
+        childNode.sequence_in_levels = [...characters, childNode.sequence] // Adding the characters array
         node.children!.push(childNode)
-        addChildren(childNode, level + 1, childNode.sequence_array) // Incrementing the level for children
+        addChildren(childNode, level + 1, childNode.sequence_in_levels) // Incrementing the level for children
       })
   }
 
   // Add children to the root nodes and sort them
   rootNodes.sort((a, b) => a.sequence - b.sequence)
-  rootNodes.forEach((node) => addChildren(node, 2, node.sequence_array!)) // Starting children with level 2
+  rootNodes.forEach((node) => addChildren(node, 2, node.sequence_in_levels!)) // Starting children with level 2
 
   return rootNodes
 }
@@ -99,7 +99,7 @@ function getHeaderNodes(data?: Requisition[]): HeadingRequisition[] {
   return rootNodes.map((node) => ({
     id: node.id,
     sequence: node.sequence,
-    level_sequence: transformSequenceArray(node.sequence_array),
+    level_sequence: transformSequenceArray(node.sequence_in_levels),
     query: node.query === null ? undefined : node.query,
     is_applicable: node.is_applicable,
   }))

@@ -13,7 +13,7 @@ import { Form } from "@/components/ui/form"
 import { addEntry } from "../_actions/addnew"
 import { FormData } from "./formTypes"
 import { QueryField } from "./QueryField"
-// import { SequenceSelect } from "./SequenceSelect"
+import { SequenceSelect } from "./SequenceSelect"
 import { SubmitButton } from "./SubmitButton"
 import { showErrorToast, showSuccessToast } from "./toastHelpers"
 
@@ -28,12 +28,14 @@ export const NewRequisitionFormSchema = z.object({
 
 type NewRequisitionFormType = {
   parent_id?: Requisition["parent_id"]
-  sequence?: Requisition["sequence"]
+  sequence: Requisition["sequence"]
+  siblings?: Requisition["siblings"]
 }
 
 type ExtendedFormData = FormData & {
   id?: number
-  sequence?: string
+  sequence: string
+  siblings?: number[]
 }
 
 /**
@@ -43,6 +45,7 @@ type ExtendedFormData = FormData & {
 export function NewRequisitionForm({
   parent_id,
   sequence,
+  siblings,
 }: NewRequisitionFormType) {
   const formValues = {
     parent_id: parent_id === null ? undefined : parent_id,
@@ -82,6 +85,13 @@ export function NewRequisitionForm({
     <Form {...form}>
       <form action={clientAction} className="space-y-6">
         <QueryField form={form} />
+
+        {/* <SequenceSelect
+          sequence={sequence}
+          //   sequence_array={
+          //     updatedNode.sequence_array?.map((num) => num.toString()) || []
+          //   }
+        /> */}
 
         <div className="flex flex-row justify-between">
           <SubmitButton>Submit</SubmitButton>
