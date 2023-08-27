@@ -65,7 +65,7 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
         await updateRequisition(data)
         showSuccessToast(result.data)
-        router.push("/requisitions/create")
+        router.push(`/requisitions/create#card-${result.data.id}`)
       } catch (error: unknown) {
         showErrorToast(error)
       }

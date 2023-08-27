@@ -195,8 +195,8 @@ function transformSequenceArray(arr?: number[]): string {
   // If arr is undefined, set it to an empty array
   arr = arr || []
 
-  if (arr.length > 4) {
-    throw new Error("Array should have at most 3 elements")
+  if (arr.length > 5) {
+    throw new Error("Array should have at most 4 elements")
   }
 
   let result = ""
@@ -219,6 +219,11 @@ function transformSequenceArray(arr?: number[]): string {
   if (arr.length > 3) {
     // @ts-ignore
     result += " (" + numberToRoman(arr[3]) + ")"
+  }
+
+  if (arr.length > 4) {
+    // @ts-ignore
+    result += " (" + numberToRoman(arr[4]).toUpperCase() + ")"
   }
 
   return result.trim()

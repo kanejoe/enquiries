@@ -23,7 +23,7 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
   // const { hasPreviousSibling, hasNextSibling } = getSiblingsInfo(data)
 
   return (
-    <div className="flex w-full flex-row">
+    <div className="flex w-full flex-row" id={`card-${data.id}`}>
       {data.level ? <SectionSpacer level={data?.level} /> : null}
       <div className="relative flex-grow">
         {/* Put in the tree lines component below */}

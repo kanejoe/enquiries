@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, Suspense } from "react"
 import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
@@ -27,18 +27,20 @@ const RequisitionFormPage: FC<RequisitionEditFormPageProps> = async ({
   const instantHeading = findNodeByReqId(tree, parseInt(reqid))
 
   return (
-    <div className="relative h-screen ">
-      <div className="sticky top-20 z-10">
-        <Card className="border-primary">
-          <CardHeader>
-            <CardTitle>Update Requisition Details</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <RequisitionForm selectedNode={instantHeading} />
-          </CardContent>
-        </Card>
+    <Suspense fallback={<p>Loading...</p>}>
+      <div className="relative h-screen ">
+        <div className="sticky top-20 z-10">
+          <Card className="border-primary">
+            <CardHeader>
+              <CardTitle>Update Requisition Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RequisitionForm selectedNode={instantHeading} />
+            </CardContent>
+          </Card>
+        </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
 

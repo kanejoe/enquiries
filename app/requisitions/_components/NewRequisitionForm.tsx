@@ -76,9 +76,13 @@ export function NewRequisitionForm({
     // now process
     if (result.success) {
       try {
-        await addEntry(result.data)
+        const resp = await addEntry(result.data)
+        console.log(
+          "🚀 ~ file: NewRequisitionForm.tsx:80 ~ clientAction ~ resp:",
+          resp
+        )
         showSuccessToast(result.data)
-        router.push("/requisitions/create")
+        router.push(`/requisitions/create`)
       } catch (error: unknown) {
         showErrorToast(error)
       }

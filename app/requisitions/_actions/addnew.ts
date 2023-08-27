@@ -41,6 +41,7 @@ export async function addEntry(newRequistion: NewRequistion) {
           error.message
         )
       } else {
+        console.log("🚀 ~ file: addnew.ts:30 ~ addEntry ~ data:", data)
         console.log("added requisition successfully")
         revalidatePath("/requisitions/create")
       }
