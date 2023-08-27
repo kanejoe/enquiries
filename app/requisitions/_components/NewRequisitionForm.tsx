@@ -28,6 +28,7 @@ export const NewRequisitionFormSchema = z.object({
 
 type NewRequisitionFormType = {
   parent_id?: Requisition["parent_id"]
+  sequence?: Requisition["sequence"]
 }
 
 type ExtendedFormData = FormData & {
@@ -39,11 +40,14 @@ type ExtendedFormData = FormData & {
  *
  * @returns
  */
-export function NewRequisitionForm({ parent_id }: NewRequisitionFormType) {
+export function NewRequisitionForm({
+  parent_id,
+  sequence,
+}: NewRequisitionFormType) {
   const formValues = {
     parent_id: parent_id === null ? undefined : parent_id,
     query: "",
-    sequence: "1",
+    sequence: sequence === null ? "1" : sequence?.toString(),
   }
 
   const form = useForm<ExtendedFormData>({
