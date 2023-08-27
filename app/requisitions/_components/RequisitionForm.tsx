@@ -24,6 +24,7 @@ export const FormSchema = z.object({
   id: z.number(),
   parent_id: z.number().optional(),
   sequence: z.coerce.string(),
+  siblings: z.array(z.string()),
 })
 
 type RequisitionFormType = {

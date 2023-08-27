@@ -5,4 +5,5 @@ export type FormData = {
   sequence: string
   query?: string
   parent_id?: number
+  siblings: string[]
 }

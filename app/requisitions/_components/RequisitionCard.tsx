@@ -18,7 +18,9 @@ interface RequisitionCardProps {
 }
 
 const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
-  const { hasPreviousSibling, hasNextSibling } = getSiblingsInfo(data)
+  const arrayOfChildren = generateArrayofChildren(data?.children?.length)
+  const addToSiblings = [...data.siblings, data.siblings.length + 1]
+  // const { hasPreviousSibling, hasNextSibling } = getSiblingsInfo(data)
 
   return (
     <div className="flex w-full flex-row">
@@ -52,11 +54,19 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
                   <Pencil1Icon className="mr-2 h-4 w-4" /> Edit
                 </Link>
               </Button>
+
+              {/* this button links to the form page to create a new requistion */}
+              {/* it sends the parent_id, a default sequence of 1 and an array created from the no. of children + 1 */}
               <Button variant="ghost" size="xs" asChild>
-                <Link href={`/requisitions/create/form/?pid=${data.id}`}>
+                <Link
+                  href={`/requisitions/create/form/?pid=${data.id}&sequence=1&siblings=${arrayOfChildren}`}
+                >
                   <ArrowBottomRightIcon className="mr-2 h-4 w-4" /> Add Child
                 </Link>
               </Button>
+
+              {/* this button links to the form page to create a new requistion */}
+              {/* it sends the parent_id, the current sequence + 1 and an array created from the current siblings + 1 */}
               <Button
                 variant="ghost"
                 size="xs"
@@ -66,7 +76,7 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
                 <Link
                   href={`/requisitions/create/form/?pid=${data.id}&sequence=${
                     Number(data.sequence) + 1
-                  }&siblings=${data.siblings}`}
+                  }&siblings=${addToSiblings}`}
                 >
                   <ArrowRightIcon className="mr-2 h-4 w-4" /> Add Sibling
                 </Link>
@@ -95,6 +105,19 @@ function SectionSpacer({ level }: { level: number }) {
       &nbsp;
     </div>
   )
+}
+
+function generateArrayofChildren(n?: number): number[] {
+  // If n is undefined or not provided, set it to 0
+  if (n === undefined) {
+    n = 0
+  }
+
+  let result: number[] = []
+  for (let i = 1; i <= n + 1; i++) {
+    result.push(i)
+  }
+  return result
 }
 
 /**

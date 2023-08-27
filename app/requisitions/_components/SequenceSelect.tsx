@@ -19,7 +19,7 @@ import {
 
 interface SequenceSelectProps {
   sequence: string
-  sequence_in_levels: number[] // this is an array of the level which the sequence finds itself in the tree e.g. [1, 2, 1]
+  sequence_in_levels?: number[] // this is an array of the level which the sequence finds itself in the tree e.g. [1, 2, 1]
   siblings: string[]
 }
 
@@ -60,13 +60,15 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
           </FormItem>
         )}
       />
-      <Badge
-        variant="secondary"
-        className="mb-0.5 h-8 self-end rounded text-base"
-      >
-        {transformSequenceArray(sequence_in_levels?.map((v) => Number(v)))}
-        {/* Assuming the sequence_array is a string array and you want it in 'x.x.x' format */}
-      </Badge>
+      {sequence_in_levels ? (
+        <Badge
+          variant="secondary"
+          className="mb-0.5 h-8 self-end rounded text-base"
+        >
+          {transformSequenceArray(sequence_in_levels?.map((v) => Number(v)))}
+          {/* Assuming the sequence_array is a string array and you want it in 'x.x.x' format */}
+        </Badge>
+      ) : null}
     </div>
   )
 }

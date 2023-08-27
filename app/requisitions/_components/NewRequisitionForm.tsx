@@ -24,6 +24,7 @@ export const NewRequisitionFormSchema = z.object({
   query: z.string().trim().optional(),
   parent_id: z.number().optional(),
   sequence: z.coerce.string(),
+  siblings: z.array(z.string()),
 })
 
 type NewRequisitionFormType = {
@@ -35,7 +36,7 @@ type NewRequisitionFormType = {
 type ExtendedFormData = FormData & {
   id?: number
   sequence: string
-  siblings?: number[]
+  siblings: string[]
 }
 
 /**
@@ -47,10 +48,13 @@ export function NewRequisitionForm({
   sequence,
   siblings,
 }: NewRequisitionFormType) {
+  const updatedSiblings = Array.isArray(siblings) ? siblings : [sequence]
+
   const formValues = {
     parent_id: parent_id === null ? undefined : parent_id,
     query: "",
     sequence: sequence === null ? "1" : sequence?.toString(),
+    siblings: updatedSiblings.map((v) => v.toString()),
   }
 
   const form = useForm<ExtendedFormData>({
@@ -86,12 +90,11 @@ export function NewRequisitionForm({
       <form action={clientAction} className="space-y-6">
         <QueryField form={form} />
 
-        {/* <SequenceSelect
-          sequence={sequence}
-          //   sequence_array={
-          //     updatedNode.sequence_array?.map((num) => num.toString()) || []
-          //   }
-        /> */}
+        <SequenceSelect
+          sequence={formValues.sequence}
+          siblings={formValues.siblings}
+          //   sequence_in_levels={formValues.sequence}
+        />
 
         <div className="flex flex-row justify-between">
           <SubmitButton>Submit</SubmitButton>
