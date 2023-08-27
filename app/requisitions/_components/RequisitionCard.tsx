@@ -14,10 +14,14 @@ interface RequisitionCardProps {
 }
 
 const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
+  const { hasPreviousSibling, hasNextSibling } = getSiblingsInfo(data)
+
   return (
     <div className="flex w-full flex-row">
       {data.level ? <SectionSpacer level={data?.level} /> : null}
-      <div className="flex-grow">
+      <div className="relative flex-grow">
+        {/* Put in the tree lines component below */}
+
         <Card
           className={cn("mb-6 border-muted shadow-sm hover:border-primary", {
             "border-primary": data.level === 1,
@@ -60,10 +64,6 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
 export { RequisitionCard }
 
 function SectionSpacer({ level }: { level: number }) {
-  console.log(
-    "🚀 ~ file: RequisitionCard.tsx:64 ~ SectionSpacer ~ level:",
-    level
-  )
   return (
     <div
       className={cn({
@@ -74,8 +74,85 @@ function SectionSpacer({ level }: { level: number }) {
         "w-[108px]": level === 4,
       })}
     >
-      {" "}
-      &nbsp;{" "}
+      &nbsp;
     </div>
   )
 }
+
+/**
+ *
+ * @param data
+ * @returns
+ */
+function getSiblingsInfo(data: Requisition): {
+  hasPreviousSibling: boolean
+  hasNextSibling: boolean
+} {
+  // Default values
+  let hasPreviousSibling = false
+  let hasNextSibling = false
+
+  if (data.siblings) {
+    hasPreviousSibling = data.siblings.some(
+      (siblingSequence) => siblingSequence < data.sequence
+    )
+    hasNextSibling = data.siblings.some(
+      (siblingSequence) => siblingSequence > data.sequence
+    )
+  }
+
+  return { hasPreviousSibling, hasNextSibling }
+}
+
+interface TreeLinesProps {
+  data: {
+    level?: number
+  }
+  hasPreviousSibling: boolean
+  hasNextSibling: boolean
+}
+
+const TreeLines: React.FC<TreeLinesProps> = ({
+  data,
+  hasPreviousSibling,
+  hasNextSibling,
+}) => (
+  <>
+    {hasPreviousSibling && (
+      <div
+        className={cn("absolute -left-6 top-1/2 h-0.5 w-6", {
+          "bg-primary": data?.level && data?.level >= 2,
+        })}
+      ></div>
+    )}
+
+    {hasNextSibling && (
+      <div
+        className={cn("absolute -left-6 bottom-0 h-1/2 w-0.5", {
+          "bg-primary": data?.level && data?.level >= 2,
+        })}
+      ></div>
+    )}
+
+    {hasPreviousSibling && (
+      <div
+        className={cn("absolute -left-6 top-0 h-1/2 w-0.5", {
+          "bg-primary": data?.level && data?.level >= 2,
+        })}
+      ></div>
+    )}
+
+    <div
+      className={cn("absolute -left-6 top-1/2 h-0.5 w-6", {
+        "bg-primary": data?.level && data?.level >= 2,
+        "-left-[60px] w-[60px] bg-secondary": data?.level === 4,
+      })}
+    ></div>
+
+    <div
+      className={cn("absolute -left-[60px] bottom-0 h-full w-0.5", {
+        "bg-secondary": data?.level && data?.level === 4,
+      })}
+    ></div>
+  </>
+)
