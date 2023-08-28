@@ -1,7 +1,7 @@
 export default function LoadingSkeleton() {
   // You can add any UI inside Loading, including a Skeleton.
   return (
-    <div className="mx-auto mt-20 h-24 w-60 rounded-md border-2">
+    <div className="mx-auto h-48 w-72 rounded border-2 border-secondary">
       <div className="flex h-full animate-pulse flex-row items-center justify-center space-x-5">
         <div className="h-12 w-12 rounded-full bg-gray-300 "></div>
         <div className="flex flex-col space-y-3">
