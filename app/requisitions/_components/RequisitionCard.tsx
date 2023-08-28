@@ -50,7 +50,10 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
           <CardFooter>
             <div className="flex flex-row space-x-4">
               <Button variant="secondary" size="xs" asChild>
-                <Link href={`/requisitions/create/form/${data.id}`}>
+                <Link
+                  href={`/requisitions/create/form/${data.id}`}
+                  scroll={false}
+                >
                   <Pencil1Icon className="mr-2 h-4 w-4" /> Edit
                 </Link>
               </Button>
@@ -77,6 +80,7 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
                   href={`/requisitions/create/form/?pid=${data.id}&sequence=${
                     Number(data.sequence) + 1
                   }&siblings=${addToSiblings}`}
+                  scroll={false}
                 >
                   <ArrowRightIcon className="mr-2 h-4 w-4" /> Add Sibling
                 </Link>
