@@ -10,17 +10,21 @@ interface CreateReqLayoutProps {
 const CreateReqLayout: FC<CreateReqLayoutProps> = ({ children }) => {
   return (
     <main className="container mt-6 flex flex-row gap-x-12">
-      <section className="w-1/4">
+      <aside className="w-1/4">
         <HeadingScrollArea />
-      </section>
-      <section className="w-3/4">
+      </aside>
+      <main className="w-3/4">
         <div className="flex w-full space-x-24">
-          <div className="w-3/5">
+          <section className="w-3/5">
             <RequisitionCardList />
-          </div>
-          <div className="w-2/5">{children}</div>
+          </section>
+          <aside className="order-last w-2/5">
+            <section className="sticky top-[100px] h-[calc(100vh-100px)]">
+              {children}
+            </section>
+          </aside>
         </div>
-      </section>
+      </main>
     </main>
   )
 }
