@@ -4,14 +4,24 @@ import Link from "next/link"
 import {
   ArrowBottomRightIcon,
   ArrowRightIcon,
+  CheckIcon,
   Pencil1Icon,
 } from "@radix-ui/react-icons"
 
 import { Requisition } from "@/types/RequisitionType"
 import { transformSequenceArray } from "@/lib/tree"
 import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
 
 interface RequisitionCardProps {
   data: Requisition
@@ -43,10 +53,35 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
                 <div className="w-[72px] shrink-0 font-semibold tabular-nums">
                   {transformSequenceArray(data.sequence_in_levels)}
                 </div>
-                <div className="whitespace-pre-line">{data.query}</div>
+                {data.level === 1 ? <div className="">{data.query}</div> : null}
               </div>
             </CardTitle>
+            {data.level === 1 ? null : (
+              <CardDescription className="whitespace-pre-line font-albertsans text-secondary-foreground">
+                {data.query ? (
+                  <div className="text-sml">{data.query}</div>
+                ) : (
+                  <Badge variant="default" className="rounded">
+                    Deliberately Left Blank
+                  </Badge>
+                )}
+              </CardDescription>
+            )}
           </CardHeader>
+          <CardContent className="grid gap-4 font-albertsans">
+            <div className=" flex items-center space-x-4 rounded-md border p-4">
+              <CheckIcon className="h-6 w-6 text-foreground" />
+              <div className="flex-1 space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  Reply Required?
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Yes, reply is required.
+                </p>
+              </div>
+              <Switch />
+            </div>
+          </CardContent>
           <CardFooter>
             <div className="flex flex-row space-x-4">
               <Button variant="secondary" size="xs" asChild>

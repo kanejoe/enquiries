@@ -11,7 +11,7 @@ export default async function CreateRequisitionPage() {
         className="h-12 w-full px-4 py-2 text-primary-foreground shadow hover:bg-primary/90"
         variant={"default"}
       >
-        <Link href="/login">
+        <Link href="/">
           <PlusCircledIcon className="mr-2 h-4 w-4" />
           Add New
         </Link>
