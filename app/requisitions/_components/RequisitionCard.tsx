@@ -4,7 +4,6 @@ import Link from "next/link"
 import {
   ArrowBottomRightIcon,
   ArrowRightIcon,
-  CheckIcon,
   Pencil1Icon,
 } from "@radix-ui/react-icons"
 
@@ -21,7 +20,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Switch } from "@/components/ui/switch"
+
+import IsRequiredSwitchForm from "./IsRequiredSwitch"
 
 interface RequisitionCardProps {
   data: Requisition
@@ -50,7 +50,7 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
               })}
             >
               <div className="flex">
-                <div className="w-[72px] shrink-0 font-semibold tabular-nums">
+                <div className="min-w-[72px] shrink-0 font-semibold tabular-nums">
                   {transformSequenceArray(data.sequence_in_levels)}
                 </div>
                 {data.level === 1 ? <div className="">{data.query}</div> : null}
@@ -69,18 +69,7 @@ const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
             )}
           </CardHeader>
           <CardContent className="grid gap-4 font-albertsans">
-            <div className=" flex items-center space-x-4 rounded-md border p-4">
-              <CheckIcon className="h-6 w-6 text-foreground" />
-              <div className="flex-1 space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  Reply Required?
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Yes, reply is required.
-                </p>
-              </div>
-              <Switch />
-            </div>
+            <IsRequiredSwitchForm id={data.id} is_required={data.is_required} />
           </CardContent>
           <CardFooter>
             <div className="flex flex-row space-x-4">

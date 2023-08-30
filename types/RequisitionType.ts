@@ -5,14 +5,15 @@ export interface Requisition {
   is_applicable?: boolean | null
   is_complete?: boolean | null
   is_flagged?: boolean | null
+  is_required: boolean
   level?: number
   parent_id?: number | null
   query?: string | null
   reply?: string | null
   sequence: number
   sequence_in_levels: number[]
-  sources?: string[]
   siblings: number[] // <-- Added
+  sources?: string[]
 }
 
 export interface HeadingRequisition {

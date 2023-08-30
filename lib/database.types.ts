@@ -16,6 +16,7 @@ export interface Database {
           is_applicable: boolean
           is_complete: boolean
           is_flagged: boolean
+          is_required: boolean
           parent_id: number | null
           query: string | null
           reply: string | null
@@ -27,6 +28,7 @@ export interface Database {
           is_applicable?: boolean
           is_complete?: boolean
           is_flagged?: boolean
+          is_required?: boolean
           parent_id?: number | null
           query?: string | null
           reply?: string | null
@@ -38,6 +40,7 @@ export interface Database {
           is_applicable?: boolean
           is_complete?: boolean
           is_flagged?: boolean
+          is_required?: boolean
           parent_id?: number | null
           query?: string | null
           reply?: string | null
@@ -57,7 +60,39 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      adjust_sequence: {
+        Args: {
+          p_parent_id: number
+          p_new_sequence: number
+          p_old_sequence: number
+        }
+        Returns: undefined
+      }
+      inc_sequence: {
+        Args: {
+          p_parent_id: number
+          p_sequence_threshold: number
+        }
+        Returns: undefined
+      }
+      insert_and_resequence: {
+        Args: {
+          p_query: string
+          p_parent_id: number
+          p_sequence: number
+        }
+        Returns: undefined
+      }
+      update_requisition: {
+        Args: {
+          p_id: number
+          p_parent_id: number
+          p_old_sequence: number
+          p_new_sequence: number
+          p_query: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
