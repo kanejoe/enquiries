@@ -25,9 +25,14 @@ async function RequisitionCardList() {
     <Suspense fallback={<p>Loading...</p>}>
       <section className="w-full">
         {instantHeadingNode ? (
-          <RecursiveTree node={instantHeadingNode}>
-            {(data) => <RequisitionCard data={data} />}
-          </RecursiveTree>
+          <div className="flex flex-col">
+            <section className="sticky top-[100px] z-0">
+              <RequisitionCard data={instantHeadingNode} showRootNode={true} />
+            </section>
+            <RecursiveTree node={instantHeadingNode}>
+              {(data) => <RequisitionCard data={data} showRootNode={false} />}
+            </RecursiveTree>
+          </div>
         ) : null}
       </section>
     </Suspense>

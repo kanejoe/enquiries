@@ -25,22 +25,25 @@ import IsRequiredSwitchForm from "./IsRequiredSwitch"
 
 interface RequisitionCardProps {
   data: Requisition
+  showRootNode: boolean
 }
 
-const RequisitionCard: React.FC<RequisitionCardProps> = ({ data }) => {
+const RequisitionCard: React.FC<RequisitionCardProps> = ({
+  data,
+  showRootNode = true,
+}) => {
+  // this goes into the component below as a url searchParam
   const arrayOfChildren = generateArrayofChildren(data?.children?.length)
   const addToSiblings = [...data.siblings, data.siblings.length + 1]
-  // const { hasPreviousSibling, hasNextSibling } = getSiblingsInfo(data)
 
   return (
     <div className="flex w-full flex-row" id={`card-${data.id}`}>
       {data.level ? <SectionSpacer level={data?.level} /> : null}
       <div className="relative flex-grow">
-        {/* Put in the tree lines component below */}
-
         <Card
           className={cn("mb-6 border-muted shadow-sm hover:border-primary", {
             "border-primary": data.level === 1,
+            hidden: showRootNode === false && data.level === 1,
           })}
         >
           <CardHeader>

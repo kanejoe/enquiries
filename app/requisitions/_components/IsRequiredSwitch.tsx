@@ -42,6 +42,7 @@ function IsRequiredSwitchForm({ id, is_required }: IdAndIsRequired) {
   })
 
   const { watch, handleSubmit } = form
+
   // Watch the value of 'is_required'
   const isRequired = watch("is_required")
 
@@ -70,7 +71,7 @@ function IsRequiredSwitchForm({ id, is_required }: IdAndIsRequired) {
                   checked={field.value}
                   onCheckedChange={(e) => {
                     field.onChange(e)
-                    form.handleSubmit(onSubmit)()
+                    handleSubmit(onSubmit)()
                   }}
                 />
               </FormControl>
