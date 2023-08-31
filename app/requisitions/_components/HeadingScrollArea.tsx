@@ -35,24 +35,26 @@ const HeadingScrollArea: FC<
     : []
 
   return (
-    <ScrollArea className="h-108 w-72 rounded-md border">
-      <div className="p-4">
-        <h4 className="mb-6 text-base font-medium leading-none">Headings</h4>
-        {headers
-          ? headers?.map((node: HeadingRequisition) => (
-              <Fragment key={node.id}>
-                <Link href={`/requisitions/create/${node.id}`}>
-                  <div className="flex flex-row">
-                    <div className="w-8 text-sm">{node.level_sequence}</div>
-                    <div className="text-sm">{node.query}</div>
-                  </div>
-                </Link>
-                <Separator className="my-2 bg-slate-100 dark:bg-slate-800" />
-              </Fragment>
-            ))
-          : null}
-      </div>
-    </ScrollArea>
+    <div className="sticky top-[100px]">
+      <ScrollArea className="h-108 w-72 rounded-md border">
+        <div className="p-4">
+          <h4 className="mb-6 text-base font-medium leading-none">Headings</h4>
+          {headers
+            ? headers?.map((node: HeadingRequisition) => (
+                <Fragment key={node.id}>
+                  <Link href={`/requisitions/create/${node.id}`}>
+                    <div className="flex flex-row">
+                      <div className="w-8 text-sm">{node.level_sequence}</div>
+                      <div className="text-sm">{node.query}</div>
+                    </div>
+                  </Link>
+                  <Separator className="my-2 bg-slate-100 dark:bg-slate-800" />
+                </Fragment>
+              ))
+            : null}
+        </div>
+      </ScrollArea>
+    </div>
   )
 }
 

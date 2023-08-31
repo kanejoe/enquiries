@@ -1,7 +1,7 @@
 import { FC } from "react"
 
 import { HeadingScrollArea } from "../_components/HeadingScrollArea"
-import { RequisitionCardList } from "../_components/RequisitionCardList"
+import { CardContainer } from "./CardContainer"
 
 interface CreateReqLayoutProps {
   children: React.ReactNode
@@ -13,18 +13,18 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = ({ children }) => {
       <aside className="w-1/4">
         <HeadingScrollArea />
       </aside>
-      <main className="w-3/4">
+      <section className="w-3/4">
         <div className="flex w-full space-x-24">
-          <section className="w-3/5">
-            <RequisitionCardList />
-          </section>
+          <div className="w-3/5">
+            <CardContainer />
+          </div>
           <aside className="order-last w-2/5">
             <section className="sticky top-[100px] h-[calc(100vh-100px)]">
               {children}
             </section>
           </aside>
         </div>
-      </main>
+      </section>
     </main>
   )
 }

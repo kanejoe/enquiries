@@ -60,10 +60,10 @@ function IsRequiredSwitchForm({ id, is_required }: IdAndIsRequired) {
           name="is_required"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-              <div className="space-y-0.5">
-                <FormLabel>Reply Required?</FormLabel>
-                <FormDescription>
-                  {isRequired ? "Yes, reply is required." : "No, not required"}
+              <div className="mt-2 flex space-x-4">
+                <FormLabel className="leading-4">Reply Required?</FormLabel>
+                <FormDescription className="leading-4">
+                  {isRequired ? "Yes, required." : "No, not required."}
                 </FormDescription>
               </div>
               <FormControl>
