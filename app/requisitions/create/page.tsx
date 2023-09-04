@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 export default async function CreateRequisitionPage() {
   return (
-    <section className="">
+    <section className="flex flex-col space-y-8">
       <Button
         asChild
         className="h-12 w-full px-4 py-2 text-primary-foreground shadow hover:bg-primary/90"
