@@ -102,6 +102,7 @@ export function useCompletion({
 
   const triggerRequest = useCallback(
     async (prompt: string, options?: RequestOptions) => {
+      console.log("🚀 ~ file: use-completion.ts:105 ~ options:", options)
       try {
         mutateLoading(true)
 
@@ -111,13 +112,21 @@ export function useCompletion({
         // Empty the completion immediately.
         mutate("", false)
 
-        const res = await fetch(api, {
-          method: "POST",
-          body: JSON.stringify({
+        let body
+        // Check if options.body is FormData
+        if (options?.body instanceof FormData) {
+          body = options.body
+        } else {
+          body = JSON.stringify({
             prompt,
             ...extraMetadataRef.current.body,
             ...options?.body,
-          }),
+          })
+        }
+
+        const res = await fetch(api, {
+          method: "POST",
+          body,
           credentials: extraMetadataRef.current.credentials,
           headers: {
             ...extraMetadataRef.current.headers,

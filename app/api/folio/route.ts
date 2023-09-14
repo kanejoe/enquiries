@@ -15,10 +15,9 @@ const openai = new OpenAI({
 // const openai = new OpenAIApi(configuration)
 
 export async function POST(req: Request) {
-  //   console.log("🚀 ~ file: route.ts:11 ~ POST ~ req:", req.body)
-  //   const formData = await req.formData()
-  //   const folio = formData.get("folio")
-  //   console.log("🚀 ~ file: route.ts:14 ~ POST ~ folio:", folio)
+  const formData = await req.formData()
+  const folio = formData.get("folio")
+  console.log("🚀 ~ file: route.ts:14 ~ POST ~ folio:", folio)
   //   const prompt = "Property Law Business using AI and IoT"
 
   // Ask OpenAI for a streaming completion given the prompt
@@ -27,7 +26,7 @@ export async function POST(req: Request) {
     stream: true,
     temperature: 0.6,
     max_tokens: 300,
-    prompt: "give me 800 words on the history of the Irish Civil War",
+    prompt: "give me 200 words on the history of the Irish Civil War",
     // prompt: `Create three slogans for a business with unique features.
 
     //         Business: Bookstore with cats

@@ -19,13 +19,9 @@ function FormUpload() {
 
         if (pdf) {
           // Check if pdf is not undefined
-          //   console.log("🚀 ~ file: FormUpload.tsx:20 ~ FormUpload ~ pdf:", pdf)
           formData.append("folio", pdf)
-
-          for (let [key, value] of formData.entries()) {
-            console.log(key, value)
-          }
-          complete("folio", { body: { folio: pdf } })
+          //   complete("folio", { body: formData })
+          complete("folio")
         } else {
           console.log("No file selected!")
         }
