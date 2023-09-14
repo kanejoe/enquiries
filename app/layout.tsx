@@ -1,6 +1,6 @@
 import "@/app/globals.css"
 
-import { Metadata } from "next"
+import { type Metadata } from "next"
 
 import { siteConfig } from "@/config/site"
 import { fontAlbertSans, fontMono, fontSans } from "@/lib/fonts"
