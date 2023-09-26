@@ -20,9 +20,9 @@ function FormUpload() {
         if (pdf) {
           // Check if pdf is not undefined
           formData.append("folio", pdf)
-          //   complete("folio", { body: formData })
-          complete("folio")
+          complete("folio", { body: formData })
         } else {
+          complete("folio")
           console.log("No file selected!")
         }
 

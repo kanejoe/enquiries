@@ -102,7 +102,6 @@ export function useCompletion({
 
   const triggerRequest = useCallback(
     async (prompt: string, options?: RequestOptions) => {
-      console.log("🚀 ~ file: use-completion.ts:105 ~ options:", options)
       try {
         mutateLoading(true)
 

@@ -20,6 +20,12 @@ export default function IndexPage() {
           Summarise Folio
         </Link>
         <Link
+          href="/summarise-folio"
+          className={buttonVariants({ variant: "secondary" })}
+        >
+          Practice Notes
+        </Link>
+        <Link
           target="_blank"
           rel="noreferrer"
           href={siteConfig.links.github}
