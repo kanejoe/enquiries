@@ -9,6 +9,30 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      properties: {
+        Row: {
+          created_at: string
+          eircode: string | null
+          id: number
+          property: string | null
+          vendor: string | null
+        }
+        Insert: {
+          created_at?: string
+          eircode?: string | null
+          id?: number
+          property?: string | null
+          vendor?: string | null
+        }
+        Update: {
+          created_at?: string
+          eircode?: string | null
+          id?: number
+          property?: string | null
+          vendor?: string | null
+        }
+        Relationships: []
+      }
       requisitions: {
         Row: {
           has_doc: boolean
@@ -52,7 +76,7 @@ export interface Database {
             columns: ["parent_id"]
             referencedRelation: "requisitions"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }

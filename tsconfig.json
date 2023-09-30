@@ -1,4 +1,9 @@
 {
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
   "compilerOptions": {
     "lib": [
       "dom",
@@ -10,7 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "target": "ES2020",
-    "verbatimModuleSyntax": true, // not in original
+    // "verbatimModuleSyntax": true, // not in original
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
@@ -42,7 +47,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/atomic_requisition/ReplyForm.tsx",
-    "app/index.test.js"
+    "app/index.test.js",
+    "scripts/add-properties.ts"
   ],
   "exclude": [
     "node_modules"
