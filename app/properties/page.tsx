@@ -1,4 +1,5 @@
 import { cookies } from "next/headers"
+import Link from "next/link"
 import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
@@ -7,12 +8,21 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { type Database } from "@/lib/database.types"
 
-export default async function Properties() {
+export default async function Properties({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  const { page } = searchParams
+  const PAGE = typeof page === "string" ? +page : 1 // max 6 properties per page
+  const LIMIT = 6 // start at the first property
+
   const supabase = createServerComponentClient<Database>({ cookies })
   let { data: properties, error } = await supabase
     .from("properties")
     .select("*")
     .order("created_at", { ascending: false })
+    .range(PAGE * LIMIT, PAGE * LIMIT + LIMIT - 1)
 
   return (
     <div className="min-h-screen bg-gray-50 px-8 pt-12">
@@ -51,6 +61,9 @@ export default async function Properties() {
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
+                      Vendor
+                    </th>
+                    <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
                       Property
                     </th>
                     <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
@@ -66,6 +79,9 @@ export default async function Properties() {
                     ? properties.map((data) => (
                         <tr key={data.vendor}>
                           <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900">
+                            {data.vendor}
+                          </td>
+                          <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-gray-900">
                             {data.property}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -88,6 +104,12 @@ export default async function Properties() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="">
+        <Link href={`/properties?page=${PAGE + 1}`} className="">
+          Next
+        </Link>
       </div>
     </div>
   )

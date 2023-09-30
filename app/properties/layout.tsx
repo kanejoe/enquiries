@@ -5,7 +5,7 @@ type LayoutProps = {
 }
 
 const PropertiesLayout: FC<LayoutProps> = ({ children }) => (
-  <div className="container mx-auto p-4">{children}</div>
+  <div className="container mx-auto p-4 font-albertsans">{children}</div>
 )
 
 export default PropertiesLayout
