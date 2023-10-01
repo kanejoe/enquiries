@@ -4,6 +4,7 @@ import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { type Database } from "@/lib/database.types"
+import { Button } from "@/components/ui/button"
 
 import { PropertiesSearchInput } from "./search"
 
@@ -13,12 +14,16 @@ export default async function Properties({
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   const supabase = createServerComponentClient<Database>({ cookies })
-  const perPage = 7 // start at the first property
+  const perPage = 7 // max 7 properties per page
+  const search =
+    typeof searchParams.search === "string" ? searchParams.search : ""
 
   // count the total number of properties
   let { data: countEntries, error: countError } = await supabase
     .from("properties")
     .select("id", { count: "exact", head: false })
+    .ilike("property", `%${search}%`)
+
   let count = countEntries?.length || 0
 
   const totalPages = Math.ceil(count / perPage)
@@ -33,13 +38,19 @@ export default async function Properties({
   let { data: properties, error } = await supabase
     .from("properties")
     .select("*")
+    .ilike("property", `%${search}%`)
+    // .ilike("vendor", `%${search}%`)
     .order("created_at", { ascending: true })
     .range((page - 1) * perPage, page * perPage - 1)
+
+  const currentSearchParams = new URLSearchParams()
+  if (search) currentSearchParams.set("search", search)
+  if (page > 1) currentSearchParams.set("page", `${page}`)
 
   return (
     <div className="min-h-screen px-8 pt-12">
       <div className="flex items-center justify-between">
-        <PropertiesSearchInput />
+        <PropertiesSearchInput search={search} />
         <div className="ml-16 mt-0 flex-none">
           <button
             type="button"
@@ -125,29 +136,74 @@ export default async function Properties({
           requisitions
         </p>
         <div className="space-x-2">
-          <Link
-            href={page > 2 ? `/properties?page=${page - 1}` : "/properties"}
-            className={`${
-              page === 1 ? "pointer-events-none opacity-50" : ""
-            } inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50`}
-          >
-            Previous
-          </Link>
+          <PreviousPage page={page} currentSearchParams={currentSearchParams} />
 
-          <Link
-            href={
-              page < totalPages
-                ? `/properties?page=${page + 1}`
-                : `/properties?/page=${page}`
-            }
-            className={`${
-              page >= totalPages ? "pointer-events-none opacity-50" : ""
-            } inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50`}
-          >
-            Next
-          </Link>
+          <NextPage
+            page={page}
+            totalPages={totalPages}
+            currentSearchParams={currentSearchParams}
+          />
         </div>
       </div>
     </div>
+  )
+}
+
+function NextPage({
+  page,
+  totalPages,
+  currentSearchParams,
+}: {
+  page: number
+  totalPages: number
+  currentSearchParams: URLSearchParams
+}) {
+  const newSearchParams = new URLSearchParams(currentSearchParams)
+  newSearchParams.set("page", `${page + 1}`)
+
+  return page < totalPages ? (
+    <Link
+      href={`/properties?${newSearchParams}`}
+      className=" inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+    >
+      Next
+    </Link>
+  ) : (
+    <Button
+      disabled
+      className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+    >
+      Next
+    </Button>
+  )
+}
+function PreviousPage({
+  page,
+  currentSearchParams,
+}: {
+  page: number
+  currentSearchParams: URLSearchParams
+}) {
+  const newSearchParams = new URLSearchParams(currentSearchParams)
+  if (page > 2) {
+    newSearchParams.set("page", `${page - 1}`)
+  } else {
+    newSearchParams.delete("page")
+  }
+
+  return page > 1 ? (
+    <Link
+      href={`/properties?${newSearchParams}`}
+      className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+    >
+      Previous
+    </Link>
+  ) : (
+    <Button
+      disabled
+      className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 opacity-50"
+    >
+      Previous
+    </Button>
   )
 }

@@ -1,10 +1,13 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
 
 import { Input } from "@/components/ui/input"
 
-export function PropertiesSearchInput() {
+export function PropertiesSearchInput({ search }: { search?: string }) {
+  const router = useRouter()
+
   return (
     <div className="w-80">
       <div className="relative mt-1 rounded-md shadow-sm">
@@ -20,8 +23,9 @@ export function PropertiesSearchInput() {
           id="propertysearch"
           className="block w-full rounded-md border-gray-300 pl-10 text-sm focus:ring-primary focus-visible:ring-primary"
           placeholder="Search..."
+          defaultValue={search}
           onChange={(e) => {
-            console.log(e.target.value)
+            router.push(`/properties?search=${e.target.value}`)
           }}
         />
       </div>
