@@ -13,19 +13,32 @@ export default async function Properties({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const { page } = searchParams
-  const PAGE = typeof page === "string" ? +page : 1 // max 6 properties per page
-  const LIMIT = 6 // start at the first property
-
   const supabase = createServerComponentClient<Database>({ cookies })
+  const perPage = 7 // start at the first property
+
+  // count the total number of properties
+  let { data: countEntries, error: countError } = await supabase
+    .from("properties")
+    .select("id", { count: "exact", head: false })
+  let count = countEntries?.length || 0
+
+  const totalPages = Math.ceil(count / perPage)
+
+  const page =
+    typeof searchParams.page === "string" &&
+    +searchParams.page > 1 &&
+    +searchParams.page <= totalPages
+      ? +searchParams.page
+      : 1 // max 6 properties per page
+
   let { data: properties, error } = await supabase
     .from("properties")
     .select("*")
-    .order("created_at", { ascending: false })
-    .range(PAGE * LIMIT, PAGE * LIMIT + LIMIT - 1)
+    .order("created_at", { ascending: true })
+    .range((page - 1) * perPage, page * perPage - 1)
 
   return (
-    <div className="min-h-screen bg-gray-50 px-8 pt-12">
+    <div className="min-h-screen px-8 pt-12">
       <div className="flex items-center justify-between">
         <div className="w-80">
           <div className="relative mt-1 rounded-md shadow-sm">
@@ -61,6 +74,9 @@ export default async function Properties({
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
+                      ID
+                    </th>
+                    <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
                       Vendor
                     </th>
                     <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
@@ -78,6 +94,9 @@ export default async function Properties({
                   {properties && properties.length
                     ? properties.map((data) => (
                         <tr key={data.vendor}>
+                          <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-gray-900">
+                            {data.id}
+                          </td>
                           <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900">
                             {data.vendor}
                           </td>
@@ -106,10 +125,45 @@ export default async function Properties({
         </div>
       </div>
 
-      <div className="">
-        <Link href={`/properties?page=${PAGE + 1}`} className="">
-          Next
-        </Link>
+      <div className="mt-4 flex items-center justify-between ">
+        <p className="text-sm text-gray-700">
+          Showing{" "}
+          <span className="font-medium ordinal">
+            {(page - 1) * perPage + 1}
+          </span>{" "}
+          to{" "}
+          <span className="font-medium ordinal">
+            {Math.min(page * perPage, count)}
+          </span>{" "}
+          of{" "}
+          <span className="font-semibold ordinal">
+            {count.toLocaleString()}
+          </span>{" "}
+          requisitions
+        </p>
+        <div className="space-x-2">
+          <Link
+            href={page > 2 ? `/properties?page=${page - 1}` : "/properties"}
+            className={`${
+              page === 1 ? "pointer-events-none opacity-50" : ""
+            } inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50`}
+          >
+            Previous
+          </Link>
+
+          <Link
+            href={
+              page < totalPages
+                ? `/properties?page=${page + 1}`
+                : `/properties?/page=${page}`
+            }
+            className={`${
+              page >= totalPages ? "pointer-events-none opacity-50" : ""
+            } inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50`}
+          >
+            Next
+          </Link>
+        </div>
       </div>
     </div>
   )
