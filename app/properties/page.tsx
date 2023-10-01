@@ -1,12 +1,11 @@
 import { cookies } from "next/headers"
 import Link from "next/link"
-import {
-  ChevronRightIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid"
+import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { type Database } from "@/lib/database.types"
+
+import { PropertiesSearchInput } from "./search"
 
 export default async function Properties({
   searchParams,
@@ -40,23 +39,7 @@ export default async function Properties({
   return (
     <div className="min-h-screen px-8 pt-12">
       <div className="flex items-center justify-between">
-        <div className="w-80">
-          <div className="relative mt-1 rounded-md shadow-sm">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <MagnifyingGlassIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </div>
-            <input
-              type="text"
-              name="search"
-              id="search"
-              className="block w-full rounded-md border-gray-300 pl-10 text-sm focus:border-gray-400 focus:outline-none focus:ring-0"
-              placeholder="Search"
-            />
-          </div>
-        </div>
+        <PropertiesSearchInput />
         <div className="ml-16 mt-0 flex-none">
           <button
             type="button"
@@ -133,7 +116,7 @@ export default async function Properties({
           </span>{" "}
           to{" "}
           <span className="font-medium ordinal">
-            {Math.min(page * perPage, count)}
+            {Math.min(page * perPage, count).toLocaleString()}
           </span>{" "}
           of{" "}
           <span className="font-semibold ordinal">
