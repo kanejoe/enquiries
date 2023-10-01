@@ -6,6 +6,8 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { type Database } from "@/lib/database.types"
 import { Button } from "@/components/ui/button"
 
+import { HighlightedTableCell } from "./_components/HighlightedCellProps"
+
 export async function PropertiesTable({
   searchParams,
 }: {
@@ -84,10 +86,24 @@ export async function PropertiesTable({
                           {data.id}
                         </td>
                         <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900">
-                          {data.vendor}
+                          {search && data.vendor ? (
+                            <HighlightedTableCell
+                              dataString={data.vendor}
+                              highlight={search}
+                            />
+                          ) : (
+                            data.vendor
+                          )}
                         </td>
                         <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-gray-900">
-                          {data.property}
+                          {search && data.property ? (
+                            <HighlightedTableCell
+                              dataString={data.property}
+                              highlight={search}
+                            />
+                          ) : (
+                            data.property
+                          )}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {data.eircode}

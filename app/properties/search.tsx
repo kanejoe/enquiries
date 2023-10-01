@@ -1,6 +1,6 @@
 "use client"
 
-import { useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
 
@@ -9,8 +9,15 @@ import { Input } from "@/components/ui/input"
 import { Spinner } from "./_components/Spinner"
 
 export function PropertiesSearchInput({ search }: { search?: string }) {
+  const [searchValue, setSearchValue] = useState(search || "")
+  const [timeOutId, setTimeOutId] = useState<NodeJS.Timeout>() // for debouncing
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  const isSearching = isPending || timeOutId
+
+  useEffect(() => {
+    if (search === "") setSearchValue("")
+  }, [search])
 
   return (
     <div className="w-80">
@@ -24,18 +31,24 @@ export function PropertiesSearchInput({ search }: { search?: string }) {
         <Input
           type="text"
           name="search"
+          autoComplete="off"
           id="propertysearch"
           className="block w-full rounded-md border-gray-300 pl-10 text-sm focus:ring-primary focus-visible:ring-primary"
-          placeholder="Search..."
-          defaultValue={search}
+          placeholder="Search Vendor or Property..."
+          defaultValue={searchValue}
           onChange={(e) => {
-            startTransition(() => {
-              if (e.target.value === "") {
-                router.push(`/properties`)
-              } else {
-                router.push(`/properties?search=${e.target.value}`)
-              }
-            })
+            clearTimeout(timeOutId)
+            const id = setTimeout(() => {
+              startTransition(() => {
+                if (e.target.value === "") {
+                  router.push(`/properties`)
+                } else {
+                  router.push(`/properties?search=${e.target.value}`)
+                }
+                setTimeOutId(undefined)
+              })
+            }, 500)
+            setTimeOutId(id)
           }}
         />
         {search && (
@@ -63,7 +76,7 @@ export function PropertiesSearchInput({ search }: { search?: string }) {
             </svg>
           </span>
         )}
-        {isPending && (
+        {isSearching && (
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-8">
             <Spinner
               className="h-5 w-5 animate-spin text-gray-600"
