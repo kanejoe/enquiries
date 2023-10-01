@@ -18,12 +18,15 @@ export async function PropertiesTable({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : ""
 
+  //
+  const searchPattern = `%${search}%`
+
   // count the total number of properties
   let { data: countEntries, error: countError } = await supabase
     .from("properties")
     .select("id", { count: "exact", head: false })
-    .ilike("property", `%${search}%`)
-  // .ilike("vendor", `%${search}%`)
+    .or(`property.ilike.${searchPattern},vendor.ilike.${searchPattern}`)
+  // .ilike("property", `%${search}%`)
 
   let count = countEntries?.length || 0
 
@@ -39,8 +42,8 @@ export async function PropertiesTable({
   let { data: properties, error } = await supabase
     .from("properties")
     .select("*")
-    .ilike("property", `%${search}%`)
-    // .ilike("vendor", `%${search}%`)
+    .or(`property.ilike.${searchPattern},vendor.ilike.${searchPattern}`)
+    // .ilike("property", searchPattern)
     .order("created_at", { ascending: true })
     .range((page - 1) * perPage, page * perPage - 1)
 
