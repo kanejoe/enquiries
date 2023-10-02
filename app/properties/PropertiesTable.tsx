@@ -3,9 +3,10 @@ import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { type Database } from "@/lib/database.types"
+import { Badge } from "@/components/ui/badge"
 
 import { HighlightedTableCell } from "./_components/HighlightedCellProps"
-import { NextPage, PreviousPage } from "./NextPrevButtons"
+import { FirstPage, LastPage, NextPage, PreviousPage } from "./NextPrevButtons"
 
 export async function PropertiesTable({
   searchParams,
@@ -95,14 +96,21 @@ export async function PropertiesTable({
                           )}
                         </td>
                         <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-gray-900">
-                          {search && data.property ? (
-                            <HighlightedTableCell
-                              dataString={data.property}
-                              highlight={search}
-                            />
-                          ) : (
-                            data.property
-                          )}
+                          <div className="flex space-x-2">
+                            <Badge variant="outline" className="rounded-md">
+                              Residential
+                            </Badge>
+                            <span className="max-w-[500px] truncate font-medium">
+                              {search && data.property ? (
+                                <HighlightedTableCell
+                                  dataString={data.property}
+                                  highlight={search}
+                                />
+                              ) : (
+                                data.property
+                              )}
+                            </span>
+                          </div>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {data.eircode}
@@ -142,9 +150,17 @@ export async function PropertiesTable({
           requisitions
         </p>
         <div className="space-x-2">
+          <FirstPage page={page} currentSearchParams={currentSearchParams} />
+
           <PreviousPage page={page} currentSearchParams={currentSearchParams} />
 
           <NextPage
+            page={page}
+            totalPages={totalPages}
+            currentSearchParams={currentSearchParams}
+          />
+
+          <LastPage
             page={page}
             totalPages={totalPages}
             currentSearchParams={currentSearchParams}

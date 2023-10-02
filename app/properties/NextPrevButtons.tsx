@@ -1,4 +1,10 @@
 import Link from "next/link"
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+} from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
 
@@ -15,18 +21,16 @@ export function NextPage({
   newSearchParams.set("page", `${page + 1}`)
 
   return page < totalPages ? (
-    <Link
-      href={`/properties?${newSearchParams}`}
-      className=" inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
-    >
-      Next
-    </Link>
+    <Button asChild variant="outline" className="h-8 w-8 p-0">
+      <Link href={`/properties?${newSearchParams}`}>
+        <span className="sr-only">Go to next page</span>
+        <ChevronRightIcon className="h-4 w-4" />
+      </Link>
+    </Button>
   ) : (
-    <Button
-      disabled
-      className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
-    >
-      Next
+    <Button disabled variant="outline" className="h-8 w-8 p-0">
+      <span className="sr-only">Go to next page</span>
+      <ChevronRightIcon className="h-4 w-4" />
     </Button>
   )
 }
@@ -46,18 +50,68 @@ export function PreviousPage({
   }
 
   return page > 1 ? (
-    <Link
-      href={`/properties?${newSearchParams}`}
-      className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
-    >
-      Previous
-    </Link>
+    <Button asChild variant="outline" className="h-8 w-8 p-0">
+      <Link href={`/properties?${newSearchParams}`}>
+        <span className="sr-only">Go to previous page</span>
+        <ChevronLeftIcon className="h-4 w-4" />
+      </Link>
+    </Button>
   ) : (
-    <Button
-      disabled
-      className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 opacity-50"
-    >
-      Previous
+    <Button disabled variant="outline" className="h-8 w-8 p-0">
+      <span className="sr-only">Go to previous page</span>
+      <ChevronLeftIcon className="h-4 w-4" />
+    </Button>
+  )
+}
+
+export function LastPage({
+  page,
+  totalPages,
+  currentSearchParams,
+}: {
+  page: number
+  totalPages: number
+  currentSearchParams: URLSearchParams
+}) {
+  const newSearchParams = new URLSearchParams(currentSearchParams)
+  newSearchParams.set("page", `${totalPages}`)
+
+  return page < totalPages ? (
+    <Button asChild variant="outline" className="h-8 w-8 p-0">
+      <Link href={`/properties?${newSearchParams}`}>
+        <span className="sr-only">Go to next page</span>
+        <DoubleArrowRightIcon className="h-4 w-4" />
+      </Link>
+    </Button>
+  ) : (
+    <Button disabled variant="outline" className="h-8 w-8 p-0">
+      <span className="sr-only">Go to last page</span>
+      <DoubleArrowRightIcon className="h-4 w-4" />
+    </Button>
+  )
+}
+
+export function FirstPage({
+  page,
+  currentSearchParams,
+}: {
+  page: number
+  currentSearchParams: URLSearchParams
+}) {
+  const newSearchParams = new URLSearchParams(currentSearchParams)
+  newSearchParams.delete("page")
+
+  return page > 1 ? (
+    <Button asChild variant="outline" className="h-8 w-8 p-0">
+      <Link href={`/properties?${newSearchParams}`}>
+        <span className="sr-only">Go to first page</span>
+        <DoubleArrowLeftIcon className="h-4 w-4" />{" "}
+      </Link>
+    </Button>
+  ) : (
+    <Button disabled variant="outline" className="h-8 w-8 p-0">
+      <span className="sr-only">Go to first page</span>
+      <DoubleArrowLeftIcon className="h-4 w-4" />{" "}
     </Button>
   )
 }
