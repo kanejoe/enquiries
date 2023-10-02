@@ -11,6 +11,7 @@ export interface Database {
     Tables: {
       properties: {
         Row: {
+          category: string | null
           created_at: string
           eircode: string | null
           id: number
@@ -18,6 +19,7 @@ export interface Database {
           vendor: string | null
         }
         Insert: {
+          category?: string | null
           created_at?: string
           eircode?: string | null
           id?: number
@@ -25,6 +27,7 @@ export interface Database {
           vendor?: string | null
         }
         Update: {
+          category?: string | null
           created_at?: string
           eircode?: string | null
           id?: number
@@ -76,7 +79,7 @@ export interface Database {
             columns: ["parent_id"]
             referencedRelation: "requisitions"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }

@@ -96,9 +96,12 @@ export async function PropertiesTable({
                           )}
                         </td>
                         <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-gray-900">
-                          <div className="flex space-x-2">
-                            <Badge variant="outline" className="rounded-md">
-                              Residential
+                          <div className="flex space-x-4">
+                            <Badge
+                              variant="outline"
+                              className="rounded-md border-primary"
+                            >
+                              {data.category}
                             </Badge>
                             <span className="max-w-[500px] truncate font-medium">
                               {search && data.property ? (
