@@ -14,8 +14,11 @@ export function CategoryBadge({
   currentSearchParams,
 }: CategoryBadgeProps) {
   const router = useRouter()
+  
   const newSearchParams = new URLSearchParams(currentSearchParams)
   newSearchParams.set("category", `${category}`)
+  newSearchParams.delete("page")
+
   return (
     <Badge
       variant="outline"
@@ -37,6 +40,7 @@ export function ClearCategoryBadge({
   const router = useRouter()
   const newSearchParams = new URLSearchParams(currentSearchParams)
   newSearchParams.delete("category")
+  newSearchParams.delete("page")
 
   return (
     <Badge

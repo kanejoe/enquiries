@@ -8794,6 +8794,11 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
+string-ts@0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/string-ts/-/string-ts-0.5.1.tgz#6f2080d54fae13191974eef972536786550fba37"
+  integrity sha512-tiy4ZRZ7/J+M/wQY1FhcJ3iWb7x8MgAdUpja/0z7i1cnAmsN8pwWx1MAXi4Oe8hebglqpKkucRKt9ubxMpzpuQ==
+
 "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"

@@ -60,6 +60,7 @@
     "remark-gfm": "4.0.0",
     "sharp": "0.32.6",
     "sonner": "1.0.3",
+    "string-ts": "0.5.1",
     "swr": "2.2.4",
     "tailwind-merge": "1.14.0",
     "tailwindcss-animate": "1.0.7",

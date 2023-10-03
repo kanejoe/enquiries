@@ -1,6 +1,7 @@
 import { cookies } from "next/headers"
 import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { trim } from "string-ts"
 
 import { type Database } from "@/lib/database.types"
 
@@ -34,7 +35,7 @@ export async function PropertiesTable({
     .select("id", { count: "exact", head: false })
     .or(`property.ilike.${searchPattern},vendor.ilike.${searchPattern}`)
 
-  if (categoryPattern && categoryPattern.trim() !== "") {
+  if (categoryPattern && trim(categoryPattern).trim() !== "") {
     supabaseCountQuery = supabaseCountQuery.filter(
       "category",
       "eq",
@@ -68,10 +69,11 @@ export async function PropertiesTable({
 
   let { data: properties, error } = await query
 
+  // store all the properties in a map
   const currentSearchParams = new URLSearchParams()
   if (search) currentSearchParams.set("search", search)
   if (page > 1) currentSearchParams.set("page", `${page}`)
-  if (categoryPattern && categoryPattern.trim() !== "") {
+  if (categoryPattern && trim(categoryPattern).trim() !== "") {
     currentSearchParams.set("category", `${categoryPattern}`)
   }
 
@@ -127,10 +129,12 @@ export async function PropertiesTable({
                         <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-gray-900">
                           <div className="flex space-x-4">
                             {data.category ? (
-                              <CategoryBadge
-                                category={data.category}
-                                currentSearchParams={currentSearchParams}
-                              />
+                              <div className="min-w-[100px]">
+                                <CategoryBadge
+                                  category={data.category}
+                                  currentSearchParams={currentSearchParams}
+                                />
+                              </div>
                             ) : null}
 
                             <span className="max-w-[500px] truncate font-medium">

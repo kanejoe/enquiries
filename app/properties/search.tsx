@@ -3,20 +3,33 @@
 import { useEffect, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
+import { trim } from "string-ts"
 
 import { Input } from "@/components/ui/input"
 
 import { Spinner } from "./_components/Spinner"
 
-export function PropertiesSearchInput({ search }: { search?: string }) {
+export function PropertiesSearchInput({
+  search,
+  currentSearchParams,
+}: {
+  search?: string
+  currentSearchParams: URLSearchParams
+}) {
+  const router = useRouter()
+
+  // local state for debouncing
   const [searchValue, setSearchValue] = useState(search || "")
   const [timeOutId, setTimeOutId] = useState<NodeJS.Timeout>() // for debouncing
-  const router = useRouter()
+
+  // useTransition for spinner
   const [isPending, startTransition] = useTransition()
   const isSearching = isPending || timeOutId
 
+  const newSearchParams = new URLSearchParams(currentSearchParams)
+
   useEffect(() => {
-    if (search === "") setSearchValue("")
+    setSearchValue(search || "")
   }, [search])
 
   return (
@@ -35,15 +48,18 @@ export function PropertiesSearchInput({ search }: { search?: string }) {
           id="propertysearch"
           className="block w-full rounded-md border-gray-300 pl-10 text-sm focus:ring-primary focus-visible:ring-primary"
           placeholder="Search Vendor or Property..."
-          defaultValue={searchValue}
+          value={searchValue}
           onChange={(e) => {
+            setSearchValue(e.target.value)
             clearTimeout(timeOutId)
             const id = setTimeout(() => {
               startTransition(() => {
-                if (e.target.value === "") {
-                  router.push(`/properties`)
+                if (trim(e.target.value) === "") {
+                  newSearchParams.delete("search")
+                  router.push(`/properties?${newSearchParams}`)
                 } else {
-                  router.push(`/properties?search=${e.target.value}`)
+                  newSearchParams.set("search", e.target.value)
+                  router.push(`/properties?${newSearchParams}`)
                 }
                 setTimeOutId(undefined)
               })
@@ -55,7 +71,8 @@ export function PropertiesSearchInput({ search }: { search?: string }) {
           <span
             onClick={(e) => {
               startTransition(() => {
-                router.push(`/properties`)
+                newSearchParams.delete("search")
+                router.push(`/properties?${newSearchParams}`)
               })
             }}
             className="absolute right-2 top-1/2 -translate-y-1/2 transform cursor-pointer"
