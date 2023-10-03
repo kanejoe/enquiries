@@ -3,9 +3,9 @@ import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { type Database } from "@/lib/database.types"
-import { Badge } from "@/components/ui/badge"
 
 import { HighlightedTableCell } from "./_components/HighlightedCellProps"
+import { CategoryBadge, ClearCategoryBadge } from "./CategoryBadge"
 import { FirstPage, LastPage, NextPage, PreviousPage } from "./NextPrevButtons"
 
 export async function PropertiesTable({
@@ -13,22 +13,36 @@ export async function PropertiesTable({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
+  // console.log("🚀 ~ file: PropertiesTable.tsx:16 ~ searchParams:", searchParams)
   //   await new Promise((resolve) => setTimeout(resolve, 2000))
 
   const supabase = createServerComponentClient<Database>({ cookies })
-  const perPage = 7 // max 7 properties per page
+  const perPage = 8 // max 8 properties per page
   const search =
     typeof searchParams.search === "string" ? searchParams.search : ""
 
-  //
+  // search pattern for ilike
   const searchPattern = `%${search}%`
 
+  // search pattern for category
+  const categoryPattern =
+    typeof searchParams.category === "string" ? searchParams.category : ""
+
   // count the total number of properties
-  let { data: countEntries, error: countError } = await supabase
+  let supabaseCountQuery = supabase
     .from("properties")
     .select("id", { count: "exact", head: false })
     .or(`property.ilike.${searchPattern},vendor.ilike.${searchPattern}`)
-  // .ilike("property", `%${search}%`)
+
+  if (categoryPattern && categoryPattern.trim() !== "") {
+    supabaseCountQuery = supabaseCountQuery.filter(
+      "category",
+      "eq",
+      categoryPattern
+    )
+  }
+
+  let { data: countEntries, error: countError } = await supabaseCountQuery
 
   let count = countEntries?.length || 0
 
@@ -41,17 +55,25 @@ export async function PropertiesTable({
       ? +searchParams.page
       : 1 // default to page 1
 
-  let { data: properties, error } = await supabase
+  let query = supabase
     .from("properties")
     .select("*")
     .or(`property.ilike.${searchPattern},vendor.ilike.${searchPattern}`)
-    // .ilike("property", searchPattern)
     .order("created_at", { ascending: true })
     .range((page - 1) * perPage, page * perPage - 1)
+
+  if (categoryPattern && categoryPattern.trim() !== "") {
+    query = query.filter("category", "eq", categoryPattern)
+  }
+
+  let { data: properties, error } = await query
 
   const currentSearchParams = new URLSearchParams()
   if (search) currentSearchParams.set("search", search)
   if (page > 1) currentSearchParams.set("page", `${page}`)
+  if (categoryPattern && categoryPattern.trim() !== "") {
+    currentSearchParams.set("category", `${categoryPattern}`)
+  }
 
   return (
     <div className="mt-8 flow-root">
@@ -68,7 +90,14 @@ export async function PropertiesTable({
                     Vendor
                   </th>
                   <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
-                    Property
+                    <span className="space-x-4">
+                      {categoryPattern ? (
+                        <ClearCategoryBadge
+                          currentSearchParams={currentSearchParams}
+                        />
+                      ) : null}
+                      <span className="">Property</span>
+                    </span>
                   </th>
                   <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     Eircode
@@ -97,12 +126,13 @@ export async function PropertiesTable({
                         </td>
                         <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-gray-900">
                           <div className="flex space-x-4">
-                            <Badge
-                              variant="outline"
-                              className="rounded-md border-primary"
-                            >
-                              {data.category}
-                            </Badge>
+                            {data.category ? (
+                              <CategoryBadge
+                                category={data.category}
+                                currentSearchParams={currentSearchParams}
+                              />
+                            ) : null}
+
                             <span className="max-w-[500px] truncate font-medium">
                               {search && data.property ? (
                                 <HighlightedTableCell

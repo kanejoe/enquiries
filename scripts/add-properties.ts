@@ -6,10 +6,10 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6YmttbWVic3F5a25tbm5xb2V6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE3MDEyMTAsImV4cCI6MjAwNzI3NzIxMH0.eyOAJboMgjKHh0tRQ1wLw88kUJF5WqP4YLFfE7k0zNg"
 )
 
-faker.seed(1213)
+faker.seed(113)
 
 async function main() {
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 123; i++) {
     let property =
       faker.location.buildingNumber() +
       ", " +

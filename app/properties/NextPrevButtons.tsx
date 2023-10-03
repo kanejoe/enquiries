@@ -18,6 +18,7 @@ export function NextPage({
   currentSearchParams: URLSearchParams
 }) {
   const newSearchParams = new URLSearchParams(currentSearchParams)
+ 
   newSearchParams.set("page", `${page + 1}`)
 
   return page < totalPages ? (
