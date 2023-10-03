@@ -1,13 +1,16 @@
 import { cookies } from "next/headers"
 import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { format, parseISO } from "date-fns"
 import { trim } from "string-ts"
 
 import { type Database } from "@/lib/database.types"
+import { Badge } from "@/components/ui/badge"
 
 import { HighlightedTableCell } from "./_components/HighlightedCellProps"
 import { CategoryBadge, ClearCategoryBadge } from "./CategoryBadge"
 import { FirstPage, LastPage, NextPage, PreviousPage } from "./NextPrevButtons"
+import { StatusBadge } from "./Status"
 
 export async function PropertiesTable({
   searchParams,
@@ -89,7 +92,10 @@ export async function PropertiesTable({
                     ID
                   </th>
                   <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
-                    Vendor
+                    Created
+                  </th>
+                  <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
+                    Client
                   </th>
                   <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
                     <span className="space-x-4">
@@ -102,7 +108,7 @@ export async function PropertiesTable({
                     </span>
                   </th>
                   <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Eircode
+                    Status
                   </th>
                   <th className="relative py-3.5 pl-3 pr-6">
                     <span className="sr-only">Edit</span>
@@ -112,9 +118,20 @@ export async function PropertiesTable({
               <tbody className="divide-y divide-gray-200 bg-white">
                 {properties && properties.length
                   ? properties.map((data) => (
-                      <tr key={data.vendor}>
+                      <tr
+                        key={data.vendor}
+                        className="delay-50 transition hover:bg-gray-50"
+                      >
                         <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-gray-900">
                           {data.id}
+                        </td>
+                        <td className="whitespace-nowrap py-4 pl-6 pr-3 text-xs text-gray-700">
+                          <Badge
+                            variant="secondary"
+                            className="rounded-sm px-1 font-normal"
+                          >
+                            {format(parseISO(data.created_at), "d MMM yyyy")}
+                          </Badge>
                         </td>
                         <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-gray-900">
                           {search && data.vendor ? (
@@ -146,11 +163,18 @@ export async function PropertiesTable({
                               ) : (
                                 data.property
                               )}
+                              {data.eircode && (
+                                <span className="ml-2 text-sm text-gray-500">
+                                  {data.eircode}
+                                </span>
+                              )}
                             </span>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {data.eircode}
+                        <td className="whitespace-nowrap px-3 py-4">
+                          {data.status ? (
+                            <StatusBadge statusText={data.status} />
+                          ) : null}
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-4 pr-6 text-right text-sm font-medium">
                           <a

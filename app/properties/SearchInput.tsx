@@ -46,8 +46,8 @@ export function PropertiesSearchInput({
           name="search"
           autoComplete="off"
           id="propertysearch"
-          className="block w-full rounded-md border-gray-300 pl-10 text-sm focus:ring-primary focus-visible:ring-primary"
-          placeholder="Search Vendor or Property..."
+          className="block w-full rounded-md border-gray-300 pl-10 text-sm focus:ring-primary focus-visible:ring-primary "
+          placeholder="Search by Client or Property..."
           value={searchValue}
           onChange={(e) => {
             setSearchValue(e.target.value)

@@ -3,7 +3,8 @@ import { trim } from "string-ts"
 
 import { Spinner } from "./_components/Spinner"
 import { PropertiesTable } from "./PropertiesTable"
-import { PropertiesSearchInput } from "./search"
+import { PropertiesSearchInput } from "./SearchInput"
+import { StatusFilter } from "./StatusFilter"
 
 export default async function Properties({
   searchParams,
@@ -28,17 +29,19 @@ export default async function Properties({
   return (
     <div className="min-h-screen px-8 pt-12">
       <div className="flex items-center justify-between">
-        <PropertiesSearchInput
-          search={search}
-          currentSearchParams={currentSearchParams}
-        />
-
+        <div className="flex flex-1 items-center space-x-8">
+          <PropertiesSearchInput
+            search={search}
+            currentSearchParams={currentSearchParams}
+          />
+          <StatusFilter />
+        </div>
         <div className="ml-16 mt-0 flex-none">
           <button
             type="button"
             className="block rounded-md bg-primary px-3 py-1.5 text-center text-sm font-semibold leading-6  shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >
-            Add user
+            Add Set
           </button>
         </div>
       </div>

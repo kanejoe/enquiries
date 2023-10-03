@@ -16,6 +16,7 @@ export interface Database {
           eircode: string | null
           id: number
           property: string | null
+          status: string | null
           vendor: string | null
         }
         Insert: {
@@ -24,6 +25,7 @@ export interface Database {
           eircode?: string | null
           id?: number
           property?: string | null
+          status?: string | null
           vendor?: string | null
         }
         Update: {
@@ -32,6 +34,7 @@ export interface Database {
           eircode?: string | null
           id?: number
           property?: string | null
+          status?: string | null
           vendor?: string | null
         }
         Relationships: []
@@ -48,6 +51,7 @@ export interface Database {
           query: string | null
           reply: string | null
           sequence: number
+          status: string | null
         }
         Insert: {
           has_doc?: boolean
@@ -60,6 +64,7 @@ export interface Database {
           query?: string | null
           reply?: string | null
           sequence?: number
+          status?: string | null
         }
         Update: {
           has_doc?: boolean
@@ -72,6 +77,7 @@ export interface Database {
           query?: string | null
           reply?: string | null
           sequence?: number
+          status?: string | null
         }
         Relationships: [
           {
