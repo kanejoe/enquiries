@@ -11,10 +11,7 @@ import { statuses } from "./Status"
 export function StatusFilter(props: any) {
   const statusLabel = statuses.map((status) => status.label)
   const selectedValues = new Set(statusLabel as string[])
-  console.log(
-    "🚀 ~ file: StatusFilter.tsx:10 ~ StatusFilter ~ selectedValues:",
-    selectedValues.size
-  )
+
   return (
     <Button variant="outline" size="sm" className="h-8 border-dashed">
       <PlusCircledIcon className="mr-2 h-4 w-4" />

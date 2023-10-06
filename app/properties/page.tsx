@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 import { trim } from "string-ts"
+import { z } from "zod"
 
 import { Spinner } from "./_components/Spinner"
 import { PropertiesTable } from "./PropertiesTable"
@@ -11,13 +12,28 @@ export default async function Properties({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
+  const paramsSchema = z.object({
+    page: z.coerce.number().optional(),
+    category: z.string().optional(),
+    search: z.string().optional(),
+  })
+  const parsedParamsObject = paramsSchema.safeParse(searchParams)
+
+  const searchParamsParsed = !parsedParamsObject.success
+    ? {}
+    : parsedParamsObject.data
+
   // search url param
   const search =
-    typeof searchParams.search === "string" ? searchParams.search : ""
+    typeof searchParamsParsed.search === "string"
+      ? searchParamsParsed.search
+      : ""
 
   // search pattern for category
   const categoryPattern =
-    typeof searchParams.category === "string" ? searchParams.category : ""
+    typeof searchParamsParsed.category === "string"
+      ? searchParamsParsed.category
+      : ""
 
   // url search params
   const currentSearchParams = new URLSearchParams()

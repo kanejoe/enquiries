@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { HighlightedTableCell } from "./_components/HighlightedCellProps"
 import { CategoryBadge, ClearCategoryBadge } from "./CategoryBadge"
 import { FirstPage, LastPage, NextPage, PreviousPage } from "./NextPrevButtons"
+import { PropertiesTableRowActions } from "./PropertiesTableRowActions"
 import { StatusBadge } from "./Status"
 
 export async function PropertiesTable({
@@ -177,13 +178,7 @@ export async function PropertiesTable({
                           ) : null}
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-4 pr-6 text-right text-sm font-medium">
-                          <a
-                            href="#"
-                            className="inline-flex items-center text-secondary-foreground hover:text-secondary-foreground/80"
-                          >
-                            Edit
-                            <ChevronRightIcon className="h-4 w-4" />
-                          </a>
+                          <PropertiesTableRowActions />
                         </td>
                       </tr>
                     ))
@@ -208,7 +203,10 @@ export async function PropertiesTable({
           <span className="font-semibold ordinal">
             {count.toLocaleString()}
           </span>{" "}
-          requisitions
+          requisitions <span className="ml-2"> // Page {page}</span>
+          {categoryPattern ? (
+            <span className="ml-2"> // Category: {categoryPattern}</span>
+          ) : null}
         </p>
         <div className="space-x-2">
           <FirstPage page={page} currentSearchParams={currentSearchParams} />
