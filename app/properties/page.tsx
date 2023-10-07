@@ -3,6 +3,7 @@ import { trim } from "string-ts"
 import { z } from "zod"
 
 import { Spinner } from "./_components/Spinner"
+import { ProfileForm } from "./NewPropertyForm"
 import { PropertiesTable } from "./PropertiesTable"
 import { PropertiesSearchInput } from "./SearchInput"
 import { StatusFilter } from "./StatusFilter"
@@ -16,6 +17,7 @@ export default async function Properties({
     page: z.coerce.number().optional(),
     category: z.string().optional(),
     search: z.string().optional(),
+    sort: z.string().optional(),
   })
   const parsedParamsObject = paramsSchema.safeParse(searchParams)
 
@@ -42,6 +44,13 @@ export default async function Properties({
     currentSearchParams.set("category", `${categoryPattern}`)
   }
 
+  // sort params
+  const sort =
+    typeof currentSearchParams.sort === "string" ? currentSearchParams.sort : ""
+
+  // if (parsedParamsObject.success)
+  //   console.log("🚀 ~ file: page.tsx:50 ~ sort:", parsedParamsObject.data)
+
   return (
     <div className="min-h-screen px-8 pt-12">
       <div className="flex items-center justify-between">
@@ -60,6 +69,10 @@ export default async function Properties({
             Add Set
           </button>
         </div>
+      </div>
+
+      <div className="my-12 w-1/3">
+        <ProfileForm />
       </div>
 
       <Suspense fallback={<Loading />}>

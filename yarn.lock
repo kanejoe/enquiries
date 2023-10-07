@@ -7348,10 +7348,10 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-string-ts@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/string-ts/-/string-ts-1.1.0.tgz#0d7e3700933ed0036b063a4bfa6064d3fdd6c6bb"
-  integrity sha512-X0GnZqjD+3pE8BcilERwVmjI+r6w6Gmx3e9oB+WLdzb/ABaOtluuLK9nf73eqPobRD0wWRqwM5zvTd12fQAgJw==
+string-ts@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/string-ts/-/string-ts-1.2.0.tgz#2e12c8448aafafbf3693bb12ef952e3d27180afc"
+  integrity sha512-4pRpax75q05wvh7HS3I3TgXM1R24NrS/x4yZ1Y46IOwavriZi5/cjC9OEn9BrJpjXV7VTcF1s/Wj6iEv2rlVvg==
 
 "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
@@ -8351,11 +8351,6 @@ zod-to-json-schema@3.21.4, zod-to-json-schema@^3.20.4:
   version "3.21.4"
   resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.21.4.tgz#de97c5b6d4a25e9d444618486cb55c0c7fb949fd"
   integrity sha512-fjUZh4nQ1s6HMccgIeE0VP4QG/YRGPmyjO9sAh890aQKPEk3nqbfUXhMFaC+Dr5KvYBm8BCyvfpZf2jY9aGSsw==
-
-zod@3.22.4:
-  version "3.22.4"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
-  integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
 
 zod@^3.22.3:
   version "3.22.3"

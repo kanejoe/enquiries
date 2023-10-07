@@ -1,16 +1,14 @@
-import { cookies } from "next/headers"
-import { ChevronRightIcon } from "@heroicons/react/20/solid"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { format, parseISO } from "date-fns"
 import { trim } from "string-ts"
 
-import { type Database } from "@/lib/database.types"
+import { supabase } from "@/lib/supabaseClient"
 import { Badge } from "@/components/ui/badge"
 
 import { HighlightedTableCell } from "./_components/HighlightedCellProps"
 import { CategoryBadge, ClearCategoryBadge } from "./CategoryBadge"
 import { FirstPage, LastPage, NextPage, PreviousPage } from "./NextPrevButtons"
 import { PropertiesTableRowActions } from "./PropertiesTableRowActions"
+import { PropertyTableColumnHeader } from "./PropertyTableHeader"
 import { StatusBadge } from "./Status"
 
 export async function PropertiesTable({
@@ -18,10 +16,8 @@ export async function PropertiesTable({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  // console.log("🚀 ~ file: PropertiesTable.tsx:16 ~ searchParams:", searchParams)
   //   await new Promise((resolve) => setTimeout(resolve, 2000))
 
-  const supabase = createServerComponentClient<Database>({ cookies })
   const perPage = 8 // max 8 properties per page
   const search =
     typeof searchParams.search === "string" ? searchParams.search : ""
@@ -60,6 +56,7 @@ export async function PropertiesTable({
       ? +searchParams.page
       : 1 // default to page 1
 
+  // query search results
   let query = supabase
     .from("properties")
     .select("*")
@@ -93,7 +90,11 @@ export async function PropertiesTable({
                     ID
                   </th>
                   <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
-                    Created
+                    <PropertyTableColumnHeader
+                      title="Created"
+                      columnName="created_at"
+                      currentSearchParams={currentSearchParams}
+                    />
                   </th>
                   <th className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
                     Client
@@ -203,10 +204,10 @@ export async function PropertiesTable({
           <span className="font-semibold ordinal">
             {count.toLocaleString()}
           </span>{" "}
-          requisitions <span className="ml-2"> // Page {page}</span>
-          {categoryPattern ? (
-            <span className="ml-2"> // Category: {categoryPattern}</span>
-          ) : null}
+          requisitions <span className="mx-1"> // Page {page}</span>
+          {/* {categoryPattern ? (
+            <span className="m-1"> Category: {categoryPattern}</span>
+          ) : null} */}
         </p>
         <div className="space-x-2">
           <FirstPage page={page} currentSearchParams={currentSearchParams} />

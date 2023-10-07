@@ -14,7 +14,6 @@ export function CategoryBadge({
   currentSearchParams,
 }: CategoryBadgeProps) {
   const router = useRouter()
-  
   const newSearchParams = new URLSearchParams(currentSearchParams)
   newSearchParams.set("category", `${category}`)
   newSearchParams.delete("page")
