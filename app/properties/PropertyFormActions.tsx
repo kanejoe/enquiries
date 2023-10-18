@@ -14,8 +14,8 @@ export async function PropertyFormActions(data: unknown) {
     data
   )
   const result = schema.safeParse(data)
-  console.log(
-    "🚀 ~ file: PropertyFormActions.tsx:10 ~ PropertyFormActions ~ result:",
-    result
-  )
+  // console.log(
+  //   "🚀 ~ file: PropertyFormActions.tsx:10 ~ PropertyFormActions ~ result:",
+  //   result
+  // )
 }

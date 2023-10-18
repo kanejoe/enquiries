@@ -1,6 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import { experimental_useFormStatus as useFormStatus } from "react-dom"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -19,9 +20,6 @@ import { Input } from "@/components/ui/input"
 import { PropertyFormActions } from "./PropertyFormActions"
 
 export const shape = {
-  //   client: z.string().min(2, {
-  //     message: "Client name must be at least 2 characters.",
-  //   }),
   property: z.string().min(3, {
     message: "Property must be at least 3 characters.",
   }),
@@ -63,7 +61,6 @@ export function ProfileForm() {
         // onSubmit={form.handleSubmit(onSubmit)}
         action={formAction}
         className="space-y-8"
-        // style={{ formSizing: "normal" }}
       >
         <FormField
           control={form.control}
@@ -72,7 +69,11 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Property</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input
+                  placeholder="shadcn"
+                  {...field}
+                  // style={{ formSizing: "normal" }}
+                />
               </FormControl>
               {/* <FormDescription>
                 This is your public display name.
@@ -87,7 +88,12 @@ export function ProfileForm() {
   )
 }
 
-function SubmitButton({ pending }: { pending?: boolean }) {
+function SubmitButton() {
+  const { pending } = useFormStatus()
+  console.log(
+    "🚀 ~ file: NewPropertyForm.tsx:90 ~ SubmitButton ~ pending:",
+    pending
+  )
   return (
     <Button type="submit" aria-disabled={pending}>
       Submit
