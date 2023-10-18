@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef } from "react"
-import va from "@vercel/analytics"
 import { useChat } from "ai/react"
 import clsx from "clsx"
 import { Bot, User } from "lucide-react"
@@ -26,17 +25,18 @@ export default function Chat() {
     onResponse: (response) => {
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.")
-        va.track("Rate limited")
+        // va.track("Rate limited")
         return
       } else {
-        va.track("Chat initiated")
+        // va.track("Chat initiated")
       }
     },
     onError: (error) => {
-      va.track("Chat errored", {
-        input,
-        error: error.message,
-      })
+      console.log("🚀 ~ file: chat.tsx:35 ~ Chat ~ error:", error)
+      // va.track("Chat errored", {
+      //   input,
+      //   error: error.message,
+      // })
     },
   })
 

@@ -2,7 +2,8 @@
 
 import { ButtonHTMLAttributes, FC, ReactNode, useEffect, useState } from "react"
 import { motion, MotionProps } from "framer-motion"
-import { experimental_useFormStatus as useFormStatus } from "react-dom"
+// @ts-expect-error
+import { useFormStatus } from "react-dom"
 
 import { Button } from "@/components/ui/button"
 

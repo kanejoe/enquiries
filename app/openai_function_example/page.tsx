@@ -10,6 +10,12 @@ const Current: NextPage = async () => {
   return (
     <div className="font-albertsans">
       <h1 className="mb-4 text-lg font-semibold">Weather Function</h1>
+      <a
+        className="my-2"
+        href="https://cookbook.openai.com/examples/how_to_build_an_agent_with_the_node_sdk"
+      >
+        https://cookbook.openai.com/examples/how_to_build_an_agent_with_the_node_sdk
+      </a>
       <div className="">
         <pre className="flex flex-col space-y-4">
           <code className="whitespace-break-spaces rounded bg-yellow-50 p-2">
@@ -17,7 +23,6 @@ const Current: NextPage = async () => {
           </code>
         </pre>
       </div>
-      {/* <div className="">{resp}</div> */}
     </div>
   )
 }

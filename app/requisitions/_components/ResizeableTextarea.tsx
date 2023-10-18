@@ -1,5 +1,6 @@
 import { forwardRef, useImperativeHandle, useLayoutEffect, useRef } from "react"
-import { experimental_useFormStatus as useFormStatus } from "react-dom"
+// @ts-expect-error
+import { useFormStatus } from "react-dom"
 
 import { Textarea } from "@/components/ui/textarea"
 

@@ -17,11 +17,11 @@ const RequisitionFormPage: FC<RequisitionFormPageProps> = ({
         <CardTitle>Add a New Requisition</CardTitle>
       </CardHeader>
       <CardContent>
-        <NewRequisitionForm
+        {/* <NewRequisitionForm
           parent_id={Number(searchParams?.pid)}
           sequence={Number(searchParams?.sequence)}
           siblings={searchParams?.siblings?.split(",").map(Number)}
-        />
+        /> */}
       </CardContent>
     </Card>
   )
