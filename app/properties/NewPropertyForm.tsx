@@ -1,7 +1,8 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { experimental_useFormStatus as useFormStatus } from "react-dom"
+// @ts-ignore
+import { useFormStatus } from "react-dom"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
