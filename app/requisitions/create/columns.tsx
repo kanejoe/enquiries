@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Requisition } from "@/types/RequisitionType"
 import { transformSequenceArray } from "@/lib/tree"
 import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 
 import { DataTableRowActions } from "./data-table-row-actions"
 
@@ -37,11 +38,21 @@ export const columns: ColumnDef<Requisition>[] = [
               >
                 &nbsp;
               </div>
-              <div className="flex flex-col space-y-1">
+              <div
+                className={cn({
+                  "flex ": true,
+                  "flex-col space-y-1": query,
+                  "flex-row space-x-3": !query,
+                })}
+              >
                 <div className="font-semibold">
                   {transformSequenceArray(sequence_in_levels)}
                 </div>
-                <div className="">{query}</div>
+                {query ? (
+                  <div className="">{query}</div>
+                ) : (
+                  <Badge variant={"outline"}>no query</Badge>
+                )}
               </div>
             </div>
           )}
