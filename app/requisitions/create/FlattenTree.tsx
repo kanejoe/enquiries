@@ -43,7 +43,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="space-y-4">
+    <div className="sticky space-y-4">
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -51,7 +51,10 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id} className="bg-gray-50">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-lg font-bold">
+                    <TableHead
+                      key={header.id}
+                      className="sticky text-lg font-bold"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
