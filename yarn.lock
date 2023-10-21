@@ -2155,10 +2155,10 @@ agentkeepalive@^4.2.1:
   dependencies:
     humanize-ms "^1.2.1"
 
-ai@2.2.16:
-  version "2.2.16"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.16.tgz#0d0b1a25d4ae62b4ebb258f2baaed08793a6c662"
-  integrity sha512-3kYBmKhV4Zk16ffaN0ehbfA7rK4TQLVqe+dVzlG5+edF8hUTEoNdF21CCpPA/n+PrDGwC3KmlCfn07OReVwjqg==
+ai@2.2.17:
+  version "2.2.17"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.17.tgz#0a5a18f742bca1f402a28ff5bd0b07b1ad06a8d1"
+  integrity sha512-A84UTv5/qSyuDcTfrtnCvKRxIHYunCOMyRLEvVGaJJLw3slnUpPf/tD9WfxNEO8Gh3thmI3xDWkEmqt1vYXEaw==
   dependencies:
     eventsource-parser "1.0.0"
     nanoid "3.3.6"
@@ -5358,10 +5358,10 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-langchain@0.0.169:
-  version "0.0.169"
-  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.0.169.tgz#33230fdcf0687d7b883bbc4858d873e97ed9dfb5"
-  integrity sha512-2JEYgLa827M+5GAWLX2hjWd5HuB8H4wYJBD6Ds5rCy49Oqffhz6h+af1yfLWooL2K3aoHDHiwt+YbI4gWeN+7w==
+langchain@0.0.170:
+  version "0.0.170"
+  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.0.170.tgz#064b347edf3c3130ce0d61c251eacbe178527325"
+  integrity sha512-TdF7GWtrt/40GEhx+5fpdFlxodJmKk5cYU7Uugc/8SBNIaYehD2unXFPT9yjF6y/R/lSOWnl/j6bZRh/s3BZBw==
   dependencies:
     "@anthropic-ai/sdk" "^0.6.2"
     ansi-styles "^5.0.0"

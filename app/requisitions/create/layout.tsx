@@ -9,7 +9,7 @@ interface CreateReqLayoutProps {
 
 const CreateReqLayout: FC<CreateReqLayoutProps> = ({ children }) => {
   return (
-    <main className="container mt-6 flex flex-row gap-x-12">
+    <main className="container mt-6 flex flex-row gap-x-12 font-albertsans">
       <aside className="w-1/4">
         <HeadingScrollArea />
       </aside>
