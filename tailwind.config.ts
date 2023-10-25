@@ -19,6 +19,9 @@ module.exports = {
       spacing: {
         "128": "32rem",
       },
+      textWrap: {
+        pretty: "pretty",
+      },
       fontSize: { sml: "0.925rem" },
       colors: {
         border: "hsl(var(--border))",

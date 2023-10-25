@@ -40,6 +40,7 @@ export const columns: ColumnDef<Requisition>[] = [
               </div>
               <div
                 className={cn({
+                  // cn is a utility function to conditionally join classNames
                   "flex ": true,
                   "flex-col space-y-1": query,
                   "flex-row space-x-3": !query,
@@ -49,7 +50,7 @@ export const columns: ColumnDef<Requisition>[] = [
                   {transformSequenceArray(sequence_in_levels)}
                 </div>
                 {query ? (
-                  <div className="">{query}</div>
+                  <div className="text-pretty">{query}</div>
                 ) : (
                   <Badge variant={"outline"}>no query</Badge>
                 )}
