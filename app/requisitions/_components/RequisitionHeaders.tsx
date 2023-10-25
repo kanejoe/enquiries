@@ -3,8 +3,8 @@
 import { usePathname } from "next/navigation"
 
 const requisitions = [
-  { id: 1, heading: "1", query: "Query Premises" },
-  { id: 2, heading: "2", query: "Query Services" },
+  { id: 1, heading: "1", query: "Premises" },
+  { id: 2, heading: "2", query: "Easements and Services" },
   { id: 31, heading: "22", query: "Wannabe parliamentarians are" },
 ]
 
@@ -27,9 +27,9 @@ const RequisitionList: React.FC<Props> = (/*{ requisitions }*/) => {
         <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
           Headings
         </div>
-        <ul>
+        <ul role="list">
           {requisitions.map((req, index) => (
-            <li key={req.id} className="mb-0.5">
+            <li key={req.id} className="group mb-0.5" title={req.query}>
               {req.id === 2 ? (
                 // pathname === "/requisitions/create"
                 <ActiveRoute req={req} />
@@ -54,8 +54,25 @@ function DefaultRoute({ req }: { req: any }) {
           {req.heading}
         </span>
       </div>
-      <div className="mt-1.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 font-semibold text-gray-500">
+      <div className="mt-1.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 font-semibold text-gray-500 transition group-hover:cursor-pointer group-hover:text-gray-700">
         {req.query}
+      </div>
+      <div className="relative w-1 opacity-0 group-hover:opacity-100">
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 15 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="motion-safe:group-hover:animate-moveLeftAndRight absolute bottom-2.5 right-0.5 text-gray-500"
+        >
+          <path
+            d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+            fill="currentColor"
+            fillRule="evenodd"
+            clipRule="evenodd"
+          ></path>
+        </svg>
       </div>
     </div>
   )
@@ -63,13 +80,13 @@ function DefaultRoute({ req }: { req: any }) {
 
 function ActiveRoute({ req }: { req: any }) {
   return (
-    <div className="mb-2 flex flex-row space-x-4 rounded-lg bg-white p-2 text-sm shadow">
-      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-black/80 text-white">
+    <div className="mb-2 ml-1 flex flex-row space-x-4 rounded-lg bg-white p-2 text-sm shadow">
+      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-secondary-foreground">
         <span className="text-sm font-semibold tabular-nums">
           {req.heading}
         </span>
       </div>
-      <div className="mt-0.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 font-semibold">
+      <div className="mt-0.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pl-1 pr-1 font-semibold">
         {req.query}
       </div>
       <div className="relative w-1">
