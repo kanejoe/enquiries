@@ -6,6 +6,7 @@ const requisitions = [
   { id: 1, heading: "1", query: "Premises" },
   { id: 2, heading: "2", query: "Easements and Services" },
   { id: 31, heading: "22", query: "Wannabe parliamentarians are" },
+  { id: 32, heading: "23", query: "Rugby World Cup" },
 ]
 
 interface Requisition {
@@ -54,7 +55,7 @@ function DefaultRoute({ req }: { req: any }) {
           {req.heading}
         </span>
       </div>
-      <div className="mt-1.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 font-semibold text-gray-500 transition group-hover:cursor-pointer group-hover:text-gray-700">
+      <div className="mt-1.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 text-gray-500 transition group-hover:cursor-pointer group-hover:text-gray-700">
         {req.query}
       </div>
       <div className="relative w-1 opacity-0 group-hover:opacity-100">

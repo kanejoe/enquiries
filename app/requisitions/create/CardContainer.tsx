@@ -8,7 +8,9 @@ import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 import { RecursiveTree } from "@/components/RecursiveTree"
 
 import { RequisitionCard } from "../_components/RequisitionCard"
+import { data } from "./data"
 import { FlattenedTree } from "./FlattenTree"
+import NewStructure from "./NewStructure"
 
 interface CardContainerProps {}
 
@@ -27,7 +29,8 @@ const CardContainer: FC<CardContainerProps> = async (props) => {
 
   return (
     <section className="relative flex w-full flex-col">
-      <FlattenedTree tree={tree} />
+      <NewStructure requisitions={data} />
+      {/* <FlattenedTree tree={tree} /> */}
       {/* {instantHeadingNode ? (
         <div className="sticky top-[100px] z-10" id="card-title">
           <RequisitionCard data={instantHeadingNode} showRootNode={true} />
