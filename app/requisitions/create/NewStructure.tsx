@@ -1,6 +1,7 @@
 import { cn } from "lib/utils"
 
 import { transformSequenceArray } from "@/lib/tree"
+import LoadingDots from "@/components/loading-dots"
 
 interface Requisition {
   id: number
