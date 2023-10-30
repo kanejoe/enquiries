@@ -1,7 +1,7 @@
 import { format, parseISO } from "date-fns"
 import { trim } from "string-ts"
 
-import { supabase } from "@/lib/supabaseClient"
+import { supabase } from "@/lib/supabase"
 import { Badge } from "@/components/ui/badge"
 
 import { HighlightedTableCell } from "./_components/HighlightedCellProps"

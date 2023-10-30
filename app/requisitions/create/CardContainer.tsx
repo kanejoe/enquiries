@@ -1,22 +1,26 @@
 import { FC } from "react"
-import { cookies } from "next/headers"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useQuery } from "@tanstack/react-query"
 
 import { Requisition } from "@/types/RequisitionType"
-import { Database } from "@/lib/database.types"
+import { supabase } from "@/lib/supabase"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
-import { RecursiveTree } from "@/components/RecursiveTree"
 
-import { RequisitionCard } from "../_components/RequisitionCard"
+import { getAllRequisitionsAction } from "./actions"
+// import { RecursiveTree } from "@/components/RecursiveTree"
+
+// import { RequisitionCard } from "../_components/RequisitionCard"
+// import { FlattenedTree } from "./FlattenTree"
 import { data } from "./data"
-import { FlattenedTree } from "./FlattenTree"
 import NewStructure from "./NewStructure"
 
 interface CardContainerProps {}
 
-const CardContainer: FC<CardContainerProps> = async (props) => {
-  // Create a Supabase client configured to use cookies
-  const supabase = createServerComponentClient<Database>({ cookies })
+const CardContainer: FC<CardContainerProps> = async () => {
+  // const { data: d, isFetched } = useQuery({
+  //   queryKey: ["requisitions"],
+  //   queryFn: getAllRequisitionsAction,
+  // })
+  // console.log(d)
 
   const { data: requisitions, error } = await supabase
     .from("requisitions")

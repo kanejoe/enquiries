@@ -396,6 +396,13 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.23.1":
+  version "7.23.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
+  integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.22.5", "@babel/template@^7.3.3":
   version "7.22.5"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.22.5.tgz#0c8c4d944509875849bd0344ff0050756eefc6ec"
@@ -1603,18 +1610,18 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@supabase/auth-helpers-nextjs@0.8.2":
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/@supabase/auth-helpers-nextjs/-/auth-helpers-nextjs-0.8.2.tgz#db1df489415c3117458ab132af82d6403ba3d834"
-  integrity sha512-+c9Ck0U0uQuu9fJTnHEnqwZu7hRNFF7ZDWtqOM+8ECxvsHxqgbzpgG0e9M2eS0x+YgCsm1MWUy59ULIkx9zq5Q==
+"@supabase/auth-helpers-nextjs@0.8.3":
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/@supabase/auth-helpers-nextjs/-/auth-helpers-nextjs-0.8.3.tgz#646937a6b34b5bc5cc6ad4b165775de09bafa730"
+  integrity sha512-zv7Ku8a6D9SO7sd+dtfrHvreScxvzjHLIFglQVWpYywtOdGptUzBcjYePDbO6iHvksQRnG+h80IrK4yLnOd43A==
   dependencies:
-    "@supabase/auth-helpers-shared" "0.5.0"
+    "@supabase/auth-helpers-shared" "0.6.0"
     set-cookie-parser "^2.6.0"
 
-"@supabase/auth-helpers-shared@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@supabase/auth-helpers-shared/-/auth-helpers-shared-0.5.0.tgz#e1fbe0732d9f171ab21135416ccf719aa596999f"
-  integrity sha512-kioUeYDBZ89cfqOTZFOLEFIO7kGczL0XJYZdVv/bKt5efXqhiY14NbzgGWiMvvD9o9Iluo0+YEV2tG3ZZ5W06A==
+"@supabase/auth-helpers-shared@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@supabase/auth-helpers-shared/-/auth-helpers-shared-0.6.0.tgz#86fc55279058e33ad2b31e59ed176fb49c1cb8fc"
+  integrity sha512-rBj8KNnzBpj2G3icClcTGE6Mrldo1zVQot5PCr8wbEMDa6/a/RIScOSwMIc9dq+eq6XwF8BVczUBwaN+RPBiTA==
   dependencies:
     jose "^4.14.4"
 
@@ -1748,6 +1755,30 @@
     "@tailwindcss/oxide-linux-x64-gnu" "0.0.0-insiders.782c733"
     "@tailwindcss/oxide-linux-x64-musl" "0.0.0-insiders.782c733"
     "@tailwindcss/oxide-win32-x64-msvc" "0.0.0-insiders.782c733"
+
+"@tanstack/query-core@5.4.3":
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.4.3.tgz#fbdd36ccf1acf70579980f2e7cf16d2c2aa2a5e9"
+  integrity sha512-fnI9ORjcuLGm1sNrKatKIosRQUpuqcD4SV7RqRSVmj8JSicX2aoMyKryHEBpVQvf6N4PaBVgBxQomjsbsGPssQ==
+
+"@tanstack/query-devtools@5.4.2":
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.4.2.tgz#1687645ba1b9ffc76c55ac7759461d331d0776bf"
+  integrity sha512-EXdaMXi8CxZuMp97J5mq6wy1RduOfoWFv5vtA1U+hyqb8Wst6M8kkkjDSdFvGZIRpYY4K8mKLlEFHNUZDG5dtw==
+
+"@tanstack/react-query-devtools@5.4.3":
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.4.3.tgz#7df56de0454104c229f25393cf57a957f6245186"
+  integrity sha512-J9EB50vpK5yvQ5W+AOp9jIQa+1mld+Wwc2GF3VLr2SEDhOyiTiHOjrFGKKL1Cal5Wg8UuS3vexf8trElrtg05A==
+  dependencies:
+    "@tanstack/query-devtools" "5.4.2"
+
+"@tanstack/react-query@5.4.3":
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.4.3.tgz#cf59120690032e44b8c1c4c463cfb43aaad2fc5f"
+  integrity sha512-4aSOrRNa6yEmf7mws5QPTVMn8Lp7L38tFoTZ0c1ZmhIvbr8GIA0WT7X5N3yz/nuK8hUtjw9cAzBr4BPDZZ+tzA==
+  dependencies:
+    "@tanstack/query-core" "5.4.3"
 
 "@tanstack/react-table@8.10.7":
   version "8.10.7"
@@ -5670,10 +5701,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lucide-react@0.289.0:
-  version "0.289.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.289.0.tgz#4ab2a0d0ad2bcf9b56fdbc455a98e026510a7f28"
-  integrity sha512-D3/kt5h4KVmO9Bqlhky/szWI3puEU/KJfQWCeX8Zhvx3xx0SQ4t6vbwiK9ORBbiaqXefkBbXjoq7fOBd7s5yXQ==
+lucide-react@0.290.0:
+  version "0.290.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.290.0.tgz#fb68c8b4db179b6c4befe913a8d96d6d79d664c9"
+  integrity sha512-CBDPRLOPjdo+bVlxhaa7FVWaB8OrZZQ34mwm0Fsz9ut6JltN/Td55640ur8bRWSJuz6+nX2klKrpBpV7ktwD3Q==
 
 lz-string@^1.5.0:
   version "1.5.0"
@@ -6568,10 +6599,10 @@ openai-edge@1.2.2:
   resolved "https://registry.yarnpkg.com/openai-edge/-/openai-edge-1.2.2.tgz#0b1cd5aec2c366bbd25cdeba05399aa6eef73230"
   integrity sha512-C3/Ao9Hkx5uBPv9YFBpX/x59XMPgPUU4dyGg/0J2sOJ7O9D98kD+lfdOc7v/60oYo5xzMGct80uFkYLH+X2qgw==
 
-openai@4.14.0:
-  version "4.14.0"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-4.14.0.tgz#5177437683e73bceea1803ea7605905a6e95a0a3"
-  integrity sha512-pWQYkFWdeudR1yLyS/rFfIv/MTXqFEtlN4EKVm0F6KKKGjhuthznPOCC4hxfAFmjlgbpJJXhQQ/oBeB9bxFmUw==
+openai@4.14.1:
+  version "4.14.1"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-4.14.1.tgz#26ffa8e86a57da6595b46350355a754d934e61a1"
+  integrity sha512-aBb7DVdzSnEUBFHTbnVoitauefvjRuUHS5pa7lm1m5JmHifD+1Hff1RzxYC12ogugVcCmWT99NZNfzyD6n/0IQ==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -7788,10 +7819,12 @@ synckit@^0.8.5:
     "@pkgr/utils" "^2.3.1"
     tslib "^2.5.0"
 
-tailwind-merge@1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.14.0.tgz#e677f55d864edc6794562c63f5001f45093cdb8b"
-  integrity sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==
+tailwind-merge@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-2.0.0.tgz#a0f3a8c874ebae5feec5595614d08245a5f88a39"
+  integrity sha512-WO8qghn9yhsldLSg80au+3/gY9E4hFxIvQ3qOmlpXnqpDKoMruKfi/56BbbMg6fHTQJ9QD3cc79PoWqlaQE4rw==
+  dependencies:
+    "@babel/runtime" "^7.23.1"
 
 tailwind-scrollbar@3.0.5:
   version "3.0.5"
