@@ -1,12 +1,18 @@
-"use client"
-
 import { FC } from "react"
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 
 import { Requisition } from "@/types/RequisitionType"
 import { sequenceFormat } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+import { RequisitionRowActions } from "./requisition-row-actions"
 
 type TreeLayoutProps = {
   requisitions: Requisition[]
@@ -22,7 +28,7 @@ const RequisitionItem: FC<RequisitionItemProps> = ({ item, isLastItem }) => {
   const hasChildren = item.children && item.children.length > 0
   return (
     <>
-      <li className="group relative flex flex-row space-x-12">
+      <li className="group relative flex flex-row space-x-12 rounded hover:bg-zinc-50/50">
         <div className="relative flex w-8 justify-center">
           {/* vertical line */}
           {hasChildren ? (
@@ -44,20 +50,14 @@ const RequisitionItem: FC<RequisitionItemProps> = ({ item, isLastItem }) => {
           </div>
         </div>
         {item.query ? (
-          <div className="text-balance mt-1.5 text-sm">{item.query}</div>
+          <div className="text-balance mt-1.5 w-full text-sm">{item.query}</div>
         ) : (
           <Badge variant="outline" className="rounded py-0">
             no text
           </Badge>
         )}
         <div className="w-1 flex-none">
-          <Button
-            variant="ghost"
-            className="flex h-8 w-8 p-0 group-hover:bg-primary data-[state=open]:bg-muted"
-          >
-            <DotsHorizontalIcon className="h-4 w-4" />
-            <span className="sr-only">Open menu</span>
-          </Button>
+          <RequisitionRowActions requisition={item} />
         </div>
       </li>
 
