@@ -1,7 +1,6 @@
 import { cn } from "lib/utils"
 
 import { transformSequenceArray } from "@/lib/tree"
-import LoadingDots from "@/components/loading-dots"
 
 interface Requisition {
   id: number
@@ -49,7 +48,7 @@ const RequisitionComponent: React.FC<Props> = ({ requisitions }) => {
               {transformSequenceArray(requisitionItem.sequence_in_levels)}
             </div>
             <div className="text-balance flex-auto">
-              {requisitionItem.query} - {requisitionItem.level}
+              {requisitionItem.query}
             </div>
             <div className="w-2 flex-none">options</div>
           </div>

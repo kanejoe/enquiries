@@ -1,17 +1,19 @@
 import { FC } from "react"
-import { useQuery } from "@tanstack/react-query"
+
+// import { useQuery } from "@tanstack/react-query"
 
 import { Requisition } from "@/types/RequisitionType"
 import { supabase } from "@/lib/supabase"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 
-import { getAllRequisitionsAction } from "./actions"
+// import { getAllRequisitionsAction } from "./actions"
 // import { RecursiveTree } from "@/components/RecursiveTree"
 
 // import { RequisitionCard } from "../_components/RequisitionCard"
 // import { FlattenedTree } from "./FlattenTree"
-import { data } from "./data"
-import NewStructure from "./NewStructure"
+// import { data } from "./data"
+// import NewStructure from "./NewStructure"
+import { TreeLayout } from "./TreeLayout"
 
 interface CardContainerProps {}
 
@@ -28,12 +30,12 @@ const CardContainer: FC<CardContainerProps> = async () => {
 
   // do a if not null check
   const tree = createRequisitionTree(requisitions as unknown as Requisition[])
-
-  const instantHeadingNode = findNodeByReqId(tree, 18)
+  // const instantHeadingNode = findNodeByReqId(tree, 18)
 
   return (
     <section className="relative flex w-full flex-col">
-      <NewStructure requisitions={data} />
+      {/* <NewStructure requisitions={tree} /> */}
+      {tree ? <TreeLayout requisitions={tree} /> : null}
       {/* <FlattenedTree tree={tree} /> */}
       {/* {instantHeadingNode ? (
         <div className="sticky top-[100px] z-10" id="card-title">
