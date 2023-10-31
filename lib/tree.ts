@@ -263,6 +263,60 @@ function numberToRoman(num: number): string {
 }
 
 /**
+ *
+ * @param arr
+ * @param level
+ * @returns
+ */
+function sequenceFormat(arr?: number[], level?: number): string {
+  // If arr is undefined, set it to an empty array
+  arr = arr || []
+
+  if (arr.length > 5) {
+    throw new Error("Array should have at most 4 elements")
+  }
+
+  let result = ""
+
+  if (!level || level === 1) {
+    if (arr.length > 0) {
+      // @ts-ignore
+      return arr[0] + "."
+    }
+  }
+
+  if (!level || level === 2) {
+    if (arr.length > 1) {
+      // @ts-ignore
+      return arr[1] + "."
+    }
+  }
+
+  if (!level || level === 3) {
+    if (arr.length > 2) {
+      // @ts-ignore
+      return String.fromCharCode(96 + arr[2]) + "."
+    }
+  }
+
+  if (!level || level === 4) {
+    if (arr.length > 3) {
+      // @ts-ignore
+      return numberToRoman(arr[3]) + "."
+    }
+  }
+
+  if (!level || level === 5) {
+    if (arr.length > 4) {
+      // @ts-ignore
+      return "(" + numberToRoman(arr[4]).toUpperCase() + ")"
+    }
+  }
+
+  return result.trim()
+}
+
+/**
  * exports
  */
 export {
@@ -273,4 +327,5 @@ export {
   getNonRootApplicableNodesGroupedByRoot,
   findRootNodeBySequence,
   transformSequenceArray,
+  sequenceFormat,
 }
