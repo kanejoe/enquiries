@@ -20,7 +20,6 @@ type RequisitionItemProps = {
 // RequisitionItem component
 const RequisitionItem: FC<RequisitionItemProps> = ({ item, isLastItem }) => {
   const hasChildren = item.children && item.children.length > 0
-  //   console.log("🚀 ~ file: TreeLayout.tsx:20 ~ hasChildren:", hasChildren)
   return (
     <>
       <li className="group relative flex flex-row space-x-12">
@@ -54,7 +53,7 @@ const RequisitionItem: FC<RequisitionItemProps> = ({ item, isLastItem }) => {
         <div className="w-1 flex-none">
           <Button
             variant="ghost"
-            className="flex h-8 w-8 p-0 group-hover:bg-gray-100 data-[state=open]:bg-muted"
+            className="flex h-8 w-8 p-0 group-hover:bg-primary data-[state=open]:bg-muted"
           >
             <DotsHorizontalIcon className="h-4 w-4" />
             <span className="sr-only">Open menu</span>
