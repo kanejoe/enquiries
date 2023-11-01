@@ -1,5 +1,7 @@
 import { useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+// @ts-expect-error
+import { useFormStatus } from "react-dom"
 import { useForm, useFormContext } from "react-hook-form"
 import * as z from "zod"
 
@@ -15,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
+import { Spinner } from "@/components/Spinner"
 
 import { SequenceSelect } from "../_components/SequenceSelect"
 
@@ -50,9 +53,10 @@ export function DialogForm({
     shouldUnregister: true,
   })
 
-  async function clientAction() {
+  async function requisitionFormAction() {
     const valid = await form.trigger()
     // const errors = form.formState.errors
+    await waitThreeSeconds()
 
     if (!valid) {
       return
@@ -60,9 +64,10 @@ export function DialogForm({
     const result = FormSchema.safeParse(form.getValues())
     if (result.success) {
       try {
+        const data = { ...result.data, sequence: Number(result.data.sequence) }
         console.log(
-          "🚀 ~ file: dialog-form.tsx:56 ~ clientAction ~ result:",
-          result.data
+          "🚀 ~ file: dialog-form.tsx:64 ~ requisitionFormAction ~ data:",
+          data
         )
       } catch (error: unknown) {
         console.log(error)
@@ -71,28 +76,50 @@ export function DialogForm({
       }
     }
   }
+  async function waitThreeSeconds() {
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+  }
 
   return (
     <div className="p-4">
       <DialogTitle>Edit Requisition</DialogTitle>
       <Form {...form}>
-        <form action={clientAction} className="my-4 space-y-4">
+        <form action={requisitionFormAction} className="my-4 space-y-4">
           {/** some inputs */}
-          <QueryInputField />
-          <SequenceSelect
-            siblings={requisition?.siblings}
-            sequence_in_levels={requisition.sequence_in_levels}
-            level={requisition.level}
-          />
-
-          <div className="mt-8 space-x-6 text-right">
-            <DialogClose className="rounded px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-600">
-              Cancel
-            </DialogClose>
-            <Button type="submit">Submit</Button>
-          </div>
+          <FieldsetWrapper>
+            <QueryInputField />
+            <SequenceSelect
+              siblings={requisition?.siblings}
+              sequence_in_levels={requisition.sequence_in_levels}
+              level={requisition.level}
+            />
+            <SubmitFormButton />
+          </FieldsetWrapper>
         </form>
       </Form>
+    </div>
+  )
+}
+
+function FieldsetWrapper({ children }: { children: React.ReactNode }) {
+  const { pending } = useFormStatus()
+  return (
+    <fieldset disabled={pending} className="group space-y-4">
+      {children}
+    </fieldset>
+  )
+}
+
+function SubmitFormButton() {
+  return (
+    <div className="mt-8 space-x-6 text-right">
+      <DialogClose className="rounded px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-600">
+        Cancel
+      </DialogClose>
+      <Button type="submit" className="group-disabled:pointer-events-none">
+        <Spinner className="absolute h-4 group-enabled:opacity-0" />
+        <span className="group-disabled:opacity-0">Save</span>
+      </Button>
     </div>
   )
 }
