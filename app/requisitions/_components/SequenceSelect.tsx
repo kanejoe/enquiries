@@ -36,33 +36,35 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
       <FormField
         control={control}
         name="sequence"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Select Order</FormLabel>
-            <Select
-              onValueChange={(value) => field.onChange(Number(value))}
-              defaultValue={sequence.toString()}
-            >
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Sequence" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {siblings
-                  ?.sort((a, b) => Number(a) - Number(b))
-                  .map((sibling: any, idx: number) => {
-                    return (
-                      <SelectItem value={sibling} key={idx}>
-                        {sibling}
-                      </SelectItem>
-                    )
-                  })}
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )}
+        render={({ field }) => {
+          return (
+            <FormItem>
+              <FormLabel>Select Order</FormLabel>
+              <Select
+                onValueChange={(value) => field.onChange(value)}
+                defaultValue={field.value.toString()}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Sequence" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {siblings
+                    ?.sort((a, b) => Number(a) - Number(b))
+                    .map((sibling: number, idx: number) => {
+                      return (
+                        <SelectItem value={sibling.toString()} key={idx}>
+                          {sibling.toString()}
+                        </SelectItem>
+                      )
+                    })}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )
+        }}
       />
       {sequence_in_levels ? (
         <Badge

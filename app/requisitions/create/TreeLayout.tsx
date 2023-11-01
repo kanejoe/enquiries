@@ -37,7 +37,7 @@ const RequisitionItem: FC<RequisitionItemProps> = ({ item, isLastItem }) => {
             <div className="h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300 group-hover:bg-primary/25 group-hover:ring-primary" />
           </div>
 
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-700 group-hover:bg-primary/30">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-700 group-hover:bg-primary/30 group-hover:text-foreground">
             {sequenceFormat(item.sequence_in_levels, item.level)}
           </div>
         </div>
