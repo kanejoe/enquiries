@@ -17,6 +17,7 @@ import { Requisition } from "@/types/RequisitionType"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogTitle,
   DialogTrigger,
@@ -38,6 +39,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
+
+import { SequenceSelect } from "../_components/SequenceSelect"
 
 interface RequisitionRowActionsProps {
   requisition: Requisition
@@ -63,7 +66,6 @@ export function RequisitionRowActions({
           <DialogTrigger asChild>
             <DropdownMenuItem
               onSelect={(e) => {
-                console.log("edit requisition", requisition.query)
                 return e.preventDefault()
               }}
             >
@@ -126,17 +128,6 @@ function DialogForm({
 }) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
-  const adjustHeight = () => {
-    if (textareaRef.current !== null) {
-      textareaRef.current.style.height = "inherit" // reset the height
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px` // then set it to scrollHeight
-    }
-  }
-
-  useLayoutEffect(() => {
-    adjustHeight() // adjust the height when component mounts
-  }, [])
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -159,24 +150,36 @@ function DialogForm({
           <FormField
             control={form.control}
             name="query"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Requisition</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Enter the Requisition Query"
-                    className="max-h-128 flex-1 pr-2 scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-500 dark:text-slate-900 dark:placeholder:text-slate-500"
-                    {...field}
-                    ref={textareaRef}
-                  />
-                </FormControl>
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Requisition</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter the Requisition Query"
+                      className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 dark:text-slate-900 dark:placeholder:text-slate-500"
+                      {...field}
+                      ref={textareaRef}
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
           />
 
-          <Button type="submit">Submit</Button>
+          <SequenceSelect
+            sequence={requisition?.sequence}
+            siblings={requisition?.siblings}
+            sequence_in_levels={requisition.sequence_in_levels}
+          />
+          <div className="mt-8 space-x-6 text-right">
+            <DialogClose className="rounded px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-600">
+              Cancel
+            </DialogClose>
+            <Button type="submit">Submit</Button>
+          </div>
         </form>
       </Form>
     </div>

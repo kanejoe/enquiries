@@ -79,8 +79,8 @@ export function RequisitionForm({ selectedNode }: RequisitionFormType) {
 
         {updatedNode.siblings && updatedNode.sequence_in_levels ? (
           <SequenceSelect
-            sequence={updatedNode?.sequence}
-            siblings={updatedNode?.siblings}
+            sequence={Number(updatedNode?.sequence)}
+            siblings={updatedNode?.siblings?.map(Number)}
             sequence_in_levels={updatedNode.sequence_in_levels}
           />
         ) : null}

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useLayoutEffect } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -16,6 +17,10 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         onChange(event)
       }
     }
+
+    useLayoutEffect(() => {
+      handleAutoSize({} as React.ChangeEvent<HTMLTextAreaElement>) // adjust the height when component mounts
+    }, [])
 
     return (
       <textarea

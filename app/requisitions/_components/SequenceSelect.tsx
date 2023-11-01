@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form"
 
+import { Requisition } from "@/types/RequisitionType"
 import { transformSequenceArray } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -18,9 +19,9 @@ import {
 } from "@/components/ui/select"
 
 interface SequenceSelectProps {
-  sequence: string
-  sequence_in_levels?: number[] // this is an array of the level which the sequence finds itself in the tree e.g. [1, 2, 1]
-  siblings: string[]
+  sequence: Requisition["sequence"]
+  sequence_in_levels: Requisition["sequence_in_levels"]
+  siblings: Requisition["siblings"]
 }
 
 const SequenceSelect: React.FC<SequenceSelectProps> = ({
@@ -38,7 +39,10 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>Select Order</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={sequence}>
+            <Select
+              onValueChange={(value) => field.onChange(Number(value))}
+              defaultValue={sequence.toString()}
+            >
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Sequence" />
