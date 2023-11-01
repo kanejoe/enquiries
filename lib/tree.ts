@@ -317,6 +317,40 @@ function sequenceFormat(arr?: number[], level?: number): string {
 }
 
 /**
+ * Replaces a value in the provided sequence at a specified level (position) with a new value.
+ *
+ * This function treats the array as "base 1". So, the first item in the array is considered to be at position 1,
+ * the second item at position 2, and so on.
+ *
+ * @param sequence_in_levels - An array of numbers representing the sequence.
+ * @param level - The position (base 1) in the sequence where the value should be replaced.
+ * @param newValue - The new value to replace the existing value at the specified level.
+ * @returns A new array with the value at the specified level replaced by the newValue.
+ * @throws An error if the provided level is out of bounds.
+ */
+function replaceValueAtLevel(
+  sequence_in_levels: number[],
+  level: number,
+  newValue: number
+): number[] {
+  // Adjust for base 1
+  const adjustedLevel = level - 1
+
+  // Check for valid level
+  if (adjustedLevel < 0 || adjustedLevel >= sequence_in_levels.length) {
+    throw new Error(
+      `Invalid level provided: ${level}. It must be between 1 and ${sequence_in_levels.length}.`
+    )
+  }
+
+  // Create a copy of the original array and replace the value at the specified level
+  const result = [...sequence_in_levels]
+  result[adjustedLevel] = newValue
+
+  return result
+}
+
+/**
  * exports
  */
 export {
@@ -328,4 +362,5 @@ export {
   findRootNodeBySequence,
   transformSequenceArray,
   sequenceFormat,
+  replaceValueAtLevel,
 }

@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form"
 
 import { Requisition } from "@/types/RequisitionType"
-import { transformSequenceArray } from "@/lib/tree"
+import { replaceValueAtLevel, transformSequenceArray } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
 import {
   FormControl,
@@ -19,17 +19,27 @@ import {
 } from "@/components/ui/select"
 
 interface SequenceSelectProps {
-  sequence: Requisition["sequence"]
+  level: Requisition["level"]
   sequence_in_levels: Requisition["sequence_in_levels"]
   siblings: Requisition["siblings"]
 }
 
 const SequenceSelect: React.FC<SequenceSelectProps> = ({
-  sequence,
+  level,
   sequence_in_levels,
   siblings,
 }) => {
-  const { control } = useFormContext()
+  const { control, watch } = useFormContext()
+  const sequenceValue = watch("sequence") // watch the 'query' field
+  let updatedSequence = sequence_in_levels
+
+  if (sequenceValue !== undefined && level !== undefined) {
+    updatedSequence = replaceValueAtLevel(
+      sequence_in_levels,
+      level,
+      Number(sequenceValue)
+    )
+  }
 
   return (
     <div className="flex space-x-4">
@@ -71,7 +81,7 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
           variant="secondary"
           className="mb-0.5 h-8 self-end rounded text-base"
         >
-          {transformSequenceArray(sequence_in_levels?.map((v) => Number(v)))}
+          {transformSequenceArray(updatedSequence)}
           {/* Assuming the sequence_array is a string array and you want it in 'x.x.x' format */}
         </Badge>
       ) : null}

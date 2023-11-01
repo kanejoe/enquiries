@@ -1,11 +1,9 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { cookies } from "next/headers"
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs"
 
 import { Requisition } from "@/types/RequisitionType"
-import type { Database } from "@/lib/database.types"
+import { supabase } from "@/lib/supabase"
 
 type SelectedRequisitionProps = Pick<
   Requisition,
@@ -17,7 +15,6 @@ type SelectedRequisitionProps = Pick<
  * @param requisition
  */
 export async function updateRequisition(requisition: SelectedRequisitionProps) {
-  const supabase = createServerActionClient<Database>({ cookies })
   const { data: existingReq, error: existingReqError } = await supabase
     .from("requisitions")
     .select()
@@ -28,14 +25,14 @@ export async function updateRequisition(requisition: SelectedRequisitionProps) {
   const newSequence = Number(requisition.sequence)
 
   const updateRequisition = async (
-    id: number,
-    parent_id: number | null | undefined,
-    query: string | null | undefined,
+    id: Requisition["id"],
+    parent_id: Requisition["parent_id"],
+    query: Requisition["query"],
     newSequence: number,
     oldSequence: number | undefined
   ) => {
     try {
-      let { data, error } = await (supabase.rpc as any)("update_requisition", {
+      let { _, error } = await (supabase.rpc as any)("update_requisition", {
         p_id: id,
         p_new_sequence: newSequence,
         p_old_sequence: oldSequence,

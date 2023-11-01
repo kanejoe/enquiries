@@ -24,6 +24,7 @@ const FormSchema = z.object({
   id: z.number().optional(),
   query: z.string().optional().default(""),
   sequence: z.coerce.string().default("1"),
+  parent_id: z.number().positive().nullable().optional(),
 })
 
 /**
@@ -38,24 +39,20 @@ export function DialogForm({
   requisition: Requisition
   afterSave: () => void
 }) {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       id: requisition.id,
       query: requisition.query || "",
       sequence: requisition?.sequence ? requisition?.sequence.toString() : "1",
+      parent_id: requisition.parent_id ?? null,
     },
-    shouldUnregister: true, // https://react-hook-form.com/docs/useform#shouldUnregister
+    shouldUnregister: true,
   })
 
   async function clientAction() {
     const valid = await form.trigger()
-    const errors = form.formState.errors
-    console.log(
-      "🚀 ~ file: dialog-form.tsx:51 ~ clientAction ~ errors:",
-      errors
-    )
+    // const errors = form.formState.errors
 
     if (!valid) {
       return
@@ -65,13 +62,12 @@ export function DialogForm({
       try {
         console.log(
           "🚀 ~ file: dialog-form.tsx:56 ~ clientAction ~ result:",
-          result
+          result.data
         )
       } catch (error: unknown) {
-        console.log(
-          "🚀 ~ file: dialog-form.tsx:57 ~ clientAction ~ error:",
-          error
-        )
+        console.log(error)
+      } finally {
+        wait().then(() => afterSave())
       }
     }
   }
@@ -80,43 +76,13 @@ export function DialogForm({
     <div className="p-4">
       <DialogTitle>Edit Requisition</DialogTitle>
       <Form {...form}>
-        <form
-          //   action={clientAction}
-          className="my-4 space-y-4"
-          onSubmit={async (event) => {
-            event.preventDefault()
-            console.log(form.getValues())
-            wait().then(() => afterSave())
-          }}
-        >
+        <form action={clientAction} className="my-4 space-y-4">
           {/** some inputs */}
-          {/* <QueryInputField /> */}
-          <FormField
-            control={form.control}
-            name="query"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Requisition Query</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="Enter the Requisition Query"
-                      className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 dark:text-slate-900 dark:placeholder:text-slate-500"
-                      ref={textareaRef}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-
+          <QueryInputField />
           <SequenceSelect
-            sequence={requisition?.sequence}
             siblings={requisition?.siblings}
             sequence_in_levels={requisition.sequence_in_levels}
+            level={requisition.level}
           />
 
           <div className="mt-8 space-x-6 text-right">
@@ -131,6 +97,10 @@ export function DialogForm({
   )
 }
 
+/**
+ *
+ * @returns
+ */
 function QueryInputField() {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const { control } = useFormContext()
