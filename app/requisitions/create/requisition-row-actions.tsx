@@ -12,7 +12,6 @@ import {
 // type
 import { Requisition } from "@/types/RequisitionType"
 // ui
-
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import {
@@ -38,13 +37,34 @@ interface RequisitionRowActionsProps {
 export function RequisitionRowActions({
   requisition,
 }: RequisitionRowActionsProps) {
-  const newSiblingRequisition = Object.assign({}, requisition, {
-    id: null,
-    parent_id: requisition.id,
-    sequence: requisition.sequence + 1,
-    query: "",
-    is_required: true,
-  })
+  const newSiblingRequisition = Object.assign(
+    {},
+    {
+      is_required: true,
+      level: requisition.level,
+      query: "",
+      parent_id: requisition.parent_id,
+      sequence: requisition.sequence + 1,
+      sequence_in_levels: [...requisition.sequence_in_levels],
+      siblings: [...requisition.siblings, requisition.siblings.length + 1],
+    }
+  )
+
+  const newChildRequisition = Object.assign(
+    {},
+    {
+      is_required: true,
+      level: requisition.level != null ? requisition.level + 1 : 1,
+      parent_id: requisition.id,
+      query: "",
+      sequence: (requisition.children?.length ?? 0) + 1,
+      sequence_in_levels: [
+        ...requisition.sequence_in_levels,
+        (requisition.children?.length ?? 0) + 1,
+      ],
+      siblings: createArray((requisition.children?.length ?? 0) + 1),
+    }
+  )
 
   return (
     <DropdownMenu>
@@ -76,7 +96,8 @@ export function RequisitionRowActions({
         <DropdownDialog
           title="Add Child"
           icon={<ThickArrowDownIcon />}
-          formData={newSiblingRequisition}
+          formData={newChildRequisition}
+          isDisabled={newChildRequisition.level >= 5}
         />
 
         <DropdownMenuSeparator />
@@ -95,15 +116,24 @@ interface DropdownDialogProps {
   title: string
   icon: ReactNode
   formData: Requisition
+  isDisabled?: boolean
 }
 
-function DropdownDialog({ title, icon, formData }: DropdownDialogProps) {
+function DropdownDialog({
+  title,
+  icon,
+  formData,
+  isDisabled = false,
+}: DropdownDialogProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+        <DropdownMenuItem
+          onSelect={(e) => e.preventDefault()}
+          disabled={isDisabled}
+        >
           {title}
           <DropdownMenuShortcut>{icon}</DropdownMenuShortcut>
         </DropdownMenuItem>
@@ -113,4 +143,12 @@ function DropdownDialog({ title, icon, formData }: DropdownDialogProps) {
       </DialogContent>
     </Dialog>
   )
+}
+
+function createArray(n: number): number[] {
+  const arr: number[] = []
+  for (let i = 1; i <= n; i++) {
+    arr.push(i)
+  }
+  return arr
 }

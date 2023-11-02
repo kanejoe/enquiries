@@ -1,7 +1,7 @@
 export interface Requisition {
   children?: Requisition[]
   has_doc?: boolean | null
-  id: number
+  id?: number
   is_applicable?: boolean | null
   is_complete?: boolean | null
   is_flagged?: boolean | null
