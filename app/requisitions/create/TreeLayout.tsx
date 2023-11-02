@@ -1,4 +1,5 @@
 import { FC } from "react"
+import { InfoCircledIcon } from "@radix-ui/react-icons"
 
 import { Requisition } from "@/types/RequisitionType"
 import { sequenceFormat } from "@/lib/tree"
@@ -43,7 +44,10 @@ const RequisitionItem: FC<RequisitionItemProps> = ({ item, isLastItem }) => {
         </div>
         <div className="mt-1.5 w-full">
           {item.query ? (
-            <div className="text-balance text-sm">{item.query}</div>
+            <div className="text-balance text-sm">
+              {item.query}
+              {/* <InfoCircledIcon className="-mt-0.5 ml-2 inline-block text-primary-foreground" /> */}
+            </div>
           ) : (
             <Badge
               variant="outline"

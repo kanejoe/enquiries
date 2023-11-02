@@ -97,7 +97,7 @@ export function RequisitionRowActions({
           title="Add Child"
           icon={<ThickArrowDownIcon />}
           formData={newChildRequisition}
-          isDisabled={newChildRequisition.level >= 5}
+          isDisabled={newChildRequisition.level >= 6}
         />
 
         <DropdownMenuSeparator />
