@@ -26,7 +26,7 @@ import { SequenceSelect } from "../_components/SequenceSelect"
 const wait = () => new Promise((resolve) => setTimeout(resolve, 500))
 
 const FormSchema = z.object({
-  id: z.number().optional(),
+  id: z.number().nullable().optional(),
   query: z.string().optional().default(""),
   sequence: z.coerce.string().default("1"),
   parent_id: z.number().positive().nullable().optional(),
@@ -58,14 +58,23 @@ export function DialogForm({
   })
 
   async function requisitionFormAction() {
+    console.log(form.getValues())
     const valid = await form.trigger()
-    // const errors = form.formState.errors
+    const errors = form.formState.errors
+    console.log(
+      "🚀 ~ file: dialog-form.tsx:63 ~ requisitionFormAction ~ errors:",
+      errors
+    )
     await waitThreeSeconds()
 
     if (!valid) {
       return
     }
     const result = FormSchema.safeParse(form.getValues())
+    console.log(
+      "🚀 ~ file: dialog-form.tsx:74 ~ requisitionFormAction ~ result:",
+      result
+    )
     if (result.success) {
       try {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
@@ -88,8 +97,8 @@ export function DialogForm({
   return (
     <div className="p-4">
       <DialogTitle className="mb-6">
-        <span className="rounded-md bg-primary/75 px-2 py-1 text-foreground">
-          Edit Requisition
+        <span className="rounded-sm bg-primary/75 px-3 py-1.5 text-foreground shadow-sm">
+          {requisition.id ? "Edit" : "New"} Requisition
         </span>
       </DialogTitle>
       <Form {...form}>
@@ -97,12 +106,12 @@ export function DialogForm({
           {/** some inputs */}
           <FieldsetWrapper>
             <QueryInputField />
+            <IsReplyRequired />
             <SequenceSelect
               siblings={requisition?.siblings}
               sequence_in_levels={requisition.sequence_in_levels}
               level={requisition.level}
             ></SequenceSelect>
-            <IsReplyRequired />
             <SubmitFormButton />
           </FieldsetWrapper>
         </form>
@@ -139,8 +148,8 @@ function SubmitFormButton() {
  * @returns
  */
 function QueryInputField() {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const { control } = useFormContext()
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   return (
     <FormField
@@ -158,7 +167,6 @@ function QueryInputField() {
                 ref={textareaRef}
               />
             </FormControl>
-
             <FormMessage />
           </FormItem>
         )
@@ -186,7 +194,7 @@ function IsReplyRequired() {
           <div className="space-y-1 leading-none">
             <FormLabel>Is a Reply Required for this Requisition</FormLabel>
             <FormDescription>
-              This may be a required step in the process.
+              If not, this may be a heading only.
             </FormDescription>
           </div>
         </FormItem>

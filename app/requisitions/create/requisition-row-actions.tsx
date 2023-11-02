@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import {
   DotsHorizontalIcon,
   QuestionMarkCircledIcon,
@@ -30,10 +30,22 @@ interface RequisitionRowActionsProps {
   requisition: Requisition
 }
 
+/**
+ *
+ * @param param0
+ * @returns
+ */
 export function RequisitionRowActions({
   requisition,
 }: RequisitionRowActionsProps) {
-  const [open, setOpen] = useState(false)
+  const newSiblingRequisition = Object.assign({}, requisition, {
+    id: null,
+    parent_id: requisition.id,
+    sequence: requisition.sequence + 1,
+    query: "",
+    is_required: true,
+  })
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -45,41 +57,27 @@ export function RequisitionRowActions({
           <span className="sr-only">Open menu</span>
         </Button>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent align="end" className="w-[160px]">
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <DropdownMenuItem
-              onSelect={(e) => {
-                return e.preventDefault()
-              }}
-            >
-              Edit Requisition
-              <DropdownMenuShortcut>
-                <QuestionMarkCircledIcon />
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogForm
-              requisition={requisition}
-              afterSave={() => setOpen(false)}
-            />
-          </DialogContent>
-        </Dialog>
+        <DropdownDialog
+          title="Edit Requisition"
+          icon={<QuestionMarkCircledIcon />}
+          formData={requisition}
+        />
+
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          Add Sibling
-          <DropdownMenuShortcut>
-            <ThickArrowRightIcon />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          Add Child
-          <DropdownMenuShortcut>
-            <ThickArrowDownIcon />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <DropdownDialog
+          title="Add Sibling"
+          icon={<ThickArrowRightIcon />}
+          formData={newSiblingRequisition}
+        />
+
+        <DropdownDialog
+          title="Add Child"
+          icon={<ThickArrowDownIcon />}
+          formData={newSiblingRequisition}
+        />
 
         <DropdownMenuSeparator />
         <DropdownMenuItem>
@@ -90,5 +88,29 @@ export function RequisitionRowActions({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  )
+}
+
+interface DropdownDialogProps {
+  title: string
+  icon: ReactNode
+  formData: Requisition
+}
+
+function DropdownDialog({ title, icon, formData }: DropdownDialogProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          {title}
+          <DropdownMenuShortcut>{icon}</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogForm requisition={formData} afterSave={() => setIsOpen(false)} />
+      </DialogContent>
+    </Dialog>
   )
 }
