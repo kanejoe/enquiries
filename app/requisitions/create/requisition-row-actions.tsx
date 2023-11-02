@@ -2,9 +2,10 @@
 
 import { useState } from "react"
 import {
-  ArrowDownIcon,
-  ArrowRightIcon,
   DotsHorizontalIcon,
+  QuestionMarkCircledIcon,
+  ThickArrowDownIcon,
+  ThickArrowRightIcon,
   TrashIcon,
 } from "@radix-ui/react-icons"
 
@@ -53,6 +54,9 @@ export function RequisitionRowActions({
               }}
             >
               Edit Requisition
+              <DropdownMenuShortcut>
+                <QuestionMarkCircledIcon />
+              </DropdownMenuShortcut>
             </DropdownMenuItem>
           </DialogTrigger>
           <DialogContent>
@@ -67,13 +71,13 @@ export function RequisitionRowActions({
         <DropdownMenuItem>
           Add Sibling
           <DropdownMenuShortcut>
-            <ArrowRightIcon />
+            <ThickArrowRightIcon />
           </DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuItem>
           Add Child
           <DropdownMenuShortcut>
-            <ArrowDownIcon />
+            <ThickArrowDownIcon />
           </DropdownMenuShortcut>
         </DropdownMenuItem>
 

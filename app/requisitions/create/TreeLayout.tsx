@@ -45,7 +45,10 @@ const RequisitionItem: FC<RequisitionItemProps> = ({ item, isLastItem }) => {
           {item.query ? (
             <div className="text-balance text-sm">{item.query}</div>
           ) : (
-            <Badge variant="outline" className="rounded py-0.5">
+            <Badge
+              variant="outline"
+              className="rounded py-0.5  group-hover:border-gray-400"
+            >
               <svg
                 className="mr-1.5 mt-0.5 h-1.5 w-1.5 fill-primary"
                 viewBox="0 0 6 6"

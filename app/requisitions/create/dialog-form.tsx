@@ -7,10 +7,12 @@ import * as z from "zod"
 
 import { Requisition } from "@/types/RequisitionType"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { DialogClose, DialogTitle } from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,6 +30,7 @@ const FormSchema = z.object({
   query: z.string().optional().default(""),
   sequence: z.coerce.string().default("1"),
   parent_id: z.number().positive().nullable().optional(),
+  is_required: z.boolean().default(true).optional(),
 })
 
 /**
@@ -49,6 +52,7 @@ export function DialogForm({
       query: requisition.query || "",
       sequence: requisition?.sequence ? requisition?.sequence.toString() : "1",
       parent_id: requisition.parent_id ?? null,
+      is_required: requisition.is_required ?? true,
     },
     shouldUnregister: true,
   })
@@ -72,7 +76,8 @@ export function DialogForm({
       } catch (error: unknown) {
         console.log(error)
       } finally {
-        wait().then(() => afterSave())
+        // wait().then(() => afterSave())
+        afterSave()
       }
     }
   }
@@ -82,9 +87,13 @@ export function DialogForm({
 
   return (
     <div className="p-4">
-      <DialogTitle>Edit Requisition</DialogTitle>
+      <DialogTitle className="mb-6">
+        <span className="rounded-md bg-primary/75 px-2 py-1 text-foreground">
+          Edit Requisition
+        </span>
+      </DialogTitle>
       <Form {...form}>
-        <form action={requisitionFormAction} className="my-4 space-y-4">
+        <form action={requisitionFormAction} className="my-4">
           {/** some inputs */}
           <FieldsetWrapper>
             <QueryInputField />
@@ -92,7 +101,8 @@ export function DialogForm({
               siblings={requisition?.siblings}
               sequence_in_levels={requisition.sequence_in_levels}
               level={requisition.level}
-            />
+            ></SequenceSelect>
+            <IsReplyRequired />
             <SubmitFormButton />
           </FieldsetWrapper>
         </form>
@@ -153,6 +163,34 @@ function QueryInputField() {
           </FormItem>
         )
       }}
+    />
+  )
+}
+
+/**
+ *
+ * @returns
+ */
+function IsReplyRequired() {
+  const { control } = useFormContext()
+
+  return (
+    <FormField
+      control={control}
+      name="is_required"
+      render={({ field }) => (
+        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+          <FormControl>
+            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+          </FormControl>
+          <div className="space-y-1 leading-none">
+            <FormLabel>Is a Reply Required for this Requisition</FormLabel>
+            <FormDescription>
+              This may be a required step in the process.
+            </FormDescription>
+          </div>
+        </FormItem>
+      )}
     />
   )
 }
