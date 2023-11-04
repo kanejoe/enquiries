@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase"
 
 type SelectedRequisitionProps = Pick<
   Requisition,
-  "id" | "sequence" | "query" | "parent_id"
+  "id" | "sequence" | "query" | "parent_id" | "is_required"
 >
 
 /**
@@ -28,13 +28,14 @@ export async function updateRequisition(requisition: SelectedRequisitionProps) {
     id: Requisition["id"],
     parent_id: Requisition["parent_id"],
     query: Requisition["query"],
+    is_required: Requisition["is_required"],
     newSequence: number,
     oldSequence: number | undefined
-    // is_required: Requisition["is_required"]
   ) => {
     try {
       let { _, error } = await (supabase.rpc as any)("update_requisition", {
         p_id: id,
+        p_is_required: is_required,
         p_new_sequence: newSequence,
         p_old_sequence: oldSequence,
         p_parent_id: parent_id,
@@ -65,8 +66,8 @@ export async function updateRequisition(requisition: SelectedRequisitionProps) {
       requisition.id,
       requisition.parent_id ?? null,
       requisition.query,
+      requisition.is_required,
       newSequence,
-      // is_required,
       oldSequence
     )
   }

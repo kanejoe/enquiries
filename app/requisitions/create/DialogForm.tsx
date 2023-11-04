@@ -1,19 +1,21 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 
+import { Requisition } from "@/types/RequisitionType"
+import { DialogTitle } from "@/components/ui/dialog"
+import { Form } from "@/components/ui/form"
 
-
-import { Requisition } from "@/types/RequisitionType";
-import { DialogTitle } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
-
-
-
-import { SequenceSelect } from "../_components/SequenceSelect";
-import { FormSchema, IsReplyRequired, QueryInputField, SubmitFormButton } from "./dialog-form";
-import { FieldsetWrapper } from "./FieldsetWrapper";
-
+import { updateRequisition } from "../_actions/update"
+import { SequenceSelect } from "../_components/SequenceSelect"
+import { addRequisition } from "./actions"
+import {
+  FormSchema,
+  IsReplyRequired,
+  QueryInputField,
+  SubmitFormButton,
+} from "./dialog-form"
+import { FieldsetWrapper } from "./FieldsetWrapper"
 
 /**
  *
@@ -51,11 +53,28 @@ export function DialogForm({
     if (result.success) {
       try {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
-        console.log(
-          "🚀 ~ file: dialog-form.tsx:64 ~ requisitionFormAction ~ data:",
-          data
-        )
+        const { id, is_required, ...rest } = data
+
+        if (id === undefined) {
+          let newData = await addRequisition({ ...rest, is_required })
+          // await updateRequisition({
+          //   id: newData.id,
+          //   ...rest,
+          //   is_required,
+          // })
+        }
+
+        if (id)
+          await updateRequisition({
+            id: id ?? undefined,
+            ...rest,
+            is_required,
+          })
       } catch (error: unknown) {
+        console.log(
+          "🚀 ~ file: DialogForm.tsx:66 ~ requisitionFormAction ~ error:",
+          error
+        )
         if (error instanceof z.ZodError) {
           console.log(error.errors) // This would log the error message "Query cannot be empty"
         }

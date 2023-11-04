@@ -27,7 +27,7 @@ export const FormSchema = z.object({
     .optional(),
   sequence: z.string().default("1"), // Coercion is not necessary if defaulting to string "1"
   parent_id: z.number().int().positive().nullable().optional(), // Ensure integers with .int()
-  is_required: z.boolean().optional(), // The .default(true) is not necessary with .optional()
+  is_required: z.boolean().default(true),
 })
 
 export function SubmitFormButton() {
