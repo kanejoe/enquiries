@@ -1,7 +1,5 @@
 import { useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-// @ts-expect-error
-import { useFormStatus } from "react-dom"
 import { useForm, useFormContext } from "react-hook-form"
 import * as z from "zod"
 
@@ -22,12 +20,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { Spinner } from "@/components/Spinner"
 
 import { SequenceSelect } from "../_components/SequenceSelect"
+import { FieldsetWrapper } from "./FieldsetWrapper"
 
-const wait = () => new Promise((resolve) => setTimeout(resolve, 500))
+// const wait = () => new Promise((resolve) => setTimeout(resolve, 500))
 
 const FormSchema = z.object({
   id: z.number().nullable().optional(),
-  query: z.string().optional().default(""),
+  query: z.string(), //.optional().default(""),
   sequence: z.coerce.string().default("1"),
   parent_id: z.number().positive().nullable().optional(),
   is_required: z.boolean().default(true).optional(),
@@ -62,19 +61,15 @@ export function DialogForm({
     const valid = await form.trigger()
     const errors = form.formState.errors
     console.log(
-      "🚀 ~ file: dialog-form.tsx:63 ~ requisitionFormAction ~ errors:",
+      "🚀 ~ file: dialog-form.tsx:64 ~ requisitionFormAction ~ errors:",
       errors
     )
-    await waitThreeSeconds()
+    await waitABit()
 
     if (!valid) {
       return
     }
     const result = FormSchema.safeParse(form.getValues())
-    console.log(
-      "🚀 ~ file: dialog-form.tsx:74 ~ requisitionFormAction ~ result:",
-      result
-    )
     if (result.success) {
       try {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
@@ -85,19 +80,18 @@ export function DialogForm({
       } catch (error: unknown) {
         console.log(error)
       } finally {
-        // wait().then(() => afterSave())
         afterSave()
       }
     }
   }
-  async function waitThreeSeconds() {
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+  async function waitABit() {
+    await new Promise((resolve) => setTimeout(resolve, 500))
   }
 
   return (
     <div className="p-4">
       <DialogTitle className="mb-6">
-        <span className="rounded-sm bg-primary/75 px-3 py-1.5 text-foreground shadow-sm">
+        <span className="rounded-sm bg-gradient-to-r from-primary to-primary/50 px-3 py-1.5 text-foreground shadow-sm">
           {requisition.id ? "Edit" : "New"} Requisition
         </span>
       </DialogTitle>
@@ -120,20 +114,11 @@ export function DialogForm({
   )
 }
 
-function FieldsetWrapper({ children }: { children: React.ReactNode }) {
-  const { pending } = useFormStatus()
-  return (
-    <fieldset disabled={pending} className="group space-y-4">
-      {children}
-    </fieldset>
-  )
-}
-
 function SubmitFormButton() {
   return (
     <div className="mt-8 space-x-6 text-right">
-      <DialogClose className="rounded px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-600">
-        Cancel
+      <DialogClose asChild className="text-gray-600 hover:text-gray-800">
+        <Button variant="ghost">Cancel</Button>
       </DialogClose>
       <Button type="submit" className="group-disabled:pointer-events-none">
         <Spinner className="absolute h-4 group-enabled:opacity-0" />

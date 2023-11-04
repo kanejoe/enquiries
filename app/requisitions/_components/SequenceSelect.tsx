@@ -1,3 +1,4 @@
+import { uniq } from "lodash"
 import { useFormContext } from "react-hook-form"
 
 import { Requisition } from "@/types/RequisitionType"
@@ -47,6 +48,7 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
         control={control}
         name="sequence"
         render={({ field }) => {
+          const uniqueSiblings = [...new Set(siblings)]
           return (
             <FormItem>
               <FormLabel>Select Order</FormLabel>
@@ -60,7 +62,7 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {siblings
+                  {uniqueSiblings
                     ?.sort((a, b) => Number(a) - Number(b))
                     .map((sibling: number, idx: number) => {
                       return (

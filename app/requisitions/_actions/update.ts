@@ -30,6 +30,7 @@ export async function updateRequisition(requisition: SelectedRequisitionProps) {
     query: Requisition["query"],
     newSequence: number,
     oldSequence: number | undefined
+    // is_required: Requisition["is_required"]
   ) => {
     try {
       let { _, error } = await (supabase.rpc as any)("update_requisition", {
@@ -47,7 +48,8 @@ export async function updateRequisition(requisition: SelectedRequisitionProps) {
         )
       } else {
         console.log("updated successfully")
-        revalidatePath("/requisitions/create")
+        // revalidatePath("/requisitions/create")
+        revalidatePath("/")
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -64,6 +66,7 @@ export async function updateRequisition(requisition: SelectedRequisitionProps) {
       requisition.parent_id ?? null,
       requisition.query,
       newSequence,
+      // is_required,
       oldSequence
     )
   }

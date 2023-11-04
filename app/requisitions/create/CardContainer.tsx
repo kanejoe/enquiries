@@ -6,7 +6,7 @@ import { Requisition } from "@/types/RequisitionType"
 import { supabase } from "@/lib/supabase"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 
-// import { getAllRequisitionsAction } from "./actions"
+import { getAllRequisitionsAction } from "./actions"
 // import { RecursiveTree } from "@/components/RecursiveTree"
 
 // import { RequisitionCard } from "../_components/RequisitionCard"
@@ -27,6 +27,9 @@ const CardContainer: FC<CardContainerProps> = async () => {
   const { data: requisitions, error } = await supabase
     .from("requisitions")
     .select("*")
+
+  if (error) {
+  }
 
   // do a if not null check
   const tree = createRequisitionTree(requisitions as unknown as Requisition[])

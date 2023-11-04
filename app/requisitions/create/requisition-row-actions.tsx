@@ -101,8 +101,13 @@ export function RequisitionRowActions({
         />
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
+        <DropdownMenuItem
+          disabled={requisition.children && requisition.children?.length > 0}
+          onClick={() => {
+            console.log("delete")
+          }}
+        >
+          <span title="Cannot delete if requisition has children">Delete</span>
           <DropdownMenuShortcut>
             <TrashIcon />
           </DropdownMenuShortcut>
