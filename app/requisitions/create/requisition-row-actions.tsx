@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { DialogForm } from "./dialog-form"
+import { DialogForm } from "./DialogForm"
 
 interface RequisitionRowActionsProps {
   requisition: Requisition

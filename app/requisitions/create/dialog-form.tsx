@@ -1,14 +1,11 @@
 import { useRef } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, useFormContext } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
 import * as z from "zod"
 
-import { Requisition } from "@/types/RequisitionType"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DialogClose, DialogTitle } from "@/components/ui/dialog"
+import { DialogClose } from "@/components/ui/dialog"
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -19,102 +16,21 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Spinner } from "@/components/Spinner"
 
-import { SequenceSelect } from "../_components/SequenceSelect"
-import { FieldsetWrapper } from "./FieldsetWrapper"
-
 // const wait = () => new Promise((resolve) => setTimeout(resolve, 500))
 
-const FormSchema = z.object({
-  id: z.number().nullable().optional(),
-  query: z.string(), //.optional().default(""),
-  sequence: z.coerce.string().default("1"),
-  parent_id: z.number().positive().nullable().optional(),
-  is_required: z.boolean().default(true).optional(),
+export const FormSchema = z.object({
+  id: z.number().int().nullable().optional(),
+  query: z
+    .string()
+    .transform((str) => str.trim())
+    // .refine((val) => val.length > 0, "Query cannot be empty.")
+    .optional(),
+  sequence: z.string().default("1"), // Coercion is not necessary if defaulting to string "1"
+  parent_id: z.number().int().positive().nullable().optional(), // Ensure integers with .int()
+  is_required: z.boolean().optional(), // The .default(true) is not necessary with .optional()
 })
 
-/**
- *
- * @param param0
- * @returns
- */
-export function DialogForm({
-  requisition,
-  afterSave,
-}: {
-  requisition: Requisition
-  afterSave: () => void
-}) {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      id: requisition.id,
-      query: requisition.query || "",
-      sequence: requisition?.sequence ? requisition?.sequence.toString() : "1",
-      parent_id: requisition.parent_id ?? null,
-      is_required: requisition.is_required ?? true,
-    },
-    shouldUnregister: true,
-  })
-
-  async function requisitionFormAction() {
-    console.log(form.getValues())
-    const valid = await form.trigger()
-    const errors = form.formState.errors
-    console.log(
-      "🚀 ~ file: dialog-form.tsx:64 ~ requisitionFormAction ~ errors:",
-      errors
-    )
-    await waitABit()
-
-    if (!valid) {
-      return
-    }
-    const result = FormSchema.safeParse(form.getValues())
-    if (result.success) {
-      try {
-        const data = { ...result.data, sequence: Number(result.data.sequence) }
-        console.log(
-          "🚀 ~ file: dialog-form.tsx:64 ~ requisitionFormAction ~ data:",
-          data
-        )
-      } catch (error: unknown) {
-        console.log(error)
-      } finally {
-        afterSave()
-      }
-    }
-  }
-  async function waitABit() {
-    await new Promise((resolve) => setTimeout(resolve, 500))
-  }
-
-  return (
-    <div className="p-4">
-      <DialogTitle className="mb-6">
-        <span className="rounded-sm bg-gradient-to-r from-primary to-primary/50 px-3 py-1.5 text-foreground shadow-sm">
-          {requisition.id ? "Edit" : "New"} Requisition
-        </span>
-      </DialogTitle>
-      <Form {...form}>
-        <form action={requisitionFormAction} className="my-4">
-          {/** some inputs */}
-          <FieldsetWrapper>
-            <QueryInputField />
-            <IsReplyRequired />
-            <SequenceSelect
-              siblings={requisition?.siblings}
-              sequence_in_levels={requisition.sequence_in_levels}
-              level={requisition.level}
-            ></SequenceSelect>
-            <SubmitFormButton />
-          </FieldsetWrapper>
-        </form>
-      </Form>
-    </div>
-  )
-}
-
-function SubmitFormButton() {
+export function SubmitFormButton() {
   return (
     <div className="mt-8 space-x-6 text-right">
       <DialogClose asChild className="text-gray-600 hover:text-gray-800">
@@ -132,7 +48,7 @@ function SubmitFormButton() {
  *
  * @returns
  */
-function QueryInputField() {
+export function QueryInputField() {
   const { control } = useFormContext()
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
@@ -164,7 +80,7 @@ function QueryInputField() {
  *
  * @returns
  */
-function IsReplyRequired() {
+export function IsReplyRequired() {
   const { control } = useFormContext()
 
   return (
