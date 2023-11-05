@@ -5,9 +5,9 @@ import {
   QueryClient,
 } from "@tanstack/react-query"
 
+import { getAllRequisitionsAction } from "../_actions/actions"
 // import { HeadingScrollArea } from "../_components/HeadingScrollArea"
 import RequisitionHeadingList from "../_components/RequisitionHeaders"
-import { getAllRequisitionsAction } from "./actions"
 import { RequisitionContainer } from "./RequisitionContainer"
 
 interface CreateReqLayoutProps {

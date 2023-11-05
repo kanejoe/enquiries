@@ -33,10 +33,16 @@ export function findSiblings(
  * @param priorityId - The ID of the item that should be given priority.
  * @returns The modified data with unique sequences.
  */
+
+type PartialRequisition = Omit<
+  Requisition,
+  "is_complete" | "is_flagged" | "has_doc" | "is_applicable"
+>
+
 export function ensureUniqueSequence(
-  data: Requisition[],
+  data: PartialRequisition[],
   priorityId?: number
-): Requisition[] {
+): PartialRequisition[] {
   // Sort the data by sequence, giving precedence to the priority ID in case of equal sequences
   data.sort((a, b) => {
     if (a.sequence === b.sequence) {
