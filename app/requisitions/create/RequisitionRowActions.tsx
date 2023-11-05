@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { deleteRequisition } from "../_actions/deleteRequisition"
 import { RequisitionDialogForm } from "./RequisitionDialogForm"
 
 interface RequisitionRowActionsProps {
@@ -108,8 +109,8 @@ export function RequisitionRowActions({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           disabled={requisition.children && requisition.children?.length > 0}
-          onClick={() => {
-            console.log("delete")
+          onClick={async () => {
+            await deleteRequisition(requisition.id, requisition.parent_id)
           }}
         >
           <span title="Cannot delete if requisition has children">Delete</span>

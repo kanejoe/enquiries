@@ -64,10 +64,7 @@ export function RequisitionDialogForm({
           await insertRequisition({ ...rest, is_required })
         } else if (id) await updateRequisition({ id, ...rest, is_required })
       } catch (error: unknown) {
-        console.log(
-          "🚀 ~ file: DialogForm.tsx:66 ~ requisitionFormAction ~ error:",
-          error
-        )
+        console.log(error)
         if (error instanceof z.ZodError) {
           console.log(error.errors) // This would log the error message "Query cannot be empty"
         }
