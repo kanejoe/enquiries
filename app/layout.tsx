@@ -4,7 +4,7 @@ import { type Metadata } from "next"
 
 import { siteConfig } from "@/config/site"
 import { fontAlbertSans, fontMono, fontSans } from "@/lib/fonts"
-import Provider from "@/lib/Providers"
+import TanstackProvider from "@/lib/TanstackProviders"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { SiteHeader } from "@/components/site-header"
@@ -56,7 +56,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
               <div className="flex-1">
-                <Provider>{children}</Provider>
+                <TanstackProvider>{children}</TanstackProvider>
               </div>
             </div>
             <TailwindIndicator />

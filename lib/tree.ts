@@ -302,7 +302,7 @@ function sequenceFormat(arr?: number[], level?: number): string {
   if (!level || level === 4) {
     if (arr.length > 3) {
       // @ts-ignore
-      return numberToRoman(arr[3]) + "."
+      return "(" + numberToRoman(arr[3]) + ")"
     }
   }
 

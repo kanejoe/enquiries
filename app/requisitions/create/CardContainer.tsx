@@ -1,11 +1,13 @@
 import { FC } from "react"
-
-// import { useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import { Requisition } from "@/types/RequisitionType"
 import { supabase } from "@/lib/supabase"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
+import { ensureUniqueSequence } from "@/lib/treeUtils"
 
+import { bulkUpdate } from "../_actions/bulkUpdateReqs"
+import { findSiblingsReqsById } from "../_actions/findSiblingsReqsById"
 import { getAllRequisitionsAction } from "./actions"
 // import { RecursiveTree } from "@/components/RecursiveTree"
 
@@ -18,18 +20,14 @@ import { TreeLayout } from "./TreeLayout"
 interface CardContainerProps {}
 
 const CardContainer: FC<CardContainerProps> = async () => {
-  // const { data: d, isFetched } = useQuery({
-  //   queryKey: ["requisitions"],
-  //   queryFn: getAllRequisitionsAction,
-  // })
-  // console.log(d)
-
   const { data: requisitions, error } = await supabase
     .from("requisitions")
     .select("*")
 
-  if (error) {
-  }
+  // const { data: d, isFetched } = useQuery({
+  //   queryKey: ["requisitions"],
+  //   queryFn: getAllRequisitionsAction,
+  // })
 
   // do a if not null check
   const tree = createRequisitionTree(requisitions as unknown as Requisition[])

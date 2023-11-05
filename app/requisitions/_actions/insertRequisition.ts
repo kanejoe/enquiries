@@ -1,16 +1,22 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
+
 import { Requisition } from "@/types/RequisitionType"
 import { supabase } from "@/lib/supabase"
+import { ensureUniqueSequence } from "@/lib/treeUtils"
+
+import { bulkUpdate } from "./bulkUpdateReqs"
+import { findSiblingsReqsById } from "./findSiblingsReqsById"
 
 export type RequisitionData = Pick<
   Requisition,
   "id" | "sequence" | "query" | "parent_id" | "is_required"
 >
 
-export const insertRequisition = async (
+export async function insertRequisition(
   insert_data: Omit<RequisitionData, "id">
-): Promise<RequisitionData> => {
+): Promise<RequisitionData> {
   const { data, error } = await supabase
     .from("requisitions")
     .insert(insert_data)
@@ -28,5 +34,16 @@ export const insertRequisition = async (
   // Assuming data is of type RequisitionData, otherwise handle the possibility of null
   if (!data) throw new Error("No data returned after insert operation.")
 
+  try {
+    const siblings = await findSiblingsReqsById(data.id)
+    if (siblings) {
+      const madeUnique = ensureUniqueSequence(siblings)
+      await bulkUpdate(madeUnique)
+    }
+  } catch (error: unknown) {
+    throw new Error(`Insert operation failed: ${(error as Error).message}`)
+  }
+
+  revalidatePath("/requisitions")
   return data
 }
