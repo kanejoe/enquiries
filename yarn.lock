@@ -6700,10 +6700,10 @@ openai-edge@1.2.2:
   resolved "https://registry.yarnpkg.com/openai-edge/-/openai-edge-1.2.2.tgz#0b1cd5aec2c366bbd25cdeba05399aa6eef73230"
   integrity sha512-C3/Ao9Hkx5uBPv9YFBpX/x59XMPgPUU4dyGg/0J2sOJ7O9D98kD+lfdOc7v/60oYo5xzMGct80uFkYLH+X2qgw==
 
-openai@4.15.1:
-  version "4.15.1"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-4.15.1.tgz#e8cbf14fbf5f3221a7d8d4b292254327b16e76e5"
-  integrity sha512-cpvjjLppNgR54Hr9/T+qgBhq2uceqRrf3vtx7LH8sdJ+8XjSE/WZ+/MvOho2Rm2l1ZBN96WYpgOpAqCtlBiIeA==
+openai@4.15.3:
+  version "4.15.3"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-4.15.3.tgz#d281e9a20259a13976c01c8c30bc0a5f50afc818"
+  integrity sha512-j2XSxxiOhF7lCiHUXmuDOGOgtKa36ia9pOQ2m9YCOMA2Ee4QTI+MzdHRoHlp6ewOsvW5NXkoT+xustSZljiGnA==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -7121,10 +7121,10 @@ react-error-boundary@^3.1.0:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-hook-form@7.48.0:
-  version "7.48.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.48.0.tgz#9a1e2f49c45b5a4cb356fe6d842c32c44b8ba815"
-  integrity sha512-XCjPkTtpvjMSSCuL1MymdoeALeasKV4WAx093K8txqTiBzVTPwpBLo8dZdgPAmH4AHog8c4gfRRYxrvk0nKUow==
+react-hook-form@7.48.2:
+  version "7.48.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.48.2.tgz#01150354d2be61412ff56a030b62a119283b9935"
+  integrity sha512-H0T2InFQb1hX7qKtDIZmvpU1Xfn/bdahWBN1fH19gSe4bBEqTfmlr7H3XWTaVtiK4/tpPaI1F3355GPMZYge+A==
 
 react-is@^16.13.1:
   version "16.13.1"

@@ -6,9 +6,9 @@ import { Requisition } from "@/types/RequisitionType"
 import { DialogTitle } from "@/components/ui/dialog"
 import { Form } from "@/components/ui/form"
 
+import { insertRequisition } from "../_actions/insertRequisition"
 import { updateRequisition } from "../_actions/update"
 import { SequenceSelect } from "../_components/SequenceSelect"
-import { addRequisition } from "./actions"
 import {
   FormSchema,
   IsReplyRequired,
@@ -56,7 +56,8 @@ export function DialogForm({
         const { id, is_required, ...rest } = data
 
         if (id === undefined) {
-          let newData = await addRequisition({ ...rest, is_required })
+          let newData = await insertRequisition({ ...rest, is_required })
+
           // await updateRequisition({
           //   id: newData.id,
           //   ...rest,

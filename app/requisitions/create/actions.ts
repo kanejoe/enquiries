@@ -30,28 +30,3 @@ export const getAllRequisitionsAction = async () => {
   if (error) throw error
   return data
 }
-
-type RequisitionData = Pick<
-  Requisition,
-  "id" | "sequence" | "query" | "parent_id" | "is_required"
->
-
-export const addRequisition = async (
-  insert_data: Omit<RequisitionData, "id">
-): Promise<RequisitionData> => {
-  const { data, error } = await supabase
-    .from("requisitions")
-    .insert(insert_data)
-    .single<RequisitionData>()
-  console.log("🚀 ~ file: actions.ts:47 ~ data:", data)
-
-  if (error) {
-    console.log("🚀 ~ file: actions.ts:49 ~ error:", error)
-    throw error
-  }
-
-  // Assuming data is of type RequisitionData, otherwise handle the possibility of null
-  if (!data) throw new Error("No data returned after insert operation.")
-
-  return data
-}
