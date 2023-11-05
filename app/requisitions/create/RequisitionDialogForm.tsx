@@ -102,6 +102,6 @@ export function RequisitionDialogForm({
   )
 }
 
-async function waitABit() {
-  await new Promise((resolve) => setTimeout(resolve, 300))
+export async function waitABit(howLong: number = 300): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, howLong))
 }

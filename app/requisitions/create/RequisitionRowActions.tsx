@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, useState } from "react"
+import { ReactNode, useState, useTransition } from "react"
 import {
   DotsHorizontalIcon,
   QuestionMarkCircledIcon,
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { deleteRequisition } from "../_actions/deleteRequisition"
-import { RequisitionDialogForm } from "./RequisitionDialogForm"
+import { RequisitionDialogForm, waitABit } from "./RequisitionDialogForm"
 
 interface RequisitionRowActionsProps {
   requisition: EnhancedRequisition
@@ -39,6 +39,11 @@ export function RequisitionRowActions({
   requisition,
 }: RequisitionRowActionsProps) {
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
+  const [isPendingDelete, startTransition] = useTransition()
+  // console.log(
+  //   "🚀 ~ file: RequisitionRowActions.tsx:43 ~ isPendingDelete:",
+  //   isPendingDelete
+  // )
 
   const newSiblingRequisition = Object.assign(
     {},
@@ -70,6 +75,13 @@ export function RequisitionRowActions({
       siblings: createArray((requisition.children?.length ?? 0) + 1),
     }
   )
+
+  function handleDelete() {
+    startTransition(async () => {
+      // await waitABit(1000)
+      await deleteRequisition(requisition.id, requisition.parent_id)
+    })
+  }
 
   return (
     <DropdownMenu open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
@@ -109,9 +121,7 @@ export function RequisitionRowActions({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           disabled={requisition.children && requisition.children?.length > 0}
-          onClick={async () => {
-            await deleteRequisition(requisition.id, requisition.parent_id)
-          }}
+          onClick={handleDelete}
         >
           <span title="Cannot delete if requisition has children">Delete</span>
           <DropdownMenuShortcut>
