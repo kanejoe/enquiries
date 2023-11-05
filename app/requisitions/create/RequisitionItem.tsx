@@ -1,12 +1,16 @@
 import { FC } from "react"
-import { CheckCircledIcon, InfoCircledIcon } from "@radix-ui/react-icons"
+import { CheckCircledIcon } from "@radix-ui/react-icons"
 
-import { Requisition } from "@/types/RequisitionType"
+import { EnhancedRequisition } from "@/types/RequisitionType"
 import { sequenceFormat } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
 
-import { RequisitionRowActions } from "./requisition-row-actions"
-import { RequisitionItemProps } from "./TreeLayout"
+import { RequisitionRowActions } from "./RequisitionRowActions"
+
+export type RequisitionItemProps = {
+  item: EnhancedRequisition
+  isLastItem: boolean
+}
 
 // RequisitionItem component
 export const RequisitionItem: FC<RequisitionItemProps> = ({
@@ -42,16 +46,8 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
             <div className="text-balance text-sm">
               {item.query}
               {item.is_required ? (
-                <Badge
-                  variant="outline"
-                  className="ml-1.5 rounded py-0.5 group-hover:border-gray-400"
-                >
-                  Response Required
-                </Badge>
-              ) : // <CheckCircledIcon className="-mt-0.5 ml-2 inline-block text-primary-foreground" />
-              null}
-
-              {/* <InfoCircledIcon className="-mt-0.5 ml-2 inline-block fill-teal-500" /> */}
+                <CheckCircledIcon className="-mt-0.5 ml-2 inline-block text-secondary-foreground" />
+              ) : null}
             </div>
           ) : (
             <Badge
@@ -78,7 +74,11 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
       {item.children && item.children.length > 0 && (
         <ul className="ml-11 space-y-4">
           {item.children.map(
-            (requisitionItem: Requisition, requisitionItemIdx: number, arr) => {
+            (
+              requisitionItem: EnhancedRequisition,
+              requisitionItemIdx: number,
+              arr: EnhancedRequisition[]
+            ) => {
               const isLastItem = requisitionItemIdx === arr.length - 1
               return (
                 <RequisitionItem

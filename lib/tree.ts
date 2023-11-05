@@ -1,54 +1,56 @@
-import type { HeadingRequisition, Requisition } from "@/types/RequisitionType"
+import type {
+  EnhancedRequisition,
+  HeadingRequisition,
+  Requisition,
+} from "@/types/RequisitionType"
 
-/**
- *
- * @param data
- * @returns
- */
+function createRequisitionTree(
+  data: Requisition[] = []
+): EnhancedRequisition[] {
+  const map = new Map<number, EnhancedRequisition>()
+  const rootNodes: EnhancedRequisition[] = []
 
-function createRequisitionTree(data: Requisition[] = []): Requisition[] {
-  const map = new Map<number, Requisition>()
-  const rootNodes: Requisition[] = []
-
-  // Helper function to get sibling sequences including the current sequence
   function getSiblingSequences(parentId: number | null | undefined): number[] {
     return data
       .filter((item) => item.parent_id === parentId)
       .map((item) => item.sequence)
   }
 
-  // Organize the nodes in a map and find the root nodes
   data.forEach((item) => {
-    map.set(item.id, {
+    const enhancedItem: EnhancedRequisition = {
       ...item,
       children: [],
-      siblings: getSiblingSequences(item.parent_id), // <-- Updated line
-    })
+      siblings: getSiblingSequences(item.parent_id),
+      sequence_in_levels: [],
+      level: 1,
+    }
+    map.set(item.id, enhancedItem)
     if (item.parent_id === null) {
-      const rootNode = map.get(item.id)!
-      rootNode.level = 1 // Setting the level for root nodes
-      rootNode.sequence_in_levels = [rootNode.sequence] // Setting the characters for root nodes
-      rootNodes.push(rootNode)
+      enhancedItem.level = 1
+      enhancedItem.sequence_in_levels = [enhancedItem.sequence]
+      rootNodes.push(enhancedItem)
     }
   })
 
-  // Recursive function to sort and add children
-  function addChildren(node: Requisition, level: number, characters: number[]) {
+  function addChildren(
+    node: EnhancedRequisition,
+    level: number,
+    sequences: number[]
+  ) {
     data
       .filter((item) => item.parent_id === node.id)
       .sort((a, b) => a.sequence - b.sequence)
       .forEach((child) => {
         const childNode = map.get(child.id)!
-        childNode.level = level // Setting the level
-        childNode.sequence_in_levels = [...characters, childNode.sequence] // Adding the characters array
-        node.children!.push(childNode)
-        addChildren(childNode, level + 1, childNode.sequence_in_levels) // Incrementing the level for children
+        childNode.level = level
+        childNode.sequence_in_levels = [...sequences, childNode.sequence]
+        node.children.push(childNode)
+        addChildren(childNode, level + 1, childNode.sequence_in_levels)
       })
   }
 
-  // Add children to the root nodes and sort them
   rootNodes.sort((a, b) => a.sequence - b.sequence)
-  rootNodes.forEach((node) => addChildren(node, 2, node.sequence_in_levels!)) // Starting children with level 2
+  rootNodes.forEach((node) => addChildren(node, 2, node.sequence_in_levels))
 
   return rootNodes
 }
@@ -60,9 +62,9 @@ function createRequisitionTree(data: Requisition[] = []): Requisition[] {
  * @returns
  */
 function findNodeByReqId(
-  tree: Requisition[],
+  tree: EnhancedRequisition[],
   id: Requisition["id"]
-): Requisition | null {
+): EnhancedRequisition | null {
   for (const node of tree) {
     if (node.id === id) {
       return node
@@ -82,7 +84,7 @@ function findNodeByReqId(
  * @param data
  * @returns
  */
-function getHeaderNodes(data?: Requisition[]): HeadingRequisition[] {
+function getHeaderNodes(data?: EnhancedRequisition[]): HeadingRequisition[] {
   // Check if data is a valid array and has length
   if (!Array.isArray(data) || !data.length) return []
 
@@ -104,7 +106,6 @@ function getHeaderNodes(data?: Requisition[]): HeadingRequisition[] {
     is_applicable: node.is_applicable,
   }))
 }
-
 /**
  *
  * @param tree
@@ -113,39 +114,38 @@ function getHeaderNodes(data?: Requisition[]): HeadingRequisition[] {
 function getNonRootApplicableNodes(tree: Requisition[]): Requisition[] {
   let result: Requisition[] = []
 
-  // Recursive function to traverse the tree and filter non-root applicable nodes
   function traverse(node: Requisition) {
-    // Check if the node is not a root node and is applicable
     if (node.parent_id !== null && node.is_applicable) {
       result.push(node)
     }
-
-    // Continue to traverse children if they exist
-    if (node.children) {
-      node.children.forEach(traverse)
+    // Type casting is necessary if 'children' is not part of the Requisition type
+    if ((node as EnhancedRequisition).children) {
+      ;(node as EnhancedRequisition).children.forEach(traverse)
     }
   }
 
-  // Start the traversal from the root nodes of the tree
+  // Start traversal from each root node
   tree.forEach(traverse)
 
   return result
 }
-
 /**
  *
  * @param tree
  * @returns
  */
 function getNonRootApplicableNodesGroupedByRoot(
-  tree: Requisition[]
-): { id: number; nodes: Requisition[] }[] {
-  const result: { id: number; nodes: Requisition[] }[] = []
+  tree: EnhancedRequisition[]
+): { id: number; nodes: EnhancedRequisition[] }[] {
+  const result: { id: number; nodes: EnhancedRequisition[] }[] = []
 
   // Recursive function to traverse the tree and filter applicable non-root nodes
-  function traverse(node: Requisition, nonRootApplicableNodes: Requisition[]) {
-    // If the node is applicable and not at the root level (has a parent_id), add it to the result
-    if (node.is_applicable && null) {
+  function traverse(
+    node: EnhancedRequisition,
+    nonRootApplicableNodes: EnhancedRequisition[]
+  ) {
+    // If the node is applicable and not at the root level (has a parent_id), add it to the list
+    if (node.is_applicable && node.parent_id !== null) {
       nonRootApplicableNodes.push(node)
     }
 
@@ -157,13 +157,16 @@ function getNonRootApplicableNodesGroupedByRoot(
 
   // Iterate through the root nodes of the tree
   tree.forEach((rootNode) => {
-    if (rootNode.is_applicable) {
-      // Check if the root node is applicable
-      const nonRootApplicableNodes: Requisition[] = []
-      traverse(rootNode, nonRootApplicableNodes)
-      if (nonRootApplicableNodes.length > 0) {
-        result.push({ id: rootNode.id, nodes: nonRootApplicableNodes })
-      }
+    // Initialize an array to hold applicable non-root nodes for this root
+    const nonRootApplicableNodes: EnhancedRequisition[] = []
+
+    // If the root node is not applicable, do not add it to the result
+    // but still traverse its children to find applicable non-root nodes
+    traverse(rootNode, nonRootApplicableNodes)
+
+    // If non-root applicable nodes were found, add them to the result
+    if (nonRootApplicableNodes.length > 0) {
+      result.push({ id: rootNode.id, nodes: nonRootApplicableNodes })
     }
   })
 

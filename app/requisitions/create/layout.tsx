@@ -8,7 +8,7 @@ import {
 // import { HeadingScrollArea } from "../_components/HeadingScrollArea"
 import RequisitionHeadingList from "../_components/RequisitionHeaders"
 import { getAllRequisitionsAction } from "./actions"
-import { CardContainer } from "./CardContainer"
+import { RequisitionContainer } from "./RequisitionContainer"
 
 interface CreateReqLayoutProps {
   children: React.ReactNode
@@ -30,7 +30,7 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = async ({ children }) => {
         <div className="flex w-full space-x-24">
           <div className="mb-8 w-4/5">
             <HydrationBoundary state={dehydrate(queryClient)}>
-              <CardContainer />
+              <RequisitionContainer />
             </HydrationBoundary>
           </div>
           <aside className="order-last w-1/5">

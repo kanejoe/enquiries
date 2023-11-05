@@ -1,7 +1,6 @@
-import { uniq } from "lodash"
 import { useFormContext } from "react-hook-form"
 
-import { Requisition } from "@/types/RequisitionType"
+import { EnhancedRequisition } from "@/types/RequisitionType"
 import { replaceValueAtLevel, transformSequenceArray } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -20,9 +19,9 @@ import {
 } from "@/components/ui/select"
 
 interface SequenceSelectProps {
-  level: Requisition["level"]
-  sequence_in_levels: Requisition["sequence_in_levels"]
-  siblings: Requisition["siblings"]
+  level: EnhancedRequisition["level"]
+  sequence_in_levels: EnhancedRequisition["sequence_in_levels"]
+  siblings: EnhancedRequisition["siblings"]
 }
 
 const SequenceSelect: React.FC<SequenceSelectProps> = ({

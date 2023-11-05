@@ -1771,29 +1771,29 @@
     "@tailwindcss/oxide-linux-x64-musl" "0.0.0-insiders.782c733"
     "@tailwindcss/oxide-win32-x64-msvc" "0.0.0-insiders.782c733"
 
-"@tanstack/query-core@5.4.3":
-  version "5.4.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.4.3.tgz#fbdd36ccf1acf70579980f2e7cf16d2c2aa2a5e9"
-  integrity sha512-fnI9ORjcuLGm1sNrKatKIosRQUpuqcD4SV7RqRSVmj8JSicX2aoMyKryHEBpVQvf6N4PaBVgBxQomjsbsGPssQ==
+"@tanstack/query-core@5.7.2":
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.7.2.tgz#c4a994d6f2b0a6901741a805c32da94db964880d"
+  integrity sha512-vPYoNCOI8W+jFLnyEAYQL7/qURE7XzVE/TvkmNSko8LU55jFshee342p4GNFOTsYFgJty7Da5bw4m2P3vaKWMw==
 
 "@tanstack/query-devtools@5.4.2":
   version "5.4.2"
   resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.4.2.tgz#1687645ba1b9ffc76c55ac7759461d331d0776bf"
   integrity sha512-EXdaMXi8CxZuMp97J5mq6wy1RduOfoWFv5vtA1U+hyqb8Wst6M8kkkjDSdFvGZIRpYY4K8mKLlEFHNUZDG5dtw==
 
-"@tanstack/react-query-devtools@5.7.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.7.0.tgz#0fec9ea00f6c9f5678bc2f9d3d22881533f0ff7c"
-  integrity sha512-UASSDywXWavqOjaTQ9sF4RG51miqtxo7LUr1/fvrek6o+GlUxF5TS+cIOy/lYdSMFtkuaVTb0LNW3OLEuFwOPw==
+"@tanstack/react-query-devtools@5.7.2":
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.7.2.tgz#2a2a95bc1a1b3926808f1c3052d9982957e1e551"
+  integrity sha512-yYkzdmlntdJsy+GZzCabQGxxMjhRYayQzxe7OqYYFPnLEFf/eWkbH3cjyTBlGSKqpUN/8T5QS3P1Xur+l9hEng==
   dependencies:
     "@tanstack/query-devtools" "5.4.2"
 
-"@tanstack/react-query@5.7.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.7.0.tgz#6f9df3eb101a6a5303bd27134f8f7dad1711a9d6"
-  integrity sha512-f6F9OdW4MC0bwlYPXop114ngkkZtg650TeJpR2/ME9q/iJ/59dg2+LoGHEdHk2w1mNAdiuiPFYzCcl2WNkFiiw==
+"@tanstack/react-query@5.7.2":
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.7.2.tgz#28a697ed9b8e5ae5c19f79a692180e819555c91f"
+  integrity sha512-NMsfz0Wd3VPDvSpX9sw2x07r0kf9HwuAlNNHQvwMUHM7EcuVN/LYmlmTe40dWER1c/92Jhc5LODdtW0PyvHsFg==
   dependencies:
-    "@tanstack/query-core" "5.4.3"
+    "@tanstack/query-core" "5.7.2"
 
 "@tanstack/react-table@8.10.7":
   version "8.10.7"
@@ -7612,10 +7612,10 @@ solid-swr-store@0.10.7:
   resolved "https://registry.yarnpkg.com/solid-swr-store/-/solid-swr-store-0.10.7.tgz#9511308f01250a1509efbfaad5b481be7517e436"
   integrity sha512-A6d68aJmRP471aWqKKPE2tpgOiR5fH4qXQNfKIec+Vap+MGQm3tvXlT8n0I8UgJSlNAsSAUuw2VTviH2h3Vv5g==
 
-sonner@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/sonner/-/sonner-1.1.0.tgz#227aee5c8e5469c80b80233cd40d1ce05c5d512c"
-  integrity sha512-pqc5yd1ekS6dBXLKljRogqatiGJSxCaX8mspnqKjLg5Rzw6eiAUgsG1SS8RuQzOjQq8/MlgFao6sIw9doqAkNg==
+sonner@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/sonner/-/sonner-1.2.0.tgz#26e7520d0f93b9f70763130099b4e1b16f121f11"
+  integrity sha512-4bIPKrhF+Z4yEC4EZvNBswcVzMrUhztOQXqyIoiZqiqN1TT39FeK+TgRsQidvvztnYgOn4+S3LdAsri61c7ATA==
 
 source-map-js@^1.0.2:
   version "1.0.2"
