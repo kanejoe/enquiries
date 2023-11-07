@@ -5,6 +5,7 @@ import { EnhancedRequisition } from "@/types/RequisitionType"
 import { sequenceFormat } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
 
+import { DeleteRequisitionButton } from "./DeleteRequisitionButton"
 import { RequisitionRowActions } from "./RequisitionRowActions"
 
 export type RequisitionItemProps = {
@@ -42,28 +43,36 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
           </div>
         </div>
         <div className="mt-1.5 w-full">
-          {item.query ? (
-            <div className="text-pretty text-sm">
-              {item.query}
-              {item.is_required ? (
-                <CheckCircledIcon className="-mt-0.5 ml-2 inline-block text-secondary-foreground" />
-              ) : null}
-            </div>
-          ) : (
-            <Badge
-              variant="outline"
-              className="rounded py-0.5  group-hover:border-gray-400"
-            >
-              <svg
-                className="mr-1.5 mt-0.5 h-1.5 w-1.5 fill-primary"
-                viewBox="0 0 6 6"
-                aria-hidden="true"
+          <div className="inline-flex items-start">
+            {item.query ? (
+              <div className="text-pretty text-sm">
+                {item.query}
+                {item.is_required ? (
+                  <CheckCircledIcon className="-mt-0.5 ml-2 inline-block text-secondary-foreground" />
+                ) : null}
+              </div>
+            ) : (
+              <Badge
+                variant="outline"
+                className="rounded py-0.5  group-hover:border-gray-400"
               >
-                <circle cx="3" cy="3" r="3"></circle>
-              </svg>
-              no text
-            </Badge>
-          )}
+                <svg
+                  className="mr-1.5 mt-0.5 h-1.5 w-1.5 fill-primary"
+                  viewBox="0 0 6 6"
+                  aria-hidden="true"
+                >
+                  <circle cx="3" cy="3" r="3"></circle>
+                </svg>
+                no text
+              </Badge>
+            )}
+            {item.children && item.children?.length > 0 ? null : (
+              <DeleteRequisitionButton
+                id={item.id}
+                parent_id={item.parent_id}
+              />
+            )}
+          </div>
         </div>
         <div className="w-1">
           <RequisitionRowActions requisition={item} />

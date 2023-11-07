@@ -9,12 +9,15 @@ import { ensureUniqueSequence } from "@/lib/treeUtils"
 import { bulkUpdate } from "./bulkUpdateReqs"
 import { findSiblingsReqsByParentId } from "./findSiblingsByParentId"
 
-export async function deleteRequisition(deleteId: Requisition["id"], parent_id: Requisition["parent_id"]) {
+export async function deleteRequisition(
+  deleteId: Requisition["id"],
+  parent_id: Requisition["parent_id"]
+) {
   const { data, error } = await supabase
     .from("requisitions")
     .delete()
     .eq("id", deleteId)
-  // .select("*" as const)
+    .select("*")
 
   if (error) {
     throw new Error(`Delete operation failed: ${error.message}`)

@@ -2318,10 +2318,10 @@ agentkeepalive@^4.2.1:
   dependencies:
     humanize-ms "^1.2.1"
 
-ai@2.2.20:
-  version "2.2.20"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.20.tgz#782f48ddde2a8820002462f492102eb2a902aea6"
-  integrity sha512-BTZ8VEsIdapZM46Tt72FzYPY4Kt55ANpYubUSYJCrrdUfMDCPfT/XwqPsXZam1i7Go6YrUPha9VBdrvzQxBtXw==
+ai@2.2.21:
+  version "2.2.21"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.21.tgz#c8ac4d946479a8f30fd9718afccfcfd37437442c"
+  integrity sha512-fwZZl8GqRREDE30aUn7+L+++hVCq6BKfxJB5N+5wUrq87UAwHiaUR47/boDNWDAYSXUTiUU2PMN4fWwZ4bwJLg==
   dependencies:
     eventsource-parser "1.0.0"
     nanoid "3.3.6"
@@ -4280,6 +4280,11 @@ gauge@^3.0.0:
     string-width "^4.2.3"
     strip-ansi "^6.0.1"
     wide-align "^1.1.2"
+
+geist@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/geist/-/geist-1.0.1.tgz#5b24b0b78b97ed57266c85d3d450303f006a927c"
+  integrity sha512-OrEqHRZKXCzB5ezrlOayJvZhDnwyQUXHo+3diSQ1pqroQqfdHlRYSjeHbQDtg2BvuTmCsdku3L0zFOkspXUrcw==
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"

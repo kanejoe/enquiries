@@ -38,48 +38,46 @@ type PartialRequisition = Omit<
   Requisition,
   "is_complete" | "is_flagged" | "has_doc" | "is_applicable"
 >
-
 export function ensureUniqueSequence(
   data: PartialRequisition[],
   priorityId?: number
 ): PartialRequisition[] {
-  // Sort the data by sequence, giving precedence to the priority ID in case of equal sequences
-  data.sort((a, b) => {
-    if (a.sequence === b.sequence) {
-      if (priorityId !== undefined) {
-        if (a.id === priorityId) return -1
-        if (b.id === priorityId) return 1
-      }
-      return 0 // If priorityId is not set or doesn't match, return 0 to indicate no swap needed.
-    }
-    return a.sequence - b.sequence
-  })
+  // Sort the data by sequence, but ensure the priority ID does not change position
+  const priorityItem = data.find((item) => item.id === priorityId)
+  const nonPriorityItems = data.filter((item) => item.id !== priorityId)
+
+  nonPriorityItems.sort((a, b) => a.sequence - b.sequence)
+
+  let sortedData = []
+  if (priorityItem) {
+    // Place the priority item in its original position
+    sortedData = [
+      ...nonPriorityItems.slice(0, priorityItem.sequence - 1),
+      priorityItem,
+      ...nonPriorityItems.slice(priorityItem.sequence - 1),
+    ]
+  } else {
+    sortedData = [...nonPriorityItems]
+  }
 
   // Ensure the first sequence starts with 1 and increment subsequent sequences
   let currentSequence = 1
   for (let i = 0; i < data.length; i++) {
     const current = data[i]
-    const previous = data[i - 1]
 
-    // Explicitly check if current is not undefined (should not be due to the loop condition)
-    if (current) {
-      // If the priority ID is defined and matches the current item's ID, or if it's the first item, set the sequence to the current sequence
-      if ((priorityId !== undefined && current.id === priorityId) || i === 0) {
-        current.sequence = currentSequence
-      } else {
-        // If the previous item has the same sequence, increment the current sequence
-        // Also ensure that previous is not undefined
-        if (previous && previous.sequence >= currentSequence) {
-          currentSequence++
-        }
-        // Assign the new sequence
-        current.sequence = currentSequence
-      }
-      // Increment the sequence for the next iteration
-      currentSequence++
-    }
+    // Skip the iteration if current is undefined (which should not happen here)
+    if (current === undefined) continue
+
+    // If the current item is the priority item, keep its sequence unchanged
+    if (current.id === priorityId) continue
+
+    // Assign the new sequence
+    current.sequence = currentSequence
+
+    // Increment the sequence for the next iteration
+    currentSequence++
   }
 
   // Return the modified data
-  return data
+  return sortedData
 }

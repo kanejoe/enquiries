@@ -37,7 +37,7 @@ export async function insertRequisition(
   try {
     const siblings = await findSiblingsReqsById(data.id)
     if (siblings) {
-      const madeUnique = ensureUniqueSequence(siblings)
+      const madeUnique = ensureUniqueSequence(siblings, data.id)
       await bulkUpdate(madeUnique)
     }
   } catch (error: unknown) {

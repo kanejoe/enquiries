@@ -16,7 +16,7 @@ export type RequisitionData = Pick<
 
 export async function updateRequisition(
   update_data: RequisitionData
-): Promise<RequisitionData> {
+): Promise<RequisitionData[]> {
   const { id, ...rest } = update_data
   const { data, error } = await supabase
     .from("requisitions")
@@ -33,8 +33,11 @@ export async function updateRequisition(
 
   try {
     const siblings = await findSiblingsReqsById(id)
+    console.log("🚀 ~ file: updateRequisition.ts:36 ~ id:", id)
+    console.log("🚀 ~ file: updateRequisition.ts:36 ~ siblings:", siblings)
     if (siblings) {
-      const madeUnique = ensureUniqueSequence(siblings)
+      const madeUnique = ensureUniqueSequence(siblings, id)
+
       await bulkUpdate(madeUnique)
     }
   } catch (error: unknown) {
