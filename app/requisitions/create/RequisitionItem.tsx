@@ -43,7 +43,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
         </div>
         <div className="mt-1.5 w-full">
           {item.query ? (
-            <div className="text-balance text-sm">
+            <div className="text-pretty text-sm">
               {item.query}
               {item.is_required ? (
                 <CheckCircledIcon className="-mt-0.5 ml-2 inline-block text-secondary-foreground" />
