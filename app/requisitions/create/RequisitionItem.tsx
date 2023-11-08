@@ -21,7 +21,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
   const hasChildren = item.children && item.children.length > 0
   return (
     <>
-      <li className="group relative flex flex-row space-x-12 rounded focus-within:bg-primary/5 hover:bg-primary/5">
+      <li className="group relative flex flex-row space-x-12 rounded transition duration-300 focus-within:bg-primary/5 hover:bg-primary/5">
         <div className="relative flex w-8 justify-center">
           {/* vertical line */}
           {hasChildren ? (
@@ -38,7 +38,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
             <div className="h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300 group-focus-within:bg-primary/25 group-focus-within:ring-primary group-hover:bg-primary/25 group-hover:ring-primary" />
           </div>
 
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-700 group-focus-within:bg-primary group-hover:bg-primary group-hover:text-foreground">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-700 transition duration-300 group-focus-within:bg-primary group-hover:bg-primary group-hover:text-foreground">
             {sequenceFormat(item.sequence_in_levels, item.level)}
           </div>
         </div>
@@ -74,7 +74,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
             )}
           </div>
         </div>
-        <div className="w-1">
+        <div className="w-1 transition duration-300">
           <RequisitionRowActions requisition={item} />
         </div>
       </li>
