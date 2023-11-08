@@ -1,4 +1,4 @@
-import type { EnhancedRequisition, Requisition } from "@/types/RequisitionType"
+import type { EnhancedRequisition } from "@/types/RequisitionType"
 
 /**
  * Adds a child to the given parent.
@@ -14,10 +14,16 @@ export function addChildToParent(
     (child) => child.sequence
   )
 
+  // Calculate the new child's sequence number
+  const newChildSequence = parent.children.length + 1
+
+  // Include the new child's sequence in the siblings array
+  siblingsSequences.push(newChildSequence)
+
   // Omit 'id' since it's set by the database
   const newChild: Omit<EnhancedRequisition, "id"> = {
     parent_id: parent.id,
-    sequence: parent.children.length + 1,
+    sequence: newChildSequence,
     query: "",
     reply: null,
     is_applicable: false,

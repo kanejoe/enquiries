@@ -11,7 +11,7 @@ import {
 // type
 import { EnhancedRequisition } from "@/types/RequisitionType"
 import { addSiblingToNode } from "@/lib/addSiblingToNode"
-import { addChildToParent } from "@/lib/parentToChild"
+import { addChildToParent } from "@/lib/addChildToParent"
 // ui
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
