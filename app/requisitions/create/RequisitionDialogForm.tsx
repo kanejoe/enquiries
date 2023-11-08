@@ -36,7 +36,6 @@ type FormProps = {
  * @param param0
  * @returns
  */
-
 export function RequisitionDialogForm({
   requisition,
   afterSave,
@@ -87,8 +86,8 @@ export function RequisitionDialogForm({
   return (
     <div className="p-4">
       <DialogTitle className="mb-6">
-        <span className="rounded-sm bg-gradient-to-r from-primary to-primary/50 px-3 py-1.5 text-foreground shadow-sm">
-          {requisition.id ? "Edit" : "New"} Requisition
+        <span className="text-xl underline decoration-primary decoration-double decoration-2 underline-offset-8">
+          {requisition.id ? "Edit" : "New"} Query
         </span>
       </DialogTitle>
       <Form {...form}>

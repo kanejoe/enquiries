@@ -26,7 +26,7 @@ export function QueryInputField() {
       render={({ field }) => {
         return (
           <FormItem>
-            <FormLabel>Requisition Query</FormLabel>
+            <FormLabel>Requisition / Query</FormLabel>
             <FormControl>
               <Textarea
                 {...field}

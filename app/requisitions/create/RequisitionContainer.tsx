@@ -23,6 +23,10 @@ export const RequisitionContainer: FC = async () => {
 
   const instantHeadingNode = findNodeByReqId(requisitionTree, 18)
 
+  if (!requisitions) {
+    return <div>Loading...</div>
+  }
+
   return (
     <>
       <div className="sticky top-[var(--gap-to-top)] mt-2">
@@ -40,7 +44,7 @@ export const RequisitionContainer: FC = async () => {
           requisitionTree[0].children.length ? (
             <RequisitionTreeLayout requisitions={requisitionTree} />
           ) : (
-            <EmptyReqsView />
+            <EmptyReqsView requisition={instantHeadingNode} />
           )}
         </div>
       </div>

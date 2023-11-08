@@ -1,8 +1,20 @@
+"use client"
+
 import { PlusIcon } from "@radix-ui/react-icons"
 
+import type { EnhancedRequisition } from "@/types/RequisitionType"
+import { addChildToParent } from "@/lib/addChildToParent"
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
-export function EmptyReqsView() {
+import { RequisitionDialogForm } from "./RequisitionDialogForm"
+
+export function EmptyReqsView({
+  requisition,
+}: {
+  requisition: EnhancedRequisition
+}) {
+  const newChildRequisition = addChildToParent(requisition)
   return (
     <div className="flex h-[calc(100vh-16rem)] flex-col">
       <div className="flex  h-full items-center justify-center text-gray-500">
@@ -29,13 +41,26 @@ export function EmptyReqsView() {
             Get started by adding a new requisition or query.
           </p>
           <div className="mt-6">
-            <Button
-              variant="default"
-              className="will-change-transform active:translate-y-1"
-            >
-              <PlusIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-              Add New Query
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  variant="default"
+                  className="will-change-transform active:translate-y-1"
+                >
+                  <PlusIcon
+                    className="-ml-0.5 mr-1.5 h-5 w-5"
+                    aria-hidden="true"
+                  />
+                  Add New Query
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <RequisitionDialogForm
+                  requisition={newChildRequisition}
+                  afterSave={() => {}}
+                />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>

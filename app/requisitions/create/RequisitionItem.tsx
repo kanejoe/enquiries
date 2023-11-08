@@ -45,7 +45,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
         <div className="mt-1.5 w-full">
           <div className="inline-flex items-start">
             {item.query ? (
-              <div className="text-pretty text-sm">
+              <div className="text-pretty hyphens-auto text-sm">
                 {item.query}
                 {item.is_required ? (
                   <CheckCircledIcon className="-mt-0.5 ml-2 inline-block text-secondary-foreground" />
