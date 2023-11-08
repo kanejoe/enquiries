@@ -65,9 +65,9 @@ export function DeleteRequisitionButton({
           <Button
             variant="default"
             onClick={() => handleDelete(id, parent_id)}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") handleDelete(id, parent_id)
-            }}
+            // onKeyUp={(e) => {
+            //   if (e.key === "Enter") handleDelete(id, parent_id)
+            // }}
           >
             {isPending ? (
               <Spinner className="h-4 w-4" />

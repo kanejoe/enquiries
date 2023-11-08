@@ -38,13 +38,11 @@ interface RequisitionRowActionsProps {
 export function RequisitionRowActions({
   requisition,
 }: RequisitionRowActionsProps) {
-  const [dialogIsOpen, setDialogIsOpen] = useState(false)
-
   const newSiblingRequisition = addSiblingToNode(requisition)
   const newChildRequisition = addChildToParent(requisition)
 
   return (
-    <DropdownMenu open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -75,7 +73,6 @@ export function RequisitionRowActions({
           icon={<ThickArrowDownIcon />}
           formData={newChildRequisition}
           isDisabled={newChildRequisition.level >= 6}
-          onDialogClose={() => setDialogIsOpen(false)}
         />
       </DropdownMenuContent>
     </DropdownMenu>
@@ -100,7 +97,6 @@ function DropdownDialog({
   icon,
   formData,
   isDisabled = false,
-  onDialogClose,
 }: DropdownDialogProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -119,7 +115,6 @@ function DropdownDialog({
         <RequisitionDialogForm
           requisition={formData}
           afterSave={() => setIsOpen(false)}
-          onDialogClose={onDialogClose}
         />
       </DialogContent>
     </Dialog>

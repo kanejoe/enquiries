@@ -1,11 +1,11 @@
 import { FC } from "react"
-import { CheckCircledIcon } from "@radix-ui/react-icons"
 
 import { EnhancedRequisition } from "@/types/RequisitionType"
 import { sequenceFormat } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
 
 import { DeleteRequisitionButton } from "./DeleteRequisitionButton"
+import { IsRequiredIcon } from "./IsRequiredReq"
 import { RequisitionRowActions } from "./RequisitionRowActions"
 
 export type RequisitionItemProps = {
@@ -47,14 +47,12 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
             {item.query ? (
               <div className="text-pretty hyphens-auto text-sm">
                 {item.query}
-                {item.is_required ? (
-                  <CheckCircledIcon className="-mt-0.5 ml-2 inline-block text-secondary-foreground" />
-                ) : null}
+                <IsRequiredIcon isRequired={item.is_required} />
               </div>
             ) : (
               <Badge
                 variant="outline"
-                className="rounded py-0.5  group-hover:border-gray-400"
+                className="rounded py-0.5 group-hover:border-gray-400"
               >
                 <svg
                   className="mr-1.5 mt-0.5 h-1.5 w-1.5 fill-primary"
