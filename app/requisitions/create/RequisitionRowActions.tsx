@@ -10,7 +10,8 @@ import {
 
 // type
 import { EnhancedRequisition } from "@/types/RequisitionType"
-import { addChildToParent, addSiblingToNode } from "@/lib/parentToChild"
+import { addSiblingToNode } from "@/lib/addSiblingToNode"
+import { addChildToParent } from "@/lib/parentToChild"
 // ui
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"

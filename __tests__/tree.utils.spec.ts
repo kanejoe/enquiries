@@ -1,4 +1,4 @@
-import data from "@/__tests__/data.json"
+import data from "@/__tests__/data/data.json"
 
 import { ensureUniqueSequence, findSiblings } from "@/lib/treeUtils"
 

@@ -1,6 +1,8 @@
+"use client"
+
 import { FC } from "react"
 
-import { EnhancedRequisition } from "@/types/RequisitionType"
+import { type EnhancedRequisition } from "@/types/RequisitionType"
 
 import { RequisitionItem } from "./RequisitionItem"
 
@@ -8,6 +10,11 @@ type TreeLayoutProps = {
   requisitions: EnhancedRequisition[]
 }
 
+/**
+ *
+ * @param param0
+ * @returns
+ */
 export const RequisitionTreeLayout: FC<TreeLayoutProps> = ({
   requisitions,
 }) => {

@@ -1,6 +1,6 @@
 import { FC } from "react"
 
-import { EnhancedRequisition, Requisition } from "@/types/RequisitionType"
+import { type EnhancedRequisition } from "@/types/RequisitionType"
 import { supabase } from "@/lib/supabase"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 
@@ -19,6 +19,7 @@ export const RequisitionContainer: FC = async () => {
   const requisitionTree = createRequisitionTree(
     requisitions as unknown as EnhancedRequisition[]
   )
+
   const instantHeadingNode = findNodeByReqId(requisitionTree, 18)
 
   return (
