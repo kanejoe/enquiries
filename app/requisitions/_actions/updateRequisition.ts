@@ -33,11 +33,8 @@ export async function updateRequisition(
 
   try {
     const siblings = await findSiblingsReqsById(id)
-    console.log("🚀 ~ file: updateRequisition.ts:36 ~ id:", id)
-    console.log("🚀 ~ file: updateRequisition.ts:36 ~ siblings:", siblings)
     if (siblings) {
       const madeUnique = ensureUniqueSequence(siblings, id)
-
       await bulkUpdate(madeUnique)
     }
   } catch (error: unknown) {

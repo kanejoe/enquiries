@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 // type
-import { EnhancedRequisition } from "@/types/RequisitionType"
+import { type EnhancedRequisition } from "@/types/RequisitionType"
 // ui
 import { DialogTitle } from "@/components/ui/dialog"
 import { Form } from "@/components/ui/form"
@@ -20,6 +20,17 @@ import { SubmitFormButton } from "../_components/SubmitFormButton"
 // schema
 import { FormSchema } from "./RequisitionFormSchema"
 
+// Type for requisitions where 'id' is optional
+type RequisitionWithOptionalId = Omit<EnhancedRequisition, "id"> & {
+  id?: number
+}
+
+type FormProps = {
+  requisition: RequisitionWithOptionalId
+  afterSave: () => void
+  onDialogClose?: () => void
+}
+
 /**
  *
  * @param param0
@@ -30,11 +41,7 @@ export function RequisitionDialogForm({
   requisition,
   afterSave,
   onDialogClose,
-}: {
-  requisition: EnhancedRequisition
-  afterSave: () => void
-  onDialogClose?: () => void
-}) {
+}: FormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {

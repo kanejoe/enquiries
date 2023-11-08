@@ -10,6 +10,7 @@ import {
 
 // type
 import { EnhancedRequisition } from "@/types/RequisitionType"
+import { addChildToParent, addSiblingToNode } from "@/lib/parentToChild"
 // ui
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
@@ -22,8 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { deleteRequisition } from "../_actions/deleteRequisition"
-import { RequisitionDialogForm, waitABit } from "./RequisitionDialogForm"
+import { RequisitionDialogForm } from "./RequisitionDialogForm"
 
 interface RequisitionRowActionsProps {
   requisition: EnhancedRequisition
@@ -39,36 +39,8 @@ export function RequisitionRowActions({
 }: RequisitionRowActionsProps) {
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
 
-  const newSiblingRequisition = Object.assign(
-    {},
-    {
-      ...requisition,
-      is_required: true,
-      level: requisition.level,
-      query: "",
-      parent_id: requisition.parent_id,
-      sequence: requisition.sequence + 1,
-      sequence_in_levels: [...requisition.sequence_in_levels],
-      siblings: [...requisition.siblings, requisition.siblings.length + 1],
-    }
-  )
-
-  const newChildRequisition = Object.assign(
-    {},
-    {
-      ...requisition,
-      is_required: true,
-      level: requisition.level != null ? requisition.level + 1 : 1,
-      parent_id: requisition.id,
-      query: "",
-      sequence: (requisition.children?.length ?? 0) + 1,
-      sequence_in_levels: [
-        ...requisition.sequence_in_levels,
-        (requisition.children?.length ?? 0) + 1,
-      ],
-      siblings: createArray((requisition.children?.length ?? 0) + 1),
-    }
-  )
+  const newSiblingRequisition = addSiblingToNode(requisition)
+  const newChildRequisition = addChildToParent(requisition)
 
   return (
     <DropdownMenu open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
@@ -109,10 +81,15 @@ export function RequisitionRowActions({
   )
 }
 
+// Type for requisitions where 'id' is optional
+type RequisitionWithOptionalId = Omit<EnhancedRequisition, "id"> & {
+  id?: number
+}
+
 interface DropdownDialogProps {
   title: string
   icon: ReactNode
-  formData: EnhancedRequisition
+  formData: RequisitionWithOptionalId
   isDisabled?: boolean
   onDialogClose?: () => void
 }
