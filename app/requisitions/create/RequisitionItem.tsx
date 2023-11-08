@@ -21,7 +21,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
   const hasChildren = item.children && item.children.length > 0
   return (
     <>
-      <li className="group relative flex flex-row space-x-12 rounded transition duration-300 focus-within:bg-primary/5 hover:bg-primary/5">
+      <li className="group relative flex flex-row space-x-12 rounded transition duration-300 hover:bg-primary/5">
         <div className="relative flex w-8 justify-center">
           {/* vertical line */}
           {hasChildren ? (

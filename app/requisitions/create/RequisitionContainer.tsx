@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 
 import { ErrorMessage } from "../_components/ErrorMessage"
+import { EmptyReqsView } from "./EmptyReqsView"
 import { RequisitionTreeLayout } from "./RequisitionTreeLayout"
 
 export const RequisitionContainer: FC = async () => {
@@ -34,9 +35,13 @@ export const RequisitionContainer: FC = async () => {
               </div>
             ) : null}
           </div>
-          {requisitionTree ? (
+          {requisitionTree &&
+          requisitionTree[0]?.children &&
+          requisitionTree[0].children.length ? (
             <RequisitionTreeLayout requisitions={requisitionTree} />
-          ) : null}
+          ) : (
+            <EmptyReqsView />
+          )}
         </div>
       </div>
     </>
