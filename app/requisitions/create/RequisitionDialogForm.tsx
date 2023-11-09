@@ -28,7 +28,7 @@ type RequisitionWithOptionalId = Omit<EnhancedRequisition, "id"> & {
 type FormProps = {
   requisition: RequisitionWithOptionalId
   afterSave: () => void
-  onDialogClose?: () => void
+  setDialogClose: () => void
 }
 
 /**
@@ -39,7 +39,7 @@ type FormProps = {
 export function RequisitionDialogForm({
   requisition,
   afterSave,
-  onDialogClose,
+  setDialogClose,
 }: FormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -76,9 +76,7 @@ export function RequisitionDialogForm({
         }
       } finally {
         afterSave()
-        if (onDialogClose) {
-          onDialogClose()
-        }
+        setDialogClose()
       }
     }
   }

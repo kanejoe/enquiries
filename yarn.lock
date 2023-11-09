@@ -3828,10 +3828,10 @@ eslint-plugin-tailwindcss@^3.12.0:
     fast-glob "^3.2.5"
     postcss "^8.4.4"
 
-eslint-plugin-testing-library@6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-6.1.0.tgz#6f4fbc50dfbac100b0c6083b1e6b06cea9a86feb"
-  integrity sha512-r7kE+az3tbp8vyRwfyAGZ6V/xw+XvdWFPicIo6jbOPZoossOFDeHizARqPGV6gEkyF8hyCFhhH3mlQOGS3N5Sg==
+eslint-plugin-testing-library@6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-6.1.2.tgz#3e71e5cd5b09f5c443b7136cec97a6fb13ecbf66"
+  integrity sha512-Ra16FeBlonfbScOIdZEta9o+OxtwDqiUt+4UCpIM42TuatyLdtfU/SbwnIzPcAszrbl58PGwyZ9YGU9dwIo/tA==
   dependencies:
     "@typescript-eslint/utils" "^5.58.0"
 
@@ -7709,10 +7709,10 @@ sucrase@^3.32.0:
     pirates "^4.0.1"
     ts-interface-checker "^0.1.9"
 
-superjson@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/superjson/-/superjson-2.2.0.tgz#46d691e6b5c99cc082335e4813e4db8dbf698cff"
-  integrity sha512-vSr6kwT/LY3T1+JaZllIGFp5+qEYyCw/s6EMgR8TulTwRbKETuVIqN4RTurPBTU/HlEpP0ytN3srB2vjjeBRoQ==
+superjson@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/superjson/-/superjson-2.2.1.tgz#9377a7fa80fedb10c851c9dbffd942d4bcf79733"
+  integrity sha512-8iGv75BYOa0xRJHK5vRLEjE2H/i4lulTjzpUXic3Eg8akftYjkmQDa8JARQ42rlczXyFR3IeRoeFCc7RxHsYZA==
   dependencies:
     copy-anything "^3.0.2"
 

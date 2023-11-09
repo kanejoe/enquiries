@@ -1,5 +1,6 @@
 "use client"
 
+import { on } from "events"
 import { ReactNode, useState } from "react"
 import {
   DotsHorizontalIcon,
@@ -39,11 +40,12 @@ interface RequisitionRowActionsProps {
 export function RequisitionRowActions({
   requisition,
 }: RequisitionRowActionsProps) {
+  const [isOpenDialog, setIsOpenDialog] = useState(false)
   const newSiblingRequisition = addSiblingToNode(requisition)
   const newChildRequisition = addChildToParent(requisition)
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpenDialog} onOpenChange={setIsOpenDialog}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -59,6 +61,7 @@ export function RequisitionRowActions({
           title="Edit Requisition"
           icon={<QuestionMarkCircledIcon />}
           formData={requisition}
+          setDialogClose={() => setIsOpenDialog(false)}
         />
 
         <DropdownMenuSeparator />
@@ -67,6 +70,7 @@ export function RequisitionRowActions({
           title="Add Sibling"
           icon={<ThickArrowRightIcon />}
           formData={newSiblingRequisition}
+          setDialogClose={() => setIsOpenDialog(false)}
         />
 
         <DropdownDialog
@@ -74,6 +78,7 @@ export function RequisitionRowActions({
           icon={<ThickArrowDownIcon />}
           formData={newChildRequisition}
           isDisabled={newChildRequisition.level >= 6}
+          setDialogClose={() => setIsOpenDialog(false)}
         />
       </DropdownMenuContent>
     </DropdownMenu>
@@ -90,7 +95,7 @@ interface DropdownDialogProps {
   icon: ReactNode
   formData: RequisitionWithOptionalId
   isDisabled?: boolean
-  onDialogClose?: () => void
+  setDialogClose: () => void
 }
 
 function DropdownDialog({
@@ -98,6 +103,7 @@ function DropdownDialog({
   icon,
   formData,
   isDisabled = false,
+  setDialogClose,
 }: DropdownDialogProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -105,7 +111,9 @@ function DropdownDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <DropdownMenuItem
-          onSelect={(e) => e.preventDefault()}
+          onSelect={(e) => {
+            e.preventDefault()
+          }}
           disabled={isDisabled}
         >
           {title}
@@ -116,6 +124,7 @@ function DropdownDialog({
         <RequisitionDialogForm
           requisition={formData}
           afterSave={() => setIsOpen(false)}
+          setDialogClose={setDialogClose}
         />
       </DialogContent>
     </Dialog>
