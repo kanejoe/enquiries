@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 
 import { DeleteRequisitionButton } from "./DeleteRequisitionButton"
 import { IsRequiredIcon } from "./IsRequiredReq"
+import { ItemLines } from "./ItemLines"
 import { RequisitionRowActions } from "./RequisitionRowActions"
 
 export type RequisitionItemProps = {
@@ -23,21 +24,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
     <>
       <li className="group relative flex flex-row space-x-12 rounded transition duration-300 hover:bg-primary/5">
         <div className="relative flex w-8 justify-center">
-          {/* vertical line */}
-          {hasChildren ? (
-            <div className="absolute -bottom-6 left-[59px] top-5 w-px bg-gray-200 group-focus-within:bg-primary group-hover:bg-primary" />
-          ) : isLastItem ? null : (
-            <div className="absolute -bottom-8 left-[59px] top-5 w-px bg-gray-200 group-focus-within:bg-primary group-hover:bg-primary" />
-          )}
-
-          {/* horizontal line */}
-          <div className="absolute -right-6 bottom-2 left-8 top-4 h-px bg-gray-200 group-focus-within:bg-primary group-hover:bg-primary" />
-
-          {/* circle */}
-          <div className="absolute left-14 top-[13px]">
-            <div className="h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300 group-focus-within:bg-primary/25 group-focus-within:ring-primary group-hover:bg-primary/25 group-hover:ring-primary" />
-          </div>
-
+          <ItemLines hasChildren={hasChildren} isLastItem={isLastItem} />
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-700 transition duration-300 group-focus-within:bg-primary group-hover:bg-primary group-hover:text-foreground">
             {sequenceFormat(item.sequence_in_levels, item.level)}
           </div>

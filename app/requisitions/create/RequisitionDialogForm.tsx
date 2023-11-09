@@ -28,7 +28,7 @@ type RequisitionWithOptionalId = Omit<EnhancedRequisition, "id"> & {
 type FormProps = {
   requisition: RequisitionWithOptionalId
   afterSave: () => void
-  setDialogClose: () => void
+  setDialogClose?: () => void
 }
 
 /**
@@ -76,7 +76,9 @@ export function RequisitionDialogForm({
         }
       } finally {
         afterSave()
-        setDialogClose()
+        if (setDialogClose !== undefined) {
+          setDialogClose()
+        }
       }
     }
   }
