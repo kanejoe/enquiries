@@ -33,8 +33,23 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
           <div className="inline-flex items-start">
             {item.query ? (
               <div className="text-pretty hyphens-auto text-sm">
+                {item.is_required ? null : (
+                  <Badge
+                    variant="outline"
+                    className="mr-3 rounded py-0.5 group-hover:border-gray-400"
+                  >
+                    <svg
+                      className="mr-1.5 mt-0.5 h-1.5 w-1.5 fill-primary/50"
+                      viewBox="0 0 6 6"
+                      aria-hidden="true"
+                    >
+                      <circle cx="3" cy="3" r="3"></circle>
+                    </svg>
+                    no reply required
+                  </Badge>
+                )}
                 {item.query}
-                <IsRequiredIcon isRequired={item.is_required} />
+                {/* <IsRequiredIcon isRequired={item.is_required} /> */}
               </div>
             ) : (
               <Badge
