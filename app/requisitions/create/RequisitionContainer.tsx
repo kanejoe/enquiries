@@ -1,24 +1,24 @@
 import { FC } from "react"
 
-import { type EnhancedRequisition } from "@/types/RequisitionType"
-import { supabase } from "@/lib/supabase"
+import { EnhancedRequisition, type Requisition } from "@/types/RequisitionType"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 
+import { getRequisitions } from "../_actions/query"
 import { ErrorMessage } from "../_components/ErrorMessage"
 import { EmptyReqsView } from "./EmptyReqsView"
 import { RequisitionTreeLayout } from "./RequisitionTreeLayout"
 
 export const RequisitionContainer: FC = async () => {
-  const { data: requisitions, error } = await supabase
-    .from("requisitions")
-    .select("*")
-
-  if (error) {
-    return <ErrorMessage message={error.message} />
+  let requisitions: Requisition[]
+  try {
+    requisitions = await getRequisitions()
+  } catch (error: unknown) {
+    console.error(error)
+    return <ErrorMessage message={(error as Error).message} />
   }
 
   const requisitionTree = createRequisitionTree(
-    requisitions as unknown as EnhancedRequisition[]
+    requisitions as EnhancedRequisition[]
   )
 
   const instantHeadingNode = findNodeByReqId(requisitionTree, 18)

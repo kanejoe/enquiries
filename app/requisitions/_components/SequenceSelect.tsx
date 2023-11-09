@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form"
 
 import { EnhancedRequisition } from "@/types/RequisitionType"
 import { replaceValueAtLevel, transformSequenceArray } from "@/lib/tree"
+import { getSequenceString } from "@/lib/treeUtils"
 import { Badge } from "@/components/ui/badge"
 import {
   FormControl,
@@ -66,7 +67,7 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
                     .map((sibling: number, idx: number) => {
                       return (
                         <SelectItem value={sibling.toString()} key={idx}>
-                          {sibling.toString()}
+                          {getSequenceString(sibling, level)}
                         </SelectItem>
                       )
                     })}

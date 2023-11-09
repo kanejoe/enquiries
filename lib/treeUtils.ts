@@ -1,5 +1,7 @@
 import { Requisition } from "@/types/RequisitionType"
 
+import { numberToRoman } from "./tree"
+
 /**
  * Finds all siblings of the given ID.
  *
@@ -80,4 +82,27 @@ export function ensureUniqueSequence(
 
   // Return the modified data
   return sortedData
+}
+
+/**
+ * Returns a string representing the sequence number based on the given level.
+ * @param sequence - The sequence number to be converted to string.
+ * @param level - The level of the sequence number.
+ * @returns A string representing the sequence number based on the given level.
+ * @throws An error if the level is invalid.
+ */
+export function getSequenceString(sequence: number, level: number): string {
+  if (level === 1) {
+    return sequence.toString()
+  } else if (level === 2) {
+    return `${sequence.toString()}.`
+  } else if (level === 3) {
+    return `(${String.fromCharCode(96 + sequence)})`
+  } else if (level === 4) {
+    return `(${numberToRoman(sequence).toLowerCase()})`
+  } else if (level === 5) {
+    return `(${numberToRoman(sequence)})`
+  } else {
+    throw new Error("Invalid level")
+  }
 }

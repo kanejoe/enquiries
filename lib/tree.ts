@@ -237,7 +237,7 @@ function transformSequenceArray(arr?: number[]): string {
  * @param num
  * @returns
  */
-function numberToRoman(num: number): string {
+export function numberToRoman(num: number): string {
   const roman: { [key: number]: string } = {
     1000: "m",
     900: "cm",
@@ -352,6 +352,9 @@ function replaceValueAtLevel(
 
   return result
 }
+
+
+
 
 /**
  * exports
