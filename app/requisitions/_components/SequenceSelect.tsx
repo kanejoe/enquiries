@@ -30,6 +30,7 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
   sequence_in_levels,
   siblings,
 }) => {
+  console.log("🚀 ~ file: SequenceSelect.tsx:33 ~ siblings:", siblings)
   const { control, watch } = useFormContext()
   const sequenceValue = watch("sequence") // watch the 'query' field
   let updatedSequence = sequence_in_levels
@@ -48,7 +49,8 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
         control={control}
         name="sequence"
         render={({ field }) => {
-          const uniqueSiblings = [...new Set(siblings)]
+          // const uniqueSiblings = [...new Set(siblings)]
+          const uniqueSiblings = createSequence(siblings)
           return (
             <FormItem>
               <FormLabel>Select Order</FormLabel>
@@ -92,3 +94,8 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
 }
 
 export { SequenceSelect }
+
+function createSequence(inputArray: number[]): number[] {
+  // The output array will start at 1 and increment by 1 for each element in the input array
+  return inputArray.map((_, index) => index + 1)
+}

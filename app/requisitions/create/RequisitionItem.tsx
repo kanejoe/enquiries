@@ -32,7 +32,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
         <div className="mt-1.5 w-full">
           <div className="inline-flex items-start">
             {item.query ? (
-              <div className="text-pretty hyphens-auto text-sm">
+              <div className="text-pretty hyphens-auto whitespace-break-spaces text-sm">
                 {item.is_required ? null : (
                   <Badge
                     variant="outline"
@@ -74,7 +74,7 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
             )}
           </div>
         </div>
-        <div className="w-1 transition duration-300">
+        <div className="w-0.5 transition duration-300">
           <RequisitionRowActions requisition={item} />
         </div>
       </li>
