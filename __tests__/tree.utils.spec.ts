@@ -1,6 +1,7 @@
 import data from "@/__tests__/data/data.json"
 
-import { ensureUniqueSequence, findSiblings } from "@/lib/treeUtils"
+import { ensureUniqueSequence } from "@/lib/sequenceUtils"
+import { findSiblings } from "@/lib/treeUtils"
 
 describe("findSiblings", () => {
   it("return no. of siblings, if any", () => {

@@ -95,6 +95,8 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
 
 export { SequenceSelect }
 
+// Helper function to create an array of numbers from an array of numbers
+// if there are duplicates, will re-sequence depending on length of array
 function createSequence(inputArray: number[]): number[] {
   // The output array will start at 1 and increment by 1 for each element in the input array
   return inputArray.map((_, index) => index + 1)

@@ -3,8 +3,8 @@
 import { revalidatePath } from "next/cache"
 
 import { Requisition } from "@/types/RequisitionType"
+import { ensureUniqueSequence } from "@/lib/sequenceUtils"
 import { supabase } from "@/lib/supabase"
-import { ensureUniqueSequence } from "@/lib/treeUtils"
 
 import { bulkUpdate } from "./bulkUpdateReqs"
 import { findSiblingsReqsById } from "./findSiblingsReqsById"

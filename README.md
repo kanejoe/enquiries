@@ -11,7 +11,7 @@ npx supabase gen types typescript --project-id "lzbkmmebsqyknmnnqoez" --schema p
 ## node canvas issue on tests
 
 ```bash
-cd ./node_modules/canvas && npx node-pre-gyp install --fallback-to-build --update-binary
+cd ./node_modules/canvas && npx node-pre-gyp install --fallback-to-build --update-binary && cd ../..
 ```
 
 https://github.com/Automattic/node-canvas/issues/2135#issuecomment-1400307682
