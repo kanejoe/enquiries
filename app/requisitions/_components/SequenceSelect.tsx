@@ -30,7 +30,6 @@ const SequenceSelect: React.FC<SequenceSelectProps> = ({
   sequence_in_levels,
   siblings,
 }) => {
-  console.log("🚀 ~ file: SequenceSelect.tsx:33 ~ siblings:", siblings)
   const { control, watch } = useFormContext()
   const sequenceValue = watch("sequence") // watch the 'query' field
   let updatedSequence = sequence_in_levels

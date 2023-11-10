@@ -45,7 +45,7 @@ export function getSequenceString(sequence: number, level: number): string {
   } else if (level === 4) {
     return `(${numberToRoman(sequence).toLowerCase()})`
   } else if (level === 5) {
-    return `(${numberToRoman(sequence)})`
+    return `(${numberToRoman(sequence).toLocaleUpperCase()})`
   } else {
     throw new Error("Invalid level")
   }

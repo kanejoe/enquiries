@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
-    "test:watch": "jest --watchAll",
+    "test": "jest --watchAll",
     "json-server": "json-server --watch data/db.json --port 3001"
   },
   "dependencies": {

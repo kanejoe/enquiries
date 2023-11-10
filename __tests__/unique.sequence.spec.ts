@@ -17,4 +17,11 @@ describe("ensureUniqueSequence", () => {
     const actualOutput = output.map((item) => item.sequence)
     expect(actualOutput).toEqual(expectedOutput)
   })
+
+  it("sequence should return [1,2] even when a deliberately incorrect priorityId is passed", () => {
+    const expectedOutput = [1, 2]
+    const output = ensureUniqueSequence(nonUniqueArrayOfSiblings, 1000)
+    const actualOutput = output.map((item) => item.sequence)
+    expect(actualOutput).toEqual(expectedOutput)
+  })
 })
