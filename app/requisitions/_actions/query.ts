@@ -1,7 +1,7 @@
 import { delay } from "lodash"
 
 import { supabase } from "@/lib/supabase"
-import { waitABit } from "@/lib/wait.a.bit"
+import { waitABit } from "@/lib/waitABit"
 
 export async function getRequisitions() {
   // await waitABit(3000)

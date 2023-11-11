@@ -4,6 +4,7 @@ import { useState, useTransition } from "react"
 import { Trash2 } from "lucide-react"
 
 import { Requisition } from "@/types/RequisitionType"
+import { waitABit } from "@/lib/waitABit"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -17,7 +18,6 @@ import {
 import { Spinner } from "@/components/Spinner"
 
 import { deleteRequisition } from "../_actions/deleteRequisition"
-import { waitABit } from "./RequisitionDialogForm"
 
 type DeleteRequisitionButtonProps = {
   id: Requisition["id"]

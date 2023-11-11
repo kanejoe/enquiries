@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation"
 
-
 const requisitions = [
   { id: 1, heading: "1", query: "Premises" },
   { id: 2, heading: "2", query: "Easements and Services" },
@@ -24,24 +23,19 @@ const RequisitionList: React.FC<Props> = (/*{ requisitions }*/) => {
   const pathname = usePathname()
 
   return (
-    <div className="sticky top-[var(--gap-to-top)]">
-      <div className="h-[calc(100vh-8rem)] rounded-xl bg-gray-50 px-4 py-6">
-        <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
-          Headings 
-        </div>
-        <ul role="list">
-          {requisitions.map((req, index) => (
-            <li key={req.id} className="group mb-0.5" title={req.query}>
-              {req.id === 31 ? (
-                // pathname === "/requisitions/create"
-                <ActiveRoute req={req} />
-              ) : (
-                <DefaultRoute req={req} />
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className="h-full bg-gray-50 px-4 py-4">
+      <ul role="list">
+        {requisitions.map((req, index) => (
+          <li key={req.id} className="group mb-0.5" title={req.query}>
+            {req.id === 31 ? (
+              // pathname === "/requisitions/create"
+              <ActiveRoute req={req} />
+            ) : (
+              <DefaultRoute req={req} />
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -66,7 +60,7 @@ function DefaultRoute({ req }: { req: any }) {
           viewBox="0 0 15 15"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="motion-safe:group-hover:animate-moveLeftAndRight absolute bottom-2.5 right-0.5 text-gray-500"
+          className="absolute bottom-2.5 right-0.5 text-gray-500 motion-safe:group-hover:animate-moveLeftAndRight"
         >
           <path
             d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
