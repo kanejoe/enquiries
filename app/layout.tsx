@@ -1,7 +1,7 @@
 import "@/app/globals.css"
 
 import { type Metadata } from "next"
-import { GeistSans } from "geist/font"
+import { GeistSans } from "geist/font/sans"
 
 import { siteConfig } from "@/config/site"
 import { fontAlbertSans, fontMono, fontSans } from "@/lib/fonts"

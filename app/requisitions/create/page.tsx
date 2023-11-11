@@ -1,8 +1,34 @@
-import Link from "next/link"
-import { PlusCircledIcon } from "@radix-ui/react-icons"
+import { FC, ReactNode, Suspense } from "react"
 
-import { Button } from "@/components/ui/button"
+import RequisitionHeadingList from "../_components/RequisitionHeaders"
+import { RequisitionContainer } from "./RequisitionContainer"
 
-export default async function CreateRequisitionPage() {
-  return <section className="flex flex-col space-y-8"></section>
+interface CreateReqLayoutProps {
+  children: ReactNode
+  // params: { name: string; id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
+
+const CreateReqLayout: FC<CreateReqLayoutProps> = async ({
+  children,
+  searchParams,
+  // params,
+}) => {
+  console.log("🚀 ~ file: page.tsx:15 ~ searchParams:", searchParams)
+  return (
+    <main className="container grid h-screen grid-cols-12 gap-16 p-2">
+      <aside className="col-span-4">
+        <Suspense fallback={<div>Loading...</div>}>
+          <RequisitionHeadingList />
+        </Suspense>
+      </aside>
+      <section className="col-span-8">
+        <Suspense fallback={<div>Loading...</div>}>
+          <RequisitionContainer />
+        </Suspense>
+      </section>
+    </main>
+  )
+}
+
+export default CreateReqLayout
