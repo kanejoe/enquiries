@@ -31,7 +31,11 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className="scroll-smooth antialiased"
+      >
         <head />
         <body
           className={cn(

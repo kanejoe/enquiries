@@ -5,9 +5,7 @@ import { Button } from "@/components/ui/button"
 
 import RequisitionHeadingList from "../_components/RequisitionHeaders"
 import Loading from "./loading"
-import { Lorem } from "./Lorem"
 import { QueryWrapper } from "./QueryWrapper"
-import { RequisitionContainer } from "./RequisitionContainer"
 import { StickyWrapper } from "./StickyWrapper"
 
 interface CreateReqLayoutProps {
@@ -36,6 +34,7 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = async ({
           </Suspense>
         </StickyWrapper>
       </aside>
+
       <section className="col-span-8">
         <Suspense fallback={<Loading />}>
           {headingId ? <QueryWrapper headingId={headingId} /> : null}

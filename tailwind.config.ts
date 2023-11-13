@@ -76,6 +76,9 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      width: {
+        "7/8": "87.5%",
+      },
       fontFamily: {
         albertsans: ["var(--font-albert-sans)"],
       },
