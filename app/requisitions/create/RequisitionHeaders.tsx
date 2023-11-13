@@ -1,37 +1,28 @@
 "use client"
 
-import { usePathname } from "next/navigation"
+import { FC } from "react"
+import { usePathname, useRouter } from "next/navigation"
 
-const requisitions = [
-  { id: 1, heading: "1", query: "Premises" },
-  { id: 2, heading: "2", query: "Easements and Services" },
-  { id: 31, heading: "22", query: "Wannabe parliamentarians are" },
-  { id: 32, heading: "23", query: "Rugby World Cup" },
-]
+import { type Requisition } from "@/types/RequisitionType"
 
-interface Requisition {
-  id: number
-  heading: string
-  query: string
+interface RequisitionHeadingListProps {
+  headerNodes?: Requisition[]
+  headingId?: number
 }
 
-interface Props {
-  requisitions?: Requisition[]
-}
-
-const RequisitionList: React.FC<Props> = (/*{ requisitions }*/) => {
-  const pathname = usePathname()
-
+export const RequisitionHeadingList: FC<RequisitionHeadingListProps> = ({
+  headerNodes,
+  headingId,
+}) => {
   return (
     <div className="h-full bg-gray-50 px-4 py-4">
       <ul role="list">
-        {requisitions.map((req, index) => (
-          <li key={req.id} className="group mb-0.5" title={req.query}>
-            {req.id === 31 ? (
-              // pathname === "/requisitions/create"
+        {headerNodes.map((req, index) => (
+          <li key={req.id} className="group mb-0.5" title={req.query ?? ""}>
+            {req.id === headingId ? (
               <ActiveRoute req={req} />
             ) : (
-              <DefaultRoute req={req} />
+              <InactiveRoute req={req} />
             )}
           </li>
         ))}
@@ -40,14 +31,23 @@ const RequisitionList: React.FC<Props> = (/*{ requisitions }*/) => {
   )
 }
 
-export default RequisitionList
+function InactiveRoute({ req }: { req: Requisition }) {
+  const router = useRouter()
+  const pathname = usePathname()
 
-function DefaultRoute({ req }: { req: any }) {
+  const handleClick = () => {
+    // Use the `push` method with the desired URL and search parameter
+    router.push(`${pathname}?h=${req.id}`)
+  }
+
   return (
-    <div className="flex flex-row space-x-4 rounded-lg bg-transparent p-2 text-sm">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-white text-gray-500 shadow-sm">
+    <div
+      className="flex flex-row space-x-4 rounded-lg bg-transparent p-2 text-sm"
+      onClick={handleClick}
+    >
+      <div className="ml- flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-white text-gray-500 shadow-sm">
         <span className="text-sm font-semibold tabular-nums">
-          {req.heading}
+          {req.sequence}
         </span>
       </div>
       <div className="mt-1.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 text-gray-500 transition group-hover:cursor-pointer group-hover:text-gray-700">
@@ -74,15 +74,15 @@ function DefaultRoute({ req }: { req: any }) {
   )
 }
 
-function ActiveRoute({ req }: { req: any }) {
+function ActiveRoute({ req }: { req: Requisition }) {
   return (
     <div className="mb-2 ml-1 flex flex-row space-x-4 rounded-lg bg-white p-2 text-sm shadow">
-      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-secondary-foreground">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-secondary-foreground">
         <span className="text-sm font-semibold tabular-nums">
-          {req.heading}
+          {req.sequence}
         </span>
       </div>
-      <div className="mt-0.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pl-1 pr-1 font-semibold">
+      <div className="mt-1.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pl-1 pr-1 font-semibold">
         {req.query}
       </div>
       <div className="relative w-1">
