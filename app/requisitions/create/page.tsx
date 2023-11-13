@@ -4,6 +4,7 @@ import { PlusCircledIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 
 import RequisitionHeadingList from "../_components/RequisitionHeaders"
+import Loading from "./loading"
 import { Lorem } from "./Lorem"
 import { QueryWrapper } from "./QueryWrapper"
 import { RequisitionContainer } from "./RequisitionContainer"
@@ -17,10 +18,12 @@ interface CreateReqLayoutProps {
 
 const CreateReqLayout: FC<CreateReqLayoutProps> = async ({
   children,
-  searchParams: { h: headingId, ...searchParams },
+  searchParams,
   // params,
 }) => {
-  console.log("🚀 ~ file: page.tsx:15 ~ searchParams:", headingId)
+  const headingId =
+    typeof searchParams.h === "string" ? +searchParams.h : undefined
+
   return (
     <main className="container mt-6 grid grid-cols-12 gap-16 p-2">
       <aside className="col-span-4">
@@ -28,14 +31,14 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = async ({
           footerComponent={<FooterComponent />}
           headerComponent={<HeaderComponent />}
         >
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             <RequisitionHeadingList />
           </Suspense>
         </StickyWrapper>
       </aside>
       <section className="col-span-8">
-        <Suspense fallback={<div>Loading...</div>}>
-          {headingId ? <QueryWrapper headingId={+headingId} /> : null}
+        <Suspense fallback={<Loading />}>
+          {headingId ? <QueryWrapper headingId={headingId} /> : null}
         </Suspense>
       </section>
     </main>
@@ -58,7 +61,7 @@ const FooterComponent = () => {
       <div className="mb-4">
         <Button className="w-96">
           <PlusCircledIcon className="mr-2 h-4 w-4" />
-          New Header Topic
+          New Heading Topic
         </Button>
       </div>
     </div>

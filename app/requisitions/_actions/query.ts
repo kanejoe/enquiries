@@ -1,5 +1,3 @@
-import { delay } from "lodash"
-
 import { supabase } from "@/lib/supabase"
 import { waitABit } from "@/lib/waitABit"
 

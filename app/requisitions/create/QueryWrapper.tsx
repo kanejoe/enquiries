@@ -30,9 +30,20 @@ export async function QueryWrapper({ headingId }: QueryWrapperProps) {
 
   return (
     <div>
-      <StickyWrapper>
-        <RequisitionContainer queries={headingNode.children} />
+      <StickyWrapper headerComponent={<HeaderComponent node={headingNode} />}>
+        {headingNode ? (
+          <RequisitionContainer queries={headingNode.children} />
+        ) : null}
       </StickyWrapper>
+    </div>
+  )
+}
+
+const HeaderComponent = ({ node }: { node: EnhancedRequisition }) => {
+  return (
+    <div className="ml-4 flex flex-row space-x-5 bg-gray-50 px-4 py-4 text-2xl font-semibold uppercase tracking-wide text-gray-700">
+      <div className="">{node.sequence}</div>
+      <div className="">{node.query}</div>
     </div>
   )
 }
