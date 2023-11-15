@@ -1,6 +1,7 @@
-
 import { EnhancedRequisition, Requisition } from "@/types/RequisitionType"
+import { addSiblingToNode } from "@/lib/addSiblingToNode"
 import { createRequisitionTree, getHeaderNodes } from "@/lib/tree"
+import { findHighestSequenceNodeAtLevelOne } from "@/lib/treeUtils"
 
 import { getRequisitions } from "../_actions/query"
 import { ErrorMessage } from "../_components/ErrorMessage"
@@ -24,7 +25,28 @@ export async function HeaderWrapper({ headingId }: HeaderWrapperProps) {
   const requisitionTree = createRequisitionTree(
     requisitions as EnhancedRequisition[]
   )
+
   const headerNodes = getHeaderNodes(requisitionTree)
+
+  const highestParentNode = findHighestSequenceNodeAtLevelOne(requisitionTree)
+  const newNodeData = highestParentNode
+    ? addSiblingToNode(highestParentNode)
+    : {
+        parent_id: null,
+        sequence: 3,
+        query: "",
+        reply: null,
+        is_applicable: false,
+        has_doc: false,
+        is_complete: false,
+        is_flagged: false,
+        is_required: false,
+        children: [],
+        siblings: [1],
+        sequence_in_levels: [1],
+        level: 1,
+      }
+
 
   if (!headerNodes || !headerNodes.length || !Array.isArray(headerNodes)) {
     return (
@@ -36,7 +58,7 @@ export async function HeaderWrapper({ headingId }: HeaderWrapperProps) {
 
   return (
     <StickyWrapper
-      footerComponent={<FooterComponent />}
+      footerComponent={<FooterComponent newNodeData={newNodeData} />}
       headerComponent={<HeaderComponent />}
     >
       <RequisitionHeadingList headerNodes={headerNodes} headingId={headingId} />
@@ -52,11 +74,15 @@ const HeaderComponent = () => {
   )
 }
 
-const FooterComponent = () => {
+const FooterComponent = ({
+  newNodeData,
+}: {
+  newNodeData: Omit<EnhancedRequisition, "id">
+}) => {
   return (
     <div className="flex h-full items-center justify-center rounded-b-xl bg-gray-50">
       <div className="mb-4">
-        <AddNewHeaderButton />
+        <AddNewHeaderButton newNodeData={newNodeData} />
       </div>
     </div>
   )

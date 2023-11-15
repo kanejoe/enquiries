@@ -6,13 +6,12 @@ import type { EnhancedRequisition } from "@/types/RequisitionType"
  * @param node - The node to add a sibling to.
  * @returns The sibling requisition without an id.
  */
-
 export function addSiblingToNode(
   node: EnhancedRequisition
 ): Omit<EnhancedRequisition, "id"> {
   // Check if the node object is null or if parent_id is not set
-  if (!node || node.parent_id == null) {
-    throw new Error("The node is null or the parent_id property is not set.")
+  if (!node) {
+    throw new Error("No node provided.")
   }
 
   // Ensure siblings is an array, default to empty if not
@@ -36,15 +35,15 @@ export function addSiblingToNode(
   const newSequenceInLevels = sequenceInLevels.slice(0, -1).concat(newSequence)
 
   const newSibling: Omit<EnhancedRequisition, "id"> = {
-    parent_id: node.parent_id,
+    parent_id: node.level === 1 ? null : node.parent_id,
     sequence: node.sequence + 1,
     query: "",
     reply: null,
-    is_applicable: false,
+    is_applicable: true,
     has_doc: false,
     is_complete: false,
     is_flagged: false,
-    is_required: true,
+    is_required: node.level === 1 ? false : true,
     children: [],
     // Update the siblings array to include the sequence of the current node
     siblings: siblingsSequences,

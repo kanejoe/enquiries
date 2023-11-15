@@ -5,7 +5,7 @@ import { sequenceFormat } from "@/lib/tree"
 import { Badge } from "@/components/ui/badge"
 
 import { DeleteRequisitionButton } from "./DeleteRequisitionButton"
-import { IsRequiredIcon } from "./IsRequiredReq"
+// import { IsRequiredIcon } from "./IsRequiredReq"
 import { ItemLines } from "./ItemLines"
 import { RequisitionRowActions } from "./RequisitionRowActions"
 

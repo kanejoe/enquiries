@@ -1,4 +1,4 @@
-import { Requisition } from "@/types/RequisitionType"
+import { EnhancedRequisition, Requisition } from "@/types/RequisitionType"
 
 import { numberToRoman } from "./tree"
 
@@ -49,4 +49,29 @@ export function getSequenceString(sequence: number, level: number): string {
   } else {
     throw new Error("Invalid level")
   }
+}
+
+/**
+ * Finds the highest sequence number of the given nodes at level 1.
+ *
+ * @param nodes - The list of nodes to search.
+ * @returns The node with the highest sequence number at level 1.
+ */
+export function findHighestSequenceNodeAtLevelOne(
+  nodes: EnhancedRequisition[]
+): EnhancedRequisition | null {
+  return nodes
+    .filter((node) => node.level === 1)
+    .reduce(
+      (highestSequenceNode, currentNode) => {
+        if (
+          !highestSequenceNode ||
+          currentNode.sequence > highestSequenceNode.sequence
+        ) {
+          return currentNode
+        }
+        return highestSequenceNode
+      },
+      null as EnhancedRequisition | null
+    )
 }

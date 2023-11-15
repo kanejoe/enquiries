@@ -21,9 +21,9 @@ export const RequisitionTreeLayout: FC<TreeLayoutProps> = ({
 }) => {
   return (
     <MotionDiv
-      initial={{ scale: 0.95 }} // Initial state of the component
+      initial={{ scale: 0.98 }} // Initial state of the component
       animate={{ scale: 1 }} // End state of the component
-      transition={{ duration: 0.5 }} // Duration of the animation
+      transition={{ duration: 0.3 }} // Duration of the animation
     >
       <div className="my-6 ml-6">
         <ul role="list" className="w-7/8 space-y-6">

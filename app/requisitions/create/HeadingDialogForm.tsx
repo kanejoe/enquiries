@@ -1,5 +1,3 @@
-"use client"
-
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -22,9 +20,9 @@ import { SubmitFormButton } from "../_components/SubmitFormButton"
 
 export const HeadingFormSchema = z.object({
   id: z.number().optional(),
-  query: z.string().optional(),
+  query: z.union([z.string(), z.null()]),
   sequence: z.number().min(1, { message: "Sequence must be 1 or greater" }),
-  parent_id: z.union([z.number(), z.null()]),
+  parent_id: z.null().optional(), // means it returns null or undefined
   siblings: z
     .array(z.number())
     .nonempty({ message: "Siblings cannot be empty" }),
@@ -33,6 +31,10 @@ export const HeadingFormSchema = z.object({
     .nonempty({ message: "Sequence in levels cannot be empty" }),
   level: z.number().min(1, { message: "Level must be 1 or greater" }),
 })
+
+const EHeadingFormSchema = HeadingFormSchema.extend({
+  query: z.string().nonempty({ message: "The Heading cannot be empty" }),
+}).omit({ level: true, siblings: true, sequence_in_levels: true })
 
 type FormProps = {
   headingData: {
@@ -43,7 +45,7 @@ type FormProps = {
     sequence_in_levels: EnhancedRequisition["sequence_in_levels"]
     id?: EnhancedRequisition["id"]
   }
-  //   afterSave: () => void
+  afterSave: () => void
 }
 
 /**
@@ -51,9 +53,9 @@ type FormProps = {
  * @param param0
  * @returns
  */
-export function HeadingDialogForm({ headingData }: FormProps) {
+export function HeadingDialogForm({ headingData, afterSave }: FormProps) {
   const form = useForm<z.infer<typeof HeadingFormSchema>>({
-    resolver: zodResolver(HeadingFormSchema),
+    resolver: zodResolver(EHeadingFormSchema),
     defaultValues: {
       id: headingData.id ?? undefined,
       level: headingData.level,
@@ -72,38 +74,43 @@ export function HeadingDialogForm({ headingData }: FormProps) {
 
     await waitABit()
 
-    const result = HeadingFormSchema.safeParse(form.getValues())
+    const result = EHeadingFormSchema.safeParse(form.getValues())
 
-    /*if (result.success) {
+    if (result.success) {
       try {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
+        console.log(
+          "🚀 ~ file: HeadingDialogForm.tsx:98 ~ requisitionFormAction ~ data:",
+          data
+        )
+
         const { id, ...rest } = data
 
-        if (id === undefined) {
-          await insertRequisition({ ...rest })
-        } else if (id) await updateRequisition({ id, ...rest })
+        // if (id === undefined) {
+        //   await insertRequisition({ ...rest })
+        // } else if (id) await updateRequisition({ id, ...rest })
       } catch (error: unknown) {
         console.log(error)
         if (error instanceof z.ZodError) {
           console.log(error.errors) // This would log the error message "Query cannot be empty"
         }
       } finally {
-        // afterSave()
+        afterSave()
       }
-    }*/
+    }
   }
 
   return (
     <div className="p-4">
       <DialogTitle className="mb-6">
         <span className="text-xl underline decoration-primary decoration-double decoration-2 underline-offset-8">
-          {headingData.id ? "Edit" : "New"} Heading
+          {headingData.id ? "Edit Existing" : "Add New"} Heading
         </span>
       </DialogTitle>
       <Form {...form}>
         <form action={requisitionFormAction} className="my-4">
           <FieldsetWrapper>
-            <QueryInputField />
+            <QueryInputField fieldLabel="Heading Details" />
             <SequenceSelect
               siblings={headingData?.siblings}
               sequence_in_levels={headingData.sequence_in_levels}
