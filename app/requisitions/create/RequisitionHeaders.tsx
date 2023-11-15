@@ -3,11 +3,16 @@
 import { FC } from "react"
 import { usePathname, useRouter } from "next/navigation"
 
-import { type Requisition } from "@/types/RequisitionType"
+import { type EnhancedRequisition } from "@/types/RequisitionType"
+
+type PartialReq = Pick<
+  EnhancedRequisition,
+  "id" | "sequence" | "query" | "is_applicable"
+>
 
 interface RequisitionHeadingListProps {
-  headerNodes?: Requisition[]
-  headingId?: number
+  headerNodes: PartialReq[]
+  headingId?: EnhancedRequisition["id"]
 }
 
 export const RequisitionHeadingList: FC<RequisitionHeadingListProps> = ({
@@ -31,7 +36,7 @@ export const RequisitionHeadingList: FC<RequisitionHeadingListProps> = ({
   )
 }
 
-function InactiveRoute({ req }: { req: Requisition }) {
+function InactiveRoute({ req }: { req: PartialReq }) {
   const router = useRouter()
   const pathname = usePathname()
 
@@ -74,7 +79,7 @@ function InactiveRoute({ req }: { req: Requisition }) {
   )
 }
 
-function ActiveRoute({ req }: { req: Requisition }) {
+function ActiveRoute({ req }: { req: PartialReq }) {
   return (
     <div className="mb-2 ml-1 flex flex-row space-x-4 rounded-lg bg-white p-2 text-sm shadow">
       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-secondary-foreground">

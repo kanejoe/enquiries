@@ -27,24 +27,21 @@ export async function HeaderWrapper({ headingId }: HeaderWrapperProps) {
   )
   const headerNodes = getHeaderNodes(requisitionTree)
 
+  if (!headerNodes || !headerNodes.length || !Array.isArray(headerNodes)) {
+    return (
+      <StickyWrapper>
+        <div>nothing to see here</div>
+      </StickyWrapper>
+    )
+  }
+
   return (
-    <>
-      {!headerNodes || !headerNodes.length ? (
-        <StickyWrapper>
-          <div>nothing to see here</div>
-        </StickyWrapper>
-      ) : (
-        <StickyWrapper
-          footerComponent={<FooterComponent />}
-          headerComponent={<HeaderComponent />}
-        >
-          <RequisitionHeadingList
-            headerNodes={headerNodes}
-            headingId={headingId}
-          />
-        </StickyWrapper>
-      )}
-    </>
+    <StickyWrapper
+      footerComponent={<FooterComponent />}
+      headerComponent={<HeaderComponent />}
+    >
+      <RequisitionHeadingList headerNodes={headerNodes} headingId={headingId} />
+    </StickyWrapper>
   )
 }
 
