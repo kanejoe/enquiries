@@ -3,6 +3,7 @@ import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 
 import { getRequisitions } from "../_actions/query"
 import { ErrorMessage } from "../_components/ErrorMessage"
+import { EmptyReqsView } from "./EmptyReqsView"
 import { RequisitionTreeLayout } from "./RequisitionTreeLayout"
 import { StickyWrapper } from "./StickyWrapper"
 
@@ -23,6 +24,11 @@ export async function QueryWrapper({ headingId }: QueryWrapperProps) {
     requisitions as EnhancedRequisition[]
   )
   const headingNode = findNodeByReqId(requisitionTree, headingId)
+  console.log(
+    "🚀 ~ file: QueryWrapper.tsx:26 ~ QueryWrapper ~ headingNode:",
+    headingNode
+  )
+  const onlyHeading = headingNode?.children?.length === 0 ? true : false
 
   return (
     <>
@@ -32,9 +38,11 @@ export async function QueryWrapper({ headingId }: QueryWrapperProps) {
         </StickyWrapper>
       ) : (
         <StickyWrapper headerComponent={<HeaderComponent node={headingNode} />}>
-          {headingNode ? (
+          {onlyHeading ? (
+            <EmptyReqsView requisition={headingNode} />
+          ) : (
             <RequisitionTreeLayout requisitions={headingNode.children} />
-          ) : null}
+          )}
         </StickyWrapper>
       )}
     </>

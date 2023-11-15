@@ -48,7 +48,15 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
                     no reply required
                   </Badge>
                 )}
-                {item.query}
+                <span
+                  className={`${
+                    item.is_required
+                      ? ""
+                      : "font-semibold uppercase leading-relaxed"
+                  }`}
+                >
+                  {item.query}
+                </span>
                 {/* <IsRequiredIcon isRequired={item.is_required} /> */}
               </div>
             ) : (

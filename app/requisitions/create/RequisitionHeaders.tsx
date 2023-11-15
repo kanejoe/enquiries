@@ -55,7 +55,7 @@ function InactiveRoute({ req }: { req: PartialReq }) {
           {req.sequence}
         </span>
       </div>
-      <div className="mt-1.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 text-gray-500 transition group-hover:cursor-pointer group-hover:text-gray-700">
+      <div className="mt-1 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 text-base text-gray-500 transition group-hover:cursor-pointer group-hover:text-gray-700">
         {req.query}
       </div>
       <div className="relative w-1 opacity-0 group-hover:opacity-100">
@@ -87,7 +87,7 @@ function ActiveRoute({ req }: { req: PartialReq }) {
           {req.sequence}
         </span>
       </div>
-      <div className="mt-1.5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pl-1 pr-1 font-semibold">
+      <div className="mt-1 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pl-1 pr-1 text-base font-semibold">
         {req.query}
       </div>
       <div className="relative w-1">

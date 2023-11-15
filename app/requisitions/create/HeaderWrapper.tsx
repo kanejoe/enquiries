@@ -57,9 +57,9 @@ const FooterComponent = () => {
   return (
     <div className="flex h-full items-center justify-center rounded-b-xl bg-gray-50">
       <div className="mb-4">
-        <Button className="w-96">
-          <PlusCircledIcon className="mr-2 h-4 w-4" />
-          New Heading Topic
+        <Button className="contextual font-semibold-caps w-96 text-lg">
+          <PlusCircledIcon className="mr-2 h-5 w-5" />
+          Add New Heading
         </Button>
       </div>
     </div>
