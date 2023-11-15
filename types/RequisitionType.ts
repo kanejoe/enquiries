@@ -1,10 +1,10 @@
 export interface Requisition {
   id: number
-  has_doc: boolean
-  is_applicable: boolean
-  is_complete: boolean
-  is_flagged: boolean
-  is_required: boolean
+  has_doc?: boolean
+  is_applicable?: boolean
+  is_complete?: boolean
+  is_flagged?: boolean
+  is_required?: boolean
   parent_id?: number | null
   query?: string | null
   reply?: string | null

@@ -1,11 +1,10 @@
-import { PlusCircledIcon } from "@radix-ui/react-icons"
 
 import { EnhancedRequisition, Requisition } from "@/types/RequisitionType"
 import { createRequisitionTree, getHeaderNodes } from "@/lib/tree"
-import { Button } from "@/components/ui/button"
 
 import { getRequisitions } from "../_actions/query"
 import { ErrorMessage } from "../_components/ErrorMessage"
+import { AddNewHeaderButton } from "./AddNewHeaderButton"
 import { RequisitionHeadingList } from "./RequisitionHeaders"
 import { StickyWrapper } from "./StickyWrapper"
 
@@ -57,10 +56,7 @@ const FooterComponent = () => {
   return (
     <div className="flex h-full items-center justify-center rounded-b-xl bg-gray-50">
       <div className="mb-4">
-        <Button className="contextual font-semibold-caps w-96 text-lg">
-          <PlusCircledIcon className="mr-2 h-5 w-5" />
-          Add New Heading
-        </Button>
+        <AddNewHeaderButton />
       </div>
     </div>
   )

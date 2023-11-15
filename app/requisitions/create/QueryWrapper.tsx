@@ -24,10 +24,6 @@ export async function QueryWrapper({ headingId }: QueryWrapperProps) {
     requisitions as EnhancedRequisition[]
   )
   const headingNode = findNodeByReqId(requisitionTree, headingId)
-  console.log(
-    "🚀 ~ file: QueryWrapper.tsx:26 ~ QueryWrapper ~ headingNode:",
-    headingNode
-  )
   const onlyHeading = headingNode?.children?.length === 0 ? true : false
 
   return (
