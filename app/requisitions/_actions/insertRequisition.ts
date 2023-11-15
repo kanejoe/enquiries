@@ -17,6 +17,7 @@ export type RequisitionData = Pick<
 export async function insertRequisition(
   insert_data: Omit<RequisitionData, "id">
 ): Promise<RequisitionData> {
+  console.log("🚀 ~ file: insertRequisition.ts:20 ~ insert_data:", insert_data)
   const { data, error } = await supabase
     .from("requisitions")
     .insert(insert_data)
@@ -41,6 +42,7 @@ export async function insertRequisition(
       await bulkUpdate(madeUnique)
     }
   } catch (error: unknown) {
+    console.log("🚀 ~ file: insertRequisition.ts:44 ~ error:", error)
     throw new Error(`Insert operation failed: ${(error as Error).message}`)
   }
 

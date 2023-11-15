@@ -30,10 +30,16 @@ export const HeadingFormSchema = z.object({
     .array(z.number())
     .nonempty({ message: "Sequence in levels cannot be empty" }),
   level: z.number().min(1, { message: "Level must be 1 or greater" }),
+  is_required: z.boolean().optional(),
 })
 
 const EHeadingFormSchema = HeadingFormSchema.extend({
   query: z.string().nonempty({ message: "The Heading cannot be empty" }),
+  sequence: z.coerce
+    .number()
+    .min(1, { message: "Sequence must be 1 or greater" }),
+  is_required: z.boolean().default(false),
+  parent_id: z.union([z.number().nullish(), z.null()]).default(null),
 }).omit({ level: true, siblings: true, sequence_in_levels: true })
 
 type FormProps = {
@@ -71,24 +77,20 @@ export function HeadingDialogForm({ headingData, afterSave }: FormProps) {
   async function requisitionFormAction() {
     const valid = await form.trigger()
     if (!valid) return
-
     await waitABit()
 
     const result = EHeadingFormSchema.safeParse(form.getValues())
-
     if (result.success) {
       try {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
-        console.log(
-          "🚀 ~ file: HeadingDialogForm.tsx:98 ~ requisitionFormAction ~ data:",
-          data
-        )
-
         const { id, ...rest } = data
-
-        // if (id === undefined) {
-        //   await insertRequisition({ ...rest })
-        // } else if (id) await updateRequisition({ id, ...rest })
+        console.log(
+          "🚀 ~ file: HeadingDialogForm.tsx:82 ~ requisitionFormAction ~ rest:",
+          rest
+        )
+        if (id === undefined) {
+          await insertRequisition({ ...rest })
+        } else if (id) await updateRequisition({ id, ...rest })
       } catch (error: unknown) {
         console.log(error)
         if (error instanceof z.ZodError) {

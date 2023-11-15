@@ -31,7 +31,7 @@ export const AddNewHeaderButton: React.FC<AddNewHeaderButtonProps> = ({
   }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button className="contextual font-semibold-caps text-lg xl:w-96">
           <PlusCircledIcon className="mr-2 h-5 w-5" />
