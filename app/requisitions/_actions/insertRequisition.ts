@@ -23,6 +23,7 @@ export async function insertRequisition(
     .insert(insert_data)
     .select("id, sequence, query, parent_id, is_required") // Specify the fields you want to return
     .single() // Use `.single()` if you're inserting one row to get an object instead of an array
+  console.log("🚀 ~ file: insertRequisition.ts:26 ~ data.id:", data.id)
 
   if (error) {
     throw new Error(`Insert operation failed: ${error.message}`)
@@ -37,6 +38,7 @@ export async function insertRequisition(
 
   try {
     const siblings = await findSiblingsReqsById(data.id)
+    console.log("🚀 ~ file: insertRequisition.ts:41 ~ siblings:", siblings)
     if (siblings) {
       const madeUnique = ensureUniqueSequence(siblings, data.id)
       await bulkUpdate(madeUnique)

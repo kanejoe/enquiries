@@ -18,8 +18,9 @@ export type RequisitionData = Pick<
 export async function findSiblingsReqsById(
   id: RequisitionData["id"]
 ): Promise<RequisitionData[] | null> {
+  console.log("🚀 ~ file: findSiblingsReqsById.ts:21 ~ id:", id)
   if (!id) {
-    throw new Error("Get operation did not return an ID.")
+    throw new Error("findSiblingsReqsById was not passed an ID.")
   }
   const singleRecordResponse = await supabase
     .from("requisitions")
@@ -36,7 +37,7 @@ export async function findSiblingsReqsById(
     const parentId = singleRecordResponse.data.parent_id
 
     if (!parentId) {
-      throw new Error("Get operation did not return an ID.")
+      throw new Error("There is no parentId.")
     }
 
     // Now, use the parent_id to find all matching records

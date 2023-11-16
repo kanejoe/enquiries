@@ -30,6 +30,6 @@ describe("addSiblingToNode", () => {
     expect(() => {
       // @ts-expect-error
       addSiblingToNode(null)
-    }).toThrow("The node is null or the parent_id property is not set.")
+    }).toThrow("No node provided.")
   })
 })
