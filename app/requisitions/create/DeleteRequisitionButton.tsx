@@ -64,6 +64,7 @@ export function DeleteRequisitionButton({
         <DialogFooter>
           <Button
             variant="default"
+            className=""
             onClick={() => handleDelete(id, parent_id)}
             // onKeyUp={(e) => {
             //   if (e.key === "Enter") handleDelete(id, parent_id)

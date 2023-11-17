@@ -14,7 +14,7 @@ export function StickyWrapper({
   return (
     <div className="flex h-[calc(100vh-8rem)] flex-col rounded-xl border border-zinc-100 shadow-sm ring-black ring-opacity-5">
       <div className="sticky top-0 z-10 rounded-t-xl border-b border-dotted border-zinc-200 bg-zinc-50">
-        <div className="h-20 overflow-hidden truncate">
+        <div className="flex h-20 items-center overflow-hidden">
           {headerComponent ? headerComponent : <div className="h-6"></div>}
         </div>
       </div>
