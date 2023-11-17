@@ -19,6 +19,8 @@ type TreeLayoutProps = {
 export const RequisitionTreeLayout: FC<TreeLayoutProps> = ({
   requisitions,
 }) => {
+ 
+
   return (
     <MotionDiv
       initial={{ scale: 0.98 }} // Initial state of the component

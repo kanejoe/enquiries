@@ -2,6 +2,7 @@ import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
 
 import { EnhancedRequisition, Requisition } from "@/types/RequisitionType"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
+import { countRequiredNodes } from "@/lib/treeUtils"
 import { Button } from "@/components/ui/button"
 
 import { getRequisitions } from "../_actions/query"
@@ -49,6 +50,8 @@ export async function QueryWrapper({ headingId }: QueryWrapperProps) {
 }
 
 const HeaderComponent = ({ node }: { node: EnhancedRequisition }) => {
+  const noOfRequiredNodes = countRequiredNodes(node.children)
+
   return (
     <div className="flex w-full  flex-row text-gray-700">
       {/* <!-- Fixed width left column --> */}
@@ -61,6 +64,18 @@ const HeaderComponent = ({ node }: { node: EnhancedRequisition }) => {
       {/* <!-- Middle column that grows and truncates text --> */}
       <div className="ml-4 flex flex-grow items-center overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold uppercase">
         {node.query}
+      </div>
+
+      {/* <!-- Third column fixed width --> */}
+      <div className="flex h-full w-32 flex-shrink-0 flex-col items-center justify-center">
+        <p className="small-caps text-sm font-semibold leading-4 tracking-wide text-gray-400">
+          Queries
+        </p>
+        <p className="flex items-baseline">
+          <span className="text-4xl font-semibold tabular-nums tracking-tight text-primary">
+            {noOfRequiredNodes}
+          </span>
+        </p>
       </div>
 
       {/* <!-- Fixed width right column --> */}

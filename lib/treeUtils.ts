@@ -75,3 +75,25 @@ export function findHighestSequenceNodeAtLevelOne(
       null as EnhancedRequisition | null
     )
 }
+
+/**
+ * Finds the highest sequence number of the given nodes at level 1.
+ *
+ * @param nodes - The list of nodes to search.
+ * @returns The node with the highest sequence number at level 1.
+ */
+export function countRequiredNodes(nodes: EnhancedRequisition[]): number {
+  let count = 0
+
+  nodes.forEach((node) => {
+    if (node.is_required) {
+      count++
+    }
+
+    if (node.children && node.children.length > 0) {
+      count += countRequiredNodes(node.children)
+    }
+  })
+
+  return count
+}
