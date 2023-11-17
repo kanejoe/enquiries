@@ -18,7 +18,6 @@ export type RequisitionData = Pick<
 export async function findSiblingsReqsById(
   id: RequisitionData["id"]
 ): Promise<RequisitionData[] | null> {
-  console.log("🚀 ~ file: findSiblingsReqsById.ts:21 ~ id:", id)
   if (!id) {
     throw new Error("findSiblingsReqsById was not passed an ID.")
   }
@@ -36,25 +35,33 @@ export async function findSiblingsReqsById(
   } else {
     const parentId = singleRecordResponse.data.parent_id
 
-    if (!parentId) {
-      throw new Error("There is no parentId.")
-    }
+    // if (!parentId) {
+    //   throw new Error("There is no parentId.")
+    // }
 
     // Now, use the parent_id to find all matching records
-    const allRecordsResponse = await supabase
+    let allRecordsResponse = supabase
       .from("requisitions")
       .select("id, sequence, query, parent_id, is_required")
-      .eq("parent_id", parentId)
 
-    if (allRecordsResponse.error) {
+    if (parentId === null) {
+      // Fetch records where parent_id is null
+      allRecordsResponse = allRecordsResponse.is("parent_id", null)
+    } else {
+      // Fetch records where parent_id matches the given parentId
+      allRecordsResponse = allRecordsResponse.eq("parent_id", parentId)
+    }
+
+    const { data: allRecordsData, error: errAllRecordsResponse } =
+      await allRecordsResponse
+
+    if (errAllRecordsResponse) {
       // Handle the error
-      throw new Error(
-        `Insert operation failed: ${allRecordsResponse.error.message}`
-      )
+      throw new Error(`Insert operation failed: ${allRecordsResponse}`)
     } else {
       // Here's your data with the same parent_id
-      const recordsWithSameParentId = allRecordsResponse.data
-      return recordsWithSameParentId
+      // const recordsWithSameParentId = allRecordsResponse.data
+      return allRecordsData
     }
   }
 }
