@@ -86,7 +86,7 @@ export function RequisitionDialogForm({
 
   return (
     <div className="p-4">
-      <DialogTitle className="mb-6">
+      <DialogTitle className="mb-8">
         <span className="text-xl underline decoration-primary decoration-double decoration-2 underline-offset-8">
           {requisition.id ? "Edit" : "New"} Query
         </span>

@@ -53,7 +53,7 @@ const HeaderComponent = ({ node }: { node: EnhancedRequisition }) => {
   const noOfRequiredNodes = countRequiredNodes(node.children)
 
   return (
-    <div className="flex w-full  flex-row text-gray-700">
+    <div className="flex w-full  flex-row text-gray-800">
       {/* <!-- Fixed width left column --> */}
       <div className="flex w-24 flex-shrink-0 justify-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-semibold tabular-nums text-secondary-foreground ring ring-primary/25">
@@ -62,8 +62,8 @@ const HeaderComponent = ({ node }: { node: EnhancedRequisition }) => {
       </div>
 
       {/* <!-- Middle column that grows and truncates text --> */}
-      <div className="ml-4 flex flex-grow items-center overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold uppercase">
-        {node.query}
+      <div className="ml-4 flex flex-grow items-center text-base font-semibold uppercase">
+        <p className="line-clamp-2">{node.query}</p>
       </div>
 
       {/* <!-- Third column fixed width --> */}

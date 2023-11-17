@@ -35,10 +35,6 @@ export async function findSiblingsReqsById(
   } else {
     const parentId = singleRecordResponse.data.parent_id
 
-    // if (!parentId) {
-    //   throw new Error("There is no parentId.")
-    // }
-
     // Now, use the parent_id to find all matching records
     let allRecordsResponse = supabase
       .from("requisitions")

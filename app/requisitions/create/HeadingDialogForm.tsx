@@ -84,10 +84,6 @@ export function HeadingDialogForm({ headingData, afterSave }: FormProps) {
       try {
         const data = { ...result.data, sequence: Number(result.data.sequence) }
         const { id, ...rest } = data
-        console.log(
-          "🚀 ~ file: HeadingDialogForm.tsx:82 ~ requisitionFormAction ~ rest:",
-          rest
-        )
         if (id === undefined) {
           await insertRequisition({ ...rest })
         } else if (id) await updateRequisition({ id, ...rest })

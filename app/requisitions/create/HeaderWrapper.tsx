@@ -47,7 +47,6 @@ export async function HeaderWrapper({ headingId }: HeaderWrapperProps) {
         level: 1,
       }
 
-
   if (!headerNodes || !headerNodes.length || !Array.isArray(headerNodes)) {
     return (
       <StickyWrapper>
@@ -68,7 +67,7 @@ export async function HeaderWrapper({ headingId }: HeaderWrapperProps) {
 
 const HeaderComponent = () => {
   return (
-    <div className="ml-6 mt-8 text-sm font-semibold uppercase tracking-wide text-gray-500">
+    <div className="ml-8 flex h-full items-center text-sm font-semibold uppercase tracking-wide text-gray-700">
       Headings
     </div>
   )
