@@ -1,5 +1,3 @@
-"use client"
-
 import { on } from "events"
 import { ReactNode, useState } from "react"
 import {
@@ -98,7 +96,7 @@ interface DropdownDialogProps {
   setDialogClose: () => void
 }
 
-function DropdownDialog({
+export function DropdownDialog({
   title,
   icon,
   formData,
@@ -120,7 +118,7 @@ function DropdownDialog({
           <DropdownMenuShortcut>{icon}</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[calc(100%-6rem)] sm:max-w-[425px] lg:max-w-lg">
         <RequisitionDialogForm
           requisition={formData}
           afterSave={() => setIsOpen(false)}

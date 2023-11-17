@@ -33,12 +33,12 @@ export const AddNewHeaderButton: React.FC<AddNewHeaderButtonProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="contextual font-semibold-caps text-lg xl:w-96">
+        <Button className="contextual font-semibold-caps text-lg active:translate-y-1 xl:w-96">
           <PlusCircledIcon className="mr-2 h-5 w-5" />
           Add New Heading
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-h-[calc(100%-6rem)] sm:max-w-[425px] lg:max-w-lg">
         <HeadingDialogForm
           headingData={validatedData}
           afterSave={() => setIsOpen(false)}

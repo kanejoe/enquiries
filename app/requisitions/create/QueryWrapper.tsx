@@ -1,12 +1,11 @@
-import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
 
 import { EnhancedRequisition, Requisition } from "@/types/RequisitionType"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 import { countRequiredNodes } from "@/lib/treeUtils"
-import { Button } from "@/components/ui/button"
 
 import { getRequisitions } from "../_actions/query"
 import { ErrorMessage } from "../_components/ErrorMessage"
+import { EditHeadingComponent } from "./EditHeadingComponent"
 import { EmptyReqsView } from "./EmptyReqsView"
 import { RequisitionTreeLayout } from "./RequisitionTreeLayout"
 import { StickyWrapper } from "./StickyWrapper"
@@ -80,9 +79,7 @@ const HeaderComponent = ({ node }: { node: EnhancedRequisition }) => {
 
       {/* <!-- Fixed width right column --> */}
       <div className="flex w-12 flex-shrink-0 items-center justify-center">
-        <Button variant="ghost" size="sm">
-          <DotsHorizontalIcon className="h-4 w-4" />
-        </Button>
+        <EditHeadingComponent node={node} />
       </div>
     </div>
   )

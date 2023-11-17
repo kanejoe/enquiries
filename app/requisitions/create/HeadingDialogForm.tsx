@@ -102,7 +102,7 @@ export function HeadingDialogForm({ headingData, afterSave }: FormProps) {
     <div className="p-4">
       <DialogTitle className="mb-6">
         <span className="text-xl underline decoration-primary decoration-double decoration-2 underline-offset-8">
-          {headingData.id ? "Edit Existing" : "Add New"} Heading
+          {headingData.id ? "Edit" : "Add New"} Heading
         </span>
       </DialogTitle>
       <Form {...form}>

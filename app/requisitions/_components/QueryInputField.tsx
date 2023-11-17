@@ -32,7 +32,7 @@ export function QueryInputField({
       render={({ field }) => {
         return (
           <FormItem>
-            <FormLabel>{fieldLabel}</FormLabel>
+            <FormLabel className="text-foreground">{fieldLabel}</FormLabel>
             <FormControl>
               <Textarea
                 {...field}

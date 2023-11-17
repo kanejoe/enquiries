@@ -22,7 +22,7 @@ export function IsReplyRequired() {
       control={control}
       name="is_required"
       render={({ field }) => (
-        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+        <FormItem className="flex max-w-[20em] flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
           <FormControl>
             <Checkbox checked={field.value} onCheckedChange={field.onChange} />
           </FormControl>
