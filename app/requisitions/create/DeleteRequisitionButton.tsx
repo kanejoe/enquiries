@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
+import { TrashIcon } from "@radix-ui/react-icons"
 import { Trash2 } from "lucide-react"
 
 import { Requisition } from "@/types/RequisitionType"
@@ -50,7 +51,7 @@ export function DeleteRequisitionButton({
           tabIndex={0}
           className="focus-visible:ring-offset mt-0.5 h-4 transition duration-300 group-hover:bg-primary/5 hover:bg-primary/40 focus-visible:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-primary"
         >
-          <Trash2 className="h-4 w-4 text-gray-600 hover:text-gray-800" />
+          <TrashIcon className="h-4 w-4  text-gray-600 hover:text-gray-800" />
         </Button>
       </DialogTrigger>
       <DialogContent>

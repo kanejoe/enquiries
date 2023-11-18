@@ -22,14 +22,15 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
   const hasChildren = item.children && item.children.length > 0
   return (
     <>
-      <li className="group relative flex flex-row space-x-12 rounded transition duration-300 hover:bg-primary/5">
+      <li className="group relative flex space-x-12 rounded transition duration-300 hover:bg-primary/5">
+        {/* <!-- Fixed width left column --> */}
         <div className="relative flex w-8 justify-center">
           <ItemLines hasChildren={hasChildren} isLastItem={isLastItem} />
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-700 transition duration-300 group-focus-within:bg-primary group-hover:bg-primary group-hover:text-foreground">
             {sequenceFormat(item.sequence_in_levels, item.level)}
           </div>
         </div>
-        <div className="mt-1.5 w-full">
+        <div className="mt-1.5 w-full flex-grow">
           <div className="inline-flex items-start">
             {item.query ? (
               <div className="text-pretty hyphens-auto whitespace-break-spaces text-sm">
@@ -74,16 +75,23 @@ export const RequisitionItem: FC<RequisitionItemProps> = ({
                 no text
               </Badge>
             )}
-            {item.children && item.children?.length > 0 ? null : (
-              <DeleteRequisitionButton
-                id={item.id}
-                parent_id={item.parent_id}
-              />
-            )}
           </div>
         </div>
-        <div className="w-0.5 transition duration-300">
-          <RequisitionRowActions requisition={item} />
+        {/* <!-- Fixed width right column containing the option buttons --> */}
+        <div className="w-4 flex-shrink-0">
+          <div className="flex w-full items-center justify-center space-x-2">
+            <div className="w-8 shrink-0">
+              {item.children && item.children?.length > 0 ? null : (
+                <DeleteRequisitionButton
+                  id={item.id}
+                  parent_id={item.parent_id}
+                />
+              )}
+            </div>
+            <div className="w-2">
+              <RequisitionRowActions requisition={item} />
+            </div>
+          </div>
         </div>
       </li>
 
