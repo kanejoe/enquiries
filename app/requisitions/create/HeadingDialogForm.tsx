@@ -51,7 +51,8 @@ type FormProps = {
     sequence_in_levels: EnhancedRequisition["sequence_in_levels"]
     id?: EnhancedRequisition["id"]
   }
-  afterSave: () => void
+  afterSave?: () => void
+  setDialogClose?: () => void
 }
 
 /**
@@ -59,7 +60,11 @@ type FormProps = {
  * @param param0
  * @returns
  */
-export function HeadingDialogForm({ headingData, afterSave }: FormProps) {
+export function HeadingDialogForm({
+  headingData,
+  afterSave,
+  setDialogClose,
+}: FormProps) {
   const form = useForm<z.infer<typeof HeadingFormSchema>>({
     resolver: zodResolver(EHeadingFormSchema),
     defaultValues: {
@@ -93,7 +98,8 @@ export function HeadingDialogForm({ headingData, afterSave }: FormProps) {
           console.log(error.errors) // This would log the error message "Query cannot be empty"
         }
       } finally {
-        afterSave()
+        // afterSave()
+        if (setDialogClose !== undefined) setDialogClose()
       }
     }
   }
@@ -114,7 +120,7 @@ export function HeadingDialogForm({ headingData, afterSave }: FormProps) {
               sequence_in_levels={headingData.sequence_in_levels}
               level={headingData.level}
             ></SequenceSelect>
-            <SubmitFormButton />
+            <SubmitFormButton setDialogClose={setDialogClose} />
           </FieldsetWrapper>
         </form>
       </Form>

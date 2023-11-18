@@ -22,6 +22,7 @@ import { HeadingDialogForm, HeadingFormSchema } from "./HeadingDialogForm"
 
 export function EditHeadingComponent({ node }: { node: EnhancedRequisition }) {
   const [isOpenDialog, setIsOpenDialog] = useState(false)
+
   return (
     <DropdownMenu open={isOpenDialog} onOpenChange={setIsOpenDialog}>
       <DropdownMenuTrigger asChild>
@@ -31,7 +32,7 @@ export function EditHeadingComponent({ node }: { node: EnhancedRequisition }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownDialog
-          title="Edit Requisition"
+          title="Edit Heading"
           icon={<QuestionMarkCircledIcon />}
           formData={node}
           setDialogClose={() => setIsOpenDialog(false)}
@@ -48,11 +49,13 @@ interface DropdownDialogProps {
   isDisabled?: boolean
   setDialogClose: () => void
 }
+
 function DropdownDialog({
   title,
   icon,
   formData,
   isDisabled = false,
+  setDialogClose,
 }: DropdownDialogProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -77,10 +80,10 @@ function DropdownDialog({
           <DropdownMenuShortcut>{icon}</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DialogTrigger>
-      <DialogContent className="max-h-[calc(100%-6rem)] max-w-2xl">
+      <DialogContent className="max-h-[calc(100%-10rem)] max-w-2xl">
         <HeadingDialogForm
           headingData={validatedData}
-          afterSave={() => setIsOpen(false)}
+          setDialogClose={setDialogClose}
         />
       </DialogContent>
     </Dialog>
