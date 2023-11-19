@@ -62,7 +62,7 @@ type FormProps = {
  */
 export function HeadingDialogForm({
   headingData,
-  afterSave,
+  // afterSave,
   setDialogClose,
 }: FormProps) {
   const form = useForm<z.infer<typeof HeadingFormSchema>>({

@@ -82,7 +82,7 @@ function InactiveRoute({ req }: { req: PartialReq }) {
 function ActiveRoute({ req }: { req: PartialReq }) {
   return (
     <div className="mb-2 ml-1 flex flex-row space-x-4 rounded-lg bg-white p-2 text-sm shadow">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-secondary-foreground">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-secondary-foreground ring-2 ring-primary/10">
         <span className="text-sm font-semibold tabular-nums">
           {req.sequence}
         </span>

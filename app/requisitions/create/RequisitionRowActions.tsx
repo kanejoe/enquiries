@@ -118,7 +118,7 @@ export function DropdownDialog({
           <DropdownMenuShortcut>{icon}</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DialogTrigger>
-      <DialogContent className="max-h-[calc(100%-6rem)] sm:max-w-[425px] lg:max-w-lg">
+      <DialogContent className="max-h-[calc(100%-6rem)] sm:max-w-[425px] lg:max-w-2xl">
         <RequisitionDialogForm
           requisition={formData}
           afterSave={() => setIsOpen(false)}

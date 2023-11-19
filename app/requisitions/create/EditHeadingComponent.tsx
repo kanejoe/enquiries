@@ -13,6 +13,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   // DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
@@ -37,6 +38,7 @@ export function EditHeadingComponent({ node }: { node: EnhancedRequisition }) {
           formData={node}
           setDialogClose={() => setIsOpenDialog(false)}
         />
+        <DropdownMenuSeparator />
       </DropdownMenuContent>
     </DropdownMenu>
   )
