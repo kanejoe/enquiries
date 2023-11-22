@@ -7,7 +7,7 @@ import type {
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 import { countRequiredNodes } from "@/lib/treeUtils"
 
-import { getRequisitions } from "../_actions/query"
+import { getPrecedentById } from "../_actions/query"
 import { ErrorMessage } from "../_components/ErrorMessage"
 import { EditHeadingComponent } from "./EditHeadingComponent"
 import { EmptyReqsView } from "./EmptyReqsView"
@@ -21,7 +21,7 @@ interface QueryWrapperProps {
 export async function QueryWrapper({ headingId }: QueryWrapperProps) {
   let precedent: GetPrecedentResponse
   try {
-    precedent = await getRequisitions()
+    precedent = await getPrecedentById()
   } catch (error: unknown) {
     console.error(error)
     return <ErrorMessage message={(error as Error).message} />

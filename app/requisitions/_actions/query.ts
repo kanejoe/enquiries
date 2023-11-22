@@ -2,7 +2,7 @@ import { GetPrecedentResponse } from "@/types/RequisitionType"
 import { supabase } from "@/lib/supabase"
 import { waitABit } from "@/lib/waitABit"
 
-export async function getRequisitions(): Promise<GetPrecedentResponse> {
+export async function getPrecedentById(): Promise<GetPrecedentResponse> {
   // await waitABit(3000)
 
   const { data: precedent, error: errorItems } = await supabase
