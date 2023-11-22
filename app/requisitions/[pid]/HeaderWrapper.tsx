@@ -14,12 +14,16 @@ import { StickyWrapper } from "./StickyWrapper"
 
 interface HeaderWrapperProps {
   headingId: number
+  precedentId: number
 }
 
-export async function HeaderWrapper({ headingId }: HeaderWrapperProps) {
+export async function HeaderWrapper({
+  headingId,
+  precedentId,
+}: HeaderWrapperProps) {
   let precedent: GetPrecedentResponse
   try {
-    precedent = await getPrecedentById()
+    precedent = await getPrecedentById(precedentId)
   } catch (error: unknown) {
     console.error(error)
     return <ErrorMessage message={(error as Error).message} />

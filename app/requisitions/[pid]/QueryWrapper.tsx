@@ -16,12 +16,16 @@ import { StickyWrapper } from "./StickyWrapper"
 
 interface QueryWrapperProps {
   headingId: number
+  precedentId: number
 }
 
-export async function QueryWrapper({ headingId }: QueryWrapperProps) {
+export async function QueryWrapper({
+  headingId,
+  precedentId,
+}: QueryWrapperProps) {
   let precedent: GetPrecedentResponse
   try {
-    precedent = await getPrecedentById()
+    precedent = await getPrecedentById(precedentId)
   } catch (error: unknown) {
     console.error(error)
     return <ErrorMessage message={(error as Error).message} />
