@@ -16,7 +16,7 @@ export function EmptyReqsView({
 }) {
   const newChildRequisition = addChildToParent(requisition)
   return (
-    <div className="flex h-[calc(100vh-16rem)] flex-col">
+    <div className="flex h-[calc(100vh-24rem)] flex-col">
       <div className="flex  h-full items-center justify-center text-gray-500">
         <div className="text-center">
           <svg

@@ -77,9 +77,9 @@ export function RequisitionDialogForm({
         }
       } finally {
         afterSave()
-        if (setDialogClose !== undefined) {
-          setDialogClose()
-        }
+        // if (setDialogClose !== undefined) {
+        //   setDialogClose()
+        // }
       }
     }
   }
