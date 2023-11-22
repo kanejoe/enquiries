@@ -78,3 +78,66 @@ Adding an `is_locked` field to the `requisitions` table in your scenario is reco
 6. **Scalability and Future Enhancements**: As your application evolves, you might find scenarios where you need to lock or unlock individual requisitions independently of their parent template. Having an `is_locked` field from the start provides the flexibility to accommodate such future enhancements without significant schema changes.
 
 In summary, the addition of an `is_locked` field in the `requisitions` table aligns with principles of flexible design, data integrity, user experience, and future scalability, making it a prudent choice for the functionality you're aiming to achieve in your application.
+
+To accommodate the new requirements of linking an asset and managing one or more vendors for each precedent template, you'll need to slightly modify and expand your database schema. Here’s how you can model this:
+
+### Revised Database Schema
+
+#### Existing Tables
+
+1. **precedent_template**
+
+   - **id** (Primary Key, Auto-increment)
+   - **name** (String)
+   - **subname** (String)
+   - **is_locked** (Boolean, default: false)
+   - **asset_id** (Nullable, Foreign Key to `assets.id`)
+
+2. **requisitions**
+
+   - **id** (Primary Key, Auto-increment)
+   - **query** (Text)
+   - **reply** (Text, Nullable)
+   - **precedent_template_id** (Foreign Key to `precedent_template.id`)
+   - **is_locked** (Boolean, default: false)
+   - **cloned_from_id** (Nullable, Foreign Key to `requisitions.id`)
+
+#### New Tables
+
+1. **assets**
+
+   - **id** (Primary Key, Auto-increment)
+   - **asset** (String or appropriate data type depending on the nature of the asset)
+
+2. **vendors**
+
+   - **id** (Primary Key, Auto-increment)
+   - **vendor** (String)
+
+3. **template_vendors** (Many-to-Many relationship between `precedent_template` and `vendors`)
+
+   - **id** (Primary Key, Auto-increment)
+   - **precedent_template_id** (Foreign Key to `precedent_template.id`)
+   - **vendor_id** (Foreign Key to `vendors.id`)
+
+### How This Works
+
+- **Assets**: The `assets` table stores the details of assets. Each record in the `precedent_template` table can optionally reference an asset through the `asset_id` field. This setup allows for an asset to be associated with a precedent template.
+
+- **Vendors**: Vendors are managed in a separate `vendors` table. Since a precedent template can have multiple vendors, a many-to-many relationship is established through a `template_vendors` join table. This join table stores pairs of `precedent_template_id` and `vendor_id`, allowing for flexible association of multiple vendors to multiple templates.
+
+### Implementation Considerations
+
+1. **Relational Integrity**: Ensure that foreign key constraints are properly set up to maintain relational integrity. For instance, deleting an asset should be handled carefully if it's linked to any precedent templates.
+
+2. **Flexible Associations**: The many-to-many relationship for vendors allows for flexibility. A single vendor can be associated with multiple precedent templates and vice versa.
+
+3. **Scalability**: This schema can handle future expansions, such as adding more details to assets or vendors.
+
+4. **Data Retrieval**: When querying data, especially for precedent templates, ensure to include necessary joins to fetch related asset and vendor data.
+
+5. **User Interface**: Reflect these relationships in the UI, allowing users to easily associate assets and vendors with precedent templates.
+
+6. **Validation and Business Logic**: Implement appropriate business logic to handle cases like locking a precedent template with its associated assets and vendors.
+
+This schema design provides a robust foundation for managing assets and vendors in relation to precedent templates, ensuring flexibility and scalability for your Next.js application with a Supabase backend.

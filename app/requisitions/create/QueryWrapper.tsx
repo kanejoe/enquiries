@@ -1,4 +1,9 @@
-import { EnhancedRequisition, Requisition } from "@/types/RequisitionType"
+import type {
+  EnhancedRequisition,
+  GetPrecedentResponse,
+  Precedent,
+  Requisition,
+} from "@/types/RequisitionType"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
 import { countRequiredNodes } from "@/lib/treeUtils"
 
@@ -14,16 +19,16 @@ interface QueryWrapperProps {
 }
 
 export async function QueryWrapper({ headingId }: QueryWrapperProps) {
-  let requisitions: Requisition[]
+  let precedent: GetPrecedentResponse
   try {
-    requisitions = await getRequisitions()
+    precedent = await getRequisitions()
   } catch (error: unknown) {
     console.error(error)
     return <ErrorMessage message={(error as Error).message} />
   }
 
   const requisitionTree = createRequisitionTree(
-    requisitions as EnhancedRequisition[]
+    precedent.requisitions as EnhancedRequisition[]
   )
   const headingNode = findNodeByReqId(requisitionTree, headingId)
   const onlyHeading = headingNode?.children?.length === 0 ? true : false

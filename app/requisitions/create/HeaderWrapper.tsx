@@ -15,16 +15,16 @@ interface HeaderWrapperProps {
 }
 
 export async function HeaderWrapper({ headingId }: HeaderWrapperProps) {
-  let requisitions: Requisition[]
+  let precedent
   try {
-    requisitions = await getRequisitions()
+    precedent = await getRequisitions()
   } catch (error: unknown) {
     console.error(error)
     return <ErrorMessage message={(error as Error).message} />
   }
 
   const requisitionTree = createRequisitionTree(
-    requisitions as EnhancedRequisition[]
+    precedent.requisitions as EnhancedRequisition[]
   )
 
   const headerNodes = getHeaderNodes(requisitionTree)

@@ -1,4 +1,6 @@
-export type Json =
+Need to install the following packages:
+supabase@1.113.2
+Ok to proceed? (y) export type Json =
   | string
   | number
   | boolean
@@ -9,6 +11,30 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      precedents: {
+        Row: {
+          asset_id: number | null
+          id: number
+          is_locked: boolean
+          name: string
+          subname: string
+        }
+        Insert: {
+          asset_id?: number | null
+          id?: never
+          is_locked?: boolean
+          name: string
+          subname: string
+        }
+        Update: {
+          asset_id?: number | null
+          id?: never
+          is_locked?: boolean
+          name?: string
+          subname?: string
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           category: string | null
@@ -46,12 +72,13 @@ export interface Database {
           is_applicable: boolean
           is_complete: boolean
           is_flagged: boolean
+          is_locked: boolean
           is_required: boolean
           parent_id: number | null
+          precedent_id: number | null
           query: string | null
           reply: string | null
           sequence: number
-          status: string | null
         }
         Insert: {
           has_doc?: boolean
@@ -59,12 +86,13 @@ export interface Database {
           is_applicable?: boolean
           is_complete?: boolean
           is_flagged?: boolean
+          is_locked?: boolean
           is_required?: boolean
           parent_id?: number | null
+          precedent_id?: number | null
           query?: string | null
           reply?: string | null
           sequence?: number
-          status?: string | null
         }
         Update: {
           has_doc?: boolean
@@ -72,18 +100,27 @@ export interface Database {
           is_applicable?: boolean
           is_complete?: boolean
           is_flagged?: boolean
+          is_locked?: boolean
           is_required?: boolean
           parent_id?: number | null
+          precedent_id?: number | null
           query?: string | null
           reply?: string | null
           sequence?: number
-          status?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "requisitions_parent_id_fkey"
             columns: ["parent_id"]
+            isOneToOne: false
             referencedRelation: "requisitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "requisitions_precedent_id_fkey"
+            columns: ["precedent_id"]
+            isOneToOne: false
+            referencedRelation: "precedents"
             referencedColumns: ["id"]
           }
         ]
@@ -116,16 +153,28 @@ export interface Database {
         }
         Returns: undefined
       }
-      update_requisition: {
-        Args: {
-          p_id: number
-          p_parent_id: number
-          p_old_sequence: number
-          p_new_sequence: number
-          p_query: string
-        }
-        Returns: undefined
-      }
+      update_requisition:
+        | {
+            Args: {
+              p_id: number
+              p_parent_id: number
+              p_old_sequence: number
+              p_new_sequence: number
+              p_query: string
+            }
+            Returns: undefined
+          }
+        | {
+            Args: {
+              p_id: number
+              p_parent_id: number
+              p_old_sequence: number
+              p_new_sequence: number
+              p_query: string
+              p_is_required: boolean
+            }
+            Returns: undefined
+          }
     }
     Enums: {
       [_ in never]: never

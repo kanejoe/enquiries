@@ -26,3 +26,16 @@ export interface HeadingRequisition
   > {
   level_sequence: string // Now a string
 }
+
+export type Precedent = {
+  asset_id: number | null
+  id: number
+  is_locked: boolean
+  name: string
+  subname: string
+}
+
+// Update the GetRequisitionsResponse type to use the new RequisitionInfo type
+export type GetPrecedentResponse = Precedent & {
+  requisitions: Requisition[]
+}
