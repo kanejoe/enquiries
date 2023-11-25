@@ -1,10 +1,12 @@
-import { cookies } from "next/headers"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { PrecedentCard } from "./_components/PrecedentCard"
 
 export default async function ServerComponent() {
   return (
-    <main className="flex flex-col gap-y-2">
-      <section>a basic page</section>
+    <main className="flex flex-col gap-y-2 font-albertsans">
+      <section className="grid grid-cols-2 gap-4">
+        <PrecedentCard />
+        <PrecedentCard archived={true} />
+      </section>
     </main>
   )
 }
