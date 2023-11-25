@@ -54,7 +54,7 @@ export const PrecedentCard: React.FC<PrecedentCardProps> = ({
                 : "bg-primary text-card-foreground"
             }`}
           >
-            View
+            Open
           </Button>
         </div>
       </div>
