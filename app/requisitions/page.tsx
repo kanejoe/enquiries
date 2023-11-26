@@ -11,7 +11,7 @@ import { PrecedentCard } from "./_components/PrecedentCard"
 export default async function ServerComponent() {
   return (
     <main className="container font-albertsans">
-      <Suspense fallback={<p className="h-6" />}>
+      <Suspense fallback={<p className="h-6">loading...</p>}>
         <Cards />
       </Suspense>
     </main>
@@ -27,7 +27,7 @@ const statuses = {
 async function Cards() {
   let unsortedPrecedents = await getAllPrecedents()
   if (!unsortedPrecedents) {
-    return <div>loading...</div>
+    return <div>no precedents...</div>
   }
 
   // Filter out null values before sorting
@@ -36,7 +36,6 @@ async function Cards() {
   )
 
   const precedents = sortPrecedents(filteredPrecedents)
-  console.log("🚀 ~ file: page.tsx:27 ~ Cards ~ precedents:", precedents)
 
   return (
     <section className="mt-8 max-w-2xl">

@@ -16,7 +16,7 @@ export default function PropertiesPage() {
   const links = [
     {
       key: 0,
-      folder: "requisitions/create",
+      folder: "requisitions",
       title: "Create Requisitions Template",
       summary:
         "Create a template for a requisition. This is a form with a number of fields.  Includes a tree view of the fields.",

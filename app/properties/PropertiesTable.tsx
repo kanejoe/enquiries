@@ -1,7 +1,7 @@
 import { format, parseISO } from "date-fns"
 import { trim } from "string-ts"
 
-import { supabase } from "@/lib/supabase"
+import { createServerClient } from "@/lib/supabase"
 import { Badge } from "@/components/ui/badge"
 
 import { HighlightedTableCell } from "./_components/HighlightedCellProps"
@@ -30,6 +30,7 @@ export async function PropertiesTable({
     typeof searchParams.category === "string" ? searchParams.category : ""
 
   // count the total number of properties
+  const supabase = createServerClient()
   let supabaseCountQuery = supabase
     .from("properties")
     .select("id", { count: "exact", head: false })

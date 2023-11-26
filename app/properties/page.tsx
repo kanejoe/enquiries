@@ -49,7 +49,7 @@ export default async function Properties({
     typeof currentSearchParams.sort === "string" ? currentSearchParams.sort : ""
 
   // if (parsedParamsObject.success)
-  //   console.log("🚀 ~ file: page.tsx:50 ~ sort:", parsedParamsObject.data)
+  // console.log("🚀 ~ file: page.tsx:50 ~ sort:", parsedParamsObject.data)
 
   return (
     <div className="min-h-screen px-8 pt-12">
