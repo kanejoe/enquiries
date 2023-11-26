@@ -35,6 +35,7 @@ export type Precedent = {
   is_locked: boolean
   asset_id: number | null
   created_at: string
+  created_by: string
 }
 
 // Update the GetRequisitionsResponse type to use the new RequisitionInfo type

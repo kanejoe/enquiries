@@ -13,6 +13,7 @@ export interface Database {
         Row: {
           asset_id: number | null
           created_at: string | null
+          created_by: string | null
           id: number
           is_archived: boolean | null
           is_locked: boolean
@@ -22,6 +23,7 @@ export interface Database {
         Insert: {
           asset_id?: number | null
           created_at?: string | null
+          created_by?: string | null
           id?: never
           is_archived?: boolean | null
           is_locked?: boolean
@@ -31,6 +33,7 @@ export interface Database {
         Update: {
           asset_id?: number | null
           created_at?: string | null
+          created_by?: string | null
           id?: never
           is_archived?: boolean | null
           is_locked?: boolean
