@@ -28,11 +28,13 @@ export interface HeadingRequisition
 }
 
 export type Precedent = {
-  asset_id: number | null
   id: number
-  is_locked: boolean
   name: string
   subname: string
+  is_archived: boolean
+  is_locked: boolean
+  asset_id: number | null
+  created_at: string
 }
 
 // Update the GetRequisitionsResponse type to use the new RequisitionInfo type

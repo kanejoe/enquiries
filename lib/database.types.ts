@@ -1,6 +1,4 @@
-Need to install the following packages:
-supabase@1.113.2
-Ok to proceed? (y) export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -14,21 +12,27 @@ export interface Database {
       precedents: {
         Row: {
           asset_id: number | null
+          created_at: string | null
           id: number
+          is_archived: boolean | null
           is_locked: boolean
           name: string
           subname: string
         }
         Insert: {
           asset_id?: number | null
+          created_at?: string | null
           id?: never
+          is_archived?: boolean | null
           is_locked?: boolean
           name: string
           subname: string
         }
         Update: {
           asset_id?: number | null
+          created_at?: string | null
           id?: never
+          is_archived?: boolean | null
           is_locked?: boolean
           name?: string
           subname?: string
@@ -41,6 +45,7 @@ export interface Database {
           created_at: string
           eircode: string | null
           id: number
+          is_archived: boolean | null
           property: string | null
           status: string | null
           vendor: string | null
@@ -50,6 +55,7 @@ export interface Database {
           created_at?: string
           eircode?: string | null
           id?: number
+          is_archived?: boolean | null
           property?: string | null
           status?: string | null
           vendor?: string | null
@@ -59,6 +65,7 @@ export interface Database {
           created_at?: string
           eircode?: string | null
           id?: number
+          is_archived?: boolean | null
           property?: string | null
           status?: string | null
           vendor?: string | null
@@ -70,6 +77,7 @@ export interface Database {
           has_doc: boolean
           id: number
           is_applicable: boolean
+          is_archived: boolean | null
           is_complete: boolean
           is_flagged: boolean
           is_locked: boolean
@@ -84,6 +92,7 @@ export interface Database {
           has_doc?: boolean
           id?: never
           is_applicable?: boolean
+          is_archived?: boolean | null
           is_complete?: boolean
           is_flagged?: boolean
           is_locked?: boolean
@@ -98,6 +107,7 @@ export interface Database {
           has_doc?: boolean
           id?: never
           is_applicable?: boolean
+          is_archived?: boolean | null
           is_complete?: boolean
           is_flagged?: boolean
           is_locked?: boolean

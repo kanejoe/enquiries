@@ -16,7 +16,7 @@ export async function getPrecedentById(
 
   if (errorItems) throw errorItems
 
-  return precedent
+  return precedent as GetPrecedentResponse
 }
 
 /**
@@ -24,7 +24,7 @@ export async function getPrecedentById(
  * @returns A promise that resolves to an array of Precedent objects.
  * @throws If there is an error retrieving the precedents.
  */
-export async function getAllPrecedents(): Promise<Precedent[]> {
+export async function getAllPrecedents(): Promise<(Precedent | null)[]> {
   // await waitABit(3000)
   const supabase = createServerClient()
 
@@ -34,5 +34,5 @@ export async function getAllPrecedents(): Promise<Precedent[]> {
 
   if (errorAllPrecedents) throw errorAllPrecedents
 
-  return allPrecedents
+  return allPrecedents as (Precedent | null)[]
 }
