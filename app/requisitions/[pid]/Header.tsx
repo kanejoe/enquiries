@@ -1,6 +1,8 @@
 import { FC } from "react"
 import { HomeModernIcon } from "@heroicons/react/20/solid"
 
+import { BackArrowUpNav } from "./BackArrow"
+
 interface HeaderProps {
   name: string
   subname: string
@@ -28,6 +30,7 @@ const Header: FC<HeaderProps> = ({ name, subname }) => {
       <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-0">
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-x-8 lg:mx-0 lg:max-w-none">
           <div className="flex items-center gap-x-6">
+            <BackArrowUpNav href="requisitions" />
             <HomeModernIcon className="h-12 w-12 flex-none rounded-full bg-primary fill-gray-800 p-1.5 shadow ring-4 ring-primary/10 " />
             <h1>
               <div className="mt-1 text-xl font-semibold leading-6 text-gray-900">
