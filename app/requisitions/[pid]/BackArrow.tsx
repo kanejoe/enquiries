@@ -17,8 +17,8 @@ export function BackArrowUpNav({ href }: BackArrowUpNavProps) {
   }
 
   return (
-    <div onClick={handleClick} className="hover:cursor-pointer">
-      <ArrowLeftCircle className="h-6 w-6 fill-primary active:translate-y-px" />
+    <div onClick={handleClick} className="hover:cursor-pointer hover:shadow-sm">
+      <ArrowLeftCircle className="h-6 w-6 fill-primary text-gray-900 active:translate-y-px" />
     </div>
   )
 }
