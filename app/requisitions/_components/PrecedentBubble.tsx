@@ -3,12 +3,14 @@ import Link from "next/link"
 import { format as fdate, parseISO } from "date-fns"
 
 import { Precedent } from "@/types/RequisitionType"
+import { Badge } from "@/components/ui/badge"
 
 // import { cn } from "@/lib/utils"
 
 const imageMap = {
   default: "/thumbnails/b1.jpg",
   "Law Society of Ireland": "/thumbnails/lsoi.png",
+  "Joe Kane": "/thumbnails/docs.jpg",
 }
 
 const statuses = {
@@ -18,7 +20,7 @@ const statuses = {
 }
 
 // Define the type for imageMap keys
-type ImageMapKey = "default" | "Law Society of Ireland"
+type ImageMapKey = "default" | "Law Society of Ireland" | "Joe Kane"
 
 /**
  *
@@ -35,7 +37,12 @@ export function PrecedentBubble({ precedent }: { precedent: Precedent }) {
   const formattedDate = fdate(created_date, "dd MMMM yyyy") // '26 Nov 2022'
 
   return (
-    <div className="rounded-xl border border-muted p-4 shadow-sm transition hover:bg-muted hover:shadow-sm hover:shadow-muted-foreground">
+    <div className="relative rounded-xl border border-muted bg-gray-50/50 p-4 shadow-sm transition hover:bg-muted hover:shadow-sm hover:shadow-muted-foreground">
+      <div className="absolute right-4 top-2">
+        {precedent.is_archived ? (
+          <Badge variant="default">Archived</Badge>
+        ) : null}
+      </div>
       <div className="mb-4">
         <Image
           src={imageUrl}
@@ -56,10 +63,14 @@ export function PrecedentBubble({ precedent }: { precedent: Precedent }) {
         </p>
         {precedent.created_by ? (
           <>
-            <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
-              <circle cx={1} cy={1} r={1} />
-            </svg>
-            <p className="truncate">Created by {precedent?.created_by}</p>
+            {precedent?.created_by !== "default" && (
+              <>
+                <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
+                  <circle cx={1} cy={1} r={1} />
+                </svg>
+                <p className="truncate">Created by {precedent?.created_by}</p>
+              </>
+            )}
           </>
         ) : null}
       </div>
