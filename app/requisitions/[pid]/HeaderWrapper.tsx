@@ -13,7 +13,7 @@ import { RequisitionHeadingList } from "./RequisitionHeaders"
 import { StickyWrapper } from "./StickyWrapper"
 
 interface HeaderWrapperProps {
-  headingId: number
+  headingId?: number
   precedentId: number
 }
 

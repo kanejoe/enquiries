@@ -30,7 +30,7 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = async ({
       <div className="container mt-6 grid grid-cols-12 gap-16 p-2">
         <aside className="col-span-4">
           <Suspense fallback={<Loading />}>
-            {headingId && precedentId ? (
+            {precedentId ? (
               <HeaderWrapper headingId={headingId} precedentId={precedentId} />
             ) : null}
           </Suspense>
