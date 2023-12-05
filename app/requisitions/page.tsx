@@ -1,5 +1,9 @@
 import { FC, Suspense } from "react"
-import { ArrowRightIcon, CaretRightIcon } from "@radix-ui/react-icons"
+import {
+  ArrowRightIcon,
+  CaretDownIcon,
+  CaretRightIcon,
+} from "@radix-ui/react-icons"
 import { Options } from "use-debounce"
 
 import { Precedent } from "@/types/RequisitionType"
@@ -92,17 +96,20 @@ const PrecedentAside: FC = () => {
 
   return (
     <div className="">
-      <h3 className="text-lg font-semibold">Filter</h3>
+      <h3 className="mb-4 ml-2 flex justify-evenly rounded-lg bg-gray-50  p-2">
+        <CaretDownIcon className="mt-1" />
+        <div className="text-base font-semibold">Filter Options</div>
+      </h3>
 
-      <ul className="font-sansserif flex flex-col gap-y-4">
+      <ul className="font-sansserif ml-2 flex flex-col gap-y-4 border-l">
         {options.map((option: Option, index) => {
           return (
             <li
               key={index}
-              className="flex justify-between rounded-lg bg-gray-50/50 p-2"
+              className="group flex justify-between rounded-r-lg border-transparent py-2 pl-2 transition duration-300 hover:cursor-pointer hover:border-l-4 hover:border-primary hover:bg-gray-50 hover:font-semibold"
             >
               <div className="">{option.label}</div>
-              <div className="">
+              <div className="invisible group-hover:visible">
                 <CaretRightIcon className="mt-1 h-4 w-4" />
               </div>
             </li>
