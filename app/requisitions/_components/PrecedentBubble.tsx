@@ -37,7 +37,7 @@ export function PrecedentBubble({ precedent }: { precedent: Precedent }) {
   const formattedDate = fdate(created_date, "dd MMM yyyy") // '26 Nov 2022'
 
   return (
-    <div className="relative rounded-xl border border-muted bg-gradient-to-tl from-gray-100/50 p-4 shadow-sm transition hover:bg-muted hover:shadow-sm hover:shadow-muted-foreground">
+    <div className="relative rounded-xl border border-muted bg-gradient-to-tl from-gray-100/50 p-4 shadow-sm transition hover:bg-gradient-to-br hover:from-gray-200/50 hover:shadow-sm hover:shadow-muted-foreground">
       <div className="absolute right-4 top-2">
         {precedent.is_archived ? (
           <Badge variant="default">Archived</Badge>

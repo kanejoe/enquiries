@@ -91,20 +91,24 @@ const PrecedentAside: FC = () => {
   ]
 
   return (
-    <ul className="font-sansserif flex flex-col gap-y-4">
-      {options.map((option: Option, index) => {
-        return (
-          <li
-            key={index}
-            className="flex justify-between rounded-lg bg-gray-50/50 p-2"
-          >
-            <div className="">{option.label}</div>
-            <div className="">
-              <CaretRightIcon className="mt-1 h-4 w-4" />
-            </div>
-          </li>
-        )
-      })}
-    </ul>
+    <div className="">
+      <h3 className="text-lg font-semibold">Filter</h3>
+
+      <ul className="font-sansserif flex flex-col gap-y-4">
+        {options.map((option: Option, index) => {
+          return (
+            <li
+              key={index}
+              className="flex justify-between rounded-lg bg-gray-50/50 p-2"
+            >
+              <div className="">{option.label}</div>
+              <div className="">
+                <CaretRightIcon className="mt-1 h-4 w-4" />
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
   )
 }
