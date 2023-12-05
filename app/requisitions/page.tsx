@@ -1,28 +1,50 @@
-import { FC, Suspense } from "react"
-import {
-  ArrowRightIcon,
-  CaretDownIcon,
-  CaretRightIcon,
-} from "@radix-ui/react-icons"
-import { Options } from "use-debounce"
+import { Suspense } from "react"
+import { z } from "zod"
 
 import { Precedent } from "@/types/RequisitionType"
 
 import { getAllPrecedents } from "./_actions/query"
 import { LinkWrapper } from "./_components/LinkWrapper"
+import { PrecedentAside } from "./_components/PrecedentAside"
 import { PrecedentBubble } from "./_components/PrecedentBubble"
 
-export default async function ServerComponent() {
+export default async function ServerComponent({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  const paramsSchema = z.object({
+    filter: z.string().optional(),
+  })
+  const parsedParamsObject = paramsSchema.safeParse(searchParams)
+  const searchParamsParsed = !parsedParamsObject.success
+    ? {}
+    : parsedParamsObject.data
+
+  // search url param
+  const filter =
+    typeof searchParamsParsed.filter === "string"
+      ? searchParamsParsed.filter
+      : ""
+
+  // store all the properties in a map
+  const currentSearchParams = new URLSearchParams()
+  if (filter) currentSearchParams.set("filter", filter)
+
   return (
     <main className="container font-albertsans">
       <Suspense fallback={<p className="h-6">loading...</p>}>
-        <Cards />
+        <Cards currentSearchParams={currentSearchParams} />
       </Suspense>
     </main>
   )
 }
 
-async function Cards() {
+async function Cards({
+  currentSearchParams,
+}: {
+  currentSearchParams: URLSearchParams
+}) {
   let unsortedPrecedents = await getAllPrecedents()
   if (!unsortedPrecedents) {
     return <div>no precedents...</div>
@@ -44,7 +66,7 @@ async function Cards() {
       </header>
       <section className="grid grid-cols-6 gap-8">
         <aside className="">
-          <PrecedentAside />
+          <PrecedentAside currentSearchParams={currentSearchParams} />
         </aside>
         <article className="col-span-5">
           <ul className="grid grid-cols-3 gap-6">
@@ -80,42 +102,4 @@ function sortPrecedents(precedents: Precedent[]): Precedent[] {
       return a.is_archived ? 1 : -1
     }
   })
-}
-
-// Define a type for the option items
-type Option = {
-  label: string
-  value: string
-}
-
-const PrecedentAside: FC = () => {
-  const options: Option[] = [
-    { label: "All Templates", value: "all" },
-    { label: "Active Only", value: "active" },
-  ]
-
-  return (
-    <div className="">
-      <h3 className="mb-4 ml-2 flex justify-evenly rounded-lg bg-gray-50  p-2">
-        <CaretDownIcon className="mt-1" />
-        <div className="text-base font-semibold">Filter Options</div>
-      </h3>
-
-      <ul className="font-sansserif ml-2 flex flex-col gap-y-4 border-l">
-        {options.map((option: Option, index) => {
-          return (
-            <li
-              key={index}
-              className="group flex justify-between rounded-r-lg border-transparent py-2 pl-2 transition duration-300 hover:cursor-pointer hover:border-l-4 hover:border-primary hover:bg-gray-50 hover:font-semibold"
-            >
-              <div className="">{option.label}</div>
-              <div className="invisible group-hover:visible">
-                <CaretRightIcon className="mt-1 h-4 w-4" />
-              </div>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
-  )
 }

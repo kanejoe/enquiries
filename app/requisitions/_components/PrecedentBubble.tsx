@@ -75,52 +75,5 @@ export function PrecedentBubble({ precedent }: { precedent: Precedent }) {
         ) : null}
       </div>
     </div>
-
-    // <div className="flex items-center justify-between gap-x-6 px-2 py-5 hover:bg-gray-50">
-    //   <div className="min-w-0">
-    //     <div className="flex items-start gap-x-3">
-    //       <p
-    //         className={`text-lg leading-6 ${
-    //           precedent.is_archived
-    //             ? "text-gray-400 "
-    //             : "font-semibold text-gray-700"
-    //         }`}
-    //       >
-    //         {precedent.name}
-    //       </p>
-
-    //       <p
-    //         className={cn(
-    //           precedent.is_archived
-    //             ? statuses.Archived
-    //             : statuses["In progress"],
-    //           "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
-    //         )}
-    //       >
-    //         {precedent.is_archived ? "Archived" : "Being Generated"}
-    //       </p>
-    //     </div>
-    //     <div className="">
-    //       <p
-    //         className={`text-base leading-6 ${
-    //           precedent.is_archived ? "text-gray-400" : "text-gray-600"
-    //         }`}
-    //       >
-    //         {precedent.subname}
-    //       </p>
-    //     </div>
-    //     <div className="h-0 w-12 border border-muted"></div>
-
-    //   </div>
-    //   <div className="flex flex-none items-center gap-x-4">
-    //     <Link
-    //       href={`/requisitions/${precedent.id}`}
-    //       className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
-    //     >
-    //       View
-    //       <span className="sr-only">, {precedent.name}</span>
-    //     </Link>
-    //   </div>
-    // </div>
   )
 }
