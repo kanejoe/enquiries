@@ -1,12 +1,12 @@
-import { Suspense } from "react"
+import { FC, Suspense } from "react"
+import { ArrowRightIcon, CaretRightIcon } from "@radix-ui/react-icons"
+import { Options } from "use-debounce"
 
 import { Precedent } from "@/types/RequisitionType"
 
 import { getAllPrecedents } from "./_actions/query"
 import { LinkWrapper } from "./_components/LinkWrapper"
-// import { PrecedentCard } from "./_components/PrecedentCard"
 import { PrecedentBubble } from "./_components/PrecedentBubble"
-import { PrecedentList } from "./_components/PrecedentList"
 
 export default async function ServerComponent() {
   return (
@@ -32,32 +32,30 @@ async function Cards() {
 
   return (
     <section className="mt-8">
-      <ul className="grid grid-cols-3 gap-6">
-        {precedents.map((precedent) => {
-          return (
-            <li key={precedent.id}>
-              <LinkWrapper href={`requisitions/${precedent.id}`}>
-                <PrecedentBubble precedent={precedent} />
-              </LinkWrapper>
-            </li>
-          )
-        })}
-      </ul>
-      {/* <ul role="list" className="divide-y divide-gray-100">
-        {precedents
-          // .filter((p) => p?.is_archived === false)
-          .map((precedent) => {
-            if (precedent !== null) {
+      <header className="my-4">
+        <h1 className="text-2xl font-semibold">
+          Precedent Templates and Requisitions
+        </h1>
+        <h2 className="text-lg">Select a precedent</h2>
+      </header>
+      <section className="grid grid-cols-6 gap-8">
+        <aside className="">
+          <PrecedentAside />
+        </aside>
+        <article className="col-span-5">
+          <ul className="grid grid-cols-3 gap-6">
+            {precedents.map((precedent) => {
               return (
-                <li key={precedent.id} className="">
+                <li key={precedent.id}>
                   <LinkWrapper href={`requisitions/${precedent.id}`}>
-                    <PrecedentList precedent={precedent} />
+                    <PrecedentBubble precedent={precedent} />
                   </LinkWrapper>
                 </li>
               )
-            }
-          })}
-      </ul> */}
+            })}
+          </ul>
+        </article>
+      </section>
     </section>
   )
 }
@@ -78,4 +76,35 @@ function sortPrecedents(precedents: Precedent[]): Precedent[] {
       return a.is_archived ? 1 : -1
     }
   })
+}
+
+// Define a type for the option items
+type Option = {
+  label: string
+  value: string
+}
+
+const PrecedentAside: FC = () => {
+  const options: Option[] = [
+    { label: "All Templates", value: "all" },
+    { label: "Active Only", value: "active" },
+  ]
+
+  return (
+    <ul className="font-sansserif flex flex-col gap-y-4">
+      {options.map((option: Option, index) => {
+        return (
+          <li
+            key={index}
+            className="flex justify-between rounded-lg bg-gray-50/50 p-2"
+          >
+            <div className="">{option.label}</div>
+            <div className="">
+              <CaretRightIcon className="mt-1 h-4 w-4" />
+            </div>
+          </li>
+        )
+      })}
+    </ul>
+  )
 }
