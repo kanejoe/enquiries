@@ -1,7 +1,7 @@
 "use client"
 
 import { FC, MouseEvent } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { CaretDownIcon, CaretRightIcon } from "@radix-ui/react-icons"
 
 // Define a type for the option items
@@ -18,6 +18,7 @@ export const PrecedentAside: FC<PrecedentAsideProps> = ({
   currentSearchParams,
 }) => {
   const router = useRouter()
+  //   const searchParams = useSearchParams()
 
   const options: Option[] = [
     { label: "All Templates", value: "all" },
@@ -36,9 +37,11 @@ export const PrecedentAside: FC<PrecedentAsideProps> = ({
 
   return (
     <div className="">
-      <h3 className="mb-4 ml-2 flex justify-evenly rounded-lg bg-gray-50  p-2">
+      <h3 className="mb-4 ml-2 flex justify-evenly rounded-lg bg-gray-50 p-2">
         <CaretDownIcon className="mt-1" />
-        <div className="text-base font-semibold">Filter Options</div>
+        <div className="border-b-2 border-primary text-base font-semibold">
+          Filter Options
+        </div>
       </h3>
 
       <ul className="font-sansserif ml-2 flex flex-col gap-y-4 border-l">
@@ -47,7 +50,7 @@ export const PrecedentAside: FC<PrecedentAsideProps> = ({
             <li
               onClick={handleClick(option.value)}
               key={index}
-              className={`group flex justify-between rounded-r-lg  py-2 pl-2 transition duration-500 hover:cursor-pointer hover:bg-gray-50 hover:font-semibold ${
+              className={`group flex justify-between rounded-r-lg py-2 pl-2 transition duration-500 hover:cursor-pointer hover:bg-gray-50 hover:font-semibold ${
                 currentActiveLink === option.value
                   ? "border-l-4 border-primary bg-gray-50 font-semibold"
                   : "border-transparent text-gray-500"

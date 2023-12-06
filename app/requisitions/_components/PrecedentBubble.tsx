@@ -1,5 +1,4 @@
 import Image from "next/image"
-import Link from "next/link"
 import { format as fdate, parseISO } from "date-fns"
 
 import { Precedent } from "@/types/RequisitionType"

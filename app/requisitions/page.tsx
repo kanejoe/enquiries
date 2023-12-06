@@ -5,8 +5,10 @@ import { Precedent } from "@/types/RequisitionType"
 
 import { getAllPrecedents } from "./_actions/query"
 import { LinkWrapper } from "./_components/LinkWrapper"
+import { MotionWrapper } from "./_components/MotionWrapper"
 import { PrecedentAside } from "./_components/PrecedentAside"
 import { PrecedentBubble } from "./_components/PrecedentBubble"
+import { FilterOptions, filterPrecedents } from "./filters"
 
 export default async function ServerComponent({
   searchParams,
@@ -45,38 +47,55 @@ async function Cards({
 }: {
   currentSearchParams: URLSearchParams
 }) {
-  let unsortedPrecedents = await getAllPrecedents()
-  if (!unsortedPrecedents) {
-    return <div>no precedents...</div>
+  // Fetch all precedents from a data source
+  const fetchedPrecedents = await getAllPrecedents()
+  if (!fetchedPrecedents) {
+    return <div>No precedents available...</div>
   }
 
-  // Filter out null values before sorting
-  const filteredPrecedents = unsortedPrecedents.filter(
-    (item): item is Precedent => item !== null
+  // Remove any null values from the fetched data
+  const nonNullPrecedents = fetchedPrecedents.filter(
+    (precedent): precedent is Precedent => precedent !== null
   )
-  const precedents = sortPrecedents(filteredPrecedents)
+
+  // Sort the non-null precedents for further processing
+  const sortedPrecedents = sortPrecedents(nonNullPrecedents)
+
+  // Retrieve the current filter parameter from search params
+  const currentFilter = currentSearchParams.get("filter") ?? "all"
+
+  let filterOptions: FilterOptions
+
+  if (currentFilter === "all" || currentFilter === "active") {
+    filterOptions = { filterType: currentFilter }
+  } else {
+    // Assuming currentFilter holds the name of the creator for the 'createdBy' filter
+    filterOptions = { filterType: "createdBy", createdBy: currentFilter }
+  }
+
+  const displayPrecedents = filterPrecedents(sortedPrecedents, filterOptions)
 
   return (
     <section className="mt-8">
-      <header className="my-4">
+      <header className="my-8">
         <h1 className="text-2xl font-semibold">
           Precedent Templates and Requisitions
         </h1>
         <h2 className="text-lg">Select a precedent</h2>
       </header>
-      <section className="grid grid-cols-6 gap-8">
+      <section className="grid grid-cols-6 gap-12">
         <aside className="">
           <PrecedentAside currentSearchParams={currentSearchParams} />
         </aside>
         <article className="col-span-5">
           <ul className="grid grid-cols-3 gap-6">
-            {precedents.map((precedent) => {
+            {displayPrecedents.map((precedent) => {
               return (
-                <li key={precedent.id}>
+                <MotionWrapper key={precedent.id}>
                   <LinkWrapper href={`requisitions/${precedent.id}`}>
                     <PrecedentBubble precedent={precedent} />
                   </LinkWrapper>
-                </li>
+                </MotionWrapper>
               )
             })}
           </ul>
