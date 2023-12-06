@@ -1,5 +1,8 @@
 import Image from "next/image"
+import { WrenchScrewdriverIcon } from "@heroicons/react/20/solid"
+import { ArchiveIcon } from "@radix-ui/react-icons"
 import { format as fdate, parseISO } from "date-fns"
+import { WrenchIcon } from "lucide-react"
 
 import { Precedent } from "@/types/RequisitionType"
 import { Badge } from "@/components/ui/badge"
@@ -38,8 +41,16 @@ export function PrecedentBubble({ precedent }: { precedent: Precedent }) {
   return (
     <div className="relative rounded-xl border border-muted bg-gradient-to-tl from-gray-100/50 p-4 shadow-sm transition hover:bg-gradient-to-br hover:from-gray-200/50 hover:shadow-sm hover:shadow-muted-foreground">
       <div className="absolute right-4 top-2">
-        {precedent.is_archived ? (
-          <Badge variant="default">Archived</Badge>
+        {precedent.is_locked ? (
+          <Badge className="inline-flex items-center gap-x-1.5 bg-yellow-50 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-100">
+            <WrenchScrewdriverIcon className="h-3 w-3 text-yellow-800" />
+            Under Development
+          </Badge>
+        ) : precedent.is_archived ? (
+          <Badge className="inline-flex items-center gap-x-1.5 bg-gray-50 text-xs font-medium text-gray-800 ring-1 ring-inset ring-gray-600/20 hover:bg-gray-100">
+            <ArchiveIcon className="h-3 w-3 text-gray-800" />
+            Archived
+          </Badge>
         ) : null}
       </div>
       <div className="mb-4">

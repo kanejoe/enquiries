@@ -88,7 +88,7 @@ async function Cards({
           <PrecedentAside currentSearchParams={currentSearchParams} />
         </aside>
         <article className="col-span-5">
-          <ul className="grid grid-cols-3 gap-6">
+          <ul className="grid grid-cols-3 gap-8">
             {displayPrecedents.map((precedent) => {
               return (
                 <MotionWrapper key={precedent.id}>
