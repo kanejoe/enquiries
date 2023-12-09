@@ -7,7 +7,7 @@ interface CreateReqLayoutProps {
 const CreateRequisitionLayout: FC<CreateReqLayoutProps> = async ({
   children,
 }) => {
-  return <main className="font-albertsans">{children}</main>
+  return <>{children}</>
 }
 
 export default CreateRequisitionLayout

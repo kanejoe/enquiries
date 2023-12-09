@@ -5,7 +5,7 @@ import { waitABit } from "@/lib/waitABit"
 export async function getPrecedentById(
   precedentId: number
 ): Promise<GetPrecedentResponse> {
-  // await waitABit(3000)
+  await waitABit(200)
   const supabase = createServerClient()
 
   const { data: precedent, error: errorItems } = await supabase

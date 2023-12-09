@@ -39,15 +39,15 @@ export function PrecedentBubble({ precedent }: { precedent: Precedent }) {
   const formattedDate = fdate(created_date, "dd MMM yyyy") // '26 Nov 2022'
 
   return (
-    <div className="relative rounded-xl border border-muted bg-gradient-to-tl from-gray-100/50 p-4 shadow-sm transition hover:bg-gradient-to-br hover:from-gray-200/50 hover:shadow-sm hover:shadow-muted-foreground">
+    <div className="relative rounded-xl border border-muted bg-gradient-to-tl from-gray-100 p-4 shadow-sm transition hover:bg-gradient-to-br hover:from-gray-200/50 hover:shadow-sm hover:shadow-muted-foreground">
       <div className="absolute right-4 top-2">
         {precedent.is_locked ? (
-          <Badge className="inline-flex items-center gap-x-1.5 bg-yellow-50 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-100">
+          <Badge className="inline-flex items-center gap-x-1.5 bg-yellow-50 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 small-caps hover:bg-yellow-100">
             <WrenchScrewdriverIcon className="h-3 w-3 text-yellow-800" />
             Under Development
           </Badge>
         ) : precedent.is_archived ? (
-          <Badge className="inline-flex items-center gap-x-1.5 bg-gray-50 text-xs font-medium text-gray-800 ring-1 ring-inset ring-gray-600/20 hover:bg-gray-100">
+          <Badge className="inline-flex items-center gap-x-1.5 bg-gray-50 text-xs font-medium text-gray-800 ring-1 ring-gray-600/20 hover:bg-gray-100">
             <ArchiveIcon className="h-3 w-3 text-gray-800" />
             Archived
           </Badge>
@@ -62,7 +62,7 @@ export function PrecedentBubble({ precedent }: { precedent: Precedent }) {
           className="h-16 w-16 flex-shrink-0 rounded-full bg-white p-2 ring-1 ring-muted"
         />
       </div>
-      <div className="text-lg font-semibold leading-6">{precedent.name}</div>
+      <div className="text-xl font-semibold leading-6">{precedent.name}</div>
       <div className="text-base leading-8 text-muted-foreground">
         {precedent.subname}
       </div>
