@@ -2,10 +2,14 @@ import { format } from "path"
 import { FC, Suspense } from "react"
 import type { Metadata, ResolvingMetadata } from "next"
 
-import { Precedent } from "@/types/RequisitionType"
+import { EnhancedRequisition, Precedent } from "@/types/RequisitionType"
+import { createRequisitionTree, getHeaderNodes } from "@/lib/tree"
 
 import { getPrecedentById } from "../_actions/query"
 import { PrecedentBubble } from "../_components/PrecedentBubble"
+import { ReqHeadingList } from "../_components/ReqHeadings"
+import { RequisitionStats } from "../_components/RequisitionStats"
+import { UnderDevelopment } from "../_components/UnderDevelopment"
 import Header from "./Header"
 import { HeaderWrapper } from "./HeaderWrapper"
 import Loading from "./loading"
@@ -49,26 +53,42 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = async ({
     return <div className="">no precedent or precedentId</div>
   }
 
+  const requiredRequisitionsCount = precedent.requisitions.filter(
+    (req) => req.is_required === true
+  ).length
+
+  const requisitionTree = createRequisitionTree(
+    precedent.requisitions as EnhancedRequisition[]
+  )
+  const headerNodes = getHeaderNodes(requisitionTree)
+  // console.log("🚀 ~ file: page.tsx:59 ~ headerNodes:", headerNodes)
+
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <main className="container mt-8 grid h-[calc(100vh-13rem)] grid-cols-6 grid-rows-6 gap-12">
-          <section className="col-span-2 row-span-6">
+        <main className="grid-rows-12 container mt-8 grid h-[calc(100vh-13rem)] grid-cols-12 gap-x-12 gap-y-4">
+          <section className="col-span-3 row-span-full">
             <div className="grid grid-cols-1 grid-rows-6 gap-y-12">
               <div className="col-span-full row-span-3">
                 <PrecedentBubble precedent={precedent} />
               </div>
               <div className="col-span-full row-span-3">
                 <section className="col-span-2 row-span-4">
-                  stats section
+                  <RequisitionStats totalReqs={requiredRequisitionsCount} />
                 </section>
               </div>
             </div>
           </section>
-          <section className="col-span-4 row-span-1">options</section>
-          <section className="col-span-1 row-span-6">headings list</section>
+          <section className="col-span-9 row-span-1 ">
+            <UnderDevelopment />
+          </section>
+          <section className="row-end-12 col-span-3 row-start-3">
+            <ReqHeadingList headerNodes={headerNodes} />
+          </section>
 
-          <section className="col-span-3 row-span-4">main body</section>
+          <section className="row-end-12 col-span-6 row-start-3">
+            main body
+          </section>
         </main>
       </Suspense>
       {/* {precedentId ? (
