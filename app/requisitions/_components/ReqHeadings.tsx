@@ -20,10 +20,14 @@ export const ReqHeadingList: FC<RequisitionHeadingListProps> = ({
   headingId,
 }) => {
   return (
-    <div className="h-full bg-gray-50 px-4 py-4">
+    <div className="h-full overflow-y-scroll rounded-xl bg-transparent shadow-sm scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 scrollbar-corner-gray-600">
       <ul role="list">
         {headerNodes.map((req, index) => (
-          <li key={req.id} className="group mb-0.5" title={req.query ?? ""}>
+          <li
+            key={req.id}
+            className="group mb-0.5 border-b border-gray-100 px-2 py-1 transition last:border-b-0 hover:bg-gradient-to-br hover:from-gray-200/30 hover:font-semibold hover:text-gray-700"
+            title={req.query ?? ""}
+          >
             {req.id === headingId ? (
               <ActiveRoute req={req} />
             ) : (
@@ -50,12 +54,12 @@ function InactiveRoute({ req }: { req: PartialReq }) {
       className="flex flex-row space-x-4 rounded-lg bg-transparent p-2 text-sm"
       onClick={handleClick}
     >
-      <div className="ml- flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-white text-gray-500 shadow-sm">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 bg-primary-foreground text-white shadow-sm">
         <span className="text-sm font-semibold tabular-nums">
           {req.sequence}
         </span>
       </div>
-      <div className="mt-1 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 text-base text-gray-500 transition group-hover:cursor-pointer group-hover:text-gray-700">
+      <div className="mt-1 flex-1 overflow-hidden text-ellipsis whitespace-nowrap pr-1 text-base text-gray-800 transition group-hover:cursor-pointer group-hover:text-gray-700">
         {req.query}
       </div>
       <div className="relative w-1 opacity-0 group-hover:opacity-100">

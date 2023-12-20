@@ -66,7 +66,7 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = async ({
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <main className="grid-rows-12 container mt-8 grid h-[calc(100vh-13rem)] grid-cols-12 gap-x-12 gap-y-4">
+        <main className="container mt-8 grid h-[calc(100vh-13rem)] grid-cols-12 grid-rows-12 gap-x-12 gap-y-4">
           <section className="col-span-3 row-span-full">
             <div className="grid grid-cols-1 grid-rows-6 gap-y-12">
               <div className="col-span-full row-span-3">
@@ -82,11 +82,11 @@ const CreateReqLayout: FC<CreateReqLayoutProps> = async ({
           <section className="col-span-9 row-span-1 ">
             <UnderDevelopment />
           </section>
-          <section className="row-end-12 col-span-3 row-start-3">
+          <section className="col-span-3 row-start-3 row-end-12">
             <ReqHeadingList headerNodes={headerNodes} />
           </section>
 
-          <section className="row-end-12 col-span-6 row-start-3">
+          <section className="col-span-6 row-start-3 row-end-12">
             main body
           </section>
         </main>

@@ -82,24 +82,6 @@ module.exports = {
       fontFamily: {
         albertsans: ["var(--font-albert-sans)"],
       },
-      gridTemplateRows: {
-        // Simple 12 row grid
-        "12": "repeat(12, minmax(0, 1fr))",
-      },
-      gridRowStart: {
-        "8": "8",
-        "9": "9",
-        "10": "10",
-        "11": "11",
-        "12": "12",
-      },
-      gridRowEnd: {
-        "8": "8",
-        "9": "9",
-        "10": "10",
-        "11": "11",
-        "12": "12",
-      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
