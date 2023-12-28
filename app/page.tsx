@@ -53,6 +53,13 @@ export default function PropertiesPage() {
         "Chat with Hacker News using natural language. Built with OpenAI Functions and Vercel AI SDK.",
       created: "September 2023",
     },
+    {
+      key: 5,
+      folder: "copilot-textarea",
+      title: "Copilot-Textarea",
+      summary: "https://docs.copilotkit.ai/getting-started/quickstart-textarea",
+      created: "September 2023",
+    },
   ]
 
   return (
