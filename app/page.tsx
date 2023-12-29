@@ -58,7 +58,14 @@ export default function PropertiesPage() {
       folder: "copilot-textarea",
       title: "Copilot-Textarea",
       summary: "https://docs.copilotkit.ai/getting-started/quickstart-textarea",
-      created: "September 2023",
+      created: "27 December 2023",
+    },
+    {
+      key: 6,
+      folder: "rag",
+      title: "RAG",
+      summary: "Retrieval Augmented Generation",
+      created: "27 December 2023",
     },
   ]
 
