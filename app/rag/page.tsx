@@ -1,6 +1,8 @@
 import { FC } from "react"
 import type { Metadata } from "next"
 
+import { TOC } from "./toc"
+
 export const metadata: Metadata = {
   title: "Retrieval Augmented Generation",
   description: "Retrieval Augmented Generation - a new way to generate text",
@@ -13,6 +15,9 @@ const RetrievalAugmentedGenerationPage: FC = () => {
         Retrieval Augmented Generation
       </h1>
       {/* Add your content here */}
+      <div className="mt-8 w-128">
+        <TOC />
+      </div>
     </div>
   )
 }

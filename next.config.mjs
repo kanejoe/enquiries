@@ -11,6 +11,11 @@ const nextConfig = {
   },
   webpack(config) {
     config.externals = [...config.externals, "canvas", "jsdom"]
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      sharp$: false,
+      "onnxruntime-node$": false,
+    }
     return config
   },
 }
