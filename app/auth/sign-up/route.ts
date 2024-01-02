@@ -20,6 +20,7 @@ export async function POST(request: Request) {
   })
 
   if (error) {
+    console.log("🚀 ~ file: route.ts:23 ~ POST ~ error:", error)
     return NextResponse.redirect(
       `${requestUrl.origin}/login?error=Could not authenticate user`,
       {

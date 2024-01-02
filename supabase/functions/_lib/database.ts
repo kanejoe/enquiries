@@ -34,13 +34,399 @@ export interface Database {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      document_sections: {
+        Row: {
+          content: string
+          document_id: number
+          embedding: string | null
+          id: number
+        }
+        Insert: {
+          content: string
+          document_id: number
+          embedding?: string | null
+          id?: never
+        }
+        Update: {
+          content?: string
+          document_id?: number
+          embedding?: string | null
+          id?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_sections_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_sections_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents_with_storage_path"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_sections_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents_with_storage_path_and_created_by_email"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      documents: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: number
+          name: string
+          storage_object_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          id?: never
+          name: string
+          storage_object_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: never
+          name?: string
+          storage_object_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_storage_object_id_fkey"
+            columns: ["storage_object_id"]
+            isOneToOne: false
+            referencedRelation: "objects"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      precedents: {
+        Row: {
+          asset_id: number | null
+          created_at: string | null
+          created_by: string | null
+          id: number
+          is_archived: boolean | null
+          is_locked: boolean
+          name: string
+          subname: string
+        }
+        Insert: {
+          asset_id?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: never
+          is_archived?: boolean | null
+          is_locked?: boolean
+          name: string
+          subname: string
+        }
+        Update: {
+          asset_id?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: never
+          is_archived?: boolean | null
+          is_locked?: boolean
+          name?: string
+          subname?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          email: string
+          first_name: string | null
+          id: string
+          initials: string | null
+          last_name: string | null
+        }
+        Insert: {
+          email: string
+          first_name?: string | null
+          id: string
+          initials?: string | null
+          last_name?: string | null
+        }
+        Update: {
+          email?: string
+          first_name?: string | null
+          id?: string
+          initials?: string | null
+          last_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      properties: {
+        Row: {
+          category: string | null
+          created_at: string
+          eircode: string | null
+          id: number
+          is_archived: boolean | null
+          property: string | null
+          status: string | null
+          vendor: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          eircode?: string | null
+          id?: number
+          is_archived?: boolean | null
+          property?: string | null
+          status?: string | null
+          vendor?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          eircode?: string | null
+          id?: number
+          is_archived?: boolean | null
+          property?: string | null
+          status?: string | null
+          vendor?: string | null
+        }
+        Relationships: []
+      }
+      requisitions: {
+        Row: {
+          has_doc: boolean
+          id: number
+          is_applicable: boolean
+          is_archived: boolean | null
+          is_complete: boolean
+          is_flagged: boolean
+          is_locked: boolean
+          is_required: boolean
+          parent_id: number | null
+          precedent_id: number | null
+          query: string | null
+          reply: string | null
+          sequence: number
+        }
+        Insert: {
+          has_doc?: boolean
+          id?: never
+          is_applicable?: boolean
+          is_archived?: boolean | null
+          is_complete?: boolean
+          is_flagged?: boolean
+          is_locked?: boolean
+          is_required?: boolean
+          parent_id?: number | null
+          precedent_id?: number | null
+          query?: string | null
+          reply?: string | null
+          sequence?: number
+        }
+        Update: {
+          has_doc?: boolean
+          id?: never
+          is_applicable?: boolean
+          is_archived?: boolean | null
+          is_complete?: boolean
+          is_flagged?: boolean
+          is_locked?: boolean
+          is_required?: boolean
+          parent_id?: number | null
+          precedent_id?: number | null
+          query?: string | null
+          reply?: string | null
+          sequence?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "requisitions_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "requisitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "requisitions_precedent_id_fkey"
+            columns: ["precedent_id"]
+            isOneToOne: false
+            referencedRelation: "precedents"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      documents_with_storage_path: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: number | null
+          name: string | null
+          storage_object_id: string | null
+          storage_object_path: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_storage_object_id_fkey"
+            columns: ["storage_object_id"]
+            isOneToOne: false
+            referencedRelation: "objects"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      documents_with_storage_path_and_created_by_email: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          created_by_email: string | null
+          id: number | null
+          name: string | null
+          storage_object_id: string | null
+          storage_object_path: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_storage_object_id_fkey"
+            columns: ["storage_object_id"]
+            isOneToOne: false
+            referencedRelation: "objects"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Functions: {
-      [_ in never]: never
+      adjust_sequence: {
+        Args: {
+          p_parent_id: number
+          p_new_sequence: number
+          p_old_sequence: number
+        }
+        Returns: undefined
+      }
+      hnswhandler: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      inc_sequence: {
+        Args: {
+          p_parent_id: number
+          p_sequence_threshold: number
+        }
+        Returns: undefined
+      }
+      insert_and_resequence: {
+        Args: {
+          p_query: string
+          p_parent_id: number
+          p_sequence: number
+        }
+        Returns: undefined
+      }
+      ivfflathandler: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      update_requisition:
+        | {
+            Args: {
+              p_id: number
+              p_parent_id: number
+              p_old_sequence: number
+              p_new_sequence: number
+              p_query: string
+            }
+            Returns: undefined
+          }
+        | {
+            Args: {
+              p_id: number
+              p_parent_id: number
+              p_old_sequence: number
+              p_new_sequence: number
+              p_query: string
+              p_is_required: boolean
+            }
+            Returns: undefined
+          }
+      vector_avg: {
+        Args: {
+          "": number[]
+        }
+        Returns: string
+      }
+      vector_dims: {
+        Args: {
+          "": string
+        }
+        Returns: number
+      }
+      vector_norm: {
+        Args: {
+          "": string
+        }
+        Returns: number
+      }
+      vector_out: {
+        Args: {
+          "": string
+        }
+        Returns: unknown
+      }
+      vector_send: {
+        Args: {
+          "": string
+        }
+        Returns: string
+      }
+      vector_typmod_in: {
+        Args: {
+          "": unknown[]
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
