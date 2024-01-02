@@ -35,6 +35,8 @@ export default function FilesPage() {
     },
     retry: false,
   })
+  console.log("🚀 ~ file: page.tsx:38 ~ FilesPage ~ isPending:", isPending)
+  console.log("🚀 ~ file: page.tsx:38 ~ FilesPage ~ documents:", documents)
 
   return (
     <div className="container">
@@ -64,7 +66,7 @@ export default function FilesPage() {
                   return
                 }
 
-                router.push("/rag/chat")
+                // router.push("/rag/chat")
               }
             }}
           />
