@@ -24,7 +24,19 @@ export function FilesTable({ documents }: { documents: Document[] }) {
   const supabase = createClientComponentClient<Database>()
 
   const selectDocument = (document: Document) => async () => {
-    console.log(document)
+    const { data, error } = await supabase.storage
+      .from("files")
+      .createSignedUrl(document.storage_object_path || "", 60)
+
+    if (error) {
+      console.log(
+        "🚀 ~ file: filesTable.tsx:33 ~ selectDocument ~ error",
+        error
+      )
+      return
+    }
+
+    // window.location.href = data.signedUrl
   }
 
   return (
@@ -45,8 +57,8 @@ export function FilesTable({ documents }: { documents: Document[] }) {
             <TableRow key={document.id}>
               <TableCell>{getIconForFileType(document.name || "")}</TableCell>
               <TableCell
-                onClick={() => selectDocument(document)}
-                className="font-medium hover:cursor-pointer"
+                onClick={selectDocument(document)}
+                className="font-medium hover:cursor-pointer hover:text-blue-800 hover:underline"
               >
                 {document.name}
               </TableCell>
@@ -63,7 +75,7 @@ export function FilesTable({ documents }: { documents: Document[] }) {
                 {document.created_by_email ? (
                   <Badge variant="outline">{document.created_by_email}</Badge>
                 ) : (
-                  ""
+                  "-"
                 )}
               </TableCell>
             </TableRow>

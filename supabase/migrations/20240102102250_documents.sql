@@ -6,15 +6,6 @@ create table documents (
   created_at timestamp with time zone not null default now()
 );
 
-create view documents_with_storage_path
-with (security_invoker=true)
-as
-  select 
-    documents.*, 
-    storage.objects.name as storage_object_path
-  from documents
-  join storage.objects
-    on storage.objects.id = documents.storage_object_id;
 
 create view documents_with_storage_path_and_created_by_email
 with (security_invoker=true)

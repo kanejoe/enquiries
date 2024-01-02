@@ -65,13 +65,6 @@ export interface Database {
             foreignKeyName: "document_sections_document_id_fkey"
             columns: ["document_id"]
             isOneToOne: false
-            referencedRelation: "documents_with_storage_path"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "document_sections_document_id_fkey"
-            columns: ["document_id"]
-            isOneToOne: false
             referencedRelation: "documents_with_storage_path_and_created_by_email"
             referencedColumns: ["id"]
           }
@@ -279,32 +272,6 @@ export interface Database {
       }
     }
     Views: {
-      documents_with_storage_path: {
-        Row: {
-          created_at: string | null
-          created_by: string | null
-          id: number | null
-          name: string | null
-          storage_object_id: string | null
-          storage_object_path: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "documents_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "documents_storage_object_id_fkey"
-            columns: ["storage_object_id"]
-            isOneToOne: false
-            referencedRelation: "objects"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       documents_with_storage_path_and_created_by_email: {
         Row: {
           created_at: string | null

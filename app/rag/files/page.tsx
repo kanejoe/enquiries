@@ -53,10 +53,6 @@ export default function FilesPage() {
               const selectedFile = e.target.files?.[0]
 
               if (selectedFile) {
-                console.log(
-                  "🚀 ~ file: page.tsx:55 ~ onChange={ ~ selectedFile:",
-                  selectedFile
-                )
                 const { error } = await supabase.storage
                   .from("files")
                   .upload(
@@ -65,6 +61,10 @@ export default function FilesPage() {
                   )
 
                 if (error) {
+                  console.log(
+                    "🚀 ~ file: page.tsx:65 ~ onChange={ ~ error:",
+                    error
+                  )
                   toast({
                     variant: "destructive",
                     description:
