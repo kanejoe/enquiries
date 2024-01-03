@@ -32,6 +32,20 @@ on documents for select to authenticated using (
   auth.uid() = created_by
 );
 
+-- Create a function to get the supabase_url from the vault
+create function supabase_url()
+returns text
+language plpgsql
+security definer
+as $$
+declare
+  secret_value text;
+begin
+  select decrypted_secret into secret_value from vault.decrypted_secrets where name = 'supabase_url';
+  return secret_value;
+end;
+$$;
+
 -- Create a trigger to process new documents when they're inserted.
 create function private.handle_storage_update()
 returns trigger
