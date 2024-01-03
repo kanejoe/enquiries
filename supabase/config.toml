@@ -45,6 +45,7 @@ port = 54324
 file_size_limit = "50MiB"
 
 [auth]
+# enabled = false
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
 site_url = "http://localhost:3000"
@@ -103,3 +104,6 @@ port = 54327
 vector_port = 54328
 # Configure one of the supported backends: `postgres`, `bigquery`
 backend = "postgres"
+
+# [functions.process]
+# verify_jwt = false

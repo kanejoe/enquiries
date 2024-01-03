@@ -1,3 +1,4 @@
+
 create table documents (
   id bigint primary key generated always as identity,
   name text not null,
@@ -58,6 +59,19 @@ begin
   insert into documents (name, storage_object_id, created_by)
     values (new.path_tokens[2], new.id, new.owner)
     returning id into document_id;
+
+  select
+    net.http_post(
+      url := supabase_url() || '/functions/v1/process',
+      headers := jsonb_build_object(
+        'Content-Type', 'application/json',
+        'Authorization', current_setting('request.headers')::json->>'authorization'
+      ),
+      body := jsonb_build_object(
+        'document_id', document_id
+      )
+    )
+  into result;
 
   return null;
 end;
