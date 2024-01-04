@@ -3,10 +3,9 @@
 // This enables autocomplete, go to definition, etc.
 
 import { createClient } from "@supabase/supabase-js"
+import PDFLoader from "pdfLoader"
 
 import { Database } from "../_lib/database.ts"
-
-// import { processMarkdown } from "../_lib/markdown-parser.ts"
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL")
 const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")
@@ -81,7 +80,13 @@ Deno.serve(async (req) => {
     )
   }
 
-  const fileContents = await file.text()
+  const _loader = new PDFLoader(file, {
+    splitPages: false,
+  })
+  // const docs = await loader.load()
+  // console.log("🚀 ~ file: index.ts:87 ~ Deno.serve ~ docs:", docs)
+
+  // const _fileContents = await file.text()
 
   return new Response(null, {
     status: 204,
