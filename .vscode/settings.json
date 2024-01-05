@@ -4,5 +4,9 @@
     "editor.quickSuggestions": {
         "strings": true
     },
-    "css.validate": false
+    "css.validate": false,
+    "deno.enablePaths": [
+        "./supabase/functions"
+    ],
+    "deno.importMap": "./supabase/functions/import_map.json"
 }
