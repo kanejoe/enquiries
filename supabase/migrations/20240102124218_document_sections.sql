@@ -14,28 +14,28 @@ create table document_sections (
 
 -- Set up Row Level Security (RLS)
 -- See https://supabase.com/docs/guides/auth/row-level-security for more details.
-alter table document_sections 
-  enable row level security;
+-- alter table document_sections 
+--   enable row level security;
 
 -- Create a policy to allow authenticated users to insert document sections
-create policy "Users can insert document sections"
-on document_sections for insert to authenticated with check (
-  document_id in (
-    select id
-    from documents
-    where created_by = auth.uid()
-  )
-);
+-- create policy "Users can insert document sections"
+-- on document_sections for insert to authenticated with check (
+--   document_id in (
+--     select id
+--     from documents
+--     where created_by = auth.uid()
+--   )
+-- );
 
--- Create a policy to allow authenticated users to query document sections
-create policy "Users can query their own document sections"
-on document_sections for select to authenticated using (
-  document_id in (
-    select id
-    from documents
-    where created_by = auth.uid()
-  )
-);
+-- -- Create a policy to allow authenticated users to query document sections
+-- create policy "Users can query their own document sections"
+-- on document_sections for select to authenticated using (
+--   document_id in (
+--     select id
+--     from documents
+--     where created_by = auth.uid()
+--   )
+-- );
 
 -- CREATE POLICY "Allow langchain querying for authenticated users" 
 --   ON "public"."document_sections"

@@ -3,20 +3,31 @@
 // This enables autocomplete, go to definition, etc.
 
 import { createClient } from "@supabase/supabase-js"
-import { env, pipeline } from "@xenova/transformers"
+import { env } from "@xenova/transformers"
+import { Document } from "npm:langchain/document"
+import { PDFLoader } from "npm:langchain/document_loaders/fs/pdf"
+import { RecursiveCharacterTextSplitter } from "npm:langchain/text_splitter"
+import * as _pdfjs from "npm:pdf-parse"
 
 import { corsHeaders } from "../_lib/cors.ts"
 import { Database } from "../_lib/database.ts"
 
+// import { embeddingTransformer } from "../_lib/transformers.ts"
+
+type PDFPage = {
+  pageContent: string
+  metadata: {
+    loc: { pageNumber: number }
+  }
+}
+
 const supabaseUrl = Deno.env.get("SUPABASE_URL")
-console.log("🚀 ~ file: index.ts:12 ~ supabaseUrl:", supabaseUrl)
 const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")
+// const supabaseAnonKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
 
 // Configuration for Deno runtime
 env.useBrowserCache = false
 env.allowLocalModels = false
-
-const _pipe = await pipeline("feature-extraction", "Supabase/gte-small")
 
 Deno.serve(async (req) => {
   // This is needed if you're planning to invoke your function from a browser.
@@ -60,13 +71,12 @@ Deno.serve(async (req) => {
   const { document_id } = await req.json()
 
   const { data: document } = await supabaseClient
-    .from("documents")
+    .from("documents_with_storage_path_and_created_by_email")
     .select()
     .eq("id", document_id)
     .single()
-  console.log("🚀 ~ file: index.ts:57 ~ Deno.serve ~ document:", document)
 
-  if (!document) {
+  if (!document?.storage_object_path) {
     return new Response(
       JSON.stringify({ error: "Failed to find uploaded document" }),
       {
@@ -76,16 +86,73 @@ Deno.serve(async (req) => {
     )
   }
 
-  // Generate the embedding from the user input
-  // const output = await pipe(input, {
-  //   pooling: "mean",
-  //   normalize: true,
+  const { data: file } = await supabaseClient.storage
+    .from("files")
+    .download(document.storage_object_path)
+
+  if (!file) {
+    return new Response(
+      JSON.stringify({ error: "Failed to download storage object." }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+  }
+
+  const arrayBuffer = await file.arrayBuffer()
+  const uint8Array = new Uint8Array(arrayBuffer)
+  const blob = new Blob([uint8Array], { type: "application/pdf" })
+
+  const loader = new PDFLoader(blob, arrayBuffer)
+  const pages = (await loader.load()) as PDFPage[]
+  console.log("🚀 ~ file: index.ts:109 ~ Deno.serve ~ pages:", pages)
+
+  const documents = await Promise.all(pages.map(prepareDoc))
+  console.log("🚀 ~ file: index.ts:111 ~ Deno.serve ~ documents:", documents[0])
+
+  // const _sectionsToInsert = documents.map((doc) => {
+  //   console.log("🚀 ~ file: index.ts:114 ~ Deno.serve ~ doc:", doc)
   // })
 
-  // // Extract the embedding output
-  // const embedding = Array.from(output.data)
+  const sectionsToInsert = documents[0].map((doc: Document) => {
+    return {
+      document_id,
+      // page_number: doc.metadata.pageNumber,
+      metadata: doc.metadata,
+      content: doc.pageContent,
+    }
+  })
+  console.log(
+    "🚀 ~ file: index.ts:119 ~ sectionsToInsert ~ sectionsToInsert:",
+    sectionsToInsert
+  )
 
-  return new Response(JSON.stringify(document), {
+  const { error } = await supabaseClient
+    .from("document_sections")
+    .insert(sectionsToInsert)
+
+  if (error) {
+    console.error(error)
+    return new Response(
+      JSON.stringify({ error: "Failed to save document sections" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+  }
+
+  console.log(`Saved ${documents.length} sections for file '${document.name}'`)
+
+  // const fileContents = await file.text()
+  // const embedding = await embeddingTransformer(fileContents)
+
+  // split and segment the pdf
+  // const documents = await Promise.all(pages.map(prepareDoc))
+  // console.log("documents", documents)
+
+  return new Response(JSON.stringify(document_id), {
     headers: { "Content-Type": "application/json" },
   })
 })
@@ -98,6 +165,45 @@ Deno.serve(async (req) => {
   curl --request POST 'http://localhost:54321/functions/v1/embed' \
   --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
   --header 'Content-Type: application/json' \
-  --data '{ "document_id": 28 }'
+  --data '{ "document_id": 2 }'
 
 */
+
+function blobToArrayBuffer(blob: Blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsArrayBuffer(blob)
+    reader.onloadend = () => {
+      resolve(reader.result)
+    }
+    reader.onerror = (e) => {
+      reject(e)
+    }
+  })
+}
+
+export const truncateStringByBytes = (str: string, bytes: number) => {
+  const enc = new TextEncoder()
+  return new TextDecoder("utf-8").decode(enc.encode(str).slice(0, bytes))
+}
+
+async function prepareDoc(page: PDFPage) {
+  let { metadata, pageContent } = page
+  pageContent = pageContent.replace(/\n/g, "")
+  // split the docs
+  const textSplitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 36000,
+    chunkOverlap: 0,
+  })
+  // const docs = await textSplitter.createDocuments([pageContent])
+  const docs = await textSplitter.splitDocuments([
+    new Document({
+      pageContent,
+      metadata: {
+        pageNumber: metadata.loc.pageNumber,
+        text: truncateStringByBytes(pageContent, 36000),
+      },
+    }),
+  ])
+  return docs
+}

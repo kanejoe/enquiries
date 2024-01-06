@@ -9,6 +9,10 @@
     "ai": "https://esm.sh/ai@2.2.13",
     "pdfLoader": "https://esm.sh/langchain@0.0.213/document_loaders/fs/pdf",
     "pdfParser": "https://deno.land/x/pdf_parser@v1.1.2/main.js",
+    "langchain/chains": "https://esm.sh/langchain@0.0.213/chains",
+    "langchain/callback": "https://esm.sh/langchain@0.0.213/callback",
+    "langchain/prompts": "https://esm.sh/langchain@0.0.213/prompts",
+    "langchain/chat_models/openai": "https://esm.sh/langchain@0.0.213/chat_models/openai",
 
     "https://esm.sh/v132/decode-named-character-reference@1.0.2/esnext/decode-named-character-reference.mjs": "https://esm.sh/decode-named-character-reference@1.0.2?target=deno"
   }

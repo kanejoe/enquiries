@@ -9,7 +9,6 @@ import { createClient } from "@supabase/supabase-js"
 import { Database } from "../_lib/database.ts"
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL")
-console.log("🚀 ~ file: index.ts:12 ~ supabaseUrl:", supabaseUrl)
 const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")
 
 Deno.serve(async (req) => {
