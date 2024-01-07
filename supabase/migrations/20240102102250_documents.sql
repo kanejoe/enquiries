@@ -9,7 +9,7 @@ create table documents (
 
 
 create view documents_with_storage_path_and_created_by_email
--- with (security_invoker=true)
+with (security_invoker=true)
 as
   select 
     documents.*, 
@@ -21,17 +21,17 @@ as
   join profiles
     on profiles.id = documents.created_by;    
 
--- alter table documents enable row level security;
+alter table documents enable row level security;
 
--- create policy "Users can insert documents"
--- on documents for insert to authenticated with check (
---   auth.uid() = created_by
--- );
+create policy "Users can insert documents"
+on documents for insert to authenticated with check (
+  auth.uid() = created_by
+);
 
--- create policy "Users can query their own documents"
--- on documents for select to authenticated using (
---   auth.uid() = created_by
--- );
+create policy "Users can query their own documents"
+on documents for select to authenticated using (
+  auth.uid() = created_by
+);
 
 -- Create a function to get the supabase_url from the vault
 create function supabase_url()
@@ -62,7 +62,7 @@ begin
 
   select
     net.http_post(
-      url := supabase_url() || '/functions/v1/embed',
+      url := supabase_url() || '/functions/v1/process',
       headers := jsonb_build_object(
         'Content-Type', 'application/json',
         'Authorization', current_setting('request.headers')::json->>'authorization'

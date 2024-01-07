@@ -22,10 +22,10 @@ on storage.objects for insert to authenticated with check (
     private.uuid_or_null(path_tokens[1]) is not null
 );
 
--- create policy "Users can view their own files"
--- on storage.objects for select to authenticated using (
---   bucket_id = 'files' and owner = auth.uid()
--- );
+create policy "Users can view their own files"
+on storage.objects for select to authenticated using (
+  bucket_id = 'files' and owner = auth.uid()
+);
 
 create policy "All users can view files"
 on storage.objects for select to authenticated using (
