@@ -825,10 +825,10 @@
   resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-2.0.18.tgz#f80301907c243df03c7e9fd76c0286e95361f7c1"
   integrity sha512-7TyMjRrZZMBPa+/5Y8lN0iyvUU/01PeMGX2+RE7cQWpEUIcb4QotzUObFkJDejj/HUH4qjP/eQ0gzzKs2f+6Yw==
 
-"@hookform/resolvers@3.3.3":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.3.3.tgz#a90c786e5564e58a029d157347e1f2965d02e64f"
-  integrity sha512-bOMxKkSD3zWcS11TKoUQ8O0ZqKslFohvUsPKSrdCHiuEuMjRo/u3cq9YRJD/+xtNGYup++XD2LkjhegP5XENiw==
+"@hookform/resolvers@3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.3.4.tgz#de9b668c2835eb06892290192de6e2a5c906229b"
+  integrity sha512-o5cgpGOuJYrd+iMKvkttOclgwRW86EsWJZZRC23prf0uU2i48Htq4PuT73AVb9ionFyZrwYEITuOFGF+BydEtQ==
 
 "@huggingface/jinja@^0.1.0":
   version "0.1.2"
@@ -1261,22 +1261,22 @@
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.4.0.tgz#08d6c5e20cf7e4cc02fd181c4b0c225cd31dbb60"
   integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
 
-"@langchain/community@~0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@langchain/community/-/community-0.0.12.tgz#95b5ddfaef47db6a1f665959e417a706cf56057f"
-  integrity sha512-mcm6FxxnLxSx9PiYvehGGwvcHjsVR5WXfYOwymojf/6d0apyewjOLzKsR3xx0HJVtCs8pff7NZSdDoE+jj8OcA==
+"@langchain/community@~0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@langchain/community/-/community-0.0.15.tgz#ef3eb9e6bdc59a9a24441f1086f811972bf6f966"
+  integrity sha512-Dc9IqDa1BpkGQPUsOfSC/sD1a13GpEO6LVe+v4oI8wG+ncx4/5epteXsPPfhg+u/u6sK0jqaOrg18dCjQD1YYw==
   dependencies:
-    "@langchain/core" "~0.1.5"
-    "@langchain/openai" "~0.0.9"
+    "@langchain/core" "~0.1.9"
+    "@langchain/openai" "~0.0.10"
     flat "^5.0.2"
     langsmith "~0.0.48"
     uuid "^9.0.0"
     zod "^3.22.3"
 
-"@langchain/core@~0.1.5":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@langchain/core/-/core-0.1.6.tgz#4b1dfc361379d6bd45c6652418a05f051488e6d9"
-  integrity sha512-mBXsHHAWgDYJPzPNwOLWXJob3DAlO1tXBybu9cJ+zcVzixiSh/oxQ5eonTK6nlFwO6kGpaIcCD9l9+yq/WCMBg==
+"@langchain/core@~0.1.9":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@langchain/core/-/core-0.1.10.tgz#2334c64e925f095c9182fc128fc82b45bed62340"
+  integrity sha512-vSFPtTkpQ9NT3qqvRh9FN4A16m89npj9KhzZgIh976bseMfI87jS+GK6Rih3qVcB8wsStqp80E5A36ce2egl8Q==
   dependencies:
     ansi-styles "^5.0.0"
     camelcase "6"
@@ -1289,12 +1289,12 @@
     uuid "^9.0.0"
     zod "^3.22.3"
 
-"@langchain/openai@~0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@langchain/openai/-/openai-0.0.9.tgz#e84b7db0554de75fdd4a8fe12914fdc2b2d2d1f6"
-  integrity sha512-Py7rJijOjNtb9pj5He+E9uAj9d8PCX+8Ix4LvY7cUTMCDlfkhngw2DhJ8wlk23u1IvunakdnnN74pfbO2JJBrw==
+"@langchain/openai@~0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@langchain/openai/-/openai-0.0.10.tgz#5c4a960a0404e7f154d999abfa9d3427c127b518"
+  integrity sha512-74BBDsuLHT+jNlDviHPUemqiG2nm1AF8i9ta0zfkwjE9JtNITL5ZVhoCSczklipx5LzO+6etVuhjdhXcwNOfBA==
   dependencies:
-    "@langchain/core" "~0.1.5"
+    "@langchain/core" "~0.1.9"
     js-tiktoken "^1.0.7"
     openai "^4.19.0"
     zod "^3.22.3"
@@ -3014,10 +3014,10 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@xenova/transformers@2.13.2":
-  version "2.13.2"
-  resolved "https://registry.yarnpkg.com/@xenova/transformers/-/transformers-2.13.2.tgz#337e94026c3e78f00207f82f684e6658baf19e0c"
-  integrity sha512-hiQHdL+paNar7z7k4VzFVRhMALO31iDtZ40HPV4Q+oKoFNDKC1aXFP4GoRbhrRT1Ls/tSVU1DzpfQFQvCI47NA==
+"@xenova/transformers@2.13.4":
+  version "2.13.4"
+  resolved "https://registry.yarnpkg.com/@xenova/transformers/-/transformers-2.13.4.tgz#4874c628ca6a8e36c6bdb6e04a0418d8f3f7a43b"
+  integrity sha512-yk8yDvQaCTEZJsasoUj+FWEM9dVcNdDXlushzJ0KjFe2oUOJ3XqICAJz1Htz/vWtM20ErGt509EKogACGYlpxA==
   dependencies:
     "@huggingface/jinja" "^0.1.0"
     onnxruntime-web "1.14.0"
@@ -3996,10 +3996,10 @@ data-urls@^3.0.2:
     whatwg-mimetype "^3.0.0"
     whatwg-url "^11.0.0"
 
-date-fns@3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.0.6.tgz#fe3aeb7592d359f075ffc41cb16139828810ca83"
-  integrity sha512-W+G99rycpKMMF2/YD064b2lE7jJGUe+EjOES7Q8BIGY8sbNdbgcs9XFTZwvzc9Jx1f3k7LB7gZaZa7f8Agzljg==
+date-fns@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.1.0.tgz#576df8df93202942aeebd49ecc042218feb40426"
+  integrity sha512-ZO7yefXV/wCWzd3I9haCHmfzlfA3i1a2HHO7ZXjtJrRjXt8FULKJ2Vl8wji3XYF4dQ0ZJ/tokXDZeYlFvgms9Q==
 
 debug@4, debug@^4.0.0, debug@^4.1.0, debug@^4.1.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"
@@ -5089,10 +5089,10 @@ fraction.js@^4.3.6:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.6.tgz#e9e3acec6c9a28cf7bc36cbe35eea4ceb2c5c92d"
   integrity sha512-n2aZ9tNfYDwaHhvFTkhFErqOMIb8uyzSQ+vGJBjZyanAKZVbGUQ1sngfk9FdkBw7G26O7AgNjLcecLffD1c7eg==
 
-framer-motion@10.17.4:
-  version "10.17.4"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.17.4.tgz#e5a739791239ffbed52e0aea39c4ff93ed61a233"
-  integrity sha512-CYBSs6cWfzcasAX8aofgKFZootmkQtR4qxbfTOksBLny/lbUfkGbQAFOS3qnl6Uau1N9y8tUpI7mVIrHgkFjLQ==
+framer-motion@10.17.9:
+  version "10.17.9"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.17.9.tgz#d3bb15039e8bd6ba5d044a3fa181332a09cd2692"
+  integrity sha512-z2NpP8r+XuALoPA7ZVZHm/OoTnwkQNJFBu91sC86o/FYvJ4x7ar3eQnixgwYWFK7kEqOtQ6whtNM37tn1KrOOA==
   dependencies:
     tslib "^2.4.0"
   optionalDependencies:
@@ -6546,15 +6546,15 @@ kleur@^4.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
-langchain@0.0.213:
-  version "0.0.213"
-  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.0.213.tgz#52fd367d5f1a100a1cdb775ffbb98eaa5793307b"
-  integrity sha512-nQDOJXvtIAIuUzamCiF1AWyi2GH9FSDPR+3XulJUEpdU60aSFPZ9GBiWdu+dVHXeAmm8C0iCVi0+3GWLJrUoXA==
+langchain@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.1.0.tgz#f342c8b1b70c473410fa90a0557a7459b1755b98"
+  integrity sha512-PvoDzFRdukrKpaB41lNXd4zD9WnhAkTq2heqVO51T5ecOZCF86tjHS+9t3x08NOOU7yKtRN+78f6VVuMX73Jrw==
   dependencies:
     "@anthropic-ai/sdk" "^0.9.1"
-    "@langchain/community" "~0.0.12"
-    "@langchain/core" "~0.1.5"
-    "@langchain/openai" "~0.0.9"
+    "@langchain/community" "~0.0.15"
+    "@langchain/core" "~0.1.9"
+    "@langchain/openai" "~0.0.10"
     binary-extensions "^2.2.0"
     expr-eval "^2.0.2"
     js-tiktoken "^1.0.7"
@@ -6689,10 +6689,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lucide-react@0.303.0:
-  version "0.303.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.303.0.tgz#48409f43b68fc930ac74f3de24c99614a2dc05c2"
-  integrity sha512-B0B9T3dLEFBYPCUlnUS1mvAhW1craSbF9HO+JfBjAtpFUJ7gMIqmEwNSclikY3RiN2OnCkj/V1ReAQpaHae8Bg==
+lucide-react@0.307.0:
+  version "0.307.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.307.0.tgz#bf3d8e714cae8bd70f83a154ec51d07df3d78428"
+  integrity sha512-+vZ+vUiWPZTMnLHURg4aoIaz6NHOWXVVcVd8iLROu1k4LbyjcnHIKmbjXHCmulz7XAYLWRVXzhJJgIr+Aq3vOg==
 
 lucide-react@^0.274.0:
   version "0.274.0"
