@@ -64,7 +64,7 @@ Deno.serve(async (req) => {
   const { data: documents, error: matchError } = await supabase
     .rpc("match_document_sections", {
       embedding,
-      match_threshold: 0.8,
+      match_threshold: 0.6,
     })
     .select("content")
     .limit(5)
@@ -88,7 +88,7 @@ Deno.serve(async (req) => {
       ? documents.map(({ content }) => content).join("\n\n")
       : "No documents found"
 
-  console.log(injectedDocs)
+  // console.log(injectedDocs)
 
   const completionMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] =
     [
@@ -104,6 +104,9 @@ Deno.serve(async (req) => {
         If the question isn't related to these documents, say:
         "Sorry, I couldn't find any information on that."
 
+        Note that if a reference to "General Condition 34" is made in the question, 
+        "34. FAILURE TO RETURN DEPOSIT" the relevant heading will be.  You should be aware of this.
+
         If the information isn't available in the below documents, say:
         "Sorry, I couldn't find any information on that."
 
@@ -118,6 +121,7 @@ Deno.serve(async (req) => {
 
   const completionStream = await openai.chat.completions.create({
     model: "gpt-3.5-turbo-0613",
+    // model: "gpt-4",
     messages: completionMessages,
     max_tokens: 1024,
     temperature: 0,

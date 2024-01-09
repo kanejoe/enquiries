@@ -80,6 +80,7 @@ Deno.serve(async (req) => {
     })
 
     const embedding = Array.from(output.data)
+    // const embedding = JSON.stringify(Array.from(output.data))
     // console.log("🚀 ~ file: index.ts:83 ~ Deno.serve ~ embedding:", embedding)
 
     const { error } = await supabase

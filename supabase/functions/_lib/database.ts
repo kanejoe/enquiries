@@ -40,18 +40,21 @@ export interface Database {
           document_id: number
           embedding: string | null
           id: number
+          metadata: Json | null
         }
         Insert: {
           content: string
           document_id: number
           embedding?: string | null
           id?: never
+          metadata?: Json | null
         }
         Update: {
           content?: string
           document_id?: number
           embedding?: string | null
           id?: never
+          metadata?: Json | null
         }
         Relationships: [
           {
@@ -323,6 +326,19 @@ export interface Database {
           p_sequence: number
         }
         Returns: undefined
+      }
+      match_document_sections: {
+        Args: {
+          embedding: string
+          match_threshold: number
+        }
+        Returns: {
+          content: string
+          document_id: number
+          embedding: string | null
+          id: number
+          metadata: Json | null
+        }[]
       }
       supabase_url: {
         Args: Record<PropertyKey, never>

@@ -3,42 +3,29 @@
 import { useRouter } from "next/navigation"
 import { Database } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { useQuery } from "@tanstack/react-query"
+import { toast } from "sonner"
 
+import { useStorageFiles } from "@/lib/hooks/useStorageFiles"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
 
 import { FilesTable } from "./filesTable"
 
 export default function FilesPage() {
   const supabase = createClientComponentClient<Database>()
   const router = useRouter()
+  const { data: documents, error, isPending } = useStorageFiles()
 
-  const {
-    isPending,
-    error,
-    data: documents,
-  } = useQuery({
-    queryKey: ["files"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("documents_with_storage_path_and_created_by_email")
-        .select()
-        .order("created_at", { ascending: false })
+  if (error) {
+    toast.error("Error", {
+      description: `There was an error fetching the files. Please try again later.
+       ${error.message.replace("\n", "")}`,
+      classNames: {
+        toast: "bg-red-200",
+      },
+    })
+  }
 
-      if (error) {
-        console.log("🚀 ~ file: page.tsx:23 ~ queryFn: ~ error:", error)
-        toast({
-          variant: "destructive",
-          description: "Failed to fetch documents",
-        })
-        throw error
-      }
-      return data
-    },
-    retry: false,
-  })
-  // console.log("🚀 ~ file: page.tsx:38 ~ FilesPage ~ isPending:", isPending)
+  console.log("🚀 ~ file: page.tsx:38 ~ FilesPage ~ isPending:", isPending)
   // console.log("🚀 ~ file: page.tsx:38 ~ FilesPage ~ documents:", documents)
 
   return (

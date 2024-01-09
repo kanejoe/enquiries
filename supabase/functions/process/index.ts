@@ -156,8 +156,9 @@ export const truncateStringByBytes = (str: string, bytes: number) => {
 }
 
 async function prepareDoc(page: PDFPage) {
-  let { metadata, pageContent } = page
-  pageContent = pageContent.replace(/\n/g, "")
+  const { metadata, pageContent } = page
+  // pageContent = pageContent.replace(/\n/g, "") // remove newlines, but maybe keep a space
+  // pageContent = pageContent.replace(/\n/g, " ") // or else remove completely
   // split the docs
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 36000,
