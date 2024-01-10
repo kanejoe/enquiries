@@ -27,11 +27,6 @@ on storage.objects for select to authenticated using (
   bucket_id = 'files' and owner = auth.uid()
 );
 
-create policy "All users can view files"
-on storage.objects for select to authenticated using (
-  bucket_id = 'files'
-);
-
 create policy "Users can update their own files"
 on storage.objects for update to authenticated with check (
   bucket_id = 'files' and owner = auth.uid()

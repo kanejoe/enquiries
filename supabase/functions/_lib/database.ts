@@ -112,6 +112,45 @@ export interface Database {
           }
         ]
       }
+      folders: {
+        Row: {
+          created_at: string
+          created_by: string
+          folder_name: string
+          id: number
+          parent_folder_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          folder_name: string
+          id?: never
+          parent_folder_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          folder_name?: string
+          id?: never
+          parent_folder_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "folders_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "folders_parent_folder_id_fkey"
+            columns: ["parent_folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       precedents: {
         Row: {
           asset_id: number | null
