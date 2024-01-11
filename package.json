@@ -16,7 +16,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "test": "jest --watchAll",
     "json-server": "json-server --watch data/db.json --port 3001",
-    "gen:types": "npx supabase gen types typescript --local > supabase/functions/_lib/database.ts"
+    "gen:types": "npx supabase gen types typescript --local > supabase/functions/_lib/database.ts",
+    "gen:types1": "npx supabase gen types typescript --local > supabase/functions/_lib/database.ts"
   },
   "dependencies": {
     "@casl/ability": "6.5.0",
@@ -54,7 +55,7 @@
     "cmdk": "0.2.0",
     "date-fns": "3.2.0",
     "encoding": "0.1.13",
-    "framer-motion": "10.17.12",
+    "framer-motion": "10.18.0",
     "geist": "1.2.0",
     "immer": "10.0.3",
     "langchain": "0.1.2",
