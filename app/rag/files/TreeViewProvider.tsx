@@ -41,7 +41,7 @@ export type TreeViewContextType = {
   dispatch: Dispatch<TreeViewActions>
 }
 
-// TreeViewContext is the context that is used to provide the TreeView state and dispatch to the TreeView component.
+//  TreeViewContext is the context that is used to provide the TreeView state and dispatch to the TreeView component.
 export const TreeViewContext = createContext<TreeViewContextType>({
   open: new Map<string, boolean>(),
   dispatch: () => {},

@@ -9,7 +9,7 @@ import LoadingDots from "@/components/loading-dots"
 
 import { EmptyState } from "./emptyState"
 import { FilesTable } from "./filesTable"
-import { TreeView } from "./TreeView"
+import { TreeViewApp } from "./TreeView"
 
 export default function FilesPage() {
   const { data: folders, error: foldersError } = useFolders()
@@ -23,9 +23,12 @@ export default function FilesPage() {
     toast.error("Error", {
       description: `There was an error fetching the files. Please try again later.
        ${fetchError.message.replace("\n", "")}`,
-      classNames: {
-        toast: "bg-red-200",
-      },
+    })
+  }
+
+  if (foldersError) {
+    toast.error("Error", {
+      description: `${foldersError.message.replace("\n", "")}`,
     })
   }
 
@@ -37,7 +40,7 @@ export default function FilesPage() {
 
   return (
     <div className="container">
-      {folders ? <TreeView treeData={folders} /> : null}
+      {folders ? <TreeViewApp treeData={folders} /> : null}
 
       <div className="m-4 flex max-w-2xl grow flex-col items-stretch gap-8 sm:m-10">
         <div className="flex h-32 flex-col items-center justify-center pb-4">

@@ -13,13 +13,10 @@ const fetchFolders = async () => {
     .from("folders")
     .select("id, folder_name, parent_folder_id")
     .order("created_at", { ascending: false })
+    .throwOnError()
 
   if (!data) {
     return []
-  }
-
-  if (error) {
-    throw new Error(error) // Throw an error if the query fails
   }
 
   // If no error, return the data
