@@ -10,13 +10,13 @@ export enum TreeViewActionTypes {
 
 export type TreeViewActions =
   | {
-      type: TreeViewActionTypes.OPEN
-      id: string
-    }
+    type: TreeViewActionTypes.OPEN
+    id: string
+  }
   | {
-      type: TreeViewActionTypes.CLOSE
-      id: string
-    }
+    type: TreeViewActionTypes.CLOSE
+    id: string
+  }
 
 // treeviewReducer is a reducer that takes in a TreeViewState and a TreeViewAction and returns a new TreeViewState.
 export function treeviewReducer(
@@ -38,11 +38,15 @@ export function treeviewReducer(
 // TreeViewContextType is the type of the context that is used to provide the TreeView state and dispatch to the TreeView component.
 export type TreeViewContextType = {
   open: TreeViewState
-  dispatch: Dispatch<TreeViewActions>
+  dispatch: Dispatch<TreeViewActions>,
+  selectedId: string | null,
+  selectId: (id: string) => void,
 }
 
 //  TreeViewContext is the context that is used to provide the TreeView state and dispatch to the TreeView component.
 export const TreeViewContext = createContext<TreeViewContextType>({
   open: new Map<string, boolean>(),
-  dispatch: () => {},
+  dispatch: () => { },
+  selectedId: null,
+  selectId: () => { },
 })
