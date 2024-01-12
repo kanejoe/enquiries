@@ -35,14 +35,15 @@ const useAddStorageFile = (options: { onSuccess: () => void }) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (selectedFile: File) => {
-      const { error } = await supabase.storage
-        .from("files")
-        .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile)
+      return selectedFile
+      // const { error } = await supabase.storage
+      //   .from("files")
+      //   .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile)
 
-      if (error) {
-        console.log("🚀 ~ mutationFn: ~ error:", error)
-        throw new Error(error.message) // Throw an error if the addition fails
-      }
+      // if (error) {
+      //   console.log("🚀 ~ mutationFn: ~ error:", error)
+      //   throw new Error(error.message) // Throw an error if the addition fails
+      // }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: keys.getFiles })
