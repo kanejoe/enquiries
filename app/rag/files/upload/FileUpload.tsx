@@ -44,7 +44,7 @@ const FileUpload: FC<FileUploadProps> = (props) => {
   } = useAddStorageFile({
     onSuccess: () => toast.success("File uploaded successfully!"),
   })
-  console.log("🚀 ~ data:", data)
+  // console.log("🚀 ~ uploadedFile:", uploadedFile)
 
   if (addFileError) {
     toast.error("Error", {

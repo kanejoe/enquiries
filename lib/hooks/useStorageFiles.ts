@@ -30,26 +30,28 @@ const useStorageFiles = () => {
   })
 }
 
+// Method to access the files data
+const getUploadedFilesData = () => {
+  const queryClient = useQueryClient()
+  return queryClient.getQueriesData({ queryKey: keys.getFiles })
+}
+
 const useAddStorageFile = (options: { onSuccess: () => void }) => {
   const supabase = createClientComponentClient<Database>()
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (selectedFile: File) => {
-      return selectedFile
-      // const { error } = await supabase.storage
-      //   .from("files")
-      //   .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile)
+      const { error } = await supabase.storage
+        .from("files")
+        .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile)
 
-      // if (error) {
-      //   console.log("🚀 ~ mutationFn: ~ error:", error)
-      //   throw new Error(error.message) // Throw an error if the addition fails
-      // }
+      if (error) {
+        console.log("🚀 ~ mutationFn: ~ error:", error)
+        throw new Error(error.message) // Throw an error if the addition fails
+      }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: keys.getFiles })
-      options.onSuccess()
-    },
+    onSuccess: async () => options.onSuccess(),
   })
 }
 
-export { useStorageFiles, useAddStorageFile }
+export { useStorageFiles, useAddStorageFile, getUploadedFilesData }
