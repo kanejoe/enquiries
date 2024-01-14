@@ -38,12 +38,15 @@ const getUploadedFilesData = () => {
 
 const useAddStorageFile = (options: { onSuccess: () => void }) => {
   const supabase = createClientComponentClient<Database>()
+
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (selectedFile: File) => {
       const { error } = await supabase.storage
         .from("files")
-        .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile)
+        .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile, {
+          upsert: true,
+        })
 
       if (error) {
         console.log("🚀 ~ mutationFn: ~ error:", error)

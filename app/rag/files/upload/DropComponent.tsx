@@ -23,7 +23,7 @@ export { DropComponent }
 
 export function Dropzone() {
   const data = getUploadedFilesData()
-  console.log("🚀 ~ Dropzone ~ data:", data)
+
   return (
     <div className="flex max-w-72 items-center justify-center">
       <label

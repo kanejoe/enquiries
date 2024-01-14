@@ -3,7 +3,7 @@ create table documents (
   id bigint primary key generated always as identity,
   name text not null,
   folder_id bigint references folders(id) on delete cascade,
-  -- storage_object_id uuid not null references storage.objects (id),
+  storage_object_id uuid not null references storage.objects (id),
   created_by uuid not null references auth.users (id) default auth.uid(),
   created_at timestamp with time zone not null default now()
 );
@@ -61,18 +61,18 @@ begin
     values (new.path_tokens[2], new.id, new.owner)
     returning id into document_id;
 
-  select
-    net.http_post(
-      url := supabase_url() || '/functions/v1/process',
-      headers := jsonb_build_object(
-        'Content-Type', 'application/json',
-        'Authorization', current_setting('request.headers')::json->>'authorization'
-      ),
-      body := jsonb_build_object(
-        'document_id', document_id
-      )
-    )
-  into result;
+  -- select
+  --   net.http_post(
+  --     url := supabase_url() || '/functions/v1/process',
+  --     headers := jsonb_build_object(
+  --       'Content-Type', 'application/json',
+  --       'Authorization', current_setting('request.headers')::json->>'authorization'
+  --     ),
+  --     body := jsonb_build_object(
+  --       'document_id', document_id
+  --     )
+  --   )
+  -- into result;
 
   return null;
 end;
