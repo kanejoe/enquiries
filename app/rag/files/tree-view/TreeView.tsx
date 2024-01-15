@@ -8,11 +8,20 @@ import { ReactNode, useReducer, useState } from "react"
 import { cn } from "@/lib/utils"
 
 import { Node } from "./Node"
+import { NoFoldersEmptyState } from "./NoFoldersEmptyState"
 import { RovingTabindexRoot } from "./RovingTabindex"
 import { TreeViewContext, treeviewReducer } from "./TreeViewProvider"
 
 export const TreeViewApp = ({ treeData }: { treeData: TreeNodeType[] }) => {
   const [selected, select] = useState<string | null>(null)
+
+  if (!treeData || treeData.length === 0)
+    return (
+      <div className="grid h-full items-center justify-center rounded-lg border-[1.5px] border-slate-100">
+        <NoFoldersEmptyState />
+      </div>
+    )
+
   return (
     <Root
       className="h-full rounded-lg border-[1.5px] border-slate-100"

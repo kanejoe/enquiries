@@ -1,9 +1,10 @@
-import { KeyboardEvent, useContext } from "react"
+import { KeyboardEvent, useContext, useState } from "react"
 import { AnimatePresence, motion, MotionConfig } from "framer-motion"
 import isHotkey from "is-hotkey"
 
 import { cn } from "@/lib/utils"
 
+import { AddSubFolderDialog } from "./AddSubFolder"
 import { Arrow } from "./Arrow"
 import {
   getFirstFocusableId,
@@ -33,8 +34,8 @@ export function Node({ node: { id, folder_name, children } }: NodeProps) {
     <li
       {...getRovingProps<"li">({
         className:
-          "flex flex-col cursor-pointer select-none focus:outline-none group",
-        onKeyDown: function (e: KeyboardEvent<HTMLLIElement>) {
+          "flex flex-col cursor-pointer select-none focus:outline-none group even:bg-slate-50",
+        /*onKeyDown: function (e: KeyboardEvent<HTMLLIElement>) {
           e.stopPropagation()
           const items = getOrderedItems()
           let nextItemToFocus: RovingTabindexItem | undefined
@@ -81,7 +82,7 @@ export function Node({ node: { id, folder_name, children } }: NodeProps) {
             nextItemToFocus.element.focus()
             selectId(nextItemToFocus.id)
           }
-        },
+        },*/
       })}
     >
       <MotionConfig
@@ -89,7 +90,7 @@ export function Node({ node: { id, folder_name, children } }: NodeProps) {
       >
         <div
           className={cn(
-            "flex items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium",
+            "group flex h-8 items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium",
             "hover:rounded-md hover:border-slate-200 hover:bg-slate-50 hover:shadow-sm",
             isFocusable && "group-focus:border-slate-300",
             selectedId === id.toString() ? "bg-slate-100" : "bg-transparent"
@@ -106,9 +107,14 @@ export function Node({ node: { id, folder_name, children } }: NodeProps) {
           ) : (
             <span className="h-4 w-4 shrink-0" />
           )}
-          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-            {folder_name}
-          </span>
+          <div className="inline-flex w-full justify-between">
+            <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+              {folder_name}
+            </span>
+            <span className="w-10">
+              <AddSubFolderDialog id={id} folder_name={folder_name} />
+            </span>
+          </div>
         </div>
       </MotionConfig>
       <AnimatePresence initial={false}>

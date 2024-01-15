@@ -28,9 +28,11 @@ const formSchema = z.object({
     }),
 })
 
-interface FileUploadProps {}
+interface FileUploadProps {
+  id: string
+}
 
-const FileUpload: FC<FileUploadProps> = (props) => {
+const FileUpload: FC<FileUploadProps> = ({ id }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {},
@@ -63,7 +65,8 @@ const FileUpload: FC<FileUploadProps> = (props) => {
               <FormItem>
                 <FormControl>
                   <Input
-                    className=""
+                    id={id}
+                    className="hidden"
                     type="file"
                     accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     {...field}
@@ -78,9 +81,9 @@ const FileUpload: FC<FileUploadProps> = (props) => {
                     }}
                   />
                 </FormControl>
-                <FormDescription className="ml-4">
+                {/* <FormDescription className="ml-4">
                   PDF, MS Word DOC
-                </FormDescription>
+                </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}

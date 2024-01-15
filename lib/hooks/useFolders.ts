@@ -1,3 +1,4 @@
+import { folder_seed_data } from "@/data/folder_seed_data"
 import { Database } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -31,27 +32,55 @@ const useFolders = () => {
   })
 }
 
-/*const useAddStorageFile = (options: { onSuccess: () => void }) => {
+const useSetUpFolderStructure = (options: { onSuccess: () => void }) => {
   const supabase = createClientComponentClient<Database>()
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (selectedFile: File) => {
-      const { error } = await supabase.storage
-        .from("files")
-        .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile)
-
+    mutationFn: async () => {
+      const { error } = await supabase
+        .from("folders")
+        .insert(folder_seed_data)
+        .throwOnError()
       if (error) {
         throw new Error(error.message) // Throw an error if the addition fails
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: keys.getFiles })
+      queryClient.invalidateQueries({ queryKey: keys.getFolders })
       options.onSuccess()
     },
   })
-}*/
+}
 
-export { useFolders }
+interface SubFolderSchema {
+  parent_id: number
+  parent_folder_name: string
+  new_folder_name: string
+}
+
+const useAddSubFolder = (options: { onSuccess: () => void }) => {
+  const supabase = createClientComponentClient<Database>()
+  const queryClient = useQueryClient()
+  return useMutation<SubFolderSchema, Error, SubFolderSchema>({
+    mutationFn: async (formData): Promise<SubFolderSchema> => {
+      const { data } = await supabase
+        .from("folders")
+        .insert({
+          folder_name: formData.new_folder_name,
+          parent_folder_id: formData.parent_id,
+        })
+        .throwOnError()
+        .select()
+      return data ? data : null
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: keys.getFolders })
+      options.onSuccess()
+    },
+  })
+}
+
+export { useFolders, useSetUpFolderStructure, useAddSubFolder }
 
 type Folder = {
   id: number

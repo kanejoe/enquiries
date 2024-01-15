@@ -1,16 +1,13 @@
 "use client"
 
-import { Database } from "@/supabase/functions/_lib/database"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { toast } from "sonner"
 
 import { useFolders } from "@/lib/hooks/useFolders"
 
-import { TreeViewApp } from "./tree-view/TreeView"
+import { TreeViewApp } from "./tree-view/"
 import { DropComponent } from "./upload/DropComponent"
 
 export default function FilesPage() {
-  const supabase = createClientComponentClient<Database>()
   const {
     data: folders,
     error: foldersError,
@@ -33,9 +30,7 @@ export default function FilesPage() {
             <p>Loading...</p>
           ) : null}
         </div>
-        <div className="">
-          <DropComponent />
-        </div>
+        <DropComponent />
       </div>
     </div>
   )

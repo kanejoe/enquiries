@@ -1,6 +1,9 @@
 import { FC } from "react"
 
-import { getUploadedFilesData } from "@/lib/hooks/useStorageFiles"
+import {
+  getUploadedFilesData,
+  useStorageFiles,
+} from "@/lib/hooks/useStorageFiles"
 
 import { FileUpload } from "./FileUpload"
 
@@ -8,13 +11,11 @@ interface DropComponentProps {}
 
 const DropComponent: FC<DropComponentProps> = (props) => {
   return (
-    <div className="grid h-full grid-rows-2 gap-4 rounded-lg border-[1.5px] border-slate-100">
-      <div className="">
+    <div className="grid h-full grid-rows-1 items-center justify-center rounded-lg border-[1.5px] border-slate-100">
+      {/* <div className="">
         <FileUpload />
-      </div>
-      <div className="mx-8 mb-8">
-        <Dropzone />
-      </div>
+      </div> */}
+      <Dropzone />
     </div>
   )
 }
@@ -22,10 +23,8 @@ const DropComponent: FC<DropComponentProps> = (props) => {
 export { DropComponent }
 
 export function Dropzone() {
-  const data = getUploadedFilesData()
-
   return (
-    <div className="flex max-w-72 items-center justify-center">
+    <div className="w-108 flex items-center justify-center">
       <label
         htmlFor="dropzone-file"
         className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-[2px] border-dashed border-primary bg-primary/5 hover:bg-primary/10"
@@ -54,7 +53,8 @@ export function Dropzone() {
             PDF or DOCX
           </p>
         </div>
-        <input id="dropzone-file" type="file" className="hidden" />
+        {/* <input id="dropzone-file" type="file" className="hidden" /> */}
+        <FileUpload id="dropzone-file" />
       </label>
     </div>
   )
