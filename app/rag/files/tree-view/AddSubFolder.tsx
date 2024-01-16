@@ -24,7 +24,7 @@ export const AddSubFolderDialog = ({
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <PlusCircledIcon className="invisible inline-flex h-5 w-5 items-center text-slate-700 group-hover:visible hover:text-slate-700" />
       </DialogTrigger>
@@ -34,7 +34,11 @@ export const AddSubFolderDialog = ({
           <DialogDescription>Click save when you're done.</DialogDescription>
         </DialogHeader>
 
-        <AddSubFolderForm id={id} folder_name={folder_name} />
+        <AddSubFolderForm
+          id={id}
+          folder_name={folder_name}
+          afterSave={() => setIsOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   )

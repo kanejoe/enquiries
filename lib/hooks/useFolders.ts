@@ -1,5 +1,5 @@
 import { folder_seed_data } from "@/data/folder_seed_data"
-import { Database } from "@/supabase/functions/_lib/database"
+import { Database, Tables } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -52,7 +52,7 @@ const useSetUpFolderStructure = (options: { onSuccess: () => void }) => {
   })
 }
 
-interface SubFolderSchema {
+interface FormData {
   parent_id: number
   parent_folder_name: string
   new_folder_name: string
@@ -61,8 +61,8 @@ interface SubFolderSchema {
 const useAddSubFolder = (options: { onSuccess: () => void }) => {
   const supabase = createClientComponentClient<Database>()
   const queryClient = useQueryClient()
-  return useMutation<SubFolderSchema, Error, SubFolderSchema>({
-    mutationFn: async (formData): Promise<SubFolderSchema> => {
+  return useMutation<Tables<"folders">, Error, FormData>({
+    mutationFn: async (formData: FormData): Promise<Tables<"folders">> => {
       const { data } = await supabase
         .from("folders")
         .insert({
@@ -71,7 +71,13 @@ const useAddSubFolder = (options: { onSuccess: () => void }) => {
         })
         .throwOnError()
         .select()
-      return data ? data : null
+        .single()
+
+      if (!data) {
+        throw new Error("Invalid data")
+      }
+
+      return data
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: keys.getFolders })

@@ -34,7 +34,7 @@ export function Node({ node: { id, folder_name, children } }: NodeProps) {
     <li
       {...getRovingProps<"li">({
         className:
-          "flex flex-col cursor-pointer select-none focus:outline-none group even:bg-slate-50",
+          "flex flex-col cursor-pointer select-none focus:outline-none",
         /*onKeyDown: function (e: KeyboardEvent<HTMLLIElement>) {
           e.stopPropagation()
           const items = getOrderedItems()
