@@ -29,7 +29,7 @@ export const TreeViewApp = ({ treeData }: { treeData: TreeNodeType[] }) => {
       onChange={select}
     >
       {treeData.map((node) => (
-        <Node node={node} key={node.id} />
+        <Node node={node} key={node.folder_id} />
       ))}
     </Root>
   )
@@ -74,7 +74,7 @@ export function Root({
 }
 
 export type TreeNodeType = {
-  id: number
+  folder_id: number
   folder_name: string
   children?: TreeNodeType[]
   icon?: ReactNode

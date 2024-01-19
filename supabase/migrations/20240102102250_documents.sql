@@ -22,6 +22,22 @@ as
   join profiles
     on profiles.id = documents.created_by;    
 
+
+create view folders_with_documents
+with (security_invoker=true)
+as
+  select 
+    folders.id as folder_id,
+    folders.folder_name,
+    folders.parent_folder_id,
+    documents.name as document_name,
+    documents.id as document_id,
+    documents.storage_object_id as document_storage_object_id,
+    documents.storage_object_path as document_storage_object_path,
+  from folders
+  left outer join documents
+    on folders.id = documents.folder_id;    
+
 alter table documents enable row level security;
 
 create policy "Users can insert documents"

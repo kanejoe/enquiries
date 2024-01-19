@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { AddSubFolderForm } from "./AddSubFolderForm"
+import { EditFolderForm } from "./EditFolderForm"
 
 type MenuDialogProps = {
   id: number
@@ -100,7 +101,6 @@ const AddSubFolder = ({
   isNewFolderDialogOpen,
   setIsNewFolderDialogOpen,
 }: AddSubFolderProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false)
   return (
     <Dialog
       open={isNewFolderDialogOpen}
@@ -115,7 +115,7 @@ const AddSubFolder = ({
         <AddSubFolderForm
           id={id}
           folder_name={folder_name}
-          afterSave={() => setIsOpen(false)}
+          afterSave={() => setIsNewFolderDialogOpen(false)}
         />
       </DialogContent>
     </Dialog>
@@ -135,7 +135,6 @@ const EditFolderName = ({
   editFolderDialogOpen,
   setEditFolderDialogOpen,
 }: EditFolderNameProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false)
   return (
     <Dialog open={editFolderDialogOpen} onOpenChange={setEditFolderDialogOpen}>
       <DialogContent className="sm:max-w-[425px]">
@@ -144,11 +143,11 @@ const EditFolderName = ({
           <DialogDescription>Click save when you're done.</DialogDescription>
         </DialogHeader>
 
-        {/* <AddSubFolderForm
+        <EditFolderForm
           id={id}
           folder_name={folder_name}
-          afterSave={() => setIsOpen(false)}
-        /> */}
+          afterSave={() => setEditFolderDialogOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   )

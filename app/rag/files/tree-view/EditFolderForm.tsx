@@ -1,16 +1,15 @@
 import { FC } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { after } from "lodash"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
-import { useAddSubFolder } from "@/lib/hooks/useFolders"
+import { useEditFolderName } from "@/lib/hooks/useFolders"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
+  //   FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,30 +19,27 @@ import { Input } from "@/components/ui/input"
 import { Spinner } from "@/components/Spinner"
 
 const formSchema = z.object({
-  parent_id: z.number(),
-  parent_folder_name: z.string().min(3, {
-    message: "Folder must be at least 3 characters.",
-  }),
-  new_folder_name: z.string().min(3, {
+  id: z.number(),
+  folder_name: z.string().min(3, {
     message: "Folder must be at least 3 characters.",
   }),
 })
 
-interface AddSubFolderFormProps {
+interface EditFolderFormProps {
   id: number
   folder_name: string
   afterSave: () => void
 }
 
-const AddSubFolderForm: FC<AddSubFolderFormProps> = ({
+const EditFolderForm: FC<EditFolderFormProps> = ({
   id,
   folder_name,
   afterSave,
 }) => {
-  const { mutateAsync: addSubFolder, status } = useAddSubFolder({
-    onSuccess: () => toast.success("Sub-folder added!"),
-    onError: () =>
-      toast.error("Something went wrong. Could not add the folder. Try again"),
+  const { mutateAsync: editFolderName, status } = useEditFolderName({
+    onSuccess: () => toast.success("Folder name changed!"),
+    onError: (error) =>
+      toast.error("Something went wrong. Could not save. Try again."),
   })
 
   const isPending = status === "pending" ? true : false
@@ -52,9 +48,8 @@ const AddSubFolderForm: FC<AddSubFolderFormProps> = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      parent_id: id,
-      parent_folder_name: folder_name,
-      new_folder_name: "",
+      id,
+      folder_name,
     },
     shouldUnregister: false,
   })
@@ -64,8 +59,8 @@ const AddSubFolderForm: FC<AddSubFolderFormProps> = ({
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    const data = await addSubFolder(values)
-   afterSave()
+    const data = await editFolderName(values)
+    afterSave()
   }
 
   return (
@@ -76,45 +71,26 @@ const AddSubFolderForm: FC<AddSubFolderFormProps> = ({
             <fieldset disabled={isPending} className="group space-y-6">
               <FormField
                 control={form.control}
-                name="new_folder_name"
+                name="folder_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>New Folder Name</FormLabel>
+                    <FormLabel>Edit Folder Name</FormLabel>
                     <FormControl>
                       <Input placeholder="folder name" {...field} />
                     </FormControl>
-                    <FormDescription className="ml-0.5">
+                    {/* <FormDescription className="ml-0.5">
                       Add the new sub-folder name.
-                    </FormDescription>
+                    </FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
               <input
-                {...form.register("parent_id", { value: id })}
+                {...form.register("id", { value: id })}
                 type="hidden"
                 className="hidden"
               />
-
-              <fieldset disabled={true}>
-                <FormField
-                  name="parent_folder_name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Parent Folder Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="parent folder"
-                          {...field}
-                          className="font-semibold"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </fieldset>
 
               <Button type="submit">
                 <Spinner className="absolute h-4 w-4 group-enabled:opacity-0" />
@@ -128,4 +104,4 @@ const AddSubFolderForm: FC<AddSubFolderFormProps> = ({
   )
 }
 
-export { AddSubFolderForm }
+export { EditFolderForm }

@@ -5,8 +5,8 @@ import { AnimatePresence, motion, MotionConfig } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
-import { MenuDialog } from "./AddSubFolder"
 import { Arrow } from "./Arrow"
+import { MenuDialog } from "./MenuDialog"
 import { useRovingTabindex } from "./RovingTabindex"
 import { TreeNodeType } from "./TreeView"
 import { TreeViewActionTypes, TreeViewContext } from "./TreeViewProvider"
@@ -15,12 +15,14 @@ type NodeProps = {
   node: TreeNodeType
 }
 
-export function Node({ node: { id, folder_name, children } }: NodeProps) {
+export function Node({
+  node: { folder_id, folder_name, children },
+}: NodeProps) {
   const { open, dispatch, selectId, selectedId } = useContext(TreeViewContext)
   const { isFocusable, getRovingProps, getOrderedItems } = useRovingTabindex(
-    id.toString()
+    folder_id.toString()
   )
-  const isOpen = open.get(id.toString())
+  const isOpen = open.get(folder_id.toString())
 
   return (
     <li
@@ -85,13 +87,21 @@ export function Node({ node: { id, folder_name, children } }: NodeProps) {
             "group flex items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium",
             "hover:rounded-md hover:border-slate-200 hover:bg-slate-50 hover:shadow-sm",
             isFocusable && "group-focus:border-slate-300",
-            selectedId === id.toString() ? "bg-slate-100" : "bg-transparent"
+            selectedId === folder_id.toString()
+              ? "bg-slate-100"
+              : "bg-transparent"
           )}
-          onClick={() => {
-            open.get(id.toString())
-              ? dispatch({ type: TreeViewActionTypes.CLOSE, id: id.toString() })
-              : dispatch({ type: TreeViewActionTypes.OPEN, id: id.toString() })
-            selectId(id.toString())
+          onClick={(e) => {
+            open.get(folder_id.toString())
+              ? dispatch({
+                  type: TreeViewActionTypes.CLOSE,
+                  id: folder_id.toString(),
+                })
+              : dispatch({
+                  type: TreeViewActionTypes.OPEN,
+                  id: folder_id.toString(),
+                })
+            selectId(folder_id.toString())
           }}
         >
           {children && children.length ? (
@@ -104,13 +114,13 @@ export function Node({ node: { id, folder_name, children } }: NodeProps) {
               {folder_name}
             </span>
             <span className="w-10">
-              <MenuDialog id={id} folder_name={folder_name} />
+              <MenuDialog id={folder_id} folder_name={folder_name} />
             </span>
           </div>
         </div>
       </MotionConfig>
       <AnimatePresence initial={false}>
-        {children?.length && open.get(id.toString()) ? (
+        {children?.length && open.get(folder_id.toString()) ? (
           <motion.ul
             className="pl-4"
             initial={{ height: 0, opacity: 0 }}
@@ -133,7 +143,7 @@ export function Node({ node: { id, folder_name, children } }: NodeProps) {
             key="ul"
           >
             {children.map((node) => (
-              <Node node={node} key={node.id} />
+              <Node node={node} key={node.folder_id} />
             ))}
           </motion.ul>
         ) : null}

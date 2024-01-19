@@ -3,6 +3,8 @@ import { Database, Tables } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { organizeFolders } from "./organise-folders"
+
 const keys = {
   getFolders: ["folders"],
 }
@@ -11,9 +13,8 @@ const fetchFolders = async () => {
   const supabase = createClientComponentClient<Database>()
 
   const { data, error } = await supabase
-    .from("folders")
-    .select("id, folder_name, parent_folder_id")
-    .order("created_at", { ascending: false })
+    .from("folders_with_documents")
+    .select("*")
     .throwOnError()
 
   if (!data) {
@@ -21,7 +22,10 @@ const fetchFolders = async () => {
   }
 
   // If no error, return the data
-  return organizeFolders(data)
+  const tree = organizeFolders(data)
+  // console.log("🚀 ~ fetchFolders ~ data:", data)
+  console.log("🚀 ~ fetchFolders ~ tree:", tree)
+  return tree
 }
 
 const useFolders = () => {
@@ -58,7 +62,10 @@ interface FormData {
   new_folder_name: string
 }
 
-const useAddSubFolder = (options: { onSuccess: () => void }) => {
+const useAddSubFolder = (options: {
+  onSuccess: () => void
+  onError: (error: Error) => void
+}) => {
   const supabase = createClientComponentClient<Database>()
   const queryClient = useQueryClient()
   return useMutation<Tables<"folders">, Error, FormData>({
@@ -83,43 +90,48 @@ const useAddSubFolder = (options: { onSuccess: () => void }) => {
       queryClient.invalidateQueries({ queryKey: keys.getFolders })
       options.onSuccess()
     },
+    onError: (error: Error) => options.onError(error),
   })
 }
 
-export { useFolders, useSetUpFolderStructure, useAddSubFolder }
-
-type Folder = {
+interface EditFormData {
   id: number
   folder_name: string
-  parent_folder_id: number | null
-  children?: Folder[]
 }
 
-function organizeFolders(data: Folder[]): Folder[] {
-  // Create a map for easy access to folders by their id
-  const folderMap = new Map<number, Folder>()
+const useEditFolderName = (options: {
+  onSuccess: () => void
+  onError: (error: Error) => void
+}) => {
+  const supabase = createClientComponentClient<Database>()
+  const queryClient = useQueryClient()
+  return useMutation<Tables<"folders">, Error, EditFormData>({
+    mutationFn: async (formData: EditFormData): Promise<Tables<"folders">> => {
+      const { data } = await supabase
+        .from("folders")
+        .update({ folder_name: formData.folder_name })
+        .eq("id", formData.id)
+        .throwOnError()
+        .select()
+        .single()
 
-  // Initialize the map and assign an empty array to 'children'
-  data.forEach((folder) => {
-    folder.children = []
-    folderMap.set(folder.id, folder)
-  })
-
-  // The result array for folders without a parent
-  const result: Folder[] = []
-
-  data.forEach((folder) => {
-    if (folder.parent_folder_id === null) {
-      // If the folder has no parent, it's a top-level folder
-      result.push(folder)
-    } else {
-      // If the folder has a parent, find the parent and add this folder to its children
-      const parentFolder = folderMap.get(folder.parent_folder_id)
-      if (parentFolder && parentFolder.children) {
-        parentFolder.children.push(folder)
+      if (!data) {
+        throw new Error("Invalid data")
       }
-    }
-  })
 
-  return result
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: keys.getFolders })
+      options.onSuccess()
+    },
+    onError: (error: Error) => options.onError(error),
+  })
+}
+
+export {
+  useFolders,
+  useSetUpFolderStructure,
+  useAddSubFolder,
+  useEditFolderName,
 }

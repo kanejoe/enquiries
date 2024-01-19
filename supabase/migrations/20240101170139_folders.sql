@@ -18,3 +18,9 @@ create policy "Users can query their own folders"
 on folders for select to authenticated using (
   auth.uid() = created_by
 );
+
+create policy "Users can update their own folders"
+on folders for update to authenticated using (
+  auth.uid() = created_by
+);
+
