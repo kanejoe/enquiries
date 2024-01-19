@@ -112,7 +112,14 @@ export function Node({
             )}
             <div className="inline-flex w-full justify-between">
               <span className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                {folder_name}
+                {folder_name}{" "}
+                {documents?.length ? (
+                  <span className="ml-0.5 text-xs text-slate-500">
+                    ({documents.length})
+                  </span>
+                ) : (
+                  ""
+                )}
               </span>
               <span className="w-10">
                 <MenuDialog id={folder_id} folder_name={folder_name} />
@@ -153,7 +160,7 @@ export function Node({
       <AnimatePresence initial={false}>
         {documents?.length && open.get(folder_id.toString()) ? (
           <motion.ul
-            className="pl-4"
+            className="mx-2 border border-blue-50 pl-4"
             initial={{ height: 0, opacity: 0 }}
             animate={{
               height: "auto",
@@ -179,7 +186,7 @@ export function Node({
                 className="flex items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium"
               >
                 <span className="h-4 w-4 shrink-0" />
-                <span className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                <span className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-sm text-blue-700">
                   {document.document_name}
                 </span>
               </div>
