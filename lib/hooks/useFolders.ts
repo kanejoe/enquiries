@@ -12,7 +12,7 @@ const keys = {
 const fetchFolders = async () => {
   const supabase = createClientComponentClient<Database>()
 
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from("folders_with_documents")
     .select("*")
     .throwOnError()
@@ -23,8 +23,6 @@ const fetchFolders = async () => {
 
   // If no error, return the data
   const tree = organizeFolders(data)
-  // console.log("🚀 ~ fetchFolders ~ data:", data)
-  console.log("🚀 ~ fetchFolders ~ tree:", tree)
   return tree
 }
 

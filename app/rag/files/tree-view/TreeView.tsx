@@ -5,12 +5,17 @@
 
 import { ReactNode, useReducer, useState } from "react"
 
+import { type FolderType } from "@/lib/hooks/organise-folders"
 import { cn } from "@/lib/utils"
 
 import { Node } from "./Node"
 import { NoFoldersEmptyState } from "./NoFoldersEmptyState"
 import { RovingTabindexRoot } from "./RovingTabindex"
 import { TreeViewContext, treeviewReducer } from "./TreeViewProvider"
+
+export type TreeNodeType = FolderType & {
+  icon?: ReactNode
+}
 
 export const TreeViewApp = ({ treeData }: { treeData: TreeNodeType[] }) => {
   const [selected, select] = useState<string | null>(null)
@@ -71,11 +76,4 @@ export function Root({
       </RovingTabindexRoot>
     </TreeViewContext.Provider>
   )
-}
-
-export type TreeNodeType = {
-  folder_id: number
-  folder_name: string
-  children?: TreeNodeType[]
-  icon?: ReactNode
 }

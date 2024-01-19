@@ -16,7 +16,7 @@ type NodeProps = {
 }
 
 export function Node({
-  node: { folder_id, folder_name, children },
+  node: { folder_id, folder_name, children, documents },
 }: NodeProps) {
   const { open, dispatch, selectId, selectedId } = useContext(TreeViewContext)
   const { isFocusable, getRovingProps, getOrderedItems } = useRovingTabindex(
@@ -82,40 +82,42 @@ export function Node({
       <MotionConfig
         transition={{ duration: 0.25, ease: [0.164, 0.84, 0.43, 1] }}
       >
-        <div
-          className={cn(
-            "group flex items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium",
-            "hover:rounded-md hover:border-slate-200 hover:bg-slate-50 hover:shadow-sm",
-            isFocusable && "group-focus:border-slate-300",
-            selectedId === folder_id.toString()
-              ? "bg-slate-100"
-              : "bg-transparent"
-          )}
-          onClick={(e) => {
-            open.get(folder_id.toString())
-              ? dispatch({
-                  type: TreeViewActionTypes.CLOSE,
-                  id: folder_id.toString(),
-                })
-              : dispatch({
-                  type: TreeViewActionTypes.OPEN,
-                  id: folder_id.toString(),
-                })
-            selectId(folder_id.toString())
-          }}
-        >
-          {children && children.length ? (
-            <Arrow className="h-4 w-4 shrink-0 text-gray-500" open={isOpen} />
-          ) : (
-            <span className="h-4 w-4 shrink-0" />
-          )}
-          <div className="inline-flex w-full justify-between">
-            <span className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap">
-              {folder_name}
-            </span>
-            <span className="w-10">
-              <MenuDialog id={folder_id} folder_name={folder_name} />
-            </span>
+        <div>
+          <div
+            className={cn(
+              "group flex items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium",
+              "hover:rounded-md hover:border-slate-200 hover:bg-slate-50 hover:shadow-sm",
+              isFocusable && "group-focus:border-slate-300",
+              selectedId === folder_id.toString()
+                ? "bg-slate-100"
+                : "bg-transparent"
+            )}
+            onClick={(e) => {
+              open.get(folder_id.toString())
+                ? dispatch({
+                    type: TreeViewActionTypes.CLOSE,
+                    id: folder_id.toString(),
+                  })
+                : dispatch({
+                    type: TreeViewActionTypes.OPEN,
+                    id: folder_id.toString(),
+                  })
+              selectId(folder_id.toString())
+            }}
+          >
+            {children && children.length ? (
+              <Arrow className="h-4 w-4 shrink-0 text-gray-500" open={isOpen} />
+            ) : (
+              <span className="h-4 w-4 shrink-0" />
+            )}
+            <div className="inline-flex w-full justify-between">
+              <span className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                {folder_name}
+              </span>
+              <span className="w-10">
+                <MenuDialog id={folder_id} folder_name={folder_name} />
+              </span>
+            </div>
           </div>
         </div>
       </MotionConfig>
@@ -144,6 +146,43 @@ export function Node({
           >
             {children.map((node) => (
               <Node node={node} key={node.folder_id} />
+            ))}
+          </motion.ul>
+        ) : null}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
+        {documents?.length && open.get(folder_id.toString()) ? (
+          <motion.ul
+            className="pl-4"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{
+              height: "auto",
+              opacity: 1,
+              transition: {
+                height: { duration: 0.25 },
+                opacity: { duration: 0.2, delay: 0.05 },
+              },
+            }}
+            exit={{
+              height: 0,
+              opacity: 0,
+              transition: {
+                height: { duration: 0.25 },
+                opacity: { duration: 0.2 },
+              },
+            }}
+            key="ul"
+          >
+            {documents.map((document) => (
+              <div
+                key={document.document_id}
+                className="flex items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium"
+              >
+                <span className="h-4 w-4 shrink-0" />
+                <span className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                  {document.document_name}
+                </span>
+              </div>
             ))}
           </motion.ul>
         ) : null}

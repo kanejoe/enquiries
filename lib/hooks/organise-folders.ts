@@ -4,25 +4,25 @@
  * @param initialData An array of objects representing the initial data.
  * @returns An array of Folder objects representing the organized folder structure.
  */
-interface Document {
+export interface Document {
   document_name: string | null
   document_id: number | null
 }
 
-interface Folder {
+export interface FolderType {
   folder_id: number
   folder_name: string
   parent_folder_id: number | null
-  children: Folder[]
+  children: FolderType[]
   documents: Document[]
 }
 
 interface InputData
-  extends Pick<Folder, "folder_id" | "folder_name" | "parent_folder_id">,
+  extends Pick<FolderType, "folder_id" | "folder_name" | "parent_folder_id">,
     Document {}
 
-function organizeFolders(initialData: InputData[]): Folder[] {
-  const folders: { [key: number]: Folder } = {}
+function organizeFolders(initialData: InputData[]): FolderType[] {
+  const folders: { [key: number]: FolderType } = {}
 
   for (const item of initialData) {
     // Ensure the folder exists in the folders dictionary
@@ -48,7 +48,7 @@ function organizeFolders(initialData: InputData[]): Folder[] {
   }
 
   // Organize folders into a hierarchy
-  const rootFolders: Folder[] = []
+  const rootFolders: FolderType[] = []
   Object.values(folders).forEach((folder) => {
     if (folder.parent_folder_id === null) {
       rootFolders.push(folder)
