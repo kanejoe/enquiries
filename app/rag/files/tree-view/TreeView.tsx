@@ -5,7 +5,7 @@
 
 import { ReactNode, useReducer, useState } from "react"
 
-import { type FolderType } from "@/lib/hooks/organise-folders"
+import { type FoldersType } from "@/types/folders"
 import { cn } from "@/lib/utils"
 
 import { Node } from "./Node"
@@ -13,7 +13,7 @@ import { NoFoldersEmptyState } from "./NoFoldersEmptyState"
 import { RovingTabindexRoot } from "./RovingTabindex"
 import { TreeViewContext, treeviewReducer } from "./TreeViewProvider"
 
-export type TreeNodeType = FolderType & {
+export type TreeNodeType = FoldersType & {
   icon?: ReactNode
 }
 
