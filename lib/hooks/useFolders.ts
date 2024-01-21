@@ -92,6 +92,43 @@ const useAddSubFolder = (options: {
   })
 }
 
+const useAddFolder = (options: {
+  onSuccess: () => void
+  onError: (error: Error) => void
+}) => {
+  const supabase = createClientComponentClient<Database>()
+  const queryClient = useQueryClient()
+  return useMutation<
+    Tables<"folders">,
+    Error,
+    Pick<FormData, "new_folder_name">
+  >({
+    mutationFn: async (
+      formData: Pick<FormData, "new_folder_name">
+    ): Promise<Tables<"folders">> => {
+      const { data } = await supabase
+        .from("folders")
+        .insert({
+          folder_name: formData.new_folder_name,
+        })
+        .throwOnError()
+        .select()
+        .single()
+
+      if (!data) {
+        throw new Error("Invalid data")
+      }
+
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: keys.getFolders })
+      options.onSuccess()
+    },
+    onError: (error: Error) => options.onError(error),
+  })
+}
+
 interface EditFormData {
   id: number
   folder_name: string
@@ -130,6 +167,7 @@ const useEditFolderName = (options: {
 export {
   useFolders,
   useSetUpFolderStructure,
+  useAddFolder,
   useAddSubFolder,
   useEditFolderName,
 }

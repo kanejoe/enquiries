@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { AddSubFolderForm } from "./AddSubFolderForm"
+import { AddFolderForm } from "./AddSubFolderForm"
 import { EditFolderForm } from "./EditFolderForm"
 
 type MenuDialogProps = {
@@ -89,13 +89,13 @@ export const MenuDialog = ({
 }
 
 interface AddSubFolderProps {
-  id: number
-  folder_name: string
+  id?: number
+  folder_name?: string
   isNewFolderDialogOpen: boolean
   setIsNewFolderDialogOpen: (value: boolean) => void
 }
 
-const AddSubFolder = ({
+export const AddSubFolder = ({
   id,
   folder_name,
   isNewFolderDialogOpen,
@@ -108,13 +108,13 @@ const AddSubFolder = ({
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Sub-Folder</DialogTitle>
-          <DialogDescription>Click save when you're done.</DialogDescription>
+          <DialogTitle>{`${id ? "Add Sub-Folder" : "Add Folder"}`}</DialogTitle>
+          <DialogDescription>Click save when you're done</DialogDescription>
         </DialogHeader>
 
-        <AddSubFolderForm
-          id={id}
-          folder_name={folder_name}
+        <AddFolderForm
+          parent_id={id}
+          parent_folder_name={folder_name}
           afterSave={() => setIsNewFolderDialogOpen(false)}
         />
       </DialogContent>

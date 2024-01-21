@@ -8,6 +8,7 @@ import { ReactNode, useReducer, useState } from "react"
 import { type FoldersType } from "@/types/folders"
 import { cn } from "@/lib/utils"
 
+import { NewFolderButton } from "./NewFolderButton"
 import { Node } from "./Node"
 import { NoFoldersEmptyState } from "./NoFoldersEmptyState"
 import { RovingTabindexRoot } from "./RovingTabindex"
@@ -33,6 +34,7 @@ export const TreeViewApp = ({ treeData }: { treeData: TreeNodeType[] }) => {
       value={selected}
       onChange={select}
     >
+      <NewFolderButton />
       {treeData.map((node) => (
         <Node node={node} key={node.folder_id} />
       ))}

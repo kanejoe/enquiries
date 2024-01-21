@@ -23,9 +23,3 @@ SET row_security = off;
 -- Data for Name: folders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."folders" ("id", "folder_name", "parent_folder_id", "created_by", "created_at") OVERRIDING SYSTEM VALUE VALUES
-	(1, 'Property', NULL, 'a1e9e1a7-1e69-4b89-a05e-b492f9a91666', '2024-01-10 12:15:11.918691+00'),
-	(2, 'Litigation', NULL, 'a1e9e1a7-1e69-4b89-a05e-b492f9a91666', '2024-01-10 15:01:54.289298+00'),
-	(3, 'Contracts', 1, 'a1e9e1a7-1e69-4b89-a05e-b492f9a91666', '2024-01-10 15:02:52.143668+00'),
-	(5, 'Deeds', 1, 'a1e9e1a7-1e69-4b89-a05e-b492f9a91666', '2024-01-10 15:03:52.143668+00'),
-	(4, 'Debt Collection', 2, 'a1e9e1a7-1e69-4b89-a05e-b492f9a91666', '2024-01-11 14:11:23.895585+00');
