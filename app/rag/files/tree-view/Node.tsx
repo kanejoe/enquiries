@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import { AnimatePresence, motion, MotionConfig } from "framer-motion"
+import { Dot } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -61,14 +62,17 @@ export function Node({
             (documents && documents.length > 0) ? (
               <Arrow className="h-4 w-4 shrink-0 text-gray-500" open={isOpen} />
             ) : (
-              <span className="h-4 w-4 shrink-0" />
+              // <span className="h-4 w-4 shrink-0" />
+              <Dot className="h-4 w-4 shrink-0 text-gray-500" />
             )}
             <div className="inline-flex w-full justify-between">
               <span className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap">
                 {folder_name}{" "}
                 {documents?.length ? (
-                  <span className="ml-0.5 text-xs text-slate-500">
-                    ({documents.length})
+                  <span className="ml-0.5 text-right text-xs text-slate-500">
+                    {documents.length === 1
+                      ? `(${documents.length} document)`
+                      : `(${documents.length} documents)`}
                   </span>
                 ) : (
                   ""
@@ -105,13 +109,12 @@ export function Node({
             }}
             key="ul"
           >
-            {children.map((node) => (
-              <Node node={node} key={node.folder_id} />
-            ))}
-
             {documents?.length > 0 ? (
               <DocumentsList documents={documents} />
             ) : null}
+            {children.map((node) => (
+              <Node node={node} key={node.folder_id} />
+            ))}
           </motion.ul>
         ) : null}
       </AnimatePresence>
