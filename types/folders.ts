@@ -4,6 +4,7 @@
 export interface DocumentsType {
   document_id: number | null
   document_name: string | null
+  document_created_at: string | null
 }
 
 export interface FoldersType {

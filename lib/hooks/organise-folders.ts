@@ -38,6 +38,7 @@ function organizeFolders(initialData: InputData[]): FoldersType[] {
       folder.documents.push({
         document_id: item.document_id,
         document_name: item.document_name,
+        document_created_at: item.document_created_at,
       })
     }
   }

@@ -24,10 +24,6 @@ export function FilesTable({ documents }: { documents: Document[] }) {
   const supabase = createClientComponentClient<Database>()
 
   const selectDocument = (document: Document) => async () => {
-    console.log(
-      "🚀 ~ file: filesTable.tsx:27 ~ selectDocument ~ document:",
-      document
-    )
     const { data, error } = await supabase.storage
       .from("files")
       .createSignedUrl(document.storage_object_path || "", 60)

@@ -32,6 +32,8 @@ as
     folders.parent_folder_id,
     documents.name as document_name,
     documents.id as document_id,
+    documents.created_at as document_created_at,
+    storage.objects.id as storage_object_id,
     storage.objects.name as storage_object_path
   from folders
   left outer join documents
