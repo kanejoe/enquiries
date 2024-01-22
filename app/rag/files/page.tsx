@@ -5,7 +5,7 @@ import { toast } from "sonner"
 import { searchFolders } from "@/lib/hooks/organise-folders"
 import { useFolders } from "@/lib/hooks/useFolders"
 
-import { TreeViewApp } from "./tree-view/"
+import { TreeViewApp } from "./_tree-view"
 import { DropComponent } from "./upload/DropComponent"
 
 /**

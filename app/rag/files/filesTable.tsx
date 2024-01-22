@@ -1,4 +1,3 @@
-import { MouseEventHandler } from "react"
 import { Database } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { format as formatD } from "date-fns"
@@ -13,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { getFileExtension, getIconForFileType } from "./fileIcons"
+import { getFileExtension, getIconForFileType } from "../../../lib/fileIcons"
 
 type Views<T extends keyof Database["public"]["Views"]> =
   Database["public"]["Views"][T]["Row"]
