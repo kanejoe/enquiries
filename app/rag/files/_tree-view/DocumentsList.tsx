@@ -18,23 +18,17 @@ export function DocumentsList({ documents }: DocumentsListProps) {
         return (
           <div
             key={document.document_id}
-            className="my-1 flex items-center space-x-4 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium"
+            className="my-1 flex items-center space-x-4 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-2 font-medium"
           >
             <span className="h-4 w-4 shrink-0" />
             <span className="">
               {getIconForFileType(document.document_name || "")}
             </span>
-            <span
-              onClick={() => {
-                console.log(
-                  "🚀 ~ file: DocumentsList.tsx:74 ~ DocumentsList ~ document",
-                  document
-                )
-              }}
-              className="font-geistmono my-0.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-700 hover:underline"
-            >
+
+            <span className="font-geistsans my-0.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-600 hover:underline">
               {document.document_name}
             </span>
+
             <span className="">
               {document.document_created_at ? (
                 <Badge variant="secondary">

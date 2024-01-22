@@ -38,21 +38,21 @@ const DownloadButton: FC<DownloadButtonProps> = ({ document }) => {
     }
 
     if (document.document_id) recordDownloadStats(document.document_id)
-    // window.location.href = data.signedUrl
     window.open(data.signedUrl, "_blank")
   }
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost">
-            <ArrowBigDownDash
-              className="size-5 text-emerald-600"
-              onClick={selectDocument(document)}
-            />
+          <Button
+            variant="ghost"
+            onClick={selectDocument(document)}
+            className="active:translate-y-px"
+          >
+            <ArrowBigDownDash className="size-5 text-slate-900" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="bg-secondary">
+        <TooltipContent className="bg-slate-950 text-slate-50">
           <p>Download</p>
         </TooltipContent>
       </Tooltip>
