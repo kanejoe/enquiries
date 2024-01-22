@@ -4,15 +4,20 @@
  * @param initialData An array of objects representing the initial data.
  * @returns An array of Folder objects representing the organized folder structure.
  */
-
-import type { DocumentsType, FolderType } from "@/types/folders"
+import type { DocumentsType, FoldersType } from "@/types/folders"
 
 interface InputData
-  extends Pick<FolderType, "folder_id" | "folder_name" | "parent_folder_id">,
+  extends Pick<FoldersType, "folder_id" | "folder_name" | "parent_folder_id">,
     DocumentsType {}
 
-function organizeFolders(initialData: InputData[]): FolderType[] {
-  const folders: { [key: number]: FolderType } = {}
+/**
+ * Organizes the initial data into a hierarchical folder structure.
+ *
+ * @param initialData An array of objects representing the initial data.
+ * @returns An array of Folder objects representing the organized folder structure.
+ */
+function organizeFolders(initialData: InputData[]): FoldersType[] {
+  const folders: { [key: number]: FoldersType } = {}
 
   for (const item of initialData) {
     // Ensure the folder exists in the folders dictionary
@@ -38,7 +43,7 @@ function organizeFolders(initialData: InputData[]): FolderType[] {
   }
 
   // Organize folders into a hierarchy
-  const rootFolders: FolderType[] = []
+  const rootFolders: FoldersType[] = []
   Object.values(folders).forEach((folder) => {
     if (folder.parent_folder_id === null) {
       rootFolders.push(folder)
@@ -53,4 +58,43 @@ function organizeFolders(initialData: InputData[]): FolderType[] {
   return rootFolders
 }
 
-export { organizeFolders }
+/**
+ * Searches for folders and documents by name.
+ *
+ * @param data An array of Folder objects representing the folder structure.
+ * @param searchTerm The search term to match against folder and document names.
+ * @returns An array of matching Folder and Document objects.
+ */
+function searchFolders(
+  data: FoldersType[],
+  searchTerm: string
+): (FoldersType | DocumentsType)[] {
+  let results: (FoldersType | DocumentsType)[] = []
+  const lowerCaseSearchTerm = searchTerm.toLowerCase()
+
+  // Helper function to search recursively in folders and documents
+  function searchInFolder(folder: FoldersType) {
+    if (folder.folder_name?.toLowerCase().includes(lowerCaseSearchTerm)) {
+      results.push(folder)
+    }
+
+    for (const child of folder.children) {
+      searchInFolder(child)
+    }
+
+    for (const doc of folder.documents) {
+      if (doc.document_name?.toLowerCase().includes(lowerCaseSearchTerm)) {
+        results.push(doc)
+      }
+    }
+  }
+
+  // Starting the search from the root folders
+  for (const folder of data) {
+    searchInFolder(folder)
+  }
+
+  return results
+}
+
+export { organizeFolders, searchFolders }

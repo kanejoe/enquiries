@@ -3,7 +3,7 @@
  * The Root component holds an initial ul wrapping the root nodes.
  */
 
-import { ReactNode, useReducer, useState } from "react"
+import { ReactNode, useContext, useReducer, useState } from "react"
 
 import { type FoldersType } from "@/types/folders"
 import { cn } from "@/lib/utils"
@@ -29,16 +29,25 @@ export const TreeViewApp = ({ treeData }: { treeData: TreeNodeType[] }) => {
     )
 
   return (
-    <Root
-      className="h-full rounded-lg border-[1.5px] border-slate-100"
-      value={selected}
-      onChange={select}
-    >
-      <NewFolderButton />
-      {treeData.map((node) => (
-        <Node node={node} key={node.folder_id} />
-      ))}
-    </Root>
+    <div className="flex flex-col gap-y-4">
+      <div className="flex justify-between">
+        <div className="">
+          <NewFolderButton />
+        </div>
+        <div className="">search box</div>
+      </div>
+      <div className="">
+        <Root
+          className="h-full rounded-lg border-[1.5px] border-slate-100"
+          value={selected}
+          onChange={select}
+        >
+          {treeData.map((node) => (
+            <Node node={node} key={node.folder_id} />
+          ))}
+        </Root>
+      </div>
+    </div>
   )
 }
 

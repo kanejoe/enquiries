@@ -45,9 +45,9 @@
     "@radix-ui/react-tooltip": "1.0.7",
     "@supabase/auth-helpers-nextjs": "0.8.7",
     "@supabase/supabase-js": "2.39.3",
-    "@tanstack/react-query": "5.17.15",
-    "@tanstack/react-query-devtools": "5.17.18",
-    "@tanstack/react-table": "8.11.6",
+    "@tanstack/react-query": "5.17.19",
+    "@tanstack/react-query-devtools": "5.17.21",
+    "@tanstack/react-table": "8.11.7",
     "@xenova/transformers": "2.14.0",
     "ai": "2.2.31",
     "class-variance-authority": "0.7.0",
@@ -59,13 +59,13 @@
     "geist": "1.2.1",
     "immer": "10.0.3",
     "is-hotkey": "0.2.0",
-    "langchain": "0.1.4",
+    "langchain": "0.1.5",
     "lodash": "4.17.21",
-    "lucide-react": "0.312.0",
+    "lucide-react": "0.314.0",
     "nanoid": "5.0.4",
     "next": "14.1.0",
     "next-themes": "0.2.1",
-    "openai": "4.24.7",
+    "openai": "4.25.0",
     "openai-edge": "1.2.2",
     "pdf-parse": "1.1.1",
     "pdfjs-dist": "4.0.379",
@@ -86,7 +86,7 @@
     "three-dots": "0.3.2",
     "ts-node": "10.9.2",
     "use-debounce": "10.0.0",
-    "vaul": "0.8.7",
+    "vaul": "0.8.9",
     "zod-to-json-schema": "3.22.3",
     "zustand": "4.5.0"
   },
@@ -126,5 +126,8 @@
     "tailwindcss-opentype": "1.1.0",
     "ts-jest": "29.1.1",
     "typescript": "5.3.3"
+  }, 
+  "resolutions": {
+    "cliui": "^8.0.1"
   }
 }
