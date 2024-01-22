@@ -1,6 +1,7 @@
 import "@/app/globals.css"
 
 import { type Metadata } from "next"
+import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
 
 import { siteConfig } from "@/config/site"
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
             GeistSans.variable,
+            GeistMono.variable,
             fontAlbertSans.variable,
             fontSans.variable,
             fontMono.variable

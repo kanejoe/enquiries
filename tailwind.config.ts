@@ -81,6 +81,8 @@ module.exports = {
       },
       fontFamily: {
         albertsans: ["var(--font-albert-sans)"],
+        geistsans: ["var(--font-geist-sans)"],
+        geistmono: ["var(--font-geist-mono)"],
       },
       keyframes: {
         "accordion-down": {

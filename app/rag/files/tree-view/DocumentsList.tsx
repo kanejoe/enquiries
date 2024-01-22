@@ -14,7 +14,7 @@ export function DocumentsList({ documents }: DocumentsListProps) {
             className="my-1 flex items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium"
           >
             <span className="h-4 w-4 shrink-0" />
-            <span className="my-0.5 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-sm text-blue-700">
+            <span className="font-geistmono my-0.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-700">
               {document.document_name}
             </span>
           </div>
