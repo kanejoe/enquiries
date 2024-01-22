@@ -5,9 +5,24 @@ import { ArrowBigDownDash } from "lucide-react"
 import { DocumentsType } from "@/types/folders"
 import { Database } from "@/lib/database.types"
 import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface DownloadButtonProps {
   document: DocumentsType
+}
+
+async function recordDownloadStats(documentId: number) {
+  const supabase = createClientComponentClient<Database>()
+  const { data, error } = await supabase
+    .from("download_stats")
+    .insert([{ document_id: documentId }])
+    .select()
+    .throwOnError()
 }
 
 const DownloadButton: FC<DownloadButtonProps> = ({ document }) => {
@@ -21,15 +36,27 @@ const DownloadButton: FC<DownloadButtonProps> = ({ document }) => {
     if (error) {
       throw new Error("Error fetching signed url")
     }
-    window.location.href = data.signedUrl
+
+    if (document.document_id) recordDownloadStats(document.document_id)
+    // window.location.href = data.signedUrl
+    window.open(data.signedUrl, "_blank")
   }
   return (
-    <Button variant={"ghost"}>
-      <ArrowBigDownDash
-        className="size-5 text-emerald-600"
-        onClick={selectDocument(document)}
-      />
-    </Button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="ghost">
+            <ArrowBigDownDash
+              className="size-5 text-emerald-600"
+              onClick={selectDocument(document)}
+            />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent className="bg-secondary">
+          <p>Download</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
