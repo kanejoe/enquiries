@@ -47,7 +47,7 @@ const DownloadButton: FC<DownloadButtonProps> = ({ document }) => {
           <Button
             variant="ghost"
             onClick={selectDocument(document)}
-            className="active:translate-y-px"
+            className="rounded-full active:translate-y-px"
           >
             <ArrowBigDownDash className="size-5 text-slate-900" />
           </Button>
