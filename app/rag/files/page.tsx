@@ -7,6 +7,7 @@ import { useFolders } from "@/lib/hooks/useFolders"
 
 import { TreeViewApp } from "./_tree-view"
 import { DropComponent } from "./upload/DropComponent"
+import { Dropzone } from "./upload/Dropzone"
 import { FileUploadForm } from "./upload/FileUploadForm"
 
 /**
@@ -40,7 +41,8 @@ export default function FilesPage() {
         </div>
         <div className="col-span-2">
           {/* <DropComponent /> */}
-          <FileUploadForm />
+          {/* <FileUploadForm /> */}
+          <Dropzone />
         </div>
       </div>
     </div>

@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors")
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -70,6 +72,9 @@ module.exports = {
           900: "hsl(173, 93%, 16%)",
           950: "hsl(175, 100%, 9%)",
         },
+        rose: colors.rose,
+        sky: colors.sky,
+        indigo: colors.indigo,
       },
       borderRadius: {
         lg: "var(--radius)",

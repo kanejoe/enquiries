@@ -1,17 +1,23 @@
 import { FaFile, FaFilePdf, FaFileWord } from "react-icons/fa"
 
-export function getIconForFileType(filename: string): JSX.Element {
+export function getIconForFileType(
+  filename: string,
+  iconSize: number = 4
+): JSX.Element {
   const extension = getFileExtension(filename).toLowerCase()
+  const iconClass = `h-${iconSize} w-${iconSize}`
 
   switch (extension) {
     case "pdf":
-      return <FaFilePdf className="h-4 w-4 text-red-700" />
+      return <FaFilePdf className={`${iconClass} fill-red-700 text-red-700`} />
     case "doc":
     case "docx":
-      return <FaFileWord className="h-4 w-4 text-blue-800" />
+      return (
+        <FaFileWord className={`${iconClass} fill-blue-700 text-blue-700`} />
+      )
     // You can add more cases for different file types
     default:
-      return <FaFile /> // Default icon for unknown file types
+      return <FaFile className={iconClass} /> // Default icon for unknown file types
   }
 }
 
