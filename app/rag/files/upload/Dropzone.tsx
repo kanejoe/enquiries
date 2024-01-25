@@ -1,15 +1,14 @@
 import { FC, useCallback, useEffect, useState } from "react"
-import Image from "next/image"
 import {
   ArrowUpTrayIcon,
   CloudArrowUpIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid"
 import { Cross2Icon } from "@radix-ui/react-icons"
-import { FileIcon, X } from "lucide-react"
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone"
 
-import { getIconForFileType } from "@/lib/fileIcons"
+import { getFileExtension, getIconForFileType } from "@/lib/fileIcons"
+import { cn, convertFileSize } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 interface DropzoneProps {}
@@ -61,41 +60,19 @@ const Dropzone: FC<DropzoneProps> = () => {
     <div className="">
       <div className="mt-6">
         <form action={action}>
-          {files.length > 0 ? (
-            <div className="h-64 w-64 cursor-pointer rounded-xl border border-double border-sky-600 bg-sky-50 p-2 text-center shadow-lg shadow-sky-100">
-              <div className="relative flex h-full flex-col items-center justify-center gap-y-4">
-                <Button
-                  className="absolute right-0 top-0"
-                  variant="ghost"
-                  size="sm"
-                  onClick={removeAll}
-                >
-                  <Cross2Icon />
-                </Button>
-                <div className="">
-                  {files[0] && getIconForFileType(files[0].name, 8)}
-                </div>
-
-                <div className="max-w-48 truncate text-balance font-geistsans text-sm">
-                  {files[0] && files[0].name}
-                </div>
-
-                <div className="text-sm text-gray-500">
-                  {files[0] && convertFileSize(files[0].size)}
-                </div>
-              </div>
-            </div>
+          {files.length > 0 && files[0] ? (
+            <FileComponent file={files[0]} removeAll={removeAll} />
           ) : (
             <div
-              className="flex h-64 w-64 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-50 p-8 text-center shadow-xl shadow-slate-200 hover:bg-slate-100"
+              className="flex h-64 w-64 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dotted border-primary bg-primary/5 p-8 text-center shadow shadow-primary/20 transition hover:bg-primary/15"
               {...getRootProps({})}
             >
               <input {...getInputProps({ name: "file" })} />
 
               <div className="flex flex-col items-center justify-center gap-4">
-                <CloudArrowUpIcon className="h-8 w-8 fill-slate-700" />
+                <CloudArrowUpIcon className="h-8 w-8 fill-secondary-foreground" />
                 {isDragActive ? (
-                  <p>Drop the files here ...</p>
+                  <p>Drop your file here ...</p>
                 ) : (
                   <p>Drag & drop files here, or click to select files</p>
                 )}
@@ -110,15 +87,55 @@ const Dropzone: FC<DropzoneProps> = () => {
 
 export { Dropzone }
 
-export function convertFileSize(sizeInBytes: number): string {
-  const units = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
-  let i = 0
-  let size = sizeInBytes
+/**
+ *
+ * @param param0
+ * @returns
+ */
+export function FileComponent({
+  file,
+  removeAll,
+}: {
+  file: ExtendedFile
+  removeAll: () => void
+}) {
+  return (
+    <div
+      className={cn(
+        `h-64 w-64 rounded-xl border border-dotted p-2 text-center shadow-sm`,
+        getFileExtension(file.name) === "pdf" &&
+          "border-red-400 bg-red-50 shadow-red-400",
+        (getFileExtension(file.name) === "doc" ||
+          getFileExtension(file.name) === "docx") &&
+          "border-sky-200 bg-sky-50 shadow-sky-400"
+      )}
+    >
+      <div className="relative flex h-full flex-col items-center justify-center gap-y-4">
+        <Button
+          className={cn(
+            `bordershadow-sm absolute right-2 top-2 rounded-full transition `,
+            getFileExtension(file.name) === "pdf" &&
+              "border-red-400 bg-red-50 shadow-red-400 hover:bg-red-100",
+            (getFileExtension(file.name) === "doc" ||
+              getFileExtension(file.name) === "docx") &&
+              "border-sky-200 bg-sky-50 shadow-sky-400 hover:bg-sky-100"
+          )}
+          variant="ghost"
+          size="sm"
+          onClick={removeAll}
+        >
+          <Cross2Icon />
+        </Button>
+        <div className="">{file && getIconForFileType(file.name, 8)}</div>
 
-  while (size >= 1024 && i < units.length - 1) {
-    size /= 1024
-    i++
-  }
+        <div className="max-w-48 truncate text-balance font-geistsans text-sm font-semibold text-primary-foreground">
+          {file && file.name}
+        </div>
 
-  return `${size.toFixed(0)} ${units[i]}`
+        <div className="text-sm text-gray-500">
+          {file && convertFileSize(file.size)}
+        </div>
+      </div>
+    </div>
+  )
 }
