@@ -76,15 +76,6 @@ const AddFolderForm: FC<AddFolderFormProps> = ({
     shouldUnregister: false,
   })
 
-  // 2. Define a submit handler.
-  // async function onSubmit(values: z.infer<typeof formSchema>) {
-  //   console.log("🚀 ~ onSubmit ~ values:", values)
-  //   // Do something with the form values.
-  //   // ✅ This will be type-safe and validated.
-  //   const data = await (parent_id ? addSubFolder(values) : addFolder(values))
-  //   afterSave()
-  // }
-
   async function onSubmit(values: any) {
     if (parent_id) {
       const subFolderValues = values as z.infer<typeof withParentSchema>

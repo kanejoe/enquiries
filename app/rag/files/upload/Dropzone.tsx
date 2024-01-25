@@ -53,7 +53,7 @@ const Dropzone: FC<DropzoneProps> = () => {
   async function action() {
     const file = files[0]
     if (!file) return
-    // console.log("🚀 ~ action ~ file:", file)
+    console.log("🚀 ~ action ~ file:", file)
   }
 
   return (
@@ -61,10 +61,28 @@ const Dropzone: FC<DropzoneProps> = () => {
       <div className="mt-6">
         <form action={action}>
           {files.length > 0 && files[0] ? (
-            <FileComponent file={files[0]} removeAll={removeAll} />
+            <div className="flex flex-col gap-y-4">
+              <PdfOrDocFileComponent file={files[0]} removeAll={removeAll} />
+              <div className="">
+                <Button
+                  className={cn(
+                    "user-select-none w-full rounded-lg border font-semibold shadow-sm transition hover:bg-opacity-90",
+                    getFileExtension(files[0].name) === "pdf" &&
+                      "border-red-300 bg-red-100 shadow-red-400 hover:bg-red-200",
+                    (getFileExtension(files[0].name) === "doc" ||
+                      getFileExtension(files[0].name) === "docx") &&
+                      "border-sky-300 bg-sky-100 shadow-sky-400 hover:bg-sky-200"
+                  )}
+                  type="submit"
+                >
+                  <CloudArrowUpIcon className="mr-2 size-5" />
+                  Upload Document
+                </Button>
+              </div>
+            </div>
           ) : (
             <div
-              className="flex h-64 w-64 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dotted border-primary bg-primary/5 p-8 text-center shadow shadow-primary/20 transition hover:bg-primary/15"
+              className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dotted border-primary bg-primary/5 p-8 text-center shadow shadow-primary/20 transition hover:bg-primary/15"
               {...getRootProps({})}
             >
               <input {...getInputProps({ name: "file" })} />
@@ -74,7 +92,9 @@ const Dropzone: FC<DropzoneProps> = () => {
                 {isDragActive ? (
                   <p>Drop your file here ...</p>
                 ) : (
-                  <p>Drag & drop files here, or click to select files</p>
+                  <p className="text-balance">
+                    Drag & drop file here, or click to select
+                  </p>
                 )}
               </div>
             </div>
@@ -92,7 +112,7 @@ export { Dropzone }
  * @param param0
  * @returns
  */
-export function FileComponent({
+export function PdfOrDocFileComponent({
   file,
   removeAll,
 }: {
@@ -102,7 +122,7 @@ export function FileComponent({
   return (
     <div
       className={cn(
-        `h-64 w-64 rounded-xl border border-dotted p-2 text-center shadow-sm`,
+        `h-64 w-full rounded-xl border border-dotted p-2 text-center`,
         getFileExtension(file.name) === "pdf" &&
           "border-red-400 bg-red-50 shadow-red-400",
         (getFileExtension(file.name) === "doc" ||

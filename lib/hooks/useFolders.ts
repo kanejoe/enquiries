@@ -9,7 +9,7 @@ const keys = {
   getFolders: ["folders"],
 }
 
-const fetchFolders = async () => {
+const fetchFoldersWithDocuments = async () => {
   const supabase = createClientComponentClient<Database>()
 
   const { data } = await supabase
@@ -26,10 +26,22 @@ const fetchFolders = async () => {
   return tree
 }
 
+const fetchFolders = async () => {
+  const supabase = createClientComponentClient<Database>()
+
+  const { data } = await supabase.from("folders").select("*").throwOnError()
+
+  if (!data) {
+    return []
+  }
+
+  return data
+}
+
 const useFolders = () => {
   return useQuery({
     queryKey: keys.getFolders,
-    queryFn: () => fetchFolders(),
+    queryFn: () => fetchFoldersWithDocuments(),
     retry: false,
   })
 }
