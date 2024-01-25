@@ -8,6 +8,8 @@ import { Cross2Icon } from "@radix-ui/react-icons"
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone"
 
 import { getFileExtension, getIconForFileType } from "@/lib/fileIcons"
+import { useFolders } from "@/lib/hooks/useFolders"
+import { buildFullNames } from "@/lib/organise-folders"
 import { cn, convertFileSize } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
@@ -17,6 +19,13 @@ type ExtendedFile = File & { preview: string }
 
 const Dropzone: FC<DropzoneProps> = () => {
   const [files, setFiles] = useState<ExtendedFile[]>([]) // Initialize with an empty array and type 'ExtendedFile[]'
+
+  const {
+    data: folders,
+    error: foldersError,
+    isPending: foldersPending,
+  } = useFolders()
+  console.log("🚀 ~ folders:", buildFullNames(folders))
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {

@@ -1,9 +1,6 @@
-import { organizeFolders } from "@/lib/hooks/organise-folders";
+import { organizeFolders } from "@/lib/organise-folders"
 
-
-
-import { raw_folders_documents } from "./data/folders.raw";
-
+import { raw_folders_documents } from "./data/folders.raw"
 
 describe("Test Normalize Folders/Documents Outerjoin", () => {
   it("should return a normalized array of folders", () => {
@@ -105,13 +102,12 @@ describe("Test Normalize Folders/Documents Outerjoin", () => {
     expect((normalized[1] as any).documents).toHaveLength(1)
   })
 
+  it("should return an empty array when input is empty", () => {
+    const input: any[] = []
+    const expectedOutput: any[] = []
 
-   it("should return an empty array when input is empty", () => {
-     const input: any[] = []
-     const expectedOutput: any[] = []
+    const result = organizeFolders(input)
 
-     const result = organizeFolders(input)
-
-     expect(result).toEqual(expectedOutput)
-   })
+    expect(result).toEqual(expectedOutput)
+  })
 })

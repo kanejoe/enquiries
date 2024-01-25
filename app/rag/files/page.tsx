@@ -2,8 +2,8 @@
 
 import { toast } from "sonner"
 
-import { searchFolders } from "@/lib/hooks/organise-folders"
-import { useFolders } from "@/lib/hooks/useFolders"
+import { useFoldersWithDocuments } from "@/lib/hooks/useFolders"
+import { searchFolders } from "@/lib/organise-folders"
 
 import { TreeViewApp } from "./_tree-view"
 import { DropComponent } from "./upload/DropComponent"
@@ -16,12 +16,10 @@ import { FileUploadForm } from "./upload/FileUploadForm"
  */
 export default function FilesPage() {
   const {
-    data: folders,
+    data: foldersWithDocs,
     error: foldersError,
     isPending: foldersPending,
-  } = useFolders()
-  // if (folders)
-  //   console.log("🚀 ~ FilesPage ~ folders:", searchFolders(folders, "Con"))
+  } = useFoldersWithDocuments()
 
   if (foldersError) {
     toast.error("Error", {
@@ -33,8 +31,8 @@ export default function FilesPage() {
     <div className="container mt-8 font-albertsans">
       <div className="grid h-128 grid-cols-6 gap-x-20">
         <div className="col-span-4">
-          {folders ? (
-            <TreeViewApp treeData={folders} />
+          {foldersWithDocs ? (
+            <TreeViewApp treeData={foldersWithDocs} />
           ) : foldersPending ? (
             <p>Loading...</p>
           ) : null}

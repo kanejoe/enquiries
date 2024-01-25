@@ -3,9 +3,10 @@ import { Database, Tables } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { organizeFolders } from "./organise-folders"
+import { organizeFolders } from "../organise-folders"
 
 const keys = {
+  getDocuments: ["documents"],
   getFolders: ["folders"],
 }
 
@@ -17,9 +18,7 @@ const fetchFoldersWithDocuments = async () => {
     .select("*")
     .throwOnError()
 
-  if (!data) {
-    return []
-  }
+  if (!data) return []
 
   // If no error, return the data
   const tree = organizeFolders(data)
@@ -28,20 +27,24 @@ const fetchFoldersWithDocuments = async () => {
 
 const fetchFolders = async () => {
   const supabase = createClientComponentClient<Database>()
-
   const { data } = await supabase.from("folders").select("*").throwOnError()
 
-  if (!data) {
-    return []
-  }
-
+  if (!data) return []
   return data
+}
+
+const useFoldersWithDocuments = () => {
+  return useQuery({
+    queryKey: keys.getDocuments,
+    queryFn: () => fetchFoldersWithDocuments(),
+    retry: false,
+  })
 }
 
 const useFolders = () => {
   return useQuery({
     queryKey: keys.getFolders,
-    queryFn: () => fetchFoldersWithDocuments(),
+    queryFn: () => fetchFolders(),
     retry: false,
   })
 }
@@ -178,6 +181,7 @@ const useEditFolderName = (options: {
 
 export {
   useFolders,
+  useFoldersWithDocuments,
   useSetUpFolderStructure,
   useAddFolder,
   useAddSubFolder,

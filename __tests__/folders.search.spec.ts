@@ -1,4 +1,4 @@
-import { searchFolders } from "@/lib/hooks/organise-folders"
+import { searchFolders } from "@/lib/organise-folders"
 
 const data = [
   {
