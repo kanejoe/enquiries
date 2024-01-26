@@ -1,6 +1,8 @@
-import { Database } from "@/supabase/functions/_lib/database"
+// import { Database } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+
+import { Database } from "@/lib/database.types"
 
 const keys = {
   getFiles: ["files"],
@@ -36,13 +38,22 @@ const getUploadedFilesData = () => {
   return queryClient.getQueriesData({ queryKey: keys.getFiles })
 }
 
+type Input = {
+  selectedFile: File
+  folder_id: string
+}
+
+type Response = void
+
 const useAddStorageFile = (options: { onSuccess: () => void }) => {
   const supabase = createClientComponentClient<Database>()
 
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: async (selectedFile: File) => {
-      const { error } = await supabase.storage
+  return useMutation<Response, Error, Input>({
+    mutationFn: async (input: Input): Promise<Response> => {
+      const { selectedFile, folder_id } = input
+
+      const { data, error } = await supabase.storage
         .from("files")
         .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile, {
           upsert: true,
@@ -52,6 +63,19 @@ const useAddStorageFile = (options: { onSuccess: () => void }) => {
         console.log("🚀 ~ mutationFn: ~ error:", error)
         throw new Error(error.message) // Throw an error if the addition fails
       }
+
+      // If no error, return the data
+      const { data: document, error: documentError } = await supabase
+        .from("documents")
+        .update({ folder_id: Number(folder_id) })
+        .eq("storage_object_id", (data as any).id)
+        .select()
+
+      console.log("🚀 ~ mutationFn: ~ document:", document)
+      console.log("🚀 ~ mutationFn: ~ documentError:", documentError)
+
+      // Return a Response object
+      // return { data: "data", error: "error" } // Replace "data" and "error" with the actual data and error
     },
     onSuccess: async () => options.onSuccess(),
   })

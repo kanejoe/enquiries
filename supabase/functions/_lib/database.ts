@@ -70,6 +70,13 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "documents_with_storage_path_and_created_by_email"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_sections_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["document_id"]
           }
         ]
       }
@@ -77,6 +84,7 @@ export interface Database {
         Row: {
           created_at: string
           created_by: string
+          folder_id: number | null
           id: number
           name: string
           storage_object_id: string
@@ -84,6 +92,7 @@ export interface Database {
         Insert: {
           created_at?: string
           created_by?: string
+          folder_id?: number | null
           id?: never
           name: string
           storage_object_id: string
@@ -91,6 +100,7 @@ export interface Database {
         Update: {
           created_at?: string
           created_by?: string
+          folder_id?: number | null
           id?: never
           name?: string
           storage_object_id?: string
@@ -104,11 +114,82 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "documents_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["folder_id"]
+          },
+          {
+            foreignKeyName: "documents_storage_object_id_fkey"
+            columns: ["storage_object_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["storage_object_id"]
+          },
+          {
             foreignKeyName: "documents_storage_object_id_fkey"
             columns: ["storage_object_id"]
             isOneToOne: false
             referencedRelation: "objects"
             referencedColumns: ["id"]
+          }
+        ]
+      }
+      download_stats: {
+        Row: {
+          created_at: string
+          created_by: string
+          document_id: number | null
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          document_id?: number | null
+          id?: never
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          document_id?: number | null
+          id?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "download_stats_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "download_stats_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "download_stats_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents_with_storage_path_and_created_by_email"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "download_stats_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["document_id"]
           }
         ]
       }
@@ -148,6 +229,13 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "folders"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "folders_parent_folder_id_fkey"
+            columns: ["parent_folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["folder_id"]
           }
         ]
       }
@@ -319,6 +407,7 @@ export interface Database {
           created_at: string | null
           created_by: string | null
           created_by_email: string | null
+          folder_id: number | null
           id: number | null
           name: string | null
           storage_object_id: string | null
@@ -333,11 +422,60 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "documents_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["folder_id"]
+          },
+          {
             foreignKeyName: "documents_storage_object_id_fkey"
             columns: ["storage_object_id"]
             isOneToOne: false
             referencedRelation: "objects"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_storage_object_id_fkey"
+            columns: ["storage_object_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["storage_object_id"]
+          }
+        ]
+      }
+      folders_with_documents: {
+        Row: {
+          document_created_at: string | null
+          document_id: number | null
+          document_name: string | null
+          folder_id: number | null
+          folder_name: string | null
+          parent_folder_id: number | null
+          storage_object_id: string | null
+          storage_object_path: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "folders_parent_folder_id_fkey"
+            columns: ["parent_folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "folders_parent_folder_id_fkey"
+            columns: ["parent_folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["folder_id"]
           }
         ]
       }

@@ -3,9 +3,11 @@ import { CloudArrowUpIcon } from "@heroicons/react/20/solid"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DropEvent, useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import * as z from "zod"
 
 import { getFileExtension } from "@/lib/fileIcons"
+import { useAddStorageFile } from "@/lib/hooks/useStorageFiles"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
@@ -26,6 +28,10 @@ const FormSchema = z.object({
 
 const Dropzone: FC<DropzoneProps> = () => {
   const [files, setFiles] = useState<ExtendedFile[]>([]) // Initialize with an empty array and type 'ExtendedFile[]'
+  const { mutateAsync: uploadFile, status: addFolderStatus } =
+    useAddStorageFile({
+      onSuccess: () => toast.success("File successfully uploaded!"),
+    })
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -61,11 +67,15 @@ const Dropzone: FC<DropzoneProps> = () => {
 
   const removeAll = () => setFiles([])
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    const file = files[0]
-    if (!file) return
-    console.log("🚀 ~ action ~ file:", file)
-    console.log("🚀 ~ onSubmit ~ data:", data)
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const file_to_upload = files[0]
+    if (!file_to_upload) return
+    const resp = await uploadFile({
+      selectedFile: file_to_upload,
+      folder_id: data.folder_id,
+    })
+    // console.log("🚀 ~ action ~ file:", file_to_upload)
+    // console.log("🚀 ~ onSubmit ~ data:", data)
     form.reset()
   }
 

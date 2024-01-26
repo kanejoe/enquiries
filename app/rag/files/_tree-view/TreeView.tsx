@@ -3,7 +3,7 @@
  * The Root component holds an initial ul wrapping the root nodes.
  */
 
-import { ReactNode, useContext, useReducer, useState } from "react"
+import { ReactNode,  useReducer, useState } from "react"
 
 import { type FoldersType } from "@/types/folders"
 import { cn } from "@/lib/utils"

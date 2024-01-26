@@ -7,6 +7,31 @@ export type Json =
   | Json[]
 
 export interface Database {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       document_sections: {
@@ -15,18 +40,21 @@ export interface Database {
           document_id: number
           embedding: string | null
           id: number
+          metadata: Json | null
         }
         Insert: {
           content: string
           document_id: number
           embedding?: string | null
           id?: never
+          metadata?: Json | null
         }
         Update: {
           content?: string
           document_id?: number
           embedding?: string | null
           id?: never
+          metadata?: Json | null
         }
         Relationships: [
           {
@@ -40,8 +68,15 @@ export interface Database {
             foreignKeyName: "document_sections_document_id_fkey"
             columns: ["document_id"]
             isOneToOne: false
-            referencedRelation: "documents_with_storage_path"
+            referencedRelation: "documents_with_storage_path_and_created_by_email"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_sections_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["document_id"]
           }
         ]
       }
@@ -49,6 +84,7 @@ export interface Database {
         Row: {
           created_at: string
           created_by: string
+          folder_id: number | null
           id: number
           name: string
           storage_object_id: string
@@ -56,6 +92,7 @@ export interface Database {
         Insert: {
           created_at?: string
           created_by?: string
+          folder_id?: number | null
           id?: never
           name: string
           storage_object_id: string
@@ -63,6 +100,7 @@ export interface Database {
         Update: {
           created_at?: string
           created_by?: string
+          folder_id?: number | null
           id?: never
           name?: string
           storage_object_id?: string
@@ -76,11 +114,128 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "documents_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["folder_id"]
+          },
+          {
+            foreignKeyName: "documents_storage_object_id_fkey"
+            columns: ["storage_object_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["storage_object_id"]
+          },
+          {
             foreignKeyName: "documents_storage_object_id_fkey"
             columns: ["storage_object_id"]
             isOneToOne: false
             referencedRelation: "objects"
             referencedColumns: ["id"]
+          }
+        ]
+      }
+      download_stats: {
+        Row: {
+          created_at: string
+          created_by: string
+          document_id: number | null
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          document_id?: number | null
+          id?: never
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          document_id?: number | null
+          id?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "download_stats_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "download_stats_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "download_stats_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents_with_storage_path_and_created_by_email"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "download_stats_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["document_id"]
+          }
+        ]
+      }
+      folders: {
+        Row: {
+          created_at: string
+          created_by: string
+          folder_name: string
+          id: number
+          parent_folder_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          folder_name: string
+          id?: never
+          parent_folder_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          folder_name?: string
+          id?: never
+          parent_folder_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "folders_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "folders_parent_folder_id_fkey"
+            columns: ["parent_folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "folders_parent_folder_id_fkey"
+            columns: ["parent_folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["folder_id"]
           }
         ]
       }
@@ -116,6 +271,38 @@ export interface Database {
           subname?: string
         }
         Relationships: []
+      }
+      profiles: {
+        Row: {
+          email: string
+          first_name: string | null
+          id: string
+          initials: string | null
+          last_name: string | null
+        }
+        Insert: {
+          email: string
+          first_name?: string | null
+          id: string
+          initials?: string | null
+          last_name?: string | null
+        }
+        Update: {
+          email?: string
+          first_name?: string | null
+          id?: string
+          initials?: string | null
+          last_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       properties: {
         Row: {
@@ -215,10 +402,12 @@ export interface Database {
       }
     }
     Views: {
-      documents_with_storage_path: {
+      documents_with_storage_path_and_created_by_email: {
         Row: {
           created_at: string | null
           created_by: string | null
+          created_by_email: string | null
+          folder_id: number | null
           id: number | null
           name: string | null
           storage_object_id: string | null
@@ -233,11 +422,60 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "documents_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["folder_id"]
+          },
+          {
             foreignKeyName: "documents_storage_object_id_fkey"
             columns: ["storage_object_id"]
             isOneToOne: false
             referencedRelation: "objects"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_storage_object_id_fkey"
+            columns: ["storage_object_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["storage_object_id"]
+          }
+        ]
+      }
+      folders_with_documents: {
+        Row: {
+          document_created_at: string | null
+          document_id: number | null
+          document_name: string | null
+          folder_id: number | null
+          folder_name: string | null
+          parent_folder_id: number | null
+          storage_object_id: string | null
+          storage_object_path: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "folders_parent_folder_id_fkey"
+            columns: ["parent_folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "folders_parent_folder_id_fkey"
+            columns: ["parent_folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["folder_id"]
           }
         ]
       }
@@ -250,12 +488,6 @@ export interface Database {
           p_old_sequence: number
         }
         Returns: undefined
-      }
-      hnswhandler: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
       }
       inc_sequence: {
         Args: {
@@ -272,11 +504,22 @@ export interface Database {
         }
         Returns: undefined
       }
-      ivfflathandler: {
+      match_document_sections: {
         Args: {
-          "": unknown
+          embedding: string
+          match_threshold: number
         }
-        Returns: unknown
+        Returns: {
+          content: string
+          document_id: number
+          embedding: string | null
+          id: number
+          metadata: Json | null
+        }[]
+      }
+      supabase_url: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       update_requisition:
         | {
@@ -300,41 +543,184 @@ export interface Database {
             }
             Returns: undefined
           }
-      vector_avg: {
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+  storage: {
+    Tables: {
+      buckets: {
+        Row: {
+          allowed_mime_types: string[] | null
+          avif_autodetection: boolean | null
+          created_at: string | null
+          file_size_limit: number | null
+          id: string
+          name: string
+          owner: string | null
+          owner_id: string | null
+          public: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          allowed_mime_types?: string[] | null
+          avif_autodetection?: boolean | null
+          created_at?: string | null
+          file_size_limit?: number | null
+          id: string
+          name: string
+          owner?: string | null
+          owner_id?: string | null
+          public?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          allowed_mime_types?: string[] | null
+          avif_autodetection?: boolean | null
+          created_at?: string | null
+          file_size_limit?: number | null
+          id?: string
+          name?: string
+          owner?: string | null
+          owner_id?: string | null
+          public?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      migrations: {
+        Row: {
+          executed_at: string | null
+          hash: string
+          id: number
+          name: string
+        }
+        Insert: {
+          executed_at?: string | null
+          hash: string
+          id: number
+          name: string
+        }
+        Update: {
+          executed_at?: string | null
+          hash?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      objects: {
+        Row: {
+          bucket_id: string | null
+          created_at: string | null
+          id: string
+          last_accessed_at: string | null
+          metadata: Json | null
+          name: string | null
+          owner: string | null
+          owner_id: string | null
+          path_tokens: string[] | null
+          updated_at: string | null
+          version: string | null
+        }
+        Insert: {
+          bucket_id?: string | null
+          created_at?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          name?: string | null
+          owner?: string | null
+          owner_id?: string | null
+          path_tokens?: string[] | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Update: {
+          bucket_id?: string | null
+          created_at?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          name?: string | null
+          owner?: string | null
+          owner_id?: string | null
+          path_tokens?: string[] | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "objects_bucketId_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      can_insert_object: {
         Args: {
-          "": number[]
+          bucketid: string
+          name: string
+          owner: string
+          metadata: Json
+        }
+        Returns: undefined
+      }
+      extension: {
+        Args: {
+          name: string
         }
         Returns: string
       }
-      vector_dims: {
+      filename: {
         Args: {
-          "": string
+          name: string
         }
-        Returns: number
+        Returns: string
       }
-      vector_norm: {
+      foldername: {
         Args: {
-          "": string
-        }
-        Returns: number
-      }
-      vector_out: {
-        Args: {
-          "": string
+          name: string
         }
         Returns: unknown
       }
-      vector_send: {
-        Args: {
-          "": string
-        }
-        Returns: string
+      get_size_by_bucket: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          size: number
+          bucket_id: string
+        }[]
       }
-      vector_typmod_in: {
+      search: {
         Args: {
-          "": unknown[]
+          prefix: string
+          bucketname: string
+          limits?: number
+          levels?: number
+          offsets?: number
+          search?: string
+          sortcolumn?: string
+          sortorder?: string
         }
-        Returns: number
+        Returns: {
+          name: string
+          id: string
+          updated_at: string
+          created_at: string
+          last_accessed_at: string
+          metadata: Json
+        }[]
       }
     }
     Enums: {
@@ -425,3 +811,4 @@ export type Enums<
   : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
   ? Database["public"]["Enums"][PublicEnumNameOrOptions]
   : never
+

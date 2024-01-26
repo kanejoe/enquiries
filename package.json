@@ -17,7 +17,7 @@
     "test": "jest --watchAll",
     "json-server": "json-server --watch data/db.json --port 3001",
     "gen:types": "npx supabase gen types typescript --local > supabase/functions/_lib/database.ts",
-    "gen:types1": "npx supabase gen types typescript --local > supabase/functions/_lib/database.ts"
+    "gen:types1": "npx supabase gen types typescript --local > lib/database.types.ts"
   },
   "dependencies": {
     "@casl/ability": "6.5.0",
