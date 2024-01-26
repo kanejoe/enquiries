@@ -596,10 +596,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.56.0.tgz#ef20350fec605a7f7035a01764731b2de0f3782b"
   integrity sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==
 
-"@faker-js/faker@8.3.1":
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-8.3.1.tgz#7753df0cb88d7649becf984a96dd1bd0a26f43e3"
-  integrity sha512-FdgpFxY6V6rLZE9mmIBb9hM0xpfvQOSNOLnzolzKwsE1DH+gC7lEKV1p1IbR0lAYyvYd5a4u3qWJzowUkw1bIw==
+"@faker-js/faker@8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-8.4.0.tgz#dc09924ee5fa6438eaaa49d0a8820c64d2f8518f"
+  integrity sha512-htW87352wzUCdX1jyUQocUcmAaFqcR/w082EC8iP/gtkF0K+aKcBp0hR5Arb7dzR8tQ1TrhE9DNa5EbJELm84w==
 
 "@floating-ui/core@^1.5.3":
   version "1.5.3"
@@ -2731,10 +2731,10 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@xenova/transformers@2.14.0":
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/@xenova/transformers/-/transformers-2.14.0.tgz#6fe128957e64377ca4fca910e77f6092f3f3512a"
-  integrity sha512-rQ3O7SW5EM64b6XFZGx3XQ2cfiroefxUwU9ShfSpEZyhd082GvwNJJKndxgaukse1hZP1JUDoT0DfjDiq4IZiw==
+"@xenova/transformers@2.14.1":
+  version "2.14.1"
+  resolved "https://registry.yarnpkg.com/@xenova/transformers/-/transformers-2.14.1.tgz#3b88514c79327fc109e0e5edf652e8b7dfc58afc"
+  integrity sha512-aj4aXxci3pTf6BEavm8ASu4doGPQP3l5KPXTnem4jMTWuXV2ZFhea0L5MWrYWgSWqtptwN6UqHzW6npKExsaQQ==
   dependencies:
     "@huggingface/jinja" "^0.1.0"
     onnxruntime-web "1.14.0"
@@ -3429,7 +3429,7 @@ clsx@2.0.0:
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.0.0.tgz#12658f3fd98fafe62075595a5c30e43d18f3d00b"
   integrity sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==
 
-clsx@2.1.0, clsx@^2.0.0, clsx@^2.1.0:
+clsx@2.1.0, clsx@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.0.tgz#e851283bcb5c80ee7608db18487433f7b23f77cb"
   integrity sha512-m3iNNWpd9rl3jvvcBnu70ylMdrXt8Vlq4HYadnU5fwcOtvkSQWPmj7amUcDT2qYI7risszBjI5AUIUox9D16pg==
@@ -4217,10 +4217,10 @@ eslint-plugin-react@7.33.2, eslint-plugin-react@^7.33.2:
     semver "^6.3.1"
     string.prototype.matchall "^4.0.8"
 
-eslint-plugin-tailwindcss@3.14.0:
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-tailwindcss/-/eslint-plugin-tailwindcss-3.14.0.tgz#634edcbd5a3989a68bca5b41b9627172b86489d2"
-  integrity sha512-SGy4JmZoP5m1bXCbcsPfQg1/axOdriJf9L22HghNMyDTM5mybg2XEkaMwgax4aR13zZJRRB1nWmkuYUn+SV6/Q==
+eslint-plugin-tailwindcss@3.14.1:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-tailwindcss/-/eslint-plugin-tailwindcss-3.14.1.tgz#9e243dd3c67b5e767460516dcc367da0676ddacc"
+  integrity sha512-orNkVzJ1fdCkj5d8AHE3tAbixNpMJRoKoHPnxZbZ6iBHTsNvOEmeBz62C3THPhFnXCXaD55SRbNjqGzMEXRoZA==
   dependencies:
     fast-glob "^3.2.5"
     postcss "^8.4.4"
@@ -6100,10 +6100,10 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.1.0.tgz#2098d41c2dc56500e6c88584aa656c84de7d0484"
   integrity sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==
 
-lucide-react@0.315.0:
-  version "0.315.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.315.0.tgz#fe3b2d1a83fd4da0b0b661608fb6d61cbde2a924"
-  integrity sha512-HHPhBRuubJLTERwI3czCgHCrYEtQSuUnniBwR/YHH4rNZXeqtOxyEX05lxpyTxlDr/ugKE+MM9/pWy+iju7xpw==
+lucide-react@0.316.0:
+  version "0.316.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.316.0.tgz#df3a70515db81837496be255c534d8c9e3b18182"
+  integrity sha512-dTmYX1H4IXsRfVcj/KUxworV6814ApTl7iXaS21AimK2RUEl4j4AfOmqD3VR8phe5V91m4vEJ8tCK4uT1jE5nA==
 
 lucide-react@^0.274.0:
   version "0.274.0"
@@ -7512,7 +7512,22 @@ openai-edge@1.2.2:
   resolved "https://registry.yarnpkg.com/openai-edge/-/openai-edge-1.2.2.tgz#0b1cd5aec2c366bbd25cdeba05399aa6eef73230"
   integrity sha512-C3/Ao9Hkx5uBPv9YFBpX/x59XMPgPUU4dyGg/0J2sOJ7O9D98kD+lfdOc7v/60oYo5xzMGct80uFkYLH+X2qgw==
 
-openai@4.25.0, openai@^4.24.2, openai@^4.6.0:
+openai@4.26.0:
+  version "4.26.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-4.26.0.tgz#0363b9d390727705b89cd1b1ea8e38af2afd53b6"
+  integrity sha512-HPC7tgYdeP38F3uHA5WgnoXZyGbAp9jgcIo23p6It+q/07u4C+NZ8xHKlMShsPbDDmFRpPsa3vdbXYpbhJH3eg==
+  dependencies:
+    "@types/node" "^18.11.18"
+    "@types/node-fetch" "^2.6.4"
+    abort-controller "^3.0.0"
+    agentkeepalive "^4.2.1"
+    digest-fetch "^1.3.0"
+    form-data-encoder "1.7.2"
+    formdata-node "^4.3.2"
+    node-fetch "^2.6.7"
+    web-streams-polyfill "^3.2.1"
+
+openai@^4.24.2, openai@^4.6.0:
   version "4.25.0"
   resolved "https://registry.yarnpkg.com/openai/-/openai-4.25.0.tgz#b40099d625cccb19cbf1cab88915ac1699ece0ed"
   integrity sha512-qLMFOizjxKuDfQkBrczZPYo6XVL4bdcuz9MR11Q+M91kGcs8dQw+O90nRcC+qWuhaGphQkfXQJMn4cd7Yew3Kg==
@@ -8140,13 +8155,13 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-twc@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/react-twc/-/react-twc-1.3.0.tgz#ff44aca6dc75305c5bc1464889b723d40331c98e"
-  integrity sha512-HL7rEZYIQumsWl91eUwQAVVijVt+Ly+Trgo/Eg+6GUnLvUfRJMvNa05cae1OAPzfTYY+1AtBDh+1DXPfOC1SGA==
+react-twc@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/react-twc/-/react-twc-1.4.1.tgz#8216324fc91173f1b3498b56ef63566be54e1ba0"
+  integrity sha512-G8Z4a20zM5bFMUPUrVlMiOIRiIbrNgj4CbvqNH6A1KcbEaEsXrKnDAtN6h7JptSaREbl/Mz66Rg+bEpiHnZDig==
   dependencies:
     "@radix-ui/react-slot" "^1.0.2"
-    clsx "^2.0.0"
+    clsx "^2.1.0"
 
 react@18.3.0-canary-b8e47d988-20231023:
   version "18.3.0-canary-b8e47d988-20231023"

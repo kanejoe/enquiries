@@ -27,7 +27,10 @@ const fetchFoldersWithDocuments = async () => {
 
 const fetchFolders = async () => {
   const supabase = createClientComponentClient<Database>()
-  const { data } = await supabase.from("folders").select("*").throwOnError()
+  const { data } = await supabase
+    .from("folders")
+    .select("id, folder_name, parent_folder_id")
+    .throwOnError()
 
   if (!data) return []
   return data
