@@ -6,6 +6,7 @@ import { Database } from "@/lib/database.types"
 
 const keys = {
   getFiles: ["files"],
+  getDocuments: ["documents"],
 }
 
 const fetchStorageFiles = async () => {
@@ -64,20 +65,25 @@ const useAddStorageFile = (options: { onSuccess: () => void }) => {
         throw new Error(error.message) // Throw an error if the addition fails
       }
 
-      // If no error, return the data
       const { data: document, error: documentError } = await supabase
         .from("documents")
-        .update({ folder_id: Number(folder_id) })
+        .update({ folder_id: parseInt(folder_id, 10) })
         .eq("storage_object_id", (data as any).id)
         .select()
 
-      console.log("🚀 ~ mutationFn: ~ document:", document)
-      console.log("🚀 ~ mutationFn: ~ documentError:", documentError)
+      if (document && document.length === 0) console.log("no documents found")
+      else console.log("🚀 ~ mutationFn: ~ document:", document)
+
+      if (documentError)
+        console.log("🚀 ~ mutationFn: ~ documentError:", documentError)
 
       // Return a Response object
       // return { data: "data", error: "error" } // Replace "data" and "error" with the actual data and error
     },
-    onSuccess: async () => options.onSuccess(),
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: keys.getDocuments })
+      options.onSuccess()
+    },
   })
 }
 

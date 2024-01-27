@@ -49,9 +49,10 @@ on documents for insert to authenticated with check (
 );
 
 create policy "Users can update documents"
-on documents for update to authenticated with check (
+on documents for update to authenticated using (
   auth.uid() = created_by
 );
+
 
 create policy "Users can query their own documents"
 on documents for select to authenticated using (

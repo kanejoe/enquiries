@@ -77,6 +77,7 @@ const Dropzone: FC<DropzoneProps> = () => {
     // console.log("🚀 ~ action ~ file:", file_to_upload)
     // console.log("🚀 ~ onSubmit ~ data:", data)
     form.reset()
+    removeAll()
   }
 
   return (

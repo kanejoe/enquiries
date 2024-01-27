@@ -2,7 +2,6 @@ import { folder_seed_data } from "@/data/folder_seed_data"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-// import { Database, Tables } from "@/supabase/functions/_lib/database"
 import { Database, Tables } from "@/lib/database.types"
 
 import { organizeFolders } from "../organise-folders"
@@ -105,7 +104,7 @@ const useAddSubFolder = (options: {
       return data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: keys.getFolders })
+      queryClient.invalidateQueries({ queryKey: keys.getDocuments })
       options.onSuccess()
     },
     onError: (error: Error) => options.onError(error),
@@ -142,7 +141,7 @@ const useAddFolder = (options: {
       return data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: keys.getFolders })
+      queryClient.invalidateQueries({ queryKey: keys.getDocuments })
       options.onSuccess()
     },
     onError: (error: Error) => options.onError(error),
