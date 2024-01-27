@@ -1,8 +1,10 @@
+import Link from "next/link"
+import { useParams, usePathname } from "next/navigation"
 import { format as formatD } from "date-fns"
-import { ArrowBigDownDash } from "lucide-react"
 
 import { DocumentsType } from "@/types/folders"
-import { getFileExtension, getIconForFileType } from "@/lib/fileIcons"
+import { getIconForFileType } from "@/lib/fileIcons"
+import { removeLastSegment } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 
 import { DownloadButton } from "./DownloadButton"
@@ -12,6 +14,12 @@ type DocumentsListProps = {
 }
 
 export function DocumentsList({ documents }: DocumentsListProps) {
+  const pathname = usePathname()
+  const { id } = useParams()
+
+  let newPathname = pathname
+  if (id) newPathname = removeLastSegment(pathname)
+
   return (
     <>
       {documents.map((document: DocumentsType) => {
@@ -25,8 +33,10 @@ export function DocumentsList({ documents }: DocumentsListProps) {
               {getIconForFileType(document.document_name || "")}
             </span>
 
-            <span className="font-geistsans my-0.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-600 hover:underline">
-              {document.document_name}
+            <span className="my-0.5 overflow-hidden text-ellipsis whitespace-nowrap font-geistsans text-sm text-blue-600 hover:underline">
+              <Link href={`${newPathname}/${document.document_id}`}>
+                {document.document_name}
+              </Link>
             </span>
 
             <span className="">

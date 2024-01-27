@@ -1,3 +1,3 @@
-import { TreeViewApp } from "./TreeView"
+import { TreeViewWrapper } from "./TreeViewWrapper"
 
-export { TreeViewApp }
+export { TreeViewWrapper }

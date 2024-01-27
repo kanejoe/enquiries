@@ -1,3 +1,5 @@
+"use client"
+
 import { FC, useCallback, useEffect, useState } from "react"
 import { CloudArrowUpIcon } from "@heroicons/react/20/solid"
 import { zodResolver } from "@hookform/resolvers/zod"

@@ -17,3 +17,19 @@ export function convertFileSize(sizeInBytes: number): string {
 
   return `${size.toFixed(0)} ${units[i]}`
 }
+
+/**
+ * Removes the last segment from a pathname.
+ * @param pathname - The pathname to remove the last segment from.
+ * @returns The new pathname without the last segment.
+ */
+export const removeLastSegment = (pathname: string): string => {
+  // Split the pathname into segments based on '/'
+  const segments = pathname.split("/")
+
+  // Remove the last segment
+  segments.pop()
+
+  // Reassemble the remaining segments into a new pathname
+  return segments.join("/")
+}
