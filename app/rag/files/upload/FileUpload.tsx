@@ -40,19 +40,23 @@ const FileUpload: FC<FileUploadProps> = ({ id }) => {
 
   const {
     mutate: uploadFile,
-    error: addFileError,
+    // error: addFileError,
     data: uploadedFile,
     isPending,
   } = useAddStorageFile({
     onSuccess: () => toast.success("File uploaded successfully!"),
+    onError: () =>
+      toast.error("Error", {
+        description: `There was an error uploading the file. Please try again.`,
+      }),
   })
   // console.log("🚀 ~ uploadedFile:", uploadedFile)
 
-  if (addFileError) {
-    toast.error("Error", {
-      description: `There was an error uploading the file. Please try again.  ${addFileError.message}`,
-    })
-  }
+  // if (addFileError) {
+  //   toast.error("Error", {
+  //     description: `There was an error uploading the file. Please try again.  ${addFileError.message}`,
+  //   })
+  // }
 
   return (
     <div className="flex h-32 flex-col items-center justify-center pb-4">

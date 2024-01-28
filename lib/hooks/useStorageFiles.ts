@@ -46,7 +46,10 @@ type Input = {
 
 type Response = void
 
-const useAddStorageFile = (options: { onSuccess: () => void }) => {
+const useAddStorageFile = (options: {
+  onSuccess: () => void
+  onError?: (error: Error) => void
+}) => {
   const supabase = createClientComponentClient<Database>()
 
   const queryClient = useQueryClient()
@@ -54,14 +57,15 @@ const useAddStorageFile = (options: { onSuccess: () => void }) => {
     mutationFn: async (input: Input): Promise<Response> => {
       const { selectedFile, folder_id } = input
 
-      const isValidKeyBool = isValidKey(selectedFile.name)
-      console.log("🚀 ~ mutationFn: ~ isValidKeyBool:", isValidKeyBool)
-
       const { data, error } = await supabase.storage
         .from("files")
-        .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile, {
-          upsert: true,
-        })
+        .upload(
+          `${crypto.randomUUID()}/${removeInvalidCharacters(selectedFile.name)}`,
+          selectedFile,
+          {
+            upsert: true,
+          }
+        )
 
       if (error) {
         console.log("🚀 ~ mutationFn: ~ error:", error)
@@ -74,11 +78,13 @@ const useAddStorageFile = (options: { onSuccess: () => void }) => {
         .eq("storage_object_id", (data as any).id)
         .select()
 
-      if (document && document.length === 0) console.log("no documents found")
-      else console.log("🚀 ~ mutationFn: ~ document:", document)
+      if (document && document.length === 0)
+        throw new Error("Invalid data. No document found")
 
-      if (documentError)
+      if (documentError) {
         console.log("🚀 ~ mutationFn: ~ documentError:", documentError)
+        throw new Error(documentError.message) // Throw an error if the addition fails
+      }
 
       // Return a Response object
       // return { data: "data", error: "error" } // Replace "data" and "error" with the actual data and error
@@ -87,20 +93,20 @@ const useAddStorageFile = (options: { onSuccess: () => void }) => {
       queryClient.invalidateQueries({ queryKey: keys.getDocuments })
       options.onSuccess()
     },
+    onError: (error: Error) => options.onError && options.onError(error),
   })
 }
 
 export { useStorageFiles, useAddStorageFile, getUploadedFilesData }
 
 /**
- * Validates if a given object key or bucket key is valid
+ * replaces a string if it contains invalid characters
  * @param key
  */
-export function isValidKey(key: string): boolean {
-  // only allow s3 safe characters and characters which require special handling for now
-  // https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
-  return (
-    key.length > 0 &&
-    /^(\w|\/|!|-|\.|\*|'|\(|\)| |&|\$|@|=|;|:|\+|,|\?)*$/.test(key)
-  )
+export function removeInvalidCharacters(key: string): string {
+  // Regular expression to match invalid characters
+  const invalidCharRegex = /[^\w\/!-\.\\*\(\)' &\$@=;:+,\?]/g
+
+  // Replace all invalid characters with an empty string
+  return key.replace(invalidCharRegex, "")
 }
