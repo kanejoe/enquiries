@@ -2,13 +2,15 @@ import { folder_seed_data } from "@/data/folder_seed_data"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { DocumentsType } from "@/types/folders"
 import { Database, Tables } from "@/lib/database.types"
 
 import { organizeFolders } from "../organise-folders"
 
 const keys = {
-  getDocuments: ["documents"],
-  getFolders: ["folders"],
+  getDocuments: ["documents"] as const,
+  getFolders: ["folders"] as const,
+  all: ["documents", "folders"] as const,
 }
 
 const fetchFoldersWithDocuments = async () => {
@@ -49,6 +51,30 @@ const useFolders = () => {
   return useQuery({
     queryKey: keys.getFolders,
     queryFn: () => fetchFolders(),
+    retry: false,
+  })
+}
+
+const fetchDocumentById = async (
+  documentId: string
+): Promise<Tables<"documents">> => {
+  const supabase = createClientComponentClient<Database>()
+  const { data } = await supabase
+    .from("documents")
+    .select("*")
+    .eq("id", documentId)
+    .single()
+    .throwOnError()
+
+  if (!data) throw new Error("Document not found") // Throw an error if the document is not found
+  return data
+}
+
+// React Query hook to get a single document
+const useDocument = (documentId: string) => {
+  return useQuery<Tables<"documents">, Error>({
+    queryKey: [keys.getDocuments, documentId], // Dynamic query key based on the document ID
+    queryFn: () => fetchDocumentById(documentId),
     retry: false,
   })
 }
@@ -184,6 +210,7 @@ const useEditFolderName = (options: {
 }
 
 export {
+  useDocument,
   useFolders,
   useFoldersWithDocuments,
   useSetUpFolderStructure,

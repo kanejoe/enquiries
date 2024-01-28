@@ -21,14 +21,14 @@ export function DocumentsList({ documents }: DocumentsListProps) {
   if (id) newPathname = removeLastSegment(pathname)
 
   return (
-    <>
+    <div className="">
       {documents.map((document: DocumentsType) => {
         return (
           <div
             key={document.document_id}
-            className="my-1 flex items-center space-x-4 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-2 font-medium"
+            className="my-0.5 flex items-center gap-x-4 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 py-0.5 font-medium"
           >
-            <span className="h-4 w-4 shrink-0" />
+            <span className="size-1 shrink-0" />
             <span className="">
               {getIconForFileType(document.document_name || "")}
             </span>
@@ -54,6 +54,6 @@ export function DocumentsList({ documents }: DocumentsListProps) {
           </div>
         )
       })}
-    </>
+    </div>
   )
 }

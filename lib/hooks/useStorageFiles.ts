@@ -54,6 +54,9 @@ const useAddStorageFile = (options: { onSuccess: () => void }) => {
     mutationFn: async (input: Input): Promise<Response> => {
       const { selectedFile, folder_id } = input
 
+      const isValidKeyBool = isValidKey(selectedFile.name)
+      console.log("🚀 ~ mutationFn: ~ isValidKeyBool:", isValidKeyBool)
+
       const { data, error } = await supabase.storage
         .from("files")
         .upload(`${crypto.randomUUID()}/${selectedFile.name}`, selectedFile, {
@@ -88,3 +91,16 @@ const useAddStorageFile = (options: { onSuccess: () => void }) => {
 }
 
 export { useStorageFiles, useAddStorageFile, getUploadedFilesData }
+
+/**
+ * Validates if a given object key or bucket key is valid
+ * @param key
+ */
+export function isValidKey(key: string): boolean {
+  // only allow s3 safe characters and characters which require special handling for now
+  // https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
+  return (
+    key.length > 0 &&
+    /^(\w|\/|!|-|\.|\*|'|\(|\)| |&|\$|@|=|;|:|\+|,|\?)*$/.test(key)
+  )
+}
