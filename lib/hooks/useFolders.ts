@@ -72,7 +72,7 @@ const fetchDocumentById = async (
 
 // React Query hook to get a single document
 const useDocument = (documentId: string) => {
-  return useQuery<Tables<"documents">, Error>({
+  return useQuery({
     queryKey: [keys.getDocuments, documentId], // Dynamic query key based on the document ID
     queryFn: () => fetchDocumentById(documentId),
     retry: false,
