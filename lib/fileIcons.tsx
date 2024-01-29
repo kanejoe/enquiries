@@ -21,9 +21,7 @@ export function getIconForFileType(
     case "docx":
       return (
         <FaFileWord
-          className={
-            (cn(`${iconClass} fill-blue-700 text-blue-700`), className)
-          }
+          className={cn(`${iconClass} fill-blue-700 text-blue-700`, className)}
         />
       )
     // You can add more cases for different file types

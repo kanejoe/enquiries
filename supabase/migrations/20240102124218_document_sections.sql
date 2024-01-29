@@ -77,6 +77,7 @@ on document_sections for update to authenticated using (
 -- where the first argument indicates the source column containing the text content,
 -- the second argument indicates the destination column to store the embedding,
 -- and the third argument indicates the number of records to include in each edge function call.
+
 create function private.embed() 
 returns trigger 
 language plpgsql
@@ -111,8 +112,8 @@ begin
 end;
 $$;
 
-create trigger embed_document_sections
-  after insert on document_sections
-  referencing new table as inserted
-  for each statement
-  execute procedure private.embed(content, embedding, 5);
+-- create trigger embed_document_sections
+--   after insert on document_sections
+--   referencing new table as inserted
+--   for each statement
+--   execute procedure private.embed(content, embedding, 5);

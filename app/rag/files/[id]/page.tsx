@@ -29,23 +29,27 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
 
+// actions
+import { parseFile } from "./actions"
+
 const Page = () => {
   const { id } = useParams()
   const { data: document } = useDocument(id?.toString() || "")
+  const parseFileWithDoc = parseFile.bind(null, document)
 
   if (!document) return null
   return (
     <Suspense fallback={"loading..."}>
-      <Card>
+      <Card className="shadow">
         <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
           <div className="space-y-1">
             <CardTitle className="mb-2 flex gap-x-4 font-geistsans text-xl">
               {getIconForFileType(
                 document.name || "",
-                10,
+                8,
                 "shrink-0 self-center"
               )}
-              <span className="bg-gradient-to-r from-red-500 to-violet-500 bg-clip-text text-lg text-transparent">
+              <span className="bg-gradient-to-r from-red-800 to-blue-800 bg-clip-text text-lg text-transparent">
                 {document.name}
               </span>
             </CardTitle>
@@ -95,10 +99,13 @@ const Page = () => {
             </div>
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="gap-x-4">
           <Button variant={"secondary"} asChild>
             <Link href={"./"}>Close</Link>
           </Button>
+          <form action={parseFileWithDoc}>
+            <button type="submit">Read File</button>
+          </form>
         </CardFooter>
       </Card>
     </Suspense>

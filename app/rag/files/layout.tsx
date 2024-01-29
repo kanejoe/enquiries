@@ -20,7 +20,7 @@ export default async function FilesLayout({ children }: PropsWithChildren) {
 
   return (
     <div className="container mt-8 font-albertsans">
-      <div className="grid h-128 grid-cols-12 gap-x-20">
+      <div className="grid h-128 grid-cols-12 gap-x-12">
         <div className="col-span-7">
           <TreeViewWrapper />
         </div>

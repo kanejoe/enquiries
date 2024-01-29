@@ -1,12 +1,15 @@
 import { cache } from "react"
 import { cookies } from "next/headers"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import {
+  createClientComponentClient,
+  createServerComponentClient,
+} from "@supabase/auth-helpers-nextjs"
 
 import { Database } from "@/lib/database.types"
 
 export const createServerClient = cache(() => {
   const cookieStore = cookies()
-  return createServerComponentClient<Database>({
+  return createClientComponentClient<Database>({
     cookies: () => cookieStore,
   })
 })
