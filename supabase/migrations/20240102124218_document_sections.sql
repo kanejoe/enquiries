@@ -6,7 +6,8 @@ create table document_sections (
   document_id bigint not null references documents (id),
   content text not null, -- corresponds to Document.pageContent
   metadata jsonb, -- corresponds to Document.metadata
-  embedding vector (384)-- 1536 works for OpenAI embeddings, change if needed
+  embedding vector (384), -- 1536 works for OpenAI embeddings, change if needed
+  openai_embedding vector (3072)-- 1536 works for OpenAI embeddings, change if needed
 );
 
 -- Create an index on the embedding vector

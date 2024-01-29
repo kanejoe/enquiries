@@ -41,6 +41,7 @@ export interface Database {
           embedding: string | null
           id: number
           metadata: Json | null
+          openai_embedding: string | null
         }
         Insert: {
           content: string
@@ -48,6 +49,7 @@ export interface Database {
           embedding?: string | null
           id?: never
           metadata?: Json | null
+          openai_embedding?: string | null
         }
         Update: {
           content?: string
@@ -55,6 +57,7 @@ export interface Database {
           embedding?: string | null
           id?: never
           metadata?: Json | null
+          openai_embedding?: string | null
         }
         Relationships: [
           {
@@ -515,6 +518,7 @@ export interface Database {
           embedding: string | null
           id: number
           metadata: Json | null
+          openai_embedding: string | null
         }[]
       }
       supabase_url: {
