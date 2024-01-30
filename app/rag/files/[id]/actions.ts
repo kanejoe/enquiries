@@ -13,8 +13,11 @@ import { Database, Tables } from "@/lib/database.types"
 import {
   createServerSupabaseClient,
   getDocumentById,
+  getFileStorageById,
+  getStoragePathByDocumentId,
   getUserDetails,
 } from "@/lib/supabase.server"
+import { getFileExtension } from "@/lib/utils"
 
 // const generateEmbedding = await pipeline(
 //   "feature-extraction",
@@ -31,14 +34,7 @@ type PDFPage = {
 export async function parseFile(document: Tables<"documents">) {
   const supabaseClient = createServerSupabaseClient()
 
-  const dd = await getDocumentById({ id: document.id })
-  console.log("🚀 ~ parseFile ~ dd:", dd)
-
-  const { data: doc } = await supabaseClient
-    .from("documents_with_storage_path_and_created_by_email")
-    .select("*")
-    .eq("id", document.id)
-    .single()
+  const doc = await getStoragePathByDocumentId(document.id)
 
   if (!doc?.storage_object_path) {
     throw new Error("Failed to find uploaded document")
@@ -52,6 +48,9 @@ export async function parseFile(document: Tables<"documents">) {
   if (!file) {
     throw new Error("Failed to download storage object.")
   }
+
+  const fileType = getFileExtension(file.type)
+  console.log("🚀 ~ parseFile ~ fileType:", fileType)
 
   const loader = new PDFLoader(file)
   const pages = (await loader.load()) as PDFPage[]
@@ -79,7 +78,6 @@ export const truncateStringByBytes = (str: string, bytes: number) => {
 
 async function prepareDoc(page: PDFPage) {
   const { metadata, pageContent } = page
-  // pageContent = pageContent.replace(/\n/g, "") // remove newlines, but maybe keep a space
   let pg = pageContent.replace(/\n/g, " ") // or else remove completely
   // split the docs
   const textSplitter = new RecursiveCharacterTextSplitter({
