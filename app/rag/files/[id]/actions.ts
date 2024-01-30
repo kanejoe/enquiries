@@ -10,6 +10,11 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 import OpenAI from "openai"
 
 import { Database, Tables } from "@/lib/database.types"
+import {
+  createServerSupabaseClient,
+  getDocumentById,
+  getUserDetails,
+} from "@/lib/supabase.server"
 
 // const generateEmbedding = await pipeline(
 //   "feature-extraction",
@@ -24,7 +29,10 @@ type PDFPage = {
 }
 
 export async function parseFile(document: Tables<"documents">) {
-  const supabaseClient = createServerComponentClient<Database>({ cookies })
+  const supabaseClient = createServerSupabaseClient()
+
+  const dd = await getDocumentById({ id: document.id })
+  console.log("🚀 ~ parseFile ~ dd:", dd)
 
   const { data: doc } = await supabaseClient
     .from("documents_with_storage_path_and_created_by_email")
@@ -39,6 +47,7 @@ export async function parseFile(document: Tables<"documents">) {
   const { data: file } = await supabaseClient.storage
     .from("files")
     .download(doc.storage_object_path)
+  console.log("🚀 ~ parseFile ~ file:", file)
 
   if (!file) {
     throw new Error("Failed to download storage object.")

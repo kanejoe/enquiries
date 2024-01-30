@@ -32,7 +32,8 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
       </div>
       <div className="">
         <form onSubmit={handleSubmit}>
-          <textarea
+          <input
+            type="hidden"
             className=""
             value={input}
             placeholder="Say something..."
