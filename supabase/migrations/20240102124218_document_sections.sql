@@ -6,8 +6,8 @@ create table document_sections (
   document_id bigint not null references documents (id),
   content text not null, -- corresponds to Document.pageContent
   metadata jsonb, -- corresponds to Document.metadata
-  embedding vector (384), -- 1536 works for OpenAI embeddings, change if needed
-  openai_embedding vector (3072)-- 1536 works for OpenAI embeddings, change if needed
+  xenova_embedding vector (384), -- 1536 works for OpenAI embeddings, change if needed
+  openai_embedding vector (1536)-- 1536 works for OpenAI embeddings, change if needed
 );
 
 -- Create an index on the embedding vector
@@ -53,6 +53,17 @@ on document_sections for update to authenticated using (
     where created_by = auth.uid()
   )
 );
+
+-- Create a policy to allow authenticated users to delete document sections
+create policy "Users can delete their own document sections"
+on document_sections for delete to authenticated using (
+  document_id in (
+    select id
+    from documents
+    where created_by = auth.uid()
+  )
+);
+
 
 -- CREATE POLICY "Allow langchain querying for authenticated users" 
 --   ON "public"."document_sections"

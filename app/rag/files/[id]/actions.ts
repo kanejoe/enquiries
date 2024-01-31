@@ -1,28 +1,22 @@
 "use server"
 
 import { cookies } from "next/headers"
-// import { env, pipeline } from "@xenova/transformers"
-import { Document } from "@langchain/core/documents"
 import { OpenAIEmbeddings } from "@langchain/openai"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import { PDFLoader } from "langchain/document_loaders/fs/pdf"
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 import OpenAI from "openai"
 
 import { Database, Tables } from "@/lib/database.types"
 import {
   createServerSupabaseClient,
   getDocumentById,
-  getFileStorageById,
+  getFileByStorageObjectPath,
   getStoragePathByDocumentId,
   getUserDetails,
+  upsertDocumentSections,
 } from "@/lib/supabase.server"
 import { getFileExtension } from "@/lib/utils"
 
-// const generateEmbedding = await pipeline(
-//   "feature-extraction",
-//   "Supabase/gte-small"
-// )
+import { parseDocx, ParsePdf } from "./docParser"
 
 type PDFPage = {
   pageContent: string
@@ -31,70 +25,33 @@ type PDFPage = {
   }
 }
 
+/**
+ * Parses a file and performs necessary actions based on the file type.
+ * @param document - The document object to be parsed.
+ * @returns A Promise that resolves when the parsing and actions are completed.
+ * @throws An error if the uploaded document cannot be found or if the document fails to parse.
+ */
 export async function parseFile(document: Tables<"documents">) {
   const supabaseClient = createServerSupabaseClient()
 
   const doc = await getStoragePathByDocumentId(document.id)
-
-  if (!doc?.storage_object_path) {
+  if (!doc?.storage_object_path || !doc?.id) {
     throw new Error("Failed to find uploaded document")
   }
 
-  const { data: file } = await supabaseClient.storage
-    .from("files")
-    .download(doc.storage_object_path)
-  console.log("🚀 ~ parseFile ~ file:", file)
-
-  if (!file) {
-    throw new Error("Failed to download storage object.")
-  }
-
+  const file = await getFileByStorageObjectPath(doc.storage_object_path)
   const fileType = getFileExtension(file.type)
-  console.log("🚀 ~ parseFile ~ fileType:", fileType)
 
-  const loader = new PDFLoader(file)
-  const pages = (await loader.load()) as PDFPage[]
-  const documents = await Promise.all(pages.map(prepareDoc))
-  const sectionsToInsert = documents.flat().map((doc: Document) => {
-    return {
-      document_id: document.id,
-      //   page_number: doc.metadata.pageNumber,
-      metadata: doc.metadata,
-      content: doc.pageContent,
-    }
-  })
-  //   console.log("🚀 ~ sectionsToInsert ~ sectionsToInsert:", sectionsToInsert)
+  let parsedDoc
+  if (fileType === "pdf") {
+    parsedDoc = await ParsePdf(file, doc.id)
+  } else if (fileType === "docx" || fileType === "doc") {
+    // parsedDoc = await parseDocx(file, doc.id)
+  }
+  if (!parsedDoc) throw new Error("Failed to parse document")
 
-  const { data: insertedData, error } = await supabaseClient
-    .from("document_sections")
-    .insert(sectionsToInsert)
-    .throwOnError()
-}
-
-export const truncateStringByBytes = (str: string, bytes: number) => {
-  const enc = new TextEncoder()
-  return new TextDecoder("utf-8").decode(enc.encode(str).slice(0, bytes))
-}
-
-async function prepareDoc(page: PDFPage) {
-  const { metadata, pageContent } = page
-  let pg = pageContent.replace(/\n/g, " ") // or else remove completely
-  // split the docs
-  const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 36000,
-    chunkOverlap: 0,
-  })
-
-  const docs = await textSplitter.splitDocuments([
-    new Document({
-      pageContent: pg,
-      metadata: {
-        pageNumber: metadata.loc.pageNumber,
-        text: truncateStringByBytes(pg, 36000),
-      },
-    }),
-  ])
-  return docs
+  await upsertDocumentSections(parsedDoc, doc.id)
+  return
 }
 
 export async function embedContent(
@@ -128,7 +85,7 @@ export async function embedContent(
   // throw new Error("Failed to find uploaded document")
 
   const embeddings = new OpenAIEmbeddings({
-    modelName: "text-embedding-3-large",
+    modelName: "text-embedding-3-small",
   })
 
   try {
@@ -168,7 +125,7 @@ export async function summarise(
     console.log("🚀 ~ error:", selectError)
     throw new Error("Failed to find uploaded document")
   }
-  const embedding = rows.openai_embedding
+
   const content = rows.content
 
   //   const chatCompletion = await openai.chat.completions.create({

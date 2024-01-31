@@ -27,6 +27,12 @@ export async function getUserDetails() {
   }
 }
 
+/**
+ * Retrieves a document from the "documents" table by its ID.
+ * @param id The ID of the document to retrieve.
+ * @returns A promise that resolves to the retrieved document, or null if not found.
+ * @throws If an error occurs during the retrieval process.
+ */
 export async function getDocumentById(
   id: DocumentsTable["id"]
 ): Promise<Tables<"documents"> | null> {
@@ -50,6 +56,13 @@ export async function getDocumentById(
   }
 }
 
+/**
+ * Retrieves the storage path by document ID from the Supabase server.
+ *
+ * @param id - The ID of the document.
+ * @returns A promise that resolves to the storage view object if found, or null if not found.
+ * @throws Error if the ID is invalid or if an error occurs during the retrieval process.
+ */
 export async function getStoragePathByDocumentId(
   id: StorageView["id"]
 ): Promise<StorageView | null> {
@@ -65,6 +78,89 @@ export async function getStoragePathByDocumentId(
       .select("*")
       .eq("id", id)
       .single()
+
+    if (!data || data?.storage_object_path === null) {
+      throw new Error("Failed to find document")
+    }
+
+    return data
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error:", error.message)
+      throw new Error(error.message)
+    } else {
+      console.error("An unknown error occurred:", error)
+      throw new Error("An unknown error occurred")
+    }
+  }
+}
+
+/**
+ * Retrieves the file from the Supabase storage using the provided storage object path.
+ *
+ * @param storage_object_path - The path of the storage object.
+ * @returns The downloaded file.
+ * @throws Error if the storage_object_path is invalid, or if there is an error downloading the file.
+ */
+export async function getFileByStorageObjectPath(
+  storage_object_path: StorageView["storage_object_path"]
+) {
+  if (storage_object_path === null) {
+    throw new Error("Invalid storage_object_path")
+  }
+
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data: file } = await supabase.storage
+      .from("files")
+      .download(storage_object_path)
+
+    if (!file) {
+      throw new Error("Failed to download storage object.")
+    }
+
+    return file
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error:", error.message)
+      throw new Error(error.message)
+    } else {
+      console.error("An unknown error occurred:", error)
+      throw new Error("An unknown error occurred")
+    }
+  }
+}
+
+type upsertData = Pick<
+  Tables<"document_sections">,
+  "content" | "document_id" | "metadata"
+>
+
+export async function upsertDocumentSections(
+  upsertData: upsertData[],
+  document_id: Tables<"document_sections">["document_id"]
+) {
+  const supabase = createServerSupabaseClient()
+  try {
+    // Check if the row exists
+    const { data: existingRows, error: selectError } = await supabase
+      .from("document_sections")
+      .select("*")
+      .eq("document_id", document_id)
+
+    if (existingRows && existingRows.length > 0) {
+      await supabase
+        .from("document_sections")
+        .delete()
+        .eq("document_id", document_id)
+    }
+
+    const { data } = await supabase
+      .from("document_sections")
+      .upsert(upsertData)
+      .throwOnError()
+      .select("*")
     return data
   } catch (error: unknown) {
     if (error instanceof Error) {
