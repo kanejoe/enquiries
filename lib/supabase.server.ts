@@ -137,6 +137,14 @@ type upsertData = Pick<
   "content" | "document_id" | "metadata"
 >
 
+/**
+ * Upserts document sections into the "document_sections" table.
+ *
+ * @param upsertData - The data to be upserted.
+ * @param document_id - The ID of the document.
+ * @returns The upserted data.
+ * @throws Error if an error occurs during the upsert process.
+ */
 export async function upsertDocumentSections(
   upsertData: upsertData[],
   document_id: Tables<"document_sections">["document_id"]
@@ -162,6 +170,34 @@ export async function upsertDocumentSections(
       .throwOnError()
       .select("*")
     return data
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error:", error.message)
+      throw new Error(error.message)
+    } else {
+      console.error("An unknown error occurred:", error)
+      throw new Error("An unknown error occurred")
+    }
+  }
+}
+
+/**
+ * Retrieves document sections from the "document_sections" table by document ID.
+ *
+ * @param document_id - The ID of the document.
+ * @returns A promise that resolves to the retrieved document sections.
+ * @throws Error if an error occurs during the retrieval process.
+ */
+export async function getDocumentSectionsByDocumentId(
+  document_id: Tables<"document_sections">["document_id"]
+) {
+  try {
+    const supabase = createServerSupabaseClient()
+    const { data: documentSections } = await supabase
+      .from("document_sections")
+      .select("*")
+      .eq("document_id", document_id)
+    return documentSections
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error:", error.message)

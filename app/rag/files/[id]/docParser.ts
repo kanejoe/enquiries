@@ -47,12 +47,12 @@ export async function prepareDoc(page: PDFPage): Promise<Document[]> {
   return docs
 }
 
-function truncateStringByBytes(str: string, bytes: number) {
+export function truncateStringByBytes(str: string, bytes: number) {
   const enc = new TextEncoder()
   return new TextDecoder("utf-8").decode(enc.encode(str).slice(0, bytes))
 }
 
-export async function parseDocx(fileBlob: Blob, document_id: number): Promise<Document[]> {
+export async function parseDocx(fileBlob: Blob, document_id: number) {
   // console.log("🚀 ~ parseDocx ~ fileBlob:", fileBlob)
   try {
     const loader = new DocxLoader(fileBlob)

@@ -14,6 +14,7 @@ const openai = new OpenAI({
 export async function POST(req: Request) {
   // Extract the `messages` from the body of the request
   const { messages } = (await req.json()) as any
+  console.log("🚀 ~ POST ~ req.json():", req.json())
 
   // check if the conversation requires a function call to be made
   const initialResponse = await openai.chat.completions.create({

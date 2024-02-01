@@ -30,7 +30,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 
 // actions
-import { embedContent, parseFile, summarise } from "./actions"
+import { embedContent, parseFile } from "./actions"
 import { SummariseContent } from "./SummariseContent"
 
 const Page = () => {
@@ -38,7 +38,7 @@ const Page = () => {
   const { data: document } = useDocument(id?.toString() || "")
   const parseFileWithDoc = parseFile.bind(null, document)
   const embedFileId = embedContent.bind(null, document?.id)
-  const summariseId = summarise.bind(null, document?.id)
+  // const summariseId = summariseContentByDocumentId.bind(null, document?.id)
 
   if (!document) return null
   return (
@@ -115,9 +115,9 @@ const Page = () => {
             <form action={embedFileId}>
               <button type="submit">Embed Content</button>
             </form>
-            <form action={summariseId}>
+            {/* <form action={summariseId}>
               <button type="submit">Summarise Content</button>
-            </form>
+            </form> */}
           </CardFooter>
         </Card>
 
