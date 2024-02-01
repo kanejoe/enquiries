@@ -2132,10 +2132,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@supabase/auth-helpers-nextjs@0.8.7":
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/@supabase/auth-helpers-nextjs/-/auth-helpers-nextjs-0.8.7.tgz#7d1454b4c211c2b8c18cc0c386ef469627dd3594"
-  integrity sha512-iYdOjFo0GkRvha340l8JdCiBiyXQuG9v8jnq7qMJ/2fakrskRgHTCOt7ryWbip1T6BExcWKC8SoJrhCzPOxhhg==
+"@supabase/auth-helpers-nextjs@0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@supabase/auth-helpers-nextjs/-/auth-helpers-nextjs-0.9.0.tgz#19d0a1fd6a9a8fcf758e46faeb59703932fd13cd"
+  integrity sha512-V+UKFngSCkzAucX3Zi5D4TRiJZUUx0RDme7W217nIkwhCTvJY7Ih2L1cgnAMihQost2YYgTzJ7DrUzz4mm8i8A==
   dependencies:
     "@supabase/auth-helpers-shared" "0.6.3"
     set-cookie-parser "^2.6.0"
@@ -2801,10 +2801,10 @@ agentkeepalive@^4.2.1:
   dependencies:
     humanize-ms "^1.2.1"
 
-ai@2.2.32:
-  version "2.2.32"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.32.tgz#f8bdd0954f8c68d733314947c67e04e52091deb9"
-  integrity sha512-bMQLulRiG5AkivgbToIZ63KDGlx0+Yhd2HxjiQjHceaNglk4gdTZ/oOmZwW2gW7Q3rFQWQAwPAlmx6ZLUInphw==
+ai@2.2.33:
+  version "2.2.33"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.33.tgz#cf81359812885d5583492edc1a622aa85be5dbf5"
+  integrity sha512-y9iMgt/RjFZCrjx5NuC+tdZqvunM9Bo1ufuC1BpgyjPmmE2RYduM+3Whjez0fu808KkwTQvvhUhhC5NkAy8/9g==
   dependencies:
     eventsource-parser "1.0.0"
     nanoid "3.3.6"
@@ -6014,10 +6014,10 @@ kleur@^4.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
-langchain@0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.1.10.tgz#0fda9649f359d0dbbb2ed1d0721359645563523c"
-  integrity sha512-JqrK2uXf9jYSBt2NSB1ZuL44sDqPak0ilIUF7RX1xvibGJXVWbkuM3uDUDqDMMajL7F6NrYWvrivYjlN2yenZA==
+langchain@0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.1.11.tgz#25e961b898a915efeaedeb79b8f48924592b4d33"
+  integrity sha512-Ma1QW8pX0BAgnmgL5J97WQ17Ir46b8lWiZ3s+sK5iS6zicJzalx0J9FUdFg4XAFzLj6Dy1oHoXcupjrOZLQGOA==
   dependencies:
     "@anthropic-ai/sdk" "^0.9.1"
     "@langchain/community" "~0.0.20"
@@ -6183,10 +6183,10 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.1.0.tgz#2098d41c2dc56500e6c88584aa656c84de7d0484"
   integrity sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==
 
-lucide-react@0.319.0:
-  version "0.319.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.319.0.tgz#366ac3072fb9d9fc5bfb437ec6a88c7291c938c2"
-  integrity sha512-IIbu4TfVI3yPI3ba/Li53mKeOd+WwcWI6+WcyoVdFLtrBfH88m2uQ/uTmtzBWt523HyxCFjWy3RFs0OxDFYm8w==
+lucide-react@0.320.0:
+  version "0.320.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.320.0.tgz#c0be9134bd01619bdbea7d426e4312cc7187aefb"
+  integrity sha512-HuMmfmFiWwctDkN27wklKVZr8UpwP2TTekLZ3xiLCEjx/STG1k0KLWMbBfIJ/lnNJQDfSjztDZSVU316xA+AQg==
 
 lucide-react@^0.274.0:
   version "0.274.0"
@@ -8126,10 +8126,10 @@ react-error-boundary@^3.1.0:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-hook-form@7.49.3:
-  version "7.49.3"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.49.3.tgz#576a4567f8a774830812f4855e89f5da5830435c"
-  integrity sha512-foD6r3juidAT1cOZzpmD/gOKt7fRsDhXXZ0y28+Al1CHgX+AY1qIN9VSIIItXRq1dN68QrRwl1ORFlwjBaAqeQ==
+react-hook-form@7.50.0:
+  version "7.50.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.50.0.tgz#379802d85c7b78e0056229c53607946d34f99a36"
+  integrity sha512-AOhuzM3RdP09ZCnq+Z0yvKGHK25yiOX5phwxjV9L7U6HMla10ezkBnvQ+Pk4GTuDfsC5P2zza3k8mawFwFLVuQ==
 
 react-hot-toast@^2.4.1:
   version "2.4.1"

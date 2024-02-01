@@ -4,13 +4,12 @@
 
 import { createClient } from "@supabase/supabase-js"
 import { env } from "@xenova/transformers"
-import { Document } from "npm:langchain/document"
-import { PDFLoader } from "npm:langchain/document_loaders/fs/pdf"
-import { RecursiveCharacterTextSplitter } from "npm:langchain/text_splitter"
 import * as _pdfjs from "npm:pdf-parse"
 
 import { corsHeaders } from "../_lib/cors.ts"
 import { Database } from "../_lib/database.ts"
+import { ParsePdf } from "../_shared/docParser.ts"
+import { getFileExtension } from "../../../lib/utils.ts"
 
 type PDFPage = {
   pageContent: string
@@ -21,7 +20,6 @@ type PDFPage = {
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL")
 const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")
-// const supabaseAnonKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
 
 // Configuration for Deno runtime
 env.useBrowserCache = false
@@ -74,7 +72,7 @@ Deno.serve(async (req) => {
     .eq("id", document_id)
     .single()
 
-  if (!document?.storage_object_path) {
+  if (!document?.storage_object_path || !document?.id) {
     return new Response(
       JSON.stringify({ error: "Failed to find uploaded document" }),
       {
@@ -98,27 +96,17 @@ Deno.serve(async (req) => {
     )
   }
 
-  const arrayBuffer = await file.arrayBuffer()
-  const uint8Array = new Uint8Array(arrayBuffer)
-  const blob = new Blob([uint8Array], { type: "application/pdf" })
+  const fileType = getFileExtension(file.type)
+  let parsedDoc
+  if (fileType === "pdf") {
+    parsedDoc = await ParsePdf(file, document.id)
+  }
 
-  const loader = new PDFLoader(blob, arrayBuffer)
-  const pages = (await loader.load()) as PDFPage[]
-
-  const documents = await Promise.all(pages.map(prepareDoc))
-
-  const sectionsToInsert = documents.flat().map((doc: Document) => {
-    return {
-      document_id,
-      // page_number: doc.metadata.pageNumber,
-      metadata: doc.metadata,
-      content: doc.pageContent,
-    }
-  })
+  if (!parsedDoc) throw new Error("Failed to parse document")
 
   const { error } = await supabaseClient
     .from("document_sections")
-    .insert(sectionsToInsert)
+    .insert(parsedDoc)
 
   if (error) {
     console.error(error)
@@ -131,7 +119,9 @@ Deno.serve(async (req) => {
     )
   }
 
-  console.log(`Saved ${documents.length} sections for file '${document.name}'`)
+  // console.log(
+  //   `Saved ${insertedDocs?.length || "0"} sections for file '${document.name}'`
+  // )
 
   return new Response(JSON.stringify(document_id), {
     headers: { "Content-Type": "application/json" },
@@ -149,30 +139,3 @@ Deno.serve(async (req) => {
   --data '{ "document_id": 2 }'
 
 */
-
-export const truncateStringByBytes = (str: string, bytes: number) => {
-  const enc = new TextEncoder()
-  return new TextDecoder("utf-8").decode(enc.encode(str).slice(0, bytes))
-}
-
-async function prepareDoc(page: PDFPage) {
-  const { metadata, pageContent } = page
-  // pageContent = pageContent.replace(/\n/g, "") // remove newlines, but maybe keep a space
-  // pageContent = pageContent.replace(/\n/g, " ") // or else remove completely
-  // split the docs
-  const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 36000,
-    chunkOverlap: 0,
-  })
-
-  const docs = await textSplitter.splitDocuments([
-    new Document({
-      pageContent,
-      metadata: {
-        pageNumber: metadata.loc.pageNumber,
-        text: truncateStringByBytes(pageContent, 36000),
-      },
-    }),
-  ])
-  return docs
-}

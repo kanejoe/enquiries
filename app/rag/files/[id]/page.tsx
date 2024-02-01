@@ -37,7 +37,7 @@ const Page = () => {
   const { id } = useParams()
   const { data: document } = useDocument(id?.toString() || "")
   const parseFileWithDoc = parseFile.bind(null, document)
-  const embedFileId = embedContent.bind(null, document?.id)
+  // const embedFileId = embedContent.bind(null, document?.id)
   // const summariseId = summariseContentByDocumentId.bind(null, document?.id)
 
   if (!document) return null
@@ -112,9 +112,9 @@ const Page = () => {
             <form action={parseFileWithDoc}>
               <button type="submit">Read File</button>
             </form>
-            <form action={embedFileId}>
+            {/* <form action={embedFileId}>
               <button type="submit">Embed Content</button>
-            </form>
+            </form> */}
             {/* <form action={summariseId}>
               <button type="submit">Summarise Content</button>
             </form> */}

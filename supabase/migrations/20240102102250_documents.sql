@@ -53,9 +53,13 @@ on documents for update to authenticated using (
   auth.uid() = created_by
 );
 
-
 create policy "Users can query their own documents"
 on documents for select to authenticated using (
+  auth.uid() = created_by
+);
+
+create policy "Users can delete their own documents"
+on documents for delete to authenticated using (
   auth.uid() = created_by
 );
 

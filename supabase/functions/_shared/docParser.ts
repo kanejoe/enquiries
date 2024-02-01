@@ -1,7 +1,7 @@
-import { Document } from "@langchain/core/documents"
-import { DocxLoader } from "langchain/document_loaders/fs/docx"
-import { PDFLoader } from "langchain/document_loaders/fs/pdf"
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
+import { Document } from "npm:langchain/core/documents"
+// import { DocxLoader } from "npm:langchain/document_loaders/fs/docx"
+import { PDFLoader } from "npm:langchain/document_loaders/fs/pdf"
+import { RecursiveCharacterTextSplitter } from "Npm:langchain/text_splitter"
 
 type PDFPage = {
   documnent_id: number
@@ -34,7 +34,7 @@ export async function ParsePdf(file: Blob, document_id: number) {
 
 export async function prepareDoc(page: PDFPage): Promise<Document[]> {
   const { metadata, pageContent } = page
-  let pg = pageContent.replace(/\n/g, " ") // or else remove completely
+  const pg = pageContent.replace(/\n/g, " ") // or else remove completely
   // split the docs
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 12000,
@@ -58,12 +58,12 @@ export function truncateStringByBytes(str: string, bytes: number) {
   return new TextDecoder("utf-8").decode(enc.encode(str).slice(0, bytes))
 }
 
-export async function parseDocx(fileBlob: Blob, document_id: number) {
-  // console.log("🚀 ~ parseDocx ~ fileBlob:", fileBlob)
-  try {
-    const loader = new DocxLoader(fileBlob)
-    const pages = (await loader.load()) as PDFPage[]
-  } catch (error: unknown) {
-    // console.log("🚀 ~ parseDocx ~ error:", error)
-  }
-}
+// export async function parseDocx(fileBlob: Blob, document_id: number) {
+//   // console.log("🚀 ~ parseDocx ~ fileBlob:", fileBlob)
+//   try {
+//     const loader = new DocxLoader(fileBlob)
+//     const pages = (await loader.load()) as PDFPage[]
+//   } catch (error: unknown) {
+//     // console.log("🚀 ~ parseDocx ~ error:", error)
+//   }
+// }

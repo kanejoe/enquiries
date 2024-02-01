@@ -14,7 +14,7 @@ import {
 } from "@/lib/supabase.server"
 import { getFileExtension } from "@/lib/utils"
 
-import { parseDocx, ParsePdf } from "./docParser"
+import { ParsePdf } from "./docParser"
 
 type PDFPage = {
   pageContent: string
@@ -30,8 +30,6 @@ type PDFPage = {
  * @throws An error if the uploaded document cannot be found or if the document fails to parse.
  */
 export async function parseFile(document: Tables<"documents">) {
-  const supabaseClient = createServerSupabaseClient()
-
   const doc = await getStoragePathByDocumentId(document.id)
   if (!doc?.storage_object_path || !doc?.id) {
     throw new Error("Failed to find uploaded document")

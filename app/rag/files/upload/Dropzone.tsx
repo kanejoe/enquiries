@@ -33,6 +33,7 @@ const Dropzone: FC<DropzoneProps> = () => {
   const { mutateAsync: uploadFile, status: addFolderStatus } =
     useAddStorageFile({
       onSuccess: () => toast.success("File successfully uploaded!"),
+      onError: () => toast.error("Error uploading file."),
     })
 
   const form = useForm<z.infer<typeof FormSchema>>({
