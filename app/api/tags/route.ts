@@ -26,6 +26,12 @@ export async function POST(req: Request) {
         The summary should be in your own words.  Do not copy and paste from the original content.  You can use the original content as a reference.  
         If no context has been provided, say this and reply no further.`
 
+  const tagsPrompt = `Using this context: ${content} and the following tags: 
+    conveyancing, property, and any other tags which are relevant, give me some tags separated by semi-colons.  
+    Remember you are a professional lawyer and the tags should be professional and relevant to the context.   
+    If there are references to statutes or laws, these should be included in the tags.
+    If no context has been provided, say this and reply no further.`
+
   const infoPrompt = `Using this context: ${content} give me only (1) the publisher of the content  (2) the date of publication (say no date if not sure), (3) the title of the piece and (4) the author.`
 
   // Request the OpenAI API for the response based on the prompt
@@ -38,7 +44,7 @@ export async function POST(req: Request) {
     messages: [
       {
         role: "user",
-        content: summaryPrompt,
+        content: tagsPrompt,
       },
     ],
     max_tokens: 800,

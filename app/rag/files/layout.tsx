@@ -21,10 +21,10 @@ export default async function FilesLayout({ children }: PropsWithChildren) {
   return (
     <div className="container mt-8 font-albertsans">
       <div className="grid h-128 grid-cols-12 gap-x-12">
-        <div className="col-span-7">
+        <div className="col-span-5">
           <TreeViewWrapper />
         </div>
-        <div className="col-span-5">{children}</div>
+        <div className="col-span-7">{children}</div>
       </div>
     </div>
   )

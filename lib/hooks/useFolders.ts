@@ -23,7 +23,7 @@ const fetchFoldersWithDocuments = async () => {
     .throwOnError()
 
   if (!data) return []
-
+ 
   // If no error, return the data
   const tree = organizeFolders(data)
   return tree
@@ -56,15 +56,13 @@ const useFolders = () => {
   })
 }
 
-type DocumentsType = Tables<"documents">
-type ExtendedDocumentsType = DocumentsType & {
+export type TDocuments = Tables<"documents">
+export type TExtendedDocuments = TDocuments & {
   content: string
   wordCount: number
 }
 
-const fetchDocumentById = async (
-  documentId: string
-): Promise<DocumentsType> => {
+const fetchDocumentById = async (documentId: string): Promise<TDocuments> => {
   const supabase = createClientComponentClient<Database>()
   const { data } = await supabase
     .from("documents")
@@ -86,7 +84,7 @@ const fetchDocumentById = async (
 // https://tkdodo.eu/blog/react-query-and-type-script#the-four-generics
 // React Query hook to get a single document
 const useDocument = (documentId: string) => {
-  return useQuery<DocumentsType, Error, ExtendedDocumentsType>({
+  return useQuery<TDocuments, Error, TExtendedDocuments>({
     queryKey: [keys.getDocuments, documentId], // Dynamic query key based on the document ID
     queryFn: () => fetchDocumentById(documentId),
     retry: false,

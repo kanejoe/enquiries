@@ -94,57 +94,55 @@ const Dropzone: FC<DropzoneProps> = () => {
   }
 
   return (
-    <div className="">
-      <div className="mt-6">
-        {files.length > 0 && files[0] ? (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex flex-col gap-y-4">
-                <PdfOrDocFileComponent file={files[0]} removeAll={removeAll} />
+    <div className="mt-6">
+      {files.length > 0 && files[0] ? (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-y-4">
+              <PdfOrDocFileComponent file={files[0]} removeAll={removeAll} />
 
-                <div className="">
-                  <SelectFolders file_ext={getFileExtension(files[0].name)} />
-                </div>
-
-                <div className="">
-                  <Button
-                    className={cn(
-                      "user-select-none w-full rounded-lg border font-semibold shadow-sm transition hover:bg-opacity-90",
-                      getFileExtension(files[0].name) === "pdf" &&
-                        "border-red-300 bg-red-100 shadow-red-400 hover:bg-red-200",
-                      (getFileExtension(files[0].name) === "doc" ||
-                        getFileExtension(files[0].name) === "docx") &&
-                        "border-sky-300 bg-sky-100 shadow-sky-400 hover:bg-sky-200"
-                    )}
-                    type="submit"
-                  >
-                    <CloudArrowUpIcon className="mr-2 size-5" />
-                    Upload Document
-                  </Button>
-                </div>
+              <div className="">
+                <SelectFolders file_ext={getFileExtension(files[0].name)} />
               </div>
-            </form>
-          </Form>
-        ) : (
-          <div
-            className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dotted border-primary bg-primary/5 p-8 text-center shadow shadow-primary/20 transition hover:bg-primary/15"
-            {...getRootProps({})}
-          >
-            <input {...getInputProps({ name: "file" })} />
 
-            <div className="flex flex-col items-center justify-center gap-4">
-              <CloudArrowUpIcon className="h-8 w-8 fill-secondary-foreground" />
-              {isDragActive ? (
-                <p>Drop your file here ...</p>
-              ) : (
-                <p className="text-balance">
-                  Drag & drop file here, or click to select
-                </p>
-              )}
+              <div className="">
+                <Button
+                  className={cn(
+                    "user-select-none w-full rounded-lg border font-semibold shadow-sm transition hover:bg-opacity-90",
+                    getFileExtension(files[0].name) === "pdf" &&
+                      "border-red-300 bg-red-100 shadow-red-400 hover:bg-red-200",
+                    (getFileExtension(files[0].name) === "doc" ||
+                      getFileExtension(files[0].name) === "docx") &&
+                      "border-sky-300 bg-sky-100 shadow-sky-400 hover:bg-sky-200"
+                  )}
+                  type="submit"
+                >
+                  <CloudArrowUpIcon className="mr-2 size-5" />
+                  Upload Document
+                </Button>
+              </div>
             </div>
+          </form>
+        </Form>
+      ) : (
+        <div
+          className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dotted border-primary bg-primary/5 p-8 text-center shadow shadow-primary/20 transition hover:bg-primary/15"
+          {...getRootProps({})}
+        >
+          <input {...getInputProps({ name: "file" })} />
+
+          <div className="flex flex-col items-center justify-center gap-4">
+            <CloudArrowUpIcon className="h-8 w-8 fill-secondary-foreground" />
+            {isDragActive ? (
+              <p>Drop your file here ...</p>
+            ) : (
+              <p className="text-balance">
+                Drag & drop file here, or click to select
+              </p>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

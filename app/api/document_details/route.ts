@@ -1,5 +1,6 @@
 import { OpenAIStream, StreamingTextResponse } from "ai"
 import OpenAI from "openai"
+import { ChatCompletionCreateParams } from "openai/resources"
 
 import { getDocumentSectionsByDocumentId } from "@/lib/supabase.server"
 
@@ -8,6 +9,24 @@ export const runtime = "edge"
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 })
+
+// Function definition:
+const functions: ChatCompletionCreateParams.Function[] = [
+  {
+    name: "get_article_details",
+    description: "Get Relevant Details from the Article",
+    parameters: {
+      type: "object",
+      properties: {
+        committee_name: {
+          type: "string",
+          description: "The committee name that published the article.",
+        },
+      },
+      required: ["committee_name"],
+    },
+  },
+]
 
 export async function POST(req: Request) {
   // Extract the `prompt` from the body of the request
@@ -21,28 +40,36 @@ export async function POST(req: Request) {
     console.log("🚀 ~ POST ~ error:", error)
   }
 
-  const summaryPrompt = `Summarise the following content, which is published by the Law Society Conveyancing Committee: ${content} in less than 200 words but ideally in 200 words. 
-        It should be a professional summary.  You are a professional lawyer giving the summary.  Do not cut off the summary mid-sentence or mid-paragraph.
-        The summary should be in your own words.  Do not copy and paste from the original content.  You can use the original content as a reference.  
-        If no context has been provided, say this and reply no further.`
-
-  const infoPrompt = `Using this context: ${content} give me only (1) the publisher of the content  (2) the date of publication (say no date if not sure), (3) the title of the piece and (4) the author.`
+  const infoPrompt = `Using this context: ${content} give me only 
+        (1) the publisher of the content 
+        (2) the date of publication (say no date if not sure), 
+        (3) the title of the piece 
+        (4) the Committee Name (if known).
+        
+        The formatting should be:
+        (1) Publisher:
+        (2) Date:
+        (3) Title:
+        (4) Committee Name:
+        `
 
   // Request the OpenAI API for the response based on the prompt
   const response = await openai.chat.completions.create({
     // model: "gpt-3.5-turbo",
-    // model: "gpt-4-0125-preview",
-    model: "gpt-4-1106-preview",
+    model: "gpt-4-0125-preview",
+    // model: "gpt-4-1106-preview",
     stream: true,
     // a precise prompt is important for the AI to reply with the correct tokens
     messages: [
       {
         role: "user",
-        content: summaryPrompt,
+        content: infoPrompt,
       },
     ],
+    // functions
+    functions,
     max_tokens: 800,
-    temperature: 0.2, // you want absolute certainty for spell check
+    temperature: 0.1, // you want absolute certainty
     top_p: 1,
     frequency_penalty: 1,
     presence_penalty: 1,

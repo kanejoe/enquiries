@@ -17,21 +17,35 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-interface SummariseContentProps {
+interface Props {
+  text: string
+}
+const TextToList: FC<Props> = ({ text }) => {
+  // Split the text into lines based on the pattern described
+  const lines = text.match(/\(\d+\)[^()]+/g)
+
+  return (
+    <ul className="">
+      {lines?.map((line, index) => <li key={index}>{`${line}`}</li>)}
+    </ul>
+  )
+}
+
+interface DocumentDetailsProps {
   document: Tables<"documents">
 }
 
-const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
+const DocumentDetails: FC<DocumentDetailsProps> = ({ document }) => {
   const [content, setContent] = useState("")
   const { complete, completion, isLoading } = useCompletion({
-    api: "/api/summarise",
+    api: "/api/document_details",
   })
 
   const summariseText = useCallback(
     async (c: string) => {
       setContent("")
       const completion = await complete(c)
-      if (!completion) throw new Error("Failed to summarise content")
+      if (!completion) throw new Error("Failed to detail the content")
       setContent(completion)
     },
     [complete]
@@ -41,7 +55,7 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
     <>
       <Card className="w-full font-geistsans shadow">
         <CardHeader>
-          <CardTitle className="text-lg">Summarise the Article</CardTitle>
+          <CardTitle className="text-lg">Document Details</CardTitle>
           <CardDescription></CardDescription>
           <Separator className="" />
           <CardContent className="p-0">
@@ -56,7 +70,8 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      {content}
+                      {/* {content} */}
+                      <TextToList text={content} />
                     </motion.div>
                   ) : (
                     <motion.div
@@ -95,4 +110,4 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
   )
 }
 
-export { SummariseContent }
+export { DocumentDetails }

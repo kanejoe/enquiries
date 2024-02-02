@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from "framer-motion"
 
 import { Tables } from "@/lib/database.types"
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -17,14 +16,16 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-interface SummariseContentProps {
+import { BadgeRenderer } from "./BadgeRender"
+
+interface DocumentTagsProps {
   document: Tables<"documents">
 }
 
-const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
+const DocumentTags: FC<DocumentTagsProps> = ({ document }) => {
   const [content, setContent] = useState("")
   const { complete, completion, isLoading } = useCompletion({
-    api: "/api/summarise",
+    api: "/api/tags",
   })
 
   const summariseText = useCallback(
@@ -41,8 +42,8 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
     <>
       <Card className="w-full font-geistsans shadow">
         <CardHeader>
-          <CardTitle className="text-lg">Summarise the Article</CardTitle>
-          <CardDescription></CardDescription>
+          <CardTitle className="text-lg">Document Tags</CardTitle>
+          <CardDescription>Categorise the File</CardDescription>
           <Separator className="" />
           <CardContent className="p-0">
             <div className="flex flex-col gap-y-4">
@@ -56,7 +57,7 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      {content}
+                      <BadgeRenderer text={content} />
                     </motion.div>
                   ) : (
                     <motion.div
@@ -95,4 +96,4 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
   )
 }
 
-export { SummariseContent }
+export { DocumentTags }
