@@ -5,6 +5,8 @@
         "strings": true
     },
     "css.validate": false,
+    "deno.lint": true,
+    "deno.unstable": true,
     "deno.enablePaths": [
         "./supabase/functions"
     ],

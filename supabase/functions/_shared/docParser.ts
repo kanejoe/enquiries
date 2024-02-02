@@ -1,7 +1,8 @@
-import { Document } from "npm:langchain/core/documents"
+import { Document } from "langchain/document"
 // import { DocxLoader } from "npm:langchain/document_loaders/fs/docx"
-import { PDFLoader } from "npm:langchain/document_loaders/fs/pdf"
-import { RecursiveCharacterTextSplitter } from "Npm:langchain/text_splitter"
+import { PDFLoader } from "langchain/document_loaders/fs/pdf"
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
+import _pdfjs from "pdf-parse"
 
 type PDFPage = {
   documnent_id: number

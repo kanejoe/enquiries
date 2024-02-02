@@ -4,12 +4,11 @@
 
 import { createClient } from "@supabase/supabase-js"
 import { env } from "@xenova/transformers"
-import * as _pdfjs from "npm:pdf-parse"
 
 import { corsHeaders } from "../_lib/cors.ts"
 import { Database } from "../_lib/database.ts"
 import { ParsePdf } from "../_shared/docParser.ts"
-import { getFileExtension } from "../../../lib/utils.ts"
+import { getFileExtension } from "../_shared/utils.ts"
 
 type PDFPage = {
   pageContent: string
@@ -19,6 +18,7 @@ type PDFPage = {
 }
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL")
+// const supabaseAnonKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
 const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")
 
 // Configuration for Deno runtime
@@ -71,6 +71,7 @@ Deno.serve(async (req) => {
     .select()
     .eq("id", document_id)
     .single()
+  // console.log("🚀 ~ Deno.serve ~ document:", document)
 
   if (!document?.storage_object_path || !document?.id) {
     return new Response(
@@ -103,6 +104,7 @@ Deno.serve(async (req) => {
   }
 
   if (!parsedDoc) throw new Error("Failed to parse document")
+  console.log("🚀 ~ Deno.serve ~ parsedDoc:", parsedDoc)
 
   const { error } = await supabaseClient
     .from("document_sections")

@@ -36,6 +36,7 @@ import { SummariseContent } from "./SummariseContent"
 const Page = () => {
   const { id } = useParams()
   const { data: document } = useDocument(id?.toString() || "")
+  console.log("🚀 ~ Page ~ document:", document)
   const parseFileWithDoc = parseFile.bind(null, document)
   // const embedFileId = embedContent.bind(null, document?.id)
   // const summariseId = summariseContentByDocumentId.bind(null, document?.id)

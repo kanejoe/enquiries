@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
+import { parseFile } from "../[id]/actions"
 import { PdfOrDocFileComponent } from "./PdfOrDocFileComponent"
 import { SelectFolders } from "./SelectFolders"
 
@@ -32,11 +33,17 @@ const FormSchema = z.object({
 const Dropzone: FC<DropzoneProps> = () => {
   const router = useRouter()
   const [files, setFiles] = useState<ExtendedFile[]>([]) // Initialize with an empty array and type 'ExtendedFile[]'
+
   const { mutateAsync: uploadFile, status: addFolderStatus } =
     useAddStorageFile({
-      onSuccess: (data) => {
-        toast.success(`File successfully uploaded! \n ${data.name}`)
+      onSuccess: async (data) => {
         router.push(`/rag/files/${data.id}`)
+        toast.success(`File successfully uploaded! ${data.name}`)
+        try {
+          await parseFile(data)
+        } catch (error) {
+          console.error("Error parsing file:", error)
+        }
       },
       onError: () => toast.error("Error uploading file."),
     })

@@ -48,3 +48,5 @@ const testClientCreation = async () => {
 
 // Register and run the tests
 Deno.test("Client Creation Test", testClientCreation)
+
+// deno test --allow-all supabase/functions/tests/function-embed-test.ts --env .env.local

@@ -38,23 +38,26 @@ export interface Database {
         Row: {
           content: string
           document_id: number
-          embedding: string | null
           id: number
           metadata: Json | null
+          openai_embedding: string | null
+          xenova_embedding: string | null
         }
         Insert: {
           content: string
           document_id: number
-          embedding?: string | null
           id?: never
           metadata?: Json | null
+          openai_embedding?: string | null
+          xenova_embedding?: string | null
         }
         Update: {
           content?: string
           document_id?: number
-          embedding?: string | null
           id?: never
           metadata?: Json | null
+          openai_embedding?: string | null
+          xenova_embedding?: string | null
         }
         Relationships: [
           {
@@ -512,9 +515,10 @@ export interface Database {
         Returns: {
           content: string
           document_id: number
-          embedding: string | null
           id: number
           metadata: Json | null
+          openai_embedding: string | null
+          xenova_embedding: string | null
         }[]
       }
       supabase_url: {
