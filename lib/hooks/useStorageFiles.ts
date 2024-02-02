@@ -2,7 +2,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { Database } from "@/lib/database.types"
+import { Database, Tables } from "@/lib/database.types"
 
 const keys = {
   getFiles: ["files"],
@@ -44,10 +44,10 @@ type Input = {
   folder_id: string
 }
 
-type Response = void
+type Response = Tables<"documents">
 
 const useAddStorageFile = (options: {
-  onSuccess: () => void
+  onSuccess: (data: Response) => void
   onError?: (error: Error) => void
 }) => {
   const supabase = createClientComponentClient<Database>()
@@ -77,21 +77,22 @@ const useAddStorageFile = (options: {
         .update({ folder_id: parseInt(folder_id, 10) })
         .eq("storage_object_id", (data as any).id)
         .select()
+        .single()
 
-      if (document && document.length === 0)
+      if (!document || document === null)
         throw new Error("Invalid data. No document found")
 
       if (documentError) {
         console.log("🚀 ~ mutationFn: ~ documentError:", documentError)
-        throw new Error(documentError.message) // Throw an error if the addition fails
+        throw new Error(documentError) // Throw an error if the addition fails
       }
 
       // Return a Response object
-      // return { data: "data", error: "error" } // Replace "data" and "error" with the actual data and error
+      return document
     },
-    onSuccess: async () => {
+    onSuccess: async (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: keys.getDocuments })
-      options.onSuccess()
+      options.onSuccess(data)
     },
     onError: (error: Error) => options.onError && options.onError(error),
   })

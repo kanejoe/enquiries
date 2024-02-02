@@ -26,11 +26,13 @@ export async function POST(req: Request) {
         The summary should be in your own words.  Do not copy and paste from the original content.  You can use the original content as a reference.  
         If no context has been provided, say this and reply no further.`
 
-  const tagsPrompt = `Using this context: ${content} and the following tags: conveyancing, law, property, real estate, real property, LPT and any other you want to use, give me some tags separated by semi-colons.`
+  const tagsPrompt = `Using this context: ${content} and the following tags: conveyancing, law, property, real estate, real property, LPT and any other you want to use, give me some tags separated by semi-colons.  
+  "`
 
   // Request the OpenAI API for the response based on the prompt
   const response = await openai.chat.completions.create({
     // model: "gpt-3.5-turbo",
+    // model: "gpt-4-0125-preview",
     model: "gpt-4-1106-preview",
     stream: true,
     // a precise prompt is important for the AI to reply with the correct tokens

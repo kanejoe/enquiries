@@ -37,6 +37,7 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
 
   const summariseText = useCallback(
     async (c: string) => {
+      setContent("")
       const completion = await complete(c)
       if (!completion) throw new Error("Failed to summarise content")
       setContent(completion)

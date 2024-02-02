@@ -1,6 +1,7 @@
 "use client"
 
 import { FC, useCallback, useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { CloudArrowUpIcon } from "@heroicons/react/20/solid"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DropEvent, useDropzone } from "react-dropzone"
@@ -29,10 +30,14 @@ const FormSchema = z.object({
 })
 
 const Dropzone: FC<DropzoneProps> = () => {
+  const router = useRouter()
   const [files, setFiles] = useState<ExtendedFile[]>([]) // Initialize with an empty array and type 'ExtendedFile[]'
   const { mutateAsync: uploadFile, status: addFolderStatus } =
     useAddStorageFile({
-      onSuccess: () => toast.success("File successfully uploaded!"),
+      onSuccess: (data) => {
+        toast.success("File successfully uploaded!")
+        router.push(`/rag/files/${data.id}`)
+      },
       onError: () => toast.error("Error uploading file."),
     })
 
@@ -73,12 +78,10 @@ const Dropzone: FC<DropzoneProps> = () => {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const file_to_upload = files[0]
     if (!file_to_upload) return
-    const resp = await uploadFile({
+    await uploadFile({
       selectedFile: file_to_upload,
       folder_id: data.folder_id,
     })
-    // console.log("🚀 ~ action ~ file:", file_to_upload)
-    // console.log("🚀 ~ onSubmit ~ data:", data)
     form.reset()
     removeAll()
   }
