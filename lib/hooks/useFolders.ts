@@ -1,15 +1,12 @@
-import { folder_seed_data } from "@/data/folder_seed_data";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react"
+import { folder_seed_data } from "@/data/folder_seed_data"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { Database, Tables } from "@/lib/database.types"
 
-
-import { Database, Tables } from "@/lib/database.types";
-
-
-
-import { organizeFolders } from "../organise-folders";
-
+import { countWords } from "../countWords"
+import { organizeFolders } from "../organise-folders"
 
 const keys = {
   getDocuments: ["documents"] as const,
@@ -59,19 +56,24 @@ const useFolders = () => {
   })
 }
 
+type DocumentsType = Tables<"documents">
+type ExtendedDocumentsType = DocumentsType & {
+  content: string
+  wordCount: number
+}
+
 const fetchDocumentById = async (
   documentId: string
-): Promise<Tables<"documents">> => {
+): Promise<DocumentsType> => {
   const supabase = createClientComponentClient<Database>()
   const { data } = await supabase
     .from("documents")
     .select(
+      ` *,
+        document_sections (
+          *
+        )
       `
-    *,
-    document_sections (
-      *
-    )
-  `
     )
     .eq("id", documentId)
     .single()
@@ -81,12 +83,25 @@ const fetchDocumentById = async (
   return data
 }
 
+// https://tkdodo.eu/blog/react-query-and-type-script#the-four-generics
 // React Query hook to get a single document
 const useDocument = (documentId: string) => {
-  return useQuery({
+  return useQuery<DocumentsType, Error, ExtendedDocumentsType>({
     queryKey: [keys.getDocuments, documentId], // Dynamic query key based on the document ID
     queryFn: () => fetchDocumentById(documentId),
     retry: false,
+    select: useCallback((data: any) => {
+      return Object.assign({}, data, {
+        content: data.document_sections
+          .map((section: any) => section.content)
+          .join(" "),
+        wordCount: countWords(
+          data.document_sections
+            .map((section: any) => section.content)
+            .join(" ")
+        ),
+      })
+    }, []),
   })
 }
 

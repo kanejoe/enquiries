@@ -30,13 +30,14 @@ import {
 import { Separator } from "@/components/ui/separator"
 
 // actions
-import { embedContent, parseFile } from "./actions"
+import { parseFile } from "./actions"
 import { SummariseContent } from "./SummariseContent"
 
 const Page = () => {
   const { id } = useParams()
   const { data: document } = useDocument(id?.toString() || "")
-  console.log("🚀 ~ Page ~ document:", document)
+  // console.log("🚀 ~ Page ~ document:", document)
+
   const parseFileWithDoc = parseFile.bind(null, document)
   // const embedFileId = embedContent.bind(null, document?.id)
   // const summariseId = summariseContentByDocumentId.bind(null, document?.id)
@@ -99,9 +100,12 @@ const Page = () => {
           </CardHeader>
           <CardContent>
             <div className="flex space-x-4 text-sm text-muted-foreground">
-              <div className="flex items-center">
+              <div className="flex items-center space-x-4">
                 <Badge variant="secondary">
                   {formatD(document.created_at, "d MMMM yyyy")}
+                </Badge>
+                <Badge variant="secondary">
+                  {document.wordCount.toLocaleString("en-IE")} words
                 </Badge>
               </div>
             </div>
