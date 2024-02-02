@@ -35,7 +35,7 @@ const Dropzone: FC<DropzoneProps> = () => {
   const { mutateAsync: uploadFile, status: addFolderStatus } =
     useAddStorageFile({
       onSuccess: (data) => {
-        toast.success("File successfully uploaded!")
+        toast.success(`File successfully uploaded! \n ${data.name}`)
         router.push(`/rag/files/${data.id}`)
       },
       onError: () => toast.error("Error uploading file."),
