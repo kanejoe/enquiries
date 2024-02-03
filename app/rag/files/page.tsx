@@ -1,4 +1,4 @@
-import { Dropzone } from "./upload/Dropzone"
+import { Dropzone } from "./_upload/Dropzone"
 
 export default function FilesPage() {
   return <Dropzone />

@@ -21,9 +21,9 @@ const Page = () => {
     <Suspense fallback={"loading..."}>
       <div className="flex flex-col gap-y-12">
         <DocumentCard document={document} />
+        <DocumentTags document={document} />
         <DocumentDetails document={document} />
         <SummariseContent document={document} />
-        <DocumentTags document={document} />
       </div>
     </Suspense>
   )

@@ -3,11 +3,10 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
-import { TreeViewWrapper } from "./_tree-view"
-
-export default async function FilesLayout({ children }: PropsWithChildren) {
+export default async function ChatLayout({ children }: PropsWithChildren) {
   // Keep cookies in the JS execution context for Next.js build
   const cookieStore = cookies()
+
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
 
   const {
@@ -18,14 +17,5 @@ export default async function FilesLayout({ children }: PropsWithChildren) {
     return redirect("/login")
   }
 
-  return (
-    <div className="container mt-8 font-albertsans">
-      <div className="grid h-128 grid-cols-12 gap-x-12">
-        <div className="col-span-6">
-          <TreeViewWrapper />
-        </div>
-        <div className="col-span-6">{children}</div>
-      </div>
-    </div>
-  )
+  return <>{children}</>
 }
