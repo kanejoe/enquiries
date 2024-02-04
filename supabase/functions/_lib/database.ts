@@ -83,6 +83,50 @@ export interface Database {
           }
         ]
       }
+      document_tags: {
+        Row: {
+          document_id: number
+          tag_id: number
+        }
+        Insert: {
+          document_id: number
+          tag_id: number
+        }
+        Update: {
+          document_id?: number
+          tag_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_tags_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_tags_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents_with_storage_path_and_created_by_email"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_tags_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "folders_with_documents"
+            referencedColumns: ["document_id"]
+          },
+          {
+            foreignKeyName: "document_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       documents: {
         Row: {
           created_at: string
@@ -399,6 +443,35 @@ export interface Database {
             columns: ["precedent_id"]
             isOneToOne: false
             referencedRelation: "precedents"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      tags: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: number
+          tag_name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          id?: never
+          tag_name: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: never
+          tag_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tags_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]

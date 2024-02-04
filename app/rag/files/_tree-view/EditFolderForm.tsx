@@ -36,7 +36,7 @@ const EditFolderForm: FC<EditFolderFormProps> = ({
   folder_name,
   afterSave,
 }) => {
-  const { mutateAsync: editFolderName, status } = useEditFolderName({
+  const { mutate: editFolderName, status } = useEditFolderName({
     onSuccess: () => toast.success("Folder name changed!"),
     onError: (error) =>
       toast.error("Something went wrong. Could not save. Try again."),

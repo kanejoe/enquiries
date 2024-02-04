@@ -28,40 +28,40 @@ on tags for delete to authenticated using (
   auth.uid() = created_by
 );
 
--- Folders can have many tags
--- Tags can be applied to many folders
+-- Documents can have many tags
+-- Tags can be applied to many documents
 -- This is a many-to-many relationship
 -- We need a join table to represent this relationship
 
-CREATE TABLE folder_tags (
-  folder_id BIGINT NOT NULL,
+CREATE TABLE document_tags (
+  document_id BIGINT NOT NULL,
   tag_id BIGINT NOT NULL,
-  PRIMARY KEY (folder_id, tag_id),
-  FOREIGN KEY (folder_id) REFERENCES folders(id) ON DELETE CASCADE,
+  PRIMARY KEY (document_id, tag_id),
+  FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE,
   FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
 
-ALTER TABLE folder_tags ENABLE ROW LEVEL SECURITY;
+ALTER TABLE document_tags ENABLE ROW LEVEL SECURITY;
 
--- Users can only insert folder_tags if they are the creator of the folder
-CREATE POLICY select_folder_tags ON folder_tags
+-- Users can only insert document_tags if they are the creator of the document
+CREATE POLICY select_document_tags ON document_tags
 FOR SELECT
-USING ((SELECT created_by FROM folders WHERE id = folder_id) = auth.uid());
+USING ((SELECT created_by FROM folders WHERE id = document_id) = auth.uid());
 
--- This code creates a policy named "delete_folder_tags" on the table "folder_tags" for the DELETE operation.
--- The policy checks if the user executing the DELETE operation is the same user who created the folder associated with the tag.
+-- This code creates a policy named "delete_document_tags" on the table "document_tags" for the DELETE operation.
+-- The policy checks if the user executing the DELETE operation is the same user who created the document associated with the tag.
 -- If the user is not the creator, the DELETE operation will be denied
-CREATE POLICY delete_folder_tags ON folder_tags
+CREATE POLICY delete_document_tags ON document_tags
 FOR DELETE
-USING ((SELECT created_by FROM folders WHERE id = folder_id) = auth.uid());
+USING ((SELECT created_by FROM documents WHERE id = document_id) = auth.uid());
 
--- Users can only insert folder_tags if they are the creator of the folder
-CREATE POLICY insert_folder_tags ON folder_tags
+-- Users can only insert document_tags if they are the creator of the folder
+CREATE POLICY insert_document_tags ON document_tags
 FOR INSERT
-WITH CHECK ((SELECT created_by FROM folders WHERE id = folder_id) = auth.uid());
+WITH CHECK ((SELECT created_by FROM documents WHERE id = document_id) = auth.uid());
 
--- Users can only update folder_tags if they are the creator of the folder
-CREATE POLICY update_folder_tags ON folder_tags
+-- Users can only update document_tags if they are the creator of the folder
+CREATE POLICY update_document_tags ON document_tags
 FOR UPDATE
-USING ((SELECT created_by FROM folders WHERE id = folder_id) = auth.uid());
+USING ((SELECT created_by FROM documents WHERE id = document_id) = auth.uid());
 

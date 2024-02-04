@@ -22,6 +22,11 @@ const contents = [
     url: "chat",
     description: "chat",
   },
+  {
+    id: "toc003",
+    url: "tags",
+    description: "tags",
+  },
 ]
 
 export function TOC() {
