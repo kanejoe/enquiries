@@ -1,7 +1,8 @@
-import { Button } from "@/components/ui/button"
+import { Cross2Icon } from "@radix-ui/react-icons"
+
 import { getFileExtension, getIconForFileType } from "@/lib/fileIcons"
 import { cn, convertFileSize } from "@/lib/utils"
-import { Cross2Icon } from "@radix-ui/react-icons"
+import { Button } from "@/components/ui/button"
 
 type ExtendedFile = File & { preview: string }
 
@@ -41,7 +42,7 @@ export function PdfOrDocFileComponent({
         </Button>
         <div className="">{file && getIconForFileType(file.name, 8)}</div>
 
-        <div className="max-w-48 truncate text-balance font-geistsans text-sm font-semibold text-primary-foreground">
+        <div className="max-w-48 truncate text-balance font-geistsans text-sm font-semibold text-red-800">
           {file && file.name}
         </div>
 

@@ -41,8 +41,8 @@ export async function POST(req: Request) {
         content: summaryPrompt,
       },
     ],
-    max_tokens: 800,
-    temperature: 0.2, // you want absolute certainty for spell check
+    max_tokens: 400,
+    temperature: 0.0, // you want absolute certainty
     top_p: 1,
     frequency_penalty: 1,
     presence_penalty: 1,

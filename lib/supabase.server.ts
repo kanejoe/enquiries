@@ -208,3 +208,17 @@ export async function getDocumentSectionsByDocumentId(
     }
   }
 }
+
+/**
+ * Retrieves all tags from the Supabase database.
+ * @returns {Promise<Array<any>>} The array of tags.
+ * @throws {Error} If there is an error retrieving the tags.
+ */
+export async function getTags() {
+  const supabase = createServerSupabaseClient()
+  const { data: tags, error } = await supabase.from("tags").select("*")
+  if (error) {
+    throw new Error(error.message)
+  }
+  return tags
+}

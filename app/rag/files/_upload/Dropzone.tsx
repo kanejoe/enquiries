@@ -110,10 +110,10 @@ const Dropzone: FC<DropzoneProps> = () => {
                   className={cn(
                     "user-select-none w-full rounded-lg border font-semibold shadow-sm transition hover:bg-opacity-90",
                     getFileExtension(files[0].name) === "pdf" &&
-                      "border-red-300 bg-red-100 shadow-red-400 hover:bg-red-200",
+                      "border-red-300 bg-red-100 text-red-800 shadow-red-400 hover:bg-red-200",
                     (getFileExtension(files[0].name) === "doc" ||
                       getFileExtension(files[0].name) === "docx") &&
-                      "border-sky-300 bg-sky-100 shadow-sky-400 hover:bg-sky-200"
+                      "border-sky-300 bg-sky-100 text-blue-800 shadow-sky-400 hover:bg-sky-200"
                   )}
                   type="submit"
                 >
