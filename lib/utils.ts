@@ -1,6 +1,16 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
+
+
+
+
+/**
+ * Combines multiple class names into a single string.
+ *
+ * @param inputs - The class names to combine.
+ * @returns The combined class names as a string.
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -50,4 +60,14 @@ export function getFileExtension(type: string): string {
     default:
       return "unknown"
   }
+}
+
+/**
+ * Splits a string into an array of strings by a specified delimiter and trims each item.
+ * 
+ * @param input - The input string to be split.
+ * @returns An array of strings.
+ */
+export function splitStringBySemicolon(input: string): string[] {
+  return input.split(";").map((item) => item.trim())
 }
