@@ -20,7 +20,6 @@ const ExistingTags: FC<ExistingTagsProps> = ({ tag }) => {
   })
 
   const addTag = () => {
-    console.log("add tag", tag)
     updateTag({ documentId: 2, tagId: tag.id })
   }
 

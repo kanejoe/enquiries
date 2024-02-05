@@ -6,11 +6,11 @@ import {
   findRecordsByTagName,
 } from "@/lib/searchArrayOfTags"
 import { splitStringBySemicolon } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 
 import { BadgeCombobox } from "./BadgeCombobox"
 import { BadgeIcon } from "./BadgeIcon"
 import { ExistingTags } from "./ExistingTags"
+import { PotentialTag } from "./PotentialTag"
 import { TagForm } from "./TagForm"
 import { MultiSelectForm } from "./TagMultiSelect"
 
@@ -23,7 +23,7 @@ const split = splitStringBySemicolon(data)
 const Page = () => {
   const { data: tags } = useTags()
   const { data: dtags } = useDocumentsWithTags()
-  //   console.log("🚀 ~ Page ~ dtags:", dtags)
+  // console.log("🚀 ~ Page ~ dtags:", dtags)
 
   if (!tags) return <div>Loading...</div>
   const existingTags = findRecordsByTagName(split, tags)
@@ -59,7 +59,7 @@ const Page = () => {
                 let uuid = self.crypto.randomUUID()
                 return (
                   <div key={uuid} className="flex justify-between">
-                    <Badge variant={"secondary"}>{tag}</Badge>
+                    <PotentialTag tag={tag} />
                   </div>
                 )
               })}
