@@ -1,13 +1,13 @@
 "use client"
 
 import { useTags } from "@/lib/hooks/useTags"
-import { Badge } from "@/components/ui/badge"
 
+import { BadgeIcon } from "./BadgeIcon"
 import { TagForm } from "./TagForm"
 
 const Page = () => {
   const { data: tags } = useTags()
-  console.log("🚀 ~ Page ~ tags:", tags)
+  //   console.log("🚀 ~ Page ~ tags:", tags)
 
   return (
     <div className="container mt-4 flex flex-col gap-y-12">
@@ -20,7 +20,7 @@ const Page = () => {
         <div className="grid grid-cols-1 gap-2">
           {tags?.map((tag) => (
             <div key={tag.id} className="flex justify-between">
-              <Badge variant={"outline"}>{tag.tag_name}</Badge>
+              <BadgeIcon tag={tag} />
             </div>
           ))}
         </div>

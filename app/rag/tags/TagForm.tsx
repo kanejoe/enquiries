@@ -41,7 +41,6 @@ export function TagForm() {
   })
 
   function onSubmit(data: z.infer<typeof tagFormSchema>) {
-    console.log("🚀 ~ onSubmit ~ data:", data)
     addNewTagName(data)
     form.reset()
   }

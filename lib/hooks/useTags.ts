@@ -4,11 +4,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Database, Tables } from "@/lib/database.types"
 
 // types
-type TTags = Tables<"tags">
-type TTagFormData = { tag_name: TTags["tag_name"] } & {
-  id?: TTags["id"]
+export type TTags = Tables<"tags">
+export type TTagFormDataNoID = { tag_name: TTags["tag_name"] }
+export type TTagFormData = TTagFormDataNoID & {
+  id: TTags["id"]
 }
-type TDocument = Tables<"documents"> // Simplified; adjust according to your actual type definition
+export type TDocument = Tables<"documents"> // Simplified; adjust according to your actual type definition
 
 // Define a type for the document joined with its tags
 type TDocumentWithTags = TDocument & {
@@ -51,6 +52,7 @@ const fetchDocumentsWithTags = async (): Promise<TDocumentWithTags[]> => {
       )`
     )
     .throwOnError()
+  console.log("🚀 ~ fetchDocumentsWithTags ~ data:", data)
 
   if (error || !data) {
     console.error(error?.message)
@@ -78,8 +80,8 @@ const useAddTag = (options: {
 }) => {
   const supabase = createClientComponentClient<Database>()
   const queryClient = useQueryClient()
-  return useMutation<TTags, Error, TTagFormData>({
-    mutationFn: async (formData: TTagFormData): Promise<TTags> => {
+  return useMutation({
+    mutationFn: async (formData: TTagFormDataNoID): Promise<TTags> => {
       const { data } = await supabase
         .from("tags")
         .insert({
@@ -103,4 +105,23 @@ const useAddTag = (options: {
   })
 }
 
-export { useTags, useDocumentsWithTags, useAddTag }
+const useDeleteTag = (options: {
+  onSuccess: () => void
+  onError: (error: Error) => void
+}) => {
+  const supabase = createClientComponentClient<Database>()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: TTags["id"]): Promise<void> => {
+      console.log("🚀 ~ mutationFn: ~ id:", id)
+      await supabase.from("tags").delete().eq("id", id).throwOnError()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: keys.getTags })
+      options.onSuccess()
+    },
+    onError: (error: Error) => options.onError(error),
+  })
+}
+
+export { useTags, useDocumentsWithTags, useAddTag, useDeleteTag }
