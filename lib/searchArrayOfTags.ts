@@ -24,3 +24,32 @@ export function findRecordsByTagName(
     return acc
   }, [])
 }
+
+/**
+ * Filters out tag names from dataArray that are found in dbData.
+ *
+ * @param dataArray - An array of tag names to filter.
+ * @param dbData - An array of tag records to filter against.
+ * @returns An array of tag names not found in dbData.
+ */
+export function filterOutFoundTags(
+  dataArray: string[],
+  dbData: TTags[]
+): string[] {
+  // Create a lowercase copy of dbData tag_names for case-insensitive comparison
+  const dbTagNamesLowercase = dbData.map((dbRecord) =>
+    dbRecord.tag_name.toLowerCase()
+  )
+
+  // Filter dataArray to keep only those items not found in dbData
+  // This inherently returns all tags from dataArray if none are found in dbData
+  const notFoundRecords = dataArray.filter(
+    (tagName) => !dbTagNamesLowercase.includes(tagName.toLowerCase())
+  )
+
+  // Explicit handling to return all tags if none are found is not necessary here,
+  // as the filter condition naturally covers this scenario by including all items from dataArray
+  // if none match the conditions for exclusion.
+
+  return notFoundRecords
+}

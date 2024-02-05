@@ -565,6 +565,28 @@ export interface Database {
         }
         Returns: undefined
       }
+      get_documents_with_tags: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: number
+          name: string
+          folder_id: number
+          storage_object_id: string
+          created_by: string
+          created_at: string
+          tags: Json
+        }[]
+      }
+      get_tags_with_documents: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: number
+          tag_name: string
+          created_by: string
+          created_at: string
+          documents: Json
+        }[]
+      }
       inc_sequence: {
         Args: {
           p_parent_id: number

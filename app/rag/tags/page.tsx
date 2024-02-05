@@ -1,11 +1,16 @@
 "use client"
 
-import { useTags } from "@/lib/hooks/useTags"
-import { findRecordsByTagName } from "@/lib/searchArrayOfTags"
+import { useDocumentsWithTags, useTags } from "@/lib/hooks/useTags"
+import {
+  filterOutFoundTags,
+  findRecordsByTagName,
+} from "@/lib/searchArrayOfTags"
 import { splitStringBySemicolon } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 
 import { BadgeCombobox } from "./BadgeCombobox"
 import { BadgeIcon } from "./BadgeIcon"
+import { ExistingTags } from "./ExistingTags"
 import { TagForm } from "./TagForm"
 import { MultiSelectForm } from "./TagMultiSelect"
 
@@ -17,14 +22,51 @@ const split = splitStringBySemicolon(data)
 
 const Page = () => {
   const { data: tags } = useTags()
-  //   console.log("🚀 ~ Page ~ tags:", tags)
+  const { data: dtags } = useDocumentsWithTags()
+  //   console.log("🚀 ~ Page ~ dtags:", dtags)
+
   if (!tags) return <div>Loading...</div>
-  const dd = findRecordsByTagName(split, tags)
-  console.log("🚀 ~ Page ~ dd:", dd)
+  const existingTags = findRecordsByTagName(split, tags)
+  const potentialTags = filterOutFoundTags(split, tags)
 
   return (
     <div className="container mt-4 flex flex-col gap-y-12">
       <h1 className="font-geistsans text-xl font-semibold">Tags</h1>
+      <div className="">
+        {existingTags.length > 0 && (
+          <div className="flex flex-col gap-y-4">
+            <h2 className="font-geistsans text-lg font-semibold">
+              Existing Tags
+            </h2>
+            <div className="grid grid-cols-1 gap-2">
+              {existingTags?.map((tag) => (
+                <div key={tag.id} className="flex justify-between">
+                  <ExistingTags tag={tag} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="">
+        {potentialTags.length > 0 && (
+          <div className="flex flex-col gap-y-4">
+            <h2 className="font-geistsans text-lg font-semibold">
+              Potential Tags
+            </h2>
+            <div className="flex flex-wrap gap-x-4 gap-y-4">
+              {potentialTags?.map((tag) => {
+                let uuid = self.crypto.randomUUID()
+                return (
+                  <div key={uuid} className="flex justify-between">
+                    <Badge variant={"secondary"}>{tag}</Badge>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+      </div>
       <div className="max-w-64">
         <TagForm />
       </div>

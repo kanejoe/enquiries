@@ -13,7 +13,7 @@ export type TDocument = Tables<"documents"> // Simplified; adjust according to y
 
 // Define a type for the document joined with its tags
 type TDocumentWithTags = TDocument & {
-  tags: TTags[] // Assuming each document can have multiple tags
+  tags: TTags[] | null // Assuming each document can have multiple tags
 }
 
 const keys = {
@@ -37,33 +37,16 @@ const useTags = () => {
   })
 }
 
-const fetchDocumentsWithTags = async (): Promise<TDocumentWithTags[]> => {
+const fetchDocumentsWithTags = async () => {
   const supabase = createClientComponentClient<Database>()
-  const { data, error } = await supabase
-    .from("documents")
-    .select(
-      `
-      *,
-      document_tags!inner(
-        tag_id
-      ),
-      tags (
-        tag_name
-      )`
-    )
-    .throwOnError()
-  console.log("🚀 ~ fetchDocumentsWithTags ~ data:", data)
+  const { data, error } = await supabase.rpc("get_documents_with_tags")
 
-  if (error || !data) {
-    console.error(error?.message)
-    return []
+  if (error) {
+    console.error("Error fetching documents with tags:", error)
+    return null
   }
 
-  // Transform data if necessary to fit the TDocumentWithTags type
-  return data.map((doc) => ({
-    ...doc,
-    tags: doc.document_tags.map((dt) => dt.tags),
-  }))
+  return data
 }
 
 const useDocumentsWithTags = () => {
@@ -123,4 +106,44 @@ const useDeleteTag = (options: {
   })
 }
 
-export { useTags, useDocumentsWithTags, useAddTag, useDeleteTag }
+const addDocumentTag = async (
+  documentId: TDocument["id"],
+  tagId: TTags["id"]
+) => {
+  const supabase = createClientComponentClient<Database>()
+  await supabase
+    .from("document_tags")
+    .insert({
+      document_id: documentId,
+      tag_id: tagId,
+    })
+    .throwOnError()
+}
+
+const useAddDocumentTag = (options: {
+  onSuccess: () => void
+  onError: (error: Error) => void
+}) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (data: {
+      documentId: TDocument["id"]
+      tagId: TTags["id"]
+    }) => {
+      await addDocumentTag(data.documentId, data.tagId)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: keys.getDocumentsWithTags })
+      options.onSuccess()
+    },
+    onError: (error: Error) => options.onError(error),
+  })
+}
+
+export {
+  useTags,
+  useDocumentsWithTags,
+  useAddTag,
+  useDeleteTag,
+  useAddDocumentTag,
+}
