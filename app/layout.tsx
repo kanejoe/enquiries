@@ -8,7 +8,8 @@ import { siteConfig } from "@/config/site"
 import { fontAlbertSans, fontMono, fontSans } from "@/lib/fonts"
 import TanstackProvider from "@/lib/TanstackProviders"
 import { cn } from "@/lib/utils"
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster as Sonner } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/toaster"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -57,7 +58,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
             </div>
             <TailwindIndicator />
           </ThemeProvider>
-          <Toaster expand visibleToasts={1} />
+          <Toaster />
+          <Sonner />
         </body>
       </html>
     </>

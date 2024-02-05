@@ -113,7 +113,6 @@ const useDeleteTag = (options: {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (id: TTags["id"]): Promise<void> => {
-      console.log("🚀 ~ mutationFn: ~ id:", id)
       await supabase.from("tags").delete().eq("id", id).throwOnError()
     },
     onSuccess: () => {

@@ -2,8 +2,10 @@
 
 import { useTags } from "@/lib/hooks/useTags"
 
+import { BadgeCombobox } from "./BadgeCombobox"
 import { BadgeIcon } from "./BadgeIcon"
 import { TagForm } from "./TagForm"
+import { MultiSelectForm } from "./TagMultiSelect"
 
 const Page = () => {
   const { data: tags } = useTags()
@@ -15,7 +17,7 @@ const Page = () => {
       <div className="max-w-64">
         <TagForm />
       </div>
-      <div className="">
+      <div className="flex flex-col gap-y-8">
         <h2 className="font-geistsans text-lg font-semibold">Tags</h2>
         <div className="grid grid-cols-1 gap-2">
           {tags?.map((tag) => (
@@ -23,6 +25,12 @@ const Page = () => {
               <BadgeIcon tag={tag} />
             </div>
           ))}
+        </div>
+        <div className="">
+          <BadgeCombobox />
+        </div>
+        <div className="w-[720px]">
+          <MultiSelectForm />
         </div>
       </div>
     </div>
