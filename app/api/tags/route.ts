@@ -25,7 +25,8 @@ export async function POST(req: Request) {
   }
 
   const tagsPrompt = `Using this context: ${content} and taking into account the following tags: 
-    ${tags}, only if they are relevant, give me some tags appropriate to the content and separated by semi-colons.  
+    ${tags}, only if they are relevant.  If they are not relevant to the content and context, absolutely do not use them.
+    Give me some tags appropriate to the content and separated by semi-colons.  
     Remember you are a professional lawyer and the tags should be professional and relevant to the context.   
     If there are references to statutes or laws, these should be included in the tags.
     If no context has been provided, produce no tags.`

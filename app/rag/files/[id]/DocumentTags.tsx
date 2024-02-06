@@ -5,6 +5,7 @@ import { useCompletion } from "ai/react"
 import { AnimatePresence, motion } from "framer-motion"
 
 import { Tables } from "@/lib/database.types"
+import { useFetchDocumentWithTagsById } from "@/lib/hooks/useTags"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,13 +17,16 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import { BadgeIcon } from "../../tags/BadgeIcon"
 import { BadgeRenderer } from "./BadgeRender"
 
-interface DocumentTagsProps {
-  document: Tables<"documents">
-}
+type TDocumentTagProps = { documentId: Tables<"documents">["id"] }
+type TTag = Tables<"tags">
 
-const DocumentTags: FC<DocumentTagsProps> = ({ document }) => {
+const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
+  const { data: document } = useFetchDocumentWithTagsById(documentId)
+  const dtags = document?.tags ?? []
+
   const [content, setContent] = useState("")
   const { complete, completion, isLoading } = useCompletion({
     api: "/api/tags",
@@ -47,6 +51,15 @@ const DocumentTags: FC<DocumentTagsProps> = ({ document }) => {
           <Separator className="" />
           <CardContent className="p-0">
             <div className="flex flex-col gap-y-4">
+              <div className="flex flex-wrap gap-2">
+                {Array.isArray(dtags) && dtags.length > 0
+                  ? dtags.map((tag) => (
+                      <div key={tag.id} className="">
+                        <BadgeIcon tag={tag} />
+                      </div>
+                    ))
+                  : null}
+              </div>
               <div className="text-pretty text-sm text-muted-foreground">
                 <AnimatePresence mode="wait">
                   {content ? (
@@ -80,7 +93,9 @@ const DocumentTags: FC<DocumentTagsProps> = ({ document }) => {
                 variant="outline"
                 size="xs"
                 disabled={isLoading}
-                onClick={() => summariseText(document.id.toString())}
+                onClick={() =>
+                  document && summariseText(document.id.toString())
+                }
               >
                 <LightningBoltIcon
                   className={cn(`h-4 w-4`, {

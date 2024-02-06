@@ -5,7 +5,6 @@ import { useParams } from "next/navigation"
 
 import { useDocument } from "@/lib/hooks/useFolders"
 import { useFetchStorageFileUrl } from "@/lib/hooks/useStorageFiles"
-import { useFetchDocumentWithTagsById } from "@/lib/hooks/useTags"
 
 // actions
 import { DocumentCard } from "./DocumentCard"
@@ -18,8 +17,6 @@ const Page = () => {
   const { id } = useParams()
   const { data: document } = useDocument(id?.toString() || "")
   const { data: file } = useFetchStorageFileUrl(Number(id))
-  const { data: dt } = useFetchDocumentWithTagsById(Number(id))
-  console.log("🚀 ~ Page ~ dt:", dt)
 
   if (!document) return null
 
@@ -28,7 +25,7 @@ const Page = () => {
       <div className="col-span-5">
         <div className="flex flex-col gap-y-4">
           <DocumentCard document={document} />
-          <DocumentTags document={document} />
+          <DocumentTags documentId={Number(id)} />
           {/* <DocumentDetails document={document} />
             <SummariseContent document={document} /> */}
         </div>
