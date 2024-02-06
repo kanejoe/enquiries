@@ -102,7 +102,44 @@ BEGIN
 END; $$
 LANGUAGE plpgsql STABLE;
 
+-- This function returns a single document with its associated tags
+CREATE OR REPLACE FUNCTION public.get_single_document_with_tags(document_id BIGINT)
+RETURNS TABLE (
+    id BIGINT,
+    name TEXT,
+    folder_id BIGINT,
+    storage_object_id UUID,
+    created_by UUID,
+    created_at TIMESTAMP WITH TIME ZONE,
+    tags JSONB
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        d.id,
+        d.name,
+        d.folder_id,
+        d.storage_object_id,
+        d.created_by,
+        d.created_at,
+        COALESCE(JSONB_AGG(
+            JSONB_BUILD_OBJECT(
+                'id', t.id,
+                'tag_name', t.tag_name,
+                'created_by', t.created_by,
+                'created_at', t.created_at
+            ) ORDER BY t.id
+        ) FILTER (WHERE t.id IS NOT NULL), '[]'::JSONB) AS tags
+    FROM public.documents d
+    LEFT JOIN public.document_tags dt ON d.id = dt.document_id
+    LEFT JOIN public.tags t ON dt.tag_id = t.id
+    WHERE d.id = document_id
+    GROUP BY d.id;
+END;
+$$ LANGUAGE plpgsql STABLE;
 
+
+-- This function returns all tags with their associated documents
 CREATE OR REPLACE FUNCTION public.get_tags_with_documents()
 RETURNS TABLE (
     id BIGINT,

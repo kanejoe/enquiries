@@ -100,7 +100,7 @@ const useAddStorageFile = (options: {
   })
 }
 
-const useFetchStorageFile = (id: TDocuments["id"]) => {
+const useFetchStorageFileUrl = (id: TDocuments["id"]) => {
   const supabase = createClientComponentClient<Database>()
 
   return useQuery({
@@ -138,7 +138,7 @@ export {
   useStorageFiles,
   useAddStorageFile,
   getUploadedFilesData,
-  useFetchStorageFile,
+  useFetchStorageFileUrl,
 }
 
 /**

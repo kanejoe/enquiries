@@ -49,13 +49,16 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
             {/* {document.name} */}
           </CardDescription>
         </div>
-        <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
-          <Button variant="secondary" className="px-3 shadow-none">
+        <div className="">
+          <Button variant={"secondary"} asChild className="shadow-none">
+            <Link href={"./"}>Close</Link>
+          </Button>
+          {/* <Button variant="secondary" className="px-3 shadow-none">
             <StarIcon className="mr-2 h-4 w-4" />
             Star
-          </Button>
-          <Separator orientation="vertical" className="h-[20px]" />
-          <DropdownMenu>
+          </Button> */}
+          {/* <Separator orientation="vertical" className="h-[20px]" /> */}
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" className="px-2 shadow-none">
                 <ChevronDownIcon className="h-4 w-4 text-secondary-foreground" />
@@ -79,7 +82,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
                 <PlusIcon className="mr-2 h-4 w-4" /> Create List
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
       </CardHeader>
       <CardContent>
@@ -95,9 +98,6 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
         </div>
       </CardContent>
       <CardFooter className="gap-x-4">
-        <Button variant={"secondary"} asChild>
-          <Link href={"./"}>Close</Link>
-        </Button>
         {document.wordCount < 1 ? (
           <form action={parseFileWithDoc}>
             <Button variant={"secondary"} type="submit">
