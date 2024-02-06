@@ -1,12 +1,12 @@
 import { FC, useCallback, useState } from "react"
 import { Separator } from "@radix-ui/react-dropdown-menu"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
+import { FunctionCallHandler } from "ai"
 import { useCompletion } from "ai/react"
 import { AnimatePresence, motion } from "framer-motion"
 
 import { Tables } from "@/lib/database.types"
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -35,10 +35,25 @@ interface DocumentDetailsProps {
   document: Tables<"documents">
 }
 
+const functionCallHandler: FunctionCallHandler = async (
+  chatMessages,
+  functionCall
+) => {
+  if (functionCall.name === "get_current_weather") {
+    if (functionCall.arguments) {
+      const parsedFunctionCallArguments = JSON.parse(functionCall.arguments)
+      // You now have access to the parsed arguments here (assuming the JSON was valid)
+      // If JSON is invalid, return an appropriate message to the model so that it may retry?
+      console.log(parsedFunctionCallArguments)
+    }
+  }
+}
+
 const DocumentDetails: FC<DocumentDetailsProps> = ({ document }) => {
   const [content, setContent] = useState("")
   const { complete, completion, isLoading } = useCompletion({
     api: "/api/document_details",
+    // experimental_onFunctionCall: functionCallHandler,
   })
 
   const summariseText = useCallback(
@@ -70,7 +85,6 @@ const DocumentDetails: FC<DocumentDetailsProps> = ({ document }) => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      {/* {content} */}
                       <TextToList text={content} />
                     </motion.div>
                   ) : (

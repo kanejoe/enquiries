@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
 
-import { parseFile } from "./actions"
+import { parseFile } from "./_actions"
 
 interface DocumentCardProps {
   document: TExtendedDocuments

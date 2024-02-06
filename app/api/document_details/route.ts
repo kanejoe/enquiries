@@ -62,6 +62,10 @@ export async function POST(req: Request) {
     // a precise prompt is important for the AI to reply with the correct tokens
     messages: [
       {
+        role: "system",
+        content: "Extract relevant details about the article.",
+      },
+      {
         role: "user",
         content: infoPrompt,
       },

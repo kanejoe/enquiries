@@ -80,9 +80,10 @@ const useAddTag = (options: {
 
       return data
     },
-    onSuccess: () => {
+    onSuccess: async (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: keys.getTags })
       options.onSuccess()
+      return data
     },
     onError: (error: Error) => options.onError(error),
   })

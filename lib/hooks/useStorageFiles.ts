@@ -4,6 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { Database, Tables } from "@/lib/database.types"
 
+type TDocuments = Tables<"documents">
+
 const keys = {
   getFiles: ["files"],
   getDocuments: ["documents"],
@@ -98,7 +100,46 @@ const useAddStorageFile = (options: {
   })
 }
 
-export { useStorageFiles, useAddStorageFile, getUploadedFilesData }
+const useFetchStorageFile = (id: TDocuments["id"]) => {
+  const supabase = createClientComponentClient<Database>()
+
+  return useQuery({
+    queryKey: ["file", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("documents_with_storage_path_and_created_by_email")
+        .select("*")
+        .eq("id", id)
+        .single()
+
+      if (error) {
+        throw new Error(error.message) // Throw an error if the query fails
+      }
+
+      if (!data || data?.storage_object_path === null) {
+        throw new Error("Failed to find document")
+      }
+
+      const { data: file } = await supabase.storage
+        .from("files")
+        .createSignedUrl(data.storage_object_path || "", 60)
+
+      if (!file) {
+        throw new Error("Failed to download storage object.")
+      }
+
+      return file
+    },
+    retry: false,
+  })
+}
+
+export {
+  useStorageFiles,
+  useAddStorageFile,
+  getUploadedFilesData,
+  useFetchStorageFile,
+}
 
 /**
  * replaces a string if it contains invalid characters

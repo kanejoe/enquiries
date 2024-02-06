@@ -23,7 +23,7 @@ const split = splitStringBySemicolon(data)
 const Page = () => {
   const { data: tags } = useTags()
   const { data: dtags } = useDocumentsWithTags()
-  // console.log("🚀 ~ Page ~ dtags:", dtags)
+  console.log("🚀 ~ Page ~ dtags:", dtags)
 
   if (!tags) return <div>Loading...</div>
   const existingTags = findRecordsByTagName(split, tags)

@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     console.log("🚀 ~ POST ~ error:", error)
   }
 
-  const summaryPrompt = `Summarise the following content, taking into account who published the document and the context: ${content} in less than 200 words but ideally in 200 words. 
+  const summaryPrompt = `Summarise the following content, taking into account who published the document and the context: ${content} in less than 250 words but ideally in 200 words. This is a strict limit, so be consise.
         It should be a professional summary.  You are a professional lawyer giving the summary.  Do not cut off the summary mid-sentence or mid-paragraph.
         The summary should be in your own words.  Do not copy and paste from the original content.  You can use the original content as a reference.  
         If no context has been provided, say this and reply no further.`
@@ -31,8 +31,8 @@ export async function POST(req: Request) {
   // Request the OpenAI API for the response based on the prompt
   const response = await openai.chat.completions.create({
     // model: "gpt-3.5-turbo",
-    model: "gpt-4-0125-preview",
-    // model: "gpt-4-1106-preview",
+    // model: "gpt-4-0125-preview",
+    model: "gpt-4-1106-preview",
     stream: true,
     // a precise prompt is important for the AI to reply with the correct tokens
     messages: [
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     temperature: 0.0, // you want absolute certainty
     top_p: 1,
     frequency_penalty: 1,
-    presence_penalty: 1,
+    presence_penalty: 0,
   })
 
   const stream = OpenAIStream(response)

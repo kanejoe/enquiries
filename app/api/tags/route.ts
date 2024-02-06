@@ -28,13 +28,13 @@ export async function POST(req: Request) {
     ${tags}, only if they are relevant, give me some tags appropriate to the content and separated by semi-colons.  
     Remember you are a professional lawyer and the tags should be professional and relevant to the context.   
     If there are references to statutes or laws, these should be included in the tags.
-    If no context has been provided, say this and reply no further.`
+    If no context has been provided, produce no tags.`
 
   // Request the OpenAI API for the response based on the prompt
   const response = await openai.chat.completions.create({
     // model: "gpt-3.5-turbo",
-    // model: "gpt-4-0125-preview",
-    model: "gpt-4-1106-preview",
+    model: "gpt-4-0125-preview",
+    // model: "gpt-4-1106-preview",
     stream: true,
     // a precise prompt is important for the AI to reply with the correct tokens
     messages: [

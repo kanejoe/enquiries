@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
-import { parseFile } from "../[id]/actions"
+import { parseFile } from "../[id]/_actions"
 import { PdfOrDocFileComponent } from "./PdfOrDocFileComponent"
 import { SelectFolders } from "./SelectFolders"
 
@@ -126,7 +126,7 @@ const Dropzone: FC<DropzoneProps> = () => {
         </Form>
       ) : (
         <div
-          className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dotted border-primary bg-primary/5 p-8 text-center shadow shadow-primary/20 transition hover:bg-primary/15"
+          className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dotted border-yellow-400 bg-yellow-50 p-8 text-center shadow shadow-yellow-300 transition hover:bg-yellow-100"
           {...getRootProps({})}
         >
           <input {...getInputProps({ name: "file" })} />
