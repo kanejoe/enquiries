@@ -103,7 +103,7 @@ END; $$
 LANGUAGE plpgsql STABLE;
 
 -- This function returns a single document with its associated tags
-CREATE OR REPLACE FUNCTION public.get_single_document_with_tags(document_id BIGINT)
+CREATE OR REPLACE FUNCTION public.get_single_document_with_tags(p_document_id BIGINT)
 RETURNS TABLE (
     id BIGINT,
     name TEXT,
@@ -133,10 +133,11 @@ BEGIN
     FROM public.documents d
     LEFT JOIN public.document_tags dt ON d.id = dt.document_id
     LEFT JOIN public.tags t ON dt.tag_id = t.id
-    WHERE d.id = document_id
+    WHERE d.id = p_document_id -- Use the renamed parameter here
     GROUP BY d.id;
 END;
 $$ LANGUAGE plpgsql STABLE;
+
 
 
 -- This function returns all tags with their associated documents

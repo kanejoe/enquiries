@@ -577,6 +577,20 @@ export interface Database {
           tags: Json
         }[]
       }
+      get_single_document_with_tags: {
+        Args: {
+          p_document_id: number
+        }
+        Returns: {
+          id: number
+          name: string
+          folder_id: number
+          storage_object_id: string
+          created_by: string
+          created_at: string
+          tags: Json
+        }[]
+      }
       get_tags_with_documents: {
         Args: Record<PropertyKey, never>
         Returns: {

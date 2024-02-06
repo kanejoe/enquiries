@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { Database, Tables } from "@/lib/database.types"
 
+import { TDocuments } from "./useFolders"
+
 // types
 export type TTags = Tables<"tags">
 export type TTagFormDataNoID = { tag_name: TTags["tag_name"] }
@@ -141,10 +143,35 @@ const useAddDocumentTag = (options: {
   })
 }
 
+const fetchDocumentWithTagsById = async (documentId: TDocuments["id"]) => {
+  const supabase = createClientComponentClient<Database>()
+  const { data, error } = await supabase
+    .rpc("get_single_document_with_tags", {
+      p_document_id: documentId,
+    })
+    .single()
+
+  if (error) {
+    console.error("Error fetching documents with tags:", error)
+    return null
+  }
+
+  return data
+}
+
+const useFetchDocumentWithTagsById = (documentId: TDocuments["id"]) => {
+  return useQuery({
+    queryKey: [keys.getDocumentsWithTags, documentId],
+    queryFn: () => fetchDocumentWithTagsById(documentId),
+    retry: false,
+  })
+}
+
 export {
   useTags,
   useDocumentsWithTags,
   useAddTag,
   useDeleteTag,
   useAddDocumentTag,
+  useFetchDocumentWithTagsById,
 }

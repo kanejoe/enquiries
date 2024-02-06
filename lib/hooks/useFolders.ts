@@ -8,6 +8,11 @@ import { Database, Tables } from "@/lib/database.types"
 import { countWords } from "../countWords"
 import { organizeFolders } from "../organise-folders"
 
+export type TDocuments = Tables<"documents">
+export type TExtendedDocuments = TDocuments & {
+  content: string
+  wordCount: number
+}
 const keys = {
   getDocuments: ["documents"] as const,
   getFolders: ["folders"] as const,
@@ -23,7 +28,7 @@ const fetchFoldersWithDocuments = async () => {
     .throwOnError()
 
   if (!data) return []
- 
+
   // If no error, return the data
   const tree = organizeFolders(data)
   return tree
@@ -54,12 +59,6 @@ const useFolders = () => {
     queryFn: () => fetchFolders(),
     retry: false,
   })
-}
-
-export type TDocuments = Tables<"documents">
-export type TExtendedDocuments = TDocuments & {
-  content: string
-  wordCount: number
 }
 
 const fetchDocumentById = async (documentId: string): Promise<TDocuments> => {
