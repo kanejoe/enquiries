@@ -17,11 +17,10 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { BadgeIcon } from "../../tags/BadgeIcon"
 import { BadgeRenderer } from "./BadgeRender"
+import { CurrentBadge } from "./CurrentBadge"
 
 type TDocumentTagProps = { documentId: Tables<"documents">["id"] }
-type TTag = Tables<"tags">
 
 const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
   const { data: document } = useFetchDocumentWithTagsById(documentId)
@@ -55,7 +54,7 @@ const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
                 {Array.isArray(dtags) && dtags.length > 0
                   ? dtags.map((tag) => (
                       <div key={tag.id} className="">
-                        <BadgeIcon tag={tag} />
+                        <CurrentBadge tag={tag} documentId={documentId} />
                       </div>
                     ))
                   : null}

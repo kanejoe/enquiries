@@ -1,4 +1,3 @@
-import React from "react"
 import { CrossCircledIcon } from "@radix-ui/react-icons"
 import { toast } from "sonner"
 

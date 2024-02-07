@@ -150,13 +150,14 @@ const fetchDocumentWithTagsById = async (documentId: TDocuments["id"]) => {
       p_document_id: documentId,
     })
     .single()
+    .throwOnError()
 
   if (error) {
     console.error("Error fetching documents with tags:", error)
     return null
   }
 
-  return data
+  return data as TDocumentWithTags
 }
 
 const useFetchDocumentWithTagsById = (documentId: TDocuments["id"]) => {
@@ -167,6 +168,35 @@ const useFetchDocumentWithTagsById = (documentId: TDocuments["id"]) => {
   })
 }
 
+const useDeleteTagFromDocument = (options: {
+  onSuccess: () => void
+  onError: (error: Error) => void,
+  documentId: TDocument["id"]
+}) => {
+  const supabase = createClientComponentClient<Database>()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (data: {
+      documentId: TDocument["id"]
+      tagId: TTags["id"]
+    }) => {
+      await supabase
+        .from("document_tags")
+        .delete()
+        .eq("document_id", data.documentId)
+        .eq("tag_id", data.tagId)
+        .throwOnError()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [keys.getDocumentsWithTags, options.documentId],
+      })
+      options.onSuccess()
+    },
+    onError: (error: Error) => options.onError(error),
+  })
+}
+
 export {
   useTags,
   useDocumentsWithTags,
@@ -174,4 +204,5 @@ export {
   useDeleteTag,
   useAddDocumentTag,
   useFetchDocumentWithTagsById,
+  useDeleteTagFromDocument,
 }
