@@ -22,7 +22,7 @@ const Page = () => {
 
   return (
     <div className="grid h-128 grid-cols-12 gap-x-20">
-      <div className="col-span-5">
+      <div className="col-span-6">
         <div className="flex flex-col gap-y-4">
           <DocumentCard document={document} />
           <DocumentTags documentId={Number(id)} />
@@ -30,8 +30,8 @@ const Page = () => {
             <SummariseContent document={document} /> */}
         </div>
       </div>
-      <div className="col-span-7">
-        {file ? <PdfViewer signedUrl={file.signedUrl} /> : null}
+      <div className="col-span-6">
+        {/* {file ? <PdfViewer signedUrl={file.signedUrl} /> : null} */}
       </div>
     </div>
   )

@@ -26,7 +26,7 @@ const CurrentBadge = ({ tag, documentId }: Props) => {
   }
 
   return (
-    <Badge variant={"outline"}>
+    <Badge variant={"outline"} className="border-emerald-500 bg-emerald-50">
       {tag.tag_name}
       <CrossCircledIcon
         className="ml-4 size-4 cursor-pointer text-gray-600 transition-colors duration-150 ease-in-out hover:text-red-600 hover:drop-shadow-md"

@@ -2,18 +2,21 @@ import { FC } from "react"
 import { toast } from "sonner"
 
 import { useAddDocumentTag, useAddTag } from "@/lib/hooks/useTags"
+import type { TDocument, TTagFormData } from "@/lib/hooks/useTags"
 import { Badge } from "@/components/ui/badge"
 import { Spinner } from "@/components/Spinner"
 
 interface PotentialTagProps {
-  tag: string
+  tag_name: TTagFormData["tag_name"]
+  documentId: TDocument["id"]
 }
 
-const PotentialTag: FC<PotentialTagProps> = ({ tag }) => {
+const PotentialTag: FC<PotentialTagProps> = ({ tag_name, documentId }) => {
   const { mutate: addDocumentTag } = useAddDocumentTag({
     onSuccess: () => toast.success("Document successfully tagged."),
     onError: (error) =>
       toast.error("Something went wrong. Could not add tag. Try again."),
+    documentId,
   })
 
   const { mutate: addNewTagName, status } = useAddTag({
@@ -28,10 +31,10 @@ const PotentialTag: FC<PotentialTagProps> = ({ tag }) => {
 
   const clickTag = () => {
     addNewTagName(
-      { tag_name: tag },
+      { tag_name },
       {
         onSuccess(data, variables, context) {
-          addDocumentTag({ documentId: 2, tagId: data.id })
+          addDocumentTag({ documentId, tagId: data.id })
         },
       }
     )
@@ -39,7 +42,7 @@ const PotentialTag: FC<PotentialTagProps> = ({ tag }) => {
 
   return (
     <Badge variant={"secondary"} onClick={clickTag} className="cursor-pointer">
-      {tag}
+      {tag_name}
       {status === "pending" ? <Spinner className="ml-2 size-4" /> : null}
     </Badge>
   )

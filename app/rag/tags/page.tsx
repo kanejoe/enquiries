@@ -23,7 +23,7 @@ const split = splitStringBySemicolon(data)
 const Page = () => {
   const { data: tags } = useTags()
   const { data: dtags } = useDocumentsWithTags()
-  console.log("🚀 ~ Page ~ dtags:", dtags)
+  // console.log("🚀 ~ Page ~ dtags:", dtags)
 
   if (!tags) return <div>Loading...</div>
   const existingTags = findRecordsByTagName(split, tags)
@@ -59,7 +59,7 @@ const Page = () => {
                 let uuid = self.crypto.randomUUID()
                 return (
                   <div key={uuid} className="flex justify-between">
-                    <PotentialTag tag={tag} />
+                    <PotentialTag tag_name={tag} documentId={2} />
                   </div>
                 )
               })}

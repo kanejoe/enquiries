@@ -24,6 +24,7 @@ type TDocumentTagProps = { documentId: Tables<"documents">["id"] }
 
 const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
   const { data: document } = useFetchDocumentWithTagsById(documentId)
+
   const dtags = document?.tags ?? []
 
   const [content, setContent] = useState("")
@@ -46,7 +47,7 @@ const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
       <Card className="w-full font-geistsans shadow">
         <CardHeader>
           <CardTitle className="text-lg">Document Tags</CardTitle>
-          <CardDescription>Categorise the File</CardDescription>
+          <CardDescription>Current Tags Applied</CardDescription>
           <Separator className="" />
           <CardContent className="p-0">
             <div className="flex flex-col gap-y-4">
@@ -59,6 +60,9 @@ const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
                     ))
                   : null}
               </div>
+
+              <CardDescription>AI Generated Tags</CardDescription>
+
               <div className="text-pretty text-sm text-muted-foreground">
                 <AnimatePresence mode="wait">
                   {content ? (
@@ -69,7 +73,11 @@ const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <BadgeRenderer text={content} />
+                      <BadgeRenderer
+                        text={content}
+                        documentId={documentId}
+                        currentTags={dtags}
+                      />
                     </motion.div>
                   ) : (
                     <motion.div

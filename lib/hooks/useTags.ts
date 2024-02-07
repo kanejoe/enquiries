@@ -126,6 +126,7 @@ const addDocumentTag = async (
 const useAddDocumentTag = (options: {
   onSuccess: () => void
   onError: (error: Error) => void
+  documentId: TDocument["id"]
 }) => {
   const queryClient = useQueryClient()
   return useMutation({
@@ -136,7 +137,9 @@ const useAddDocumentTag = (options: {
       await addDocumentTag(data.documentId, data.tagId)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: keys.getDocumentsWithTags })
+      queryClient.invalidateQueries({
+        queryKey: [keys.getDocumentsWithTags, options.documentId],
+      })
       options.onSuccess()
     },
     onError: (error: Error) => options.onError(error),
@@ -170,7 +173,7 @@ const useFetchDocumentWithTagsById = (documentId: TDocuments["id"]) => {
 
 const useDeleteTagFromDocument = (options: {
   onSuccess: () => void
-  onError: (error: Error) => void,
+  onError: (error: Error) => void
   documentId: TDocument["id"]
 }) => {
   const supabase = createClientComponentClient<Database>()
