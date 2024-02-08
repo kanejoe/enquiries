@@ -55,8 +55,9 @@ const Page = ({ searchParams }: PageProps) => {
         <div className="col-span-7">
           {tagName !== undefined ? (
             <TagsTable tags={tags ?? []} tagName={tagName || ""} />
+          ) : file ? (
+            <PdfViewer signedUrl={file.signedUrl} />
           ) : null}
-          {/* {file ? <PdfViewer signedUrl={file.signedUrl} /> : null} */}
         </div>
       </div>
     </div>

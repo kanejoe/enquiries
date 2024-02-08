@@ -15,7 +15,7 @@ const TagsTable: FC<TagsTableProps> = ({ tags, tagName }) => {
   const { data: documents } = useFetchDocumentsByTagName(tagName)
 
   return (
-    <div className="inline-block min-w-full px-6 pb-2 align-middle">
+    <div className="inline-block min-w-full pb-2 pl-6 align-middle">
       <div className="overflow-hidden rounded-lg shadow ring-1 ring-black ring-opacity-5">
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-50">
@@ -25,7 +25,7 @@ const TagsTable: FC<TagsTableProps> = ({ tags, tagName }) => {
                   <TagsIcon className="mr-4 size-5" />
                   {tagName ? (
                     <>
-                      `Tag: `<HeaderTag tag_name={tagName} />
+                      <HeaderTag tag_name={tagName} />
                     </>
                   ) : (
                     "Tags"
