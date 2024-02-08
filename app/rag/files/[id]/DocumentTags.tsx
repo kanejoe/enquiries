@@ -3,6 +3,7 @@ import { Separator } from "@radix-ui/react-dropdown-menu"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
 import { useCompletion } from "ai/react"
 import { AnimatePresence, motion } from "framer-motion"
+import { TagsIcon } from "lucide-react"
 
 import { Tables } from "@/lib/database.types"
 import { useFetchDocumentWithTagsById } from "@/lib/hooks/useTags"
@@ -24,13 +25,12 @@ type TDocumentTagProps = { documentId: Tables<"documents">["id"] }
 
 const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
   const { data: document } = useFetchDocumentWithTagsById(documentId)
-
-  const dtags = document?.tags ?? []
-
   const [content, setContent] = useState("")
-  const { complete, completion, isLoading } = useCompletion({
+  const { complete, completion, setCompletion, isLoading } = useCompletion({
     api: "/api/tags",
   })
+  const curtags = document?.tags ?? []
+  const haveCurrentTags = Array.isArray(curtags) && curtags.length > 0
 
   const summariseText = useCallback(
     async (c: string) => {
@@ -45,74 +45,95 @@ const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
   return (
     <>
       <Card className="w-full font-geistsans shadow">
-        <CardHeader>
-          <CardTitle className="text-lg">Document Tags</CardTitle>
-          <CardDescription>Current Tags Applied</CardDescription>
-          <Separator className="" />
-          <CardContent className="p-0">
-            <div className="flex flex-col gap-y-4">
-              <div className="flex flex-wrap gap-2">
-                {Array.isArray(dtags) && dtags.length > 0
-                  ? dtags.map((tag) => (
-                      <div key={tag.id} className="">
-                        <CurrentBadge tag={tag} documentId={documentId} />
-                      </div>
-                    ))
-                  : null}
-              </div>
-
-              <CardDescription>AI Generated Tags</CardDescription>
-
-              <div className="text-pretty text-sm text-muted-foreground">
-                <AnimatePresence mode="wait">
-                  {content ? (
-                    <motion.div
-                      key="content1"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <BadgeRenderer
-                        text={content}
-                        documentId={documentId}
-                        currentTags={dtags}
-                      />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="content2"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {completion}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+        <CardHeader className="pb-2">
+          <CardTitle className="flex text-lg">
+            <TagsIcon className="mr-2 mt-px h-6 w-6" />
+            <span className="">Document Tags</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="">
+          <CardDescription className="mb-2">
+            {haveCurrentTags
+              ? "Current Tags Applied"
+              : "This document has not yet been tagged. Click to have AI generate tags."}
+          </CardDescription>
+          <div className="flex flex-col gap-y-4">
+            <div className="flex flex-wrap gap-2">
+              {haveCurrentTags
+                ? curtags.map((tag) => (
+                    <div key={tag.id} className="">
+                      <CurrentBadge tag={tag} documentId={documentId} />
+                    </div>
+                  ))
+                : null}
             </div>
-          </CardContent>
-          <CardFooter className="p-1">
-            <div className="mt-2">
+
+            <div className="text-pretty text-sm text-muted-foreground">
+              <AnimatePresence mode="wait">
+                {content ? (
+                  <motion.div
+                    key="content1"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <CardDescription className="mb-4">
+                      AI Generated Tags
+                    </CardDescription>
+                    <BadgeRenderer
+                      text={content}
+                      documentId={documentId}
+                      currentTags={curtags}
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="content2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {completion}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter className="">
+          <div className="flex gap-x-2">
+            <Button
+              variant="outline"
+              size="xs"
+              disabled={isLoading}
+              onClick={() => document && summariseText(document.id.toString())}
+              className="hover:text-white-100 w-full shrink-0 bg-emerald-600 text-white hover:bg-emerald-500"
+            >
+              Ask AI to Generate Tags
+              <LightningBoltIcon
+                className={cn(`ml-2 h-4 w-4`, {
+                  "animate-spin": isLoading,
+                })}
+              />
+            </Button>
+            {content ? (
               <Button
                 variant="outline"
                 size="xs"
                 disabled={isLoading}
-                onClick={() =>
-                  document && summariseText(document.id.toString())
-                }
+                onClick={() => {
+                  setContent("")
+                  setCompletion("")
+                }}
+                className="shrink-0"
               >
-                <LightningBoltIcon
-                  className={cn(`h-4 w-4`, {
-                    "animate-spin fill-yellow-600": isLoading,
-                  })}
-                />
+                Clear
               </Button>
-            </div>
-          </CardFooter>
-        </CardHeader>
+            ) : null}
+          </div>
+        </CardFooter>
       </Card>
     </>
   )
