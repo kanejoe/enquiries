@@ -67,20 +67,41 @@ const useAddTag = (options: {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (formData: TTagFormDataNoID): Promise<TTags> => {
-      const { data } = await supabase
+      // Step 1: Check if the tag exists in a case-insensitive manner
+      const { data: existingTags, error: searchError } = await supabase
         .from("tags")
-        .insert({
-          tag_name: formData.tag_name,
-        })
-        .throwOnError()
         .select()
-        .single()
+        .ilike("tag_name", formData.tag_name.toLowerCase())
 
-      if (!data) {
-        throw new Error("Invalid data")
+      if (searchError) {
+        console.error("Error checking for existing tag:", searchError)
+        throw new Error("Error checking for existing tag")
       }
 
-      return data
+      // If the tag does not exist, insert it
+      if (existingTags.length === 0) {
+        const { data, error: insertError } = await supabase
+          .from("tags")
+          .insert([
+            {
+              tag_name: formData.tag_name,
+            },
+          ])
+          .select("*")
+          .single()
+
+        if (insertError) {
+          console.error("Error inserting new tag:", insertError)
+          throw new Error("Error inserting new tag")
+        } else {
+          // console.log("Tag inserted successfully:", data)
+          return data as TTags
+        }
+      } else {
+        // Tag exists, handle according to your requirements
+        console.log("Tag already exists, skipping insert.")
+        return existingTags[0] as TTags
+      }
     },
     onSuccess: async (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: keys.getTags })
