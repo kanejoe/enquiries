@@ -47,7 +47,7 @@ const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
       <Card className="w-full font-geistsans shadow">
         <CardHeader className="pb-2">
           <CardTitle className="flex text-lg">
-            <TagsIcon className="mr-2 mt-px h-6 w-6" />
+            <TagsIcon className="mr-4 mt-px size-6" />
             <span className="">Document Tags</span>
           </CardTitle>
         </CardHeader>

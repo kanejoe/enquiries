@@ -18,7 +18,7 @@ const BadgeRenderer: React.FC<BadgeRendererProps> = ({
   const potentialTags = filterAiTagNames(currentTags, aiTags)
 
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="flex flex-wrap gap-x-4 gap-y-3">
       {potentialTags.map((item, index) => (
         <PotentialTag key={index} tag_name={item} documentId={documentId} />
       ))}

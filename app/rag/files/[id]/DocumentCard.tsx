@@ -2,6 +2,7 @@ import { FC } from "react"
 import Link from "next/link"
 import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons"
 import { format as formatD } from "date-fns"
+import { File } from "lucide-react"
 
 import { getIconForFileType } from "@/lib/fileIcons"
 import type { TDocuments, TExtendedDocuments } from "@/lib/hooks/useFolders"
@@ -16,15 +17,15 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator"
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 import { parseFile } from "./_actions"
 
@@ -37,65 +38,39 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
 
   return (
     <Card className="shadow">
-      <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
-        <div className="space-y-1">
-          <CardTitle className="mb-2 flex gap-x-4 font-geistsans text-xl">
-            {getIconForFileType(document.name || "", 8, "shrink-0 self-center")}
-            <span className="bg-gradient-to-r from-red-800 to-blue-800 bg-clip-text text-lg text-transparent">
-              {document.name}
-            </span>
-          </CardTitle>
-          <CardDescription className="text-balance font-semibold">
-            {/* {document.name} */}
-          </CardDescription>
-        </div>
-        <div className="">
-          <Button variant={"secondary"} asChild className="shadow-none">
-            <Link href={"./"}>Close</Link>
-          </Button>
-          {/* <Button variant="secondary" className="px-3 shadow-none">
-            <StarIcon className="mr-2 h-4 w-4" />
-            Star
-          </Button> */}
-          {/* <Separator orientation="vertical" className="h-[20px]" /> */}
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" className="px-2 shadow-none">
-                <ChevronDownIcon className="h-4 w-4 text-secondary-foreground" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              alignOffset={-5}
-              className="w-[200px]"
-              forceMount
-            >
-              <DropdownMenuLabel>Suggested Lists</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem checked>
-                Future Ideas
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>My Stack</DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>Inspiration</DropdownMenuCheckboxItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <PlusIcon className="mr-2 h-4 w-4" /> Create List
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu> */}
-        </div>
+      <CardHeader className="">
+        <CardTitle className="flex text-lg">
+          {getIconForFileType(
+            document.name || "",
+            4,
+            "shrink-0 self-center mr-4 size-6 text-slate-800"
+          )}
+          <span className="">File Details</span>
+        </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex space-x-4 text-sm text-muted-foreground">
-          <div className="flex items-center space-x-4">
-            <Badge variant="secondary">
-              {formatD(document.created_at, "d MMMM yyyy")}
-            </Badge>
-            <Badge variant="secondary">
-              {document.wordCount.toLocaleString("en-IE")} words
-            </Badge>
-          </div>
-        </div>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell>File Name</TableCell>
+              <TableCell>{document.name}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Word Count</TableCell>
+              <TableCell>
+                <Badge variant="secondary">
+                  {document.wordCount.toLocaleString("en-IE")} words
+                </Badge>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Embeddings</TableCell>
+              <TableCell>
+                <Badge variant="destructive">No</Badge>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </CardContent>
       <CardFooter className="gap-x-4">
         {document.wordCount < 1 ? (

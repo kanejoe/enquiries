@@ -19,7 +19,7 @@ const PdfViewer = ({ signedUrl }: { signedUrl: string }) => {
           marginLeft: "auto",
           marginRight: "auto",
         }}
-        className="h-[calc(90vh-50px)] w-full"
+        className="h-[calc(80vh-70px)] w-full"
       >
         <Viewer fileUrl={signedUrl} plugins={[defaultLayoutPluginInstance]} />
       </div>
