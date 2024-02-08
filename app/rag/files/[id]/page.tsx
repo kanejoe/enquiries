@@ -6,6 +6,7 @@ import { useParams } from "next/navigation"
 
 import { useDocument } from "@/lib/hooks/useFolders"
 import { useFetchStorageFileUrl } from "@/lib/hooks/useStorageFiles"
+import { useTags } from "@/lib/hooks/useTags"
 import { Button } from "@/components/ui/button"
 
 // actions
@@ -13,12 +14,22 @@ import { DocumentCard } from "./DocumentCard"
 import { DocumentDetails } from "./DocumentDetails"
 import { DocumentTags } from "./DocumentTags"
 import { SummariseContent } from "./SummariseContent"
+import { TagsTable } from "./TagsTable"
 import { PdfViewer } from "./ViewPdf"
 
-const Page = () => {
+type PageProps = {
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+const Page = ({ searchParams }: PageProps) => {
   const { id } = useParams()
   const { data: document } = useDocument(id?.toString() || "")
   const { data: file } = useFetchStorageFileUrl(Number(id))
+  const { data: tags } = useTags()
+
+  // if tag search params is present, use it
+  const tagName =
+    typeof searchParams.tag === "string" ? searchParams.tag : undefined
 
   if (!document) return null
 
@@ -42,7 +53,10 @@ const Page = () => {
           </div>
         </div>
         <div className="col-span-7">
-          {file ? <PdfViewer signedUrl={file.signedUrl} /> : null}
+          {tagName !== undefined ? (
+            <TagsTable tags={tags ?? []} tagName={tagName || ""} />
+          ) : null}
+          {/* {file ? <PdfViewer signedUrl={file.signedUrl} /> : null} */}
         </div>
       </div>
     </div>

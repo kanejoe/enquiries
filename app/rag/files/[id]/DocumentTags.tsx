@@ -1,5 +1,4 @@
 import { FC, useCallback, useState } from "react"
-import { Separator } from "@radix-ui/react-dropdown-menu"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
 import { useCompletion } from "ai/react"
 import { AnimatePresence, motion } from "framer-motion"
@@ -52,7 +51,7 @@ const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="">
-          <CardDescription className="mb-2">
+          <CardDescription className="mb-3">
             {haveCurrentTags
               ? "Current Tags Applied"
               : "This document has not yet been tagged. Click to have AI generate tags."}

@@ -2,7 +2,7 @@ import { FC } from "react"
 import Link from "next/link"
 import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons"
 import { format as formatD } from "date-fns"
-import { File } from "lucide-react"
+import { File, FileText, TagsIcon } from "lucide-react"
 
 import { getIconForFileType } from "@/lib/fileIcons"
 import type { TDocuments, TExtendedDocuments } from "@/lib/hooks/useFolders"
@@ -38,13 +38,14 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
 
   return (
     <Card className="shadow">
-      <CardHeader className="">
+      <CardHeader className="pb-2">
         <CardTitle className="flex text-lg">
-          {getIconForFileType(
+          {/* {getIconForFileType(
             document.name || "",
             4,
             "shrink-0 self-center mr-4 size-6 text-slate-800"
-          )}
+          )} */}
+          <FileText className="mr-4 mt-px size-6" />
           <span className="">File Details</span>
         </CardTitle>
       </CardHeader>
@@ -66,7 +67,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
             <TableRow>
               <TableCell>Embeddings</TableCell>
               <TableCell>
-                <Badge variant="destructive">No</Badge>
+                <Badge variant="outline">None</Badge>
               </TableCell>
             </TableRow>
           </TableBody>

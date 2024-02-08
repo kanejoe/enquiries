@@ -102,7 +102,7 @@ BEGIN
 END; $$
 LANGUAGE plpgsql STABLE;
 
--- This function returns a single document with its associated tags
+-- This function returns a single document by document id with its associated tags
 CREATE OR REPLACE FUNCTION public.get_single_document_with_tags(p_document_id BIGINT)
 RETURNS TABLE (
     id BIGINT,
@@ -139,7 +139,6 @@ END;
 $$ LANGUAGE plpgsql STABLE;
 
 
-
 -- This function returns all tags with their associated documents
 CREATE OR REPLACE FUNCTION public.get_tags_with_documents()
 RETURNS TABLE (
@@ -173,3 +172,40 @@ BEGIN
     ORDER BY t.id;
 END; $$
 LANGUAGE plpgsql STABLE;
+
+-- This function returns all documents with a specific tag name
+CREATE OR REPLACE FUNCTION public.get_documents_by_tag_name(p_tag_name TEXT)
+RETURNS TABLE (
+    id BIGINT,
+    name TEXT,
+    folder_id BIGINT,
+    storage_object_id UUID,
+    created_by UUID,
+    created_at TIMESTAMP WITH TIME ZONE,
+    tags JSONB
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        d.id,
+        d.name,
+        d.folder_id,
+        d.storage_object_id,
+        d.created_by,
+        d.created_at,
+        JSONB_AGG(
+            JSONB_BUILD_OBJECT(
+                'id', t.id,
+                'tag_name', t.tag_name,
+                'created_by', t.created_by,
+                'created_at', t.created_at
+            ) ORDER BY t.id
+        ) AS tags
+    FROM public.documents d
+    JOIN public.document_tags dt ON d.id = dt.document_id
+    JOIN public.tags t ON dt.tag_id = t.id
+    WHERE LOWER(TRIM(t.tag_name)) = LOWER(TRIM(p_tag_name))
+    GROUP BY d.id
+    ORDER BY d.id;
+END;
+$$ LANGUAGE plpgsql STABLE;

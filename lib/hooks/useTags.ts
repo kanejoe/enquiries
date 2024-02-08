@@ -221,6 +221,28 @@ const useDeleteTagFromDocument = (options: {
   })
 }
 
+const useFetchDocumentsByTagName = (tagName: TTags["tag_name"]) => {
+  return useQuery({
+    queryKey: ["documentsByTagName", tagName],
+    queryFn: async () => {
+      const supabase = createClientComponentClient<Database>()
+      const { data, error } = await supabase
+        .rpc("get_documents_by_tag_name", {
+          p_tag_name: tagName,
+        })
+        .throwOnError()
+
+      if (error) {
+        console.error("Error fetching documents by tag name:", error)
+        return null
+      }
+
+      return data
+    },
+    retry: false,
+  })
+}
+
 export {
   useTags,
   useDocumentsWithTags,
@@ -229,4 +251,5 @@ export {
   useAddDocumentTag,
   useFetchDocumentWithTagsById,
   useDeleteTagFromDocument,
+  useFetchDocumentsByTagName,
 }

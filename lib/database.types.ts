@@ -565,6 +565,20 @@ export interface Database {
         }
         Returns: undefined
       }
+      get_documents_by_tag_name: {
+        Args: {
+          p_tag_name: string
+        }
+        Returns: {
+          id: number
+          name: string
+          folder_id: number
+          storage_object_id: string
+          created_by: string
+          created_at: string
+          tags: Json
+        }[]
+      }
       get_documents_with_tags: {
         Args: Record<PropertyKey, never>
         Returns: {
