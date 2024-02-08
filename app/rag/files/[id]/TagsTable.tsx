@@ -7,11 +7,10 @@ import { TTags, useFetchDocumentsByTagName } from "@/lib/hooks/useTags"
 import { HeaderTag } from "./HeaderTag"
 
 interface TagsTableProps {
-  tags: TTags[]
   tagName: string
 }
 
-const TagsTable: FC<TagsTableProps> = ({ tags, tagName }) => {
+const TagsTable: FC<TagsTableProps> = ({  tagName }) => {
   const { data: documents } = useFetchDocumentsByTagName(tagName)
 
   return (

@@ -7,16 +7,30 @@ import { Database, Tables } from "@/lib/database.types"
 
 import { countWords } from "../countWords"
 import { organizeFolders } from "../organise-folders"
+import { keys } from "./keys"
+import { TDocument } from "./useTags"
+
+// types
+interface EditFormData {
+  id: number
+  folder_name: string
+}
+
+interface EditDocumentNameFormData {
+  id: number
+  name: string
+}
 
 export type TDocuments = Tables<"documents">
 export type TExtendedDocuments = TDocuments & {
   content: string
   wordCount: number
 }
-const keys = {
-  getDocuments: ["documents"] as const,
-  getFolders: ["folders"] as const,
-  all: ["documents", "folders"] as const,
+
+interface FormData {
+  parent_id: number
+  parent_folder_name: string
+  new_folder_name: string
 }
 
 const fetchFoldersWithDocuments = async () => {
@@ -122,12 +136,6 @@ const useSetUpFolderStructure = (options: { onSuccess: () => void }) => {
   })
 }
 
-interface FormData {
-  parent_id: number
-  parent_folder_name: string
-  new_folder_name: string
-}
-
 const useAddSubFolder = (options: {
   onSuccess: () => void
   onError: (error: Error) => void
@@ -197,11 +205,6 @@ const useAddFolder = (options: {
   })
 }
 
-interface EditFormData {
-  id: number
-  folder_name: string
-}
-
 const useEditFolderName = (options: {
   onSuccess: () => void
   onError: (error: Error) => void
@@ -232,6 +235,43 @@ const useEditFolderName = (options: {
   })
 }
 
+const useUpdateDocumentName = (options: {
+  onSuccess: () => void
+  onError: (error: Error) => void
+}) => {
+  const supabase = createClientComponentClient<Database>()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (
+      formData: EditDocumentNameFormData
+    ): Promise<Tables<"documents">> => {
+      const { data } = await supabase
+        .from("documents")
+        .update({ name: formData.name })
+        .eq("id", formData.id)
+        .throwOnError()
+        .select()
+        .single()
+
+      if (!data) {
+        throw new Error("Invalid data")
+      }
+
+      return data
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [keys.getDocumentsWithTags],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [keys.getDocuments],
+      })
+      options.onSuccess()
+    },
+    onError: (error: Error) => options.onError(error),
+  })
+}
+
 export {
   useDocument,
   useFolders,
@@ -240,4 +280,5 @@ export {
   useAddFolder,
   useAddSubFolder,
   useEditFolderName,
+  useUpdateDocumentName,
 }

@@ -1,9 +1,5 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-
-
-
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
 
 /**
  * Combines multiple class names into a single string.
@@ -64,7 +60,7 @@ export function getFileExtension(type: string): string {
 
 /**
  * Splits a string into an array of strings by a specified delimiter and trims each item.
- * 
+ *
  * @param input - The input string to be split.
  * @returns An array of strings.
  */

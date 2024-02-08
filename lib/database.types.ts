@@ -131,6 +131,7 @@ export interface Database {
         Row: {
           created_at: string
           created_by: string
+          file_extension: string
           folder_id: number | null
           id: number
           name: string
@@ -139,6 +140,7 @@ export interface Database {
         Insert: {
           created_at?: string
           created_by?: string
+          file_extension: string
           folder_id?: number | null
           id?: never
           name: string
@@ -147,6 +149,7 @@ export interface Database {
         Update: {
           created_at?: string
           created_by?: string
+          file_extension?: string
           folder_id?: number | null
           id?: never
           name?: string
@@ -483,6 +486,7 @@ export interface Database {
           created_at: string | null
           created_by: string | null
           created_by_email: string | null
+          file_extension: string | null
           folder_id: number | null
           id: number | null
           name: string | null

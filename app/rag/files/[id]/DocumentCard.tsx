@@ -53,8 +53,8 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
         <Table>
           <TableBody>
             <TableRow>
-              <TableCell>File Name</TableCell>
-              <TableCell>{document.name}</TableCell>
+              <TableCell className="">File Name</TableCell>
+              <TableCell className="">{document.name}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Word Count</TableCell>
@@ -62,6 +62,12 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
                 <Badge variant="secondary">
                   {document.wordCount.toLocaleString("en-IE")} words
                 </Badge>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Summary</TableCell>
+              <TableCell>
+                <Badge variant="outline">None</Badge>
               </TableCell>
             </TableRow>
             <TableRow>

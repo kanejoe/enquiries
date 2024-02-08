@@ -6,12 +6,12 @@ import { useParams } from "next/navigation"
 
 import { useDocument } from "@/lib/hooks/useFolders"
 import { useFetchStorageFileUrl } from "@/lib/hooks/useStorageFiles"
-import { useTags } from "@/lib/hooks/useTags"
 import { Button } from "@/components/ui/button"
 
 // actions
 import { DocumentCard } from "./DocumentCard"
 import { DocumentDetails } from "./DocumentDetails"
+import { EditDocumentNameForm } from "./DocumentNameForm"
 import { DocumentTags } from "./DocumentTags"
 import { SummariseContent } from "./SummariseContent"
 import { TagsTable } from "./TagsTable"
@@ -25,7 +25,6 @@ const Page = ({ searchParams }: PageProps) => {
   const { id } = useParams()
   const { data: document } = useDocument(id?.toString() || "")
   const { data: file } = useFetchStorageFileUrl(Number(id))
-  const { data: tags } = useTags()
 
   // if tag search params is present, use it
   const tagName =
@@ -40,21 +39,25 @@ const Page = ({ searchParams }: PageProps) => {
           {document.name}
         </h1>
         <Button variant={"outline"} asChild className="shrink-0 shadow-none ">
-          <Link href={"./"}>Close</Link>
+          <Link href={"./"}>Back to Search</Link>
         </Button>
       </div>
       <div className="grid h-128 grid-cols-12 gap-x-20">
-        <div className="col-span-5">
+        <div className="col-span-5 mb-4">
           <div className="flex flex-col gap-y-4">
             <DocumentCard document={document} />
             <DocumentTags documentId={Number(id)} />
-            {/* <DocumentDetails document={document} />
-            <SummariseContent document={document} /> */}
+            {/* <DocumentDetails document={document} />*/}
+            <SummariseContent document={document} />
+            <EditDocumentNameForm
+              documentId={document.id}
+              documentName={document.name}
+            />
           </div>
         </div>
         <div className="col-span-7">
           {tagName !== undefined ? (
-            <TagsTable tags={tags ?? []} tagName={tagName || ""} />
+            <TagsTable tagName={tagName || ""} />
           ) : file ? (
             <PdfViewer signedUrl={file.signedUrl} />
           ) : null}

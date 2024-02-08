@@ -1,17 +1,15 @@
 import { FC, useCallback, useState } from "react"
-import { Separator } from "@radix-ui/react-dropdown-menu"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
 import { useCompletion } from "ai/react"
 import { AnimatePresence, motion } from "framer-motion"
+import { GanttChartSquareIcon } from "lucide-react"
 
 import { Tables } from "@/lib/database.types"
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -41,9 +39,12 @@ const SummariseContent: FC<SummariseContentProps> = ({ document }) => {
     <>
       <Card className="w-full font-geistsans shadow">
         <CardHeader>
-          <CardTitle className="text-lg">Summarise the Article</CardTitle>
-          <CardDescription></CardDescription>
-          <Separator className="" />
+          <CardTitle className="text-lg">
+            <span className="flex">
+              <GanttChartSquareIcon className="mr-4 mt-1 h-5 w-5" />
+              <span>Summarise the Article</span>
+            </span>
+          </CardTitle>
           <CardContent className="p-0">
             <div className="flex flex-col gap-y-4">
               <div className="text-pretty text-sm text-muted-foreground">

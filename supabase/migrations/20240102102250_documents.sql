@@ -2,6 +2,7 @@
 create table documents (
   id bigint primary key generated always as identity,
   name text not null,
+  file_extension text not null,
   folder_id bigint references folders(id) on delete cascade,
   storage_object_id uuid not null references storage.objects (id),
   created_by uuid not null references auth.users (id) default auth.uid(),
@@ -84,13 +85,30 @@ language plpgsql
 as $$
 declare
   document_id bigint;
+  file_name text;
+  file_extension text;
   result int;
 begin
-  insert into documents (name, storage_object_id, created_by)
-    values (new.path_tokens[2], new.id, new.owner)
+  -- Extract file name from new.path_tokens[2]
+  file_name := new.path_tokens[2];
+  
+  -- Extract the file extension from the file name
+  file_extension := regexp_replace(file_name, '.*\.', '', 'g');
+
+  insert into documents (name, storage_object_id, created_by, file_extension)
+    values (new.path_tokens[2], new.id, new.owner, file_extension)
     returning id into document_id;
 
-  -- select
+  return null;
+end;
+$$;
+
+create trigger on_file_upload
+  after insert on storage.objects
+  for each row
+  execute procedure private.handle_storage_update();
+
+    -- select
   --   net.http_post(
   --     url := supabase_url() || '/functions/v1/process',
   --     headers := jsonb_build_object(
@@ -102,12 +120,3 @@ begin
   --     )
   --   )
   -- into result;
-
-  return null;
-end;
-$$;
-
-create trigger on_file_upload
-  after insert on storage.objects
-  for each row
-  execute procedure private.handle_storage_update();

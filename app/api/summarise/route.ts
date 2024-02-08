@@ -21,18 +21,20 @@ export async function POST(req: Request) {
     console.log("🚀 ~ POST ~ error:", error)
   }
 
-  const summaryPrompt = `Summarise the following content, taking into account who published the document and the context: ${content} in less than 250 words but ideally in 200 words. This is a strict limit, so be consise.
-        It should be a professional summary.  You are a professional lawyer giving the summary.  Do not cut off the summary mid-sentence or mid-paragraph.
+  const summaryPrompt = `
+        In less than 200 words, summarize the following content professionally: ${content}. This is a strict limit, so be consise.
+        It should be a professional summary.  You are a professional lawyer giving the summary.  
+        Do not cut off the summary mid-sentence or mid-paragraph.
         The summary should be in your own words.  Do not copy and paste from the original content.  You can use the original content as a reference.  
-        If no context has been provided, say this and reply no further.`
-
-  const infoPrompt = `Using this context: ${content} give me only (1) the publisher of the content  (2) the date of publication (say no date if not sure), (3) the title of the piece and (4) the author.`
+        If no context has been provided, say this and reply no further.
+        Don't comment on your instructions, just summarise the content. Remember: less than 200 words.`
 
   // Request the OpenAI API for the response based on the prompt
   const response = await openai.chat.completions.create({
     // model: "gpt-3.5-turbo",
     // model: "gpt-4-0125-preview",
     model: "gpt-4-1106-preview",
+    // model: "llama",
     stream: true,
     // a precise prompt is important for the AI to reply with the correct tokens
     messages: [
@@ -41,11 +43,11 @@ export async function POST(req: Request) {
         content: summaryPrompt,
       },
     ],
-    max_tokens: 400,
-    temperature: 0.0, // you want absolute certainty
+    max_tokens: 200,
+    temperature: 0.5, // you want absolute certainty
     top_p: 1,
-    frequency_penalty: 1,
-    presence_penalty: 0,
+    frequency_penalty: 0.1,
+    presence_penalty: 0.0,
   })
 
   const stream = OpenAIStream(response)

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { Database, Tables } from "@/lib/database.types"
 
+import { keys } from "./keys"
 import { TDocuments } from "./useFolders"
 
 // types
@@ -16,11 +17,6 @@ export type TDocument = Tables<"documents"> // Simplified; adjust according to y
 // Define a type for the document joined with its tags
 type TDocumentWithTags = TDocument & {
   tags: TTags[] | null // Assuming each document can have multiple tags
-}
-
-const keys = {
-  getTags: ["tags"] as const,
-  getDocumentsWithTags: ["documentsWithTags"] as const,
 }
 
 const fetchTags = async (): Promise<TTags[]> => {
