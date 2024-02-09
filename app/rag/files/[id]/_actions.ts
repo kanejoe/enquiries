@@ -1,12 +1,10 @@
 "use server"
 
-import { cookies } from "next/headers"
 import { OpenAIEmbeddings } from "@langchain/openai"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
-import { Database, Tables } from "@/lib/database.types"
+import { Tables } from "@/lib/database.types"
 import {
-  getDocumentSectionsByDocumentId,
+  createServerSupabaseClient,
   getFileByStorageObjectPath,
   getStoragePathByDocumentId,
   upsertDocumentSections,
@@ -14,6 +12,8 @@ import {
 import { getFileExtension } from "@/lib/utils"
 
 import { ParsePdf } from "./docParser"
+
+type TdocumentId = Tables<"documents">["id"]
 
 type PDFPage = {
   pageContent: string
@@ -49,10 +49,8 @@ export async function parseFile(document: Tables<"documents">) {
   return
 }
 
-type TdocumentId = Tables<"documents">["id"]
-
 export async function embedXenova(documentId: TdocumentId) {
-  const supabaseClient = createServerComponentClient<Database>({ cookies })
+  const supabaseClient = createServerSupabaseClient()
 
   try {
     const { data, error } = await supabaseClient.functions.invoke("embed", {
@@ -63,20 +61,21 @@ export async function embedXenova(documentId: TdocumentId) {
         embeddingColumn: "xenova_embedding",
       },
     })
+
     if (error) {
       console.error("🚀 ~ error:", error)
-      // throw new Error("Failed to embed document")
+      throw new Error("Failed to embed document") // Re-throw to indicate failure to caller
     }
 
-    return data
+    return data // Return data on success
   } catch (error) {
     console.log("🚀 ~ error:", error)
-    // throw new Error("Failed to embed document")
+    throw new Error("Failed to embed document due to an exception") // Ensure failure is propagated
   }
 }
 
 export async function embedOpenAi(documentId: TdocumentId) {
-  const supabaseClient = createServerComponentClient<Database>({ cookies })
+  const supabaseClient = createServerSupabaseClient()
 
   const table = "document_sections"
   const embeddingColumn = "openai_embedding"
@@ -97,17 +96,18 @@ export async function embedOpenAi(documentId: TdocumentId) {
     modelName: "text-embedding-3-small",
   })
 
+  const updatedRows = [] // Initialize an array to store the results
+
   try {
     for (const row of rows) {
       const { id, [contentColumn]: content } = row
-      console.log("🚀 ~ embedOpenAi ~ id:", id)
 
       if (!content) {
         console.error(`No content available in column '${contentColumn}'`)
         continue
       }
 
-      const embeddingResponse = await embeddings.embedQuery(row.content)
+      const embeddingResponse = await embeddings.embedQuery(content)
 
       const { data, error } = await supabaseClient
         .from(table)
@@ -120,11 +120,13 @@ export async function embedOpenAi(documentId: TdocumentId) {
         console.error(
           `Failed to save embedding on '${table}' table with id ${id}`
         )
-        throw new Error("Failed to save embedding")
+        continue // Skip to the next iteration on error
       }
 
-      return data
+      updatedRows.push(data) // Collect successfully updated rows
     }
+
+    return updatedRows // Return all updated rows after processing the loop
   } catch (error) {
     console.log("🚀 ~ embedOpenAi ~ error:", error)
     throw new Error("Failed to embed document")

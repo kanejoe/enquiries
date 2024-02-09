@@ -41,8 +41,8 @@ const Dropzone: FC<DropzoneProps> = () => {
         toast.success(`File successfully uploaded! ${data.name}`)
         try {
           await parseFile(data)
-          await embedXenova(data.id)
           await embedOpenAi(data.id)
+          await embedXenova(data.id)
         } catch (error) {
           console.error("Error parsing file:", error)
         }

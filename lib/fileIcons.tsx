@@ -30,6 +30,11 @@ export function getIconForFileType(
   }
 }
 
+/**
+ * Gets the file extension from a given filename.
+ * @param filename - The filename to extract the extension from.
+ * @returns The file extension in lowercase, or an empty string if no extension is found.
+ */
 export function getFileExtension(filename: string): string {
   // Ensure filename is not undefined or null
   if (!filename) {
@@ -40,7 +45,7 @@ export function getFileExtension(filename: string): string {
   // Check if parts array actually has more than one element
   if (parts.length > 1) {
     // TypeScript should infer that this is always a string
-    return parts[parts.length - 1] as string
+    return parts[parts.length - 1]?.toLocaleLowerCase() as string
   } else {
     return "" // Return an empty string if no extension is found
   }

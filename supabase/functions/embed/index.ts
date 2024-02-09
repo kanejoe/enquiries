@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
     .from(table)
     .select(`id, ${contentColumn}` as "*")
     .eq("document_id", documentId)
-  // .is(embeddingColumn, null)
+    .is(embeddingColumn, null)
 
   if (selectError) {
     return new Response(JSON.stringify({ error: selectError }), {
@@ -112,7 +112,7 @@ Deno.serve(async (req) => {
       headers: { "Content-Type": "application/json" },
     })
   } catch (error) {
-    console.error("🚀 ~ error:", error.message)
+    console.error("🚀 ~ error:", error)
     return new Response(JSON.stringify({ error }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
