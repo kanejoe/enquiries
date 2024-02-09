@@ -53,14 +53,26 @@ type TdocumentId = Tables<"documents">["id"]
 
 export async function embedXenova(documentId: TdocumentId) {
   const supabaseClient = createServerComponentClient<Database>({ cookies })
-  const { data, error } = await supabaseClient.functions.invoke("embed", {
-    body: {
-      ids: ["2"],
-      table: "document_sections",
-      contentColumn: "content",
-      embeddingColumn: "xenova_embedding",
-    },
-  })
+
+  try {
+    const { data, error } = await supabaseClient.functions.invoke("embed", {
+      body: {
+        documentId: documentId,
+        table: "document_sections",
+        contentColumn: "content",
+        embeddingColumn: "xenova_embedding",
+      },
+    })
+    if (error) {
+      console.error("🚀 ~ error:", error)
+      // throw new Error("Failed to embed document")
+    }
+
+    return data
+  } catch (error) {
+    console.log("🚀 ~ error:", error)
+    // throw new Error("Failed to embed document")
+  }
 }
 
 export async function embedContent(

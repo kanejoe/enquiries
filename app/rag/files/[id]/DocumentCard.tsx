@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/table"
 
 import { parseFile } from "./_actions"
+import { AddEmbeddingButton } from "./AddEmbeddingsButton"
 import { EditDocumentNameButton } from "./EditDocumentNameButton"
 
 interface DocumentCardProps {
@@ -87,8 +88,11 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
               <TableCell className="w-1/4 align-top text-sm font-semibold">
                 Embeddings
               </TableCell>
-              <TableCell>
-                <Badge variant="outline">None</Badge>
+              <TableCell className="flex">
+                <Badge variant="outline" className="">
+                  None
+                </Badge>
+                <AddEmbeddingButton documentId={document.id} />
               </TableCell>
             </TableRow>
           </TableBody>

@@ -51,16 +51,13 @@ Deno.serve(async (req) => {
     },
   })
 
-  const { ids, table, contentColumn, embeddingColumn } = await req.json()
+  const { documentId, table, contentColumn, embeddingColumn } = await req.json()
 
   const { data: rows, error: selectError } = await supabase
     .from(table)
     .select(`id, ${contentColumn}` as "*")
-    .in("id", ids)
-    .is(embeddingColumn, null)
-  console.log("🚀 ~ Deno.serve ~ rows:", rows)
-
-  return
+    .eq("document_id", documentId)
+  // .is(embeddingColumn, null)
 
   if (selectError) {
     return new Response(JSON.stringify({ error: selectError }), {
@@ -69,50 +66,58 @@ Deno.serve(async (req) => {
     })
   }
 
-  for (const row of rows) {
-    const { id, [contentColumn]: content } = row
+  try {
+    for (const row of rows) {
+      const { id, [contentColumn]: content } = row
 
-    if (!content) {
-      console.error(`No content available in column '${contentColumn}'`)
-      continue
-    }
+      if (!content) {
+        console.error(`No content available in column '${contentColumn}'`)
+        continue
+      }
 
-    const output = await generateEmbedding(content, {
-      pooling: "mean",
-      normalize: true,
-    })
-
-    const embedding = Array.from(output.data)
-    // const embedding = JSON.stringify(Array.from(output.data))
-    console.log("🚀 ~ file: index.ts:83 ~ Deno.serve ~ embedding:", embedding)
-
-    const { error } = await supabase
-      .from(table)
-      .update({
-        [embeddingColumn]: embedding,
+      const output = await generateEmbedding(content, {
+        pooling: "mean",
+        normalize: true,
       })
-      .eq("id", id)
 
-    if (error) {
-      console.error(
-        `Failed to save embedding on '${table}' table with id ${id}`
+      const embedding = Array.from(output.data)
+      // const embedding = JSON.stringify(Array.from(output.data))
+      // console.log("🚀 ~ file: index.ts:83 ~ Deno.serve ~ embedding:", embedding)
+
+      const { error } = await supabase
+        .from(table)
+        .update({
+          [embeddingColumn]: embedding,
+        })
+        .eq("id", id)
+
+      if (error) {
+        console.error(
+          `Failed to save embedding on '${table}' table with id ${id}`
+        )
+      }
+
+      console.log(
+        `Generated embedding ${JSON.stringify({
+          table,
+          id,
+          contentColumn,
+          embeddingColumn,
+        })}`
       )
     }
 
-    console.log(
-      `Generated embedding ${JSON.stringify({
-        table,
-        id,
-        contentColumn,
-        embeddingColumn,
-      })}`
-    )
+    return new Response(null, {
+      status: 204,
+      headers: { "Content-Type": "application/json" },
+    })
+  } catch (error) {
+    console.error("🚀 ~ error:", error)
+    return new Response(JSON.stringify({ error }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    })
   }
-
-  return new Response(null, {
-    status: 204,
-    headers: { "Content-Type": "application/json" },
-  })
 })
 
 /* To invoke locally:
