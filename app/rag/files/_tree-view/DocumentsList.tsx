@@ -39,7 +39,7 @@ export function DocumentsList({ documents }: DocumentsListProps) {
               </Link>
             </span>
 
-            <span className="">
+            {/* <span className="">
               {document.document_created_at ? (
                 <Badge variant="secondary">
                   {formatD(document.document_created_at, "d MMMM yyyy")}
@@ -47,7 +47,7 @@ export function DocumentsList({ documents }: DocumentsListProps) {
               ) : (
                 ""
               )}
-            </span>
+            </span> */}
             <span className="">
               <DownloadButton document={document} />
             </span>
