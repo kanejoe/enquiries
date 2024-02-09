@@ -75,9 +75,7 @@ export async function embedXenova(documentId: TdocumentId) {
   }
 }
 
-export async function embedContent(
-  document_id: Pick<Tables<"document_sections">, "document_id">
-) {
+export async function embedOpenAi(documentId: TdocumentId) {
   const supabaseClient = createServerComponentClient<Database>({ cookies })
 
   const table = "document_sections"
@@ -86,42 +84,49 @@ export async function embedContent(
 
   const { data: rows, error: selectError } = await supabaseClient
     .from(table)
-    // .select(`id, ${contentColumn}` as "*")
-    .select("*")
-    .eq("document_id", document_id)
+    .select(`id, ${contentColumn}` as "*")
+    .eq("document_id", documentId)
     .is(embeddingColumn, null)
-    .limit(1)
-    .maybeSingle()
-  //   console.log("🚀 ~ rows:", rows.content)
 
-  //   const { data: doc, error } = await supabaseClient
-  //     .from("document_sections")
-  //     .select("content")
-  //     .eq("document_id", document_id)
-  //     .single()
-  //   console.log("🚀 ~ doc:", doc)
-
-  if (!rows) console.log("🚀 ~ error:", selectError)
-
-  // throw new Error("Failed to find uploaded document")
+  if (selectError || !rows) {
+    console.error("🚀 ~ selectError:", selectError)
+    throw new Error("Failed to find document or content")
+  }
 
   const embeddings = new OpenAIEmbeddings({
     modelName: "text-embedding-3-small",
   })
 
   try {
-    // const embeddingResponse = await embeddings.embedQuery(rows.content)
-    // const { error } = await supabaseClient
-    //   .from(table)
-    //   .update({
-    //     [embeddingColumn]: embeddingResponse,
-    //   })
-    //   .eq("id", rows.id)
-    //   .single()
-    //   .throwOnError()
-    //   const [responseData] = embeddingResponse.data.data
-    //   console.log("🚀 ~ responseData:", responseData)
+    for (const row of rows) {
+      const { id, [contentColumn]: content } = row
+      console.log("🚀 ~ embedOpenAi ~ id:", id)
+
+      if (!content) {
+        console.error(`No content available in column '${contentColumn}'`)
+        continue
+      }
+
+      const embeddingResponse = await embeddings.embedQuery(row.content)
+
+      const { data, error } = await supabaseClient
+        .from(table)
+        .update({
+          [embeddingColumn]: embeddingResponse as any,
+        })
+        .eq("id", id)
+
+      if (error) {
+        console.error(
+          `Failed to save embedding on '${table}' table with id ${id}`
+        )
+        throw new Error("Failed to save embedding")
+      }
+
+      return data
+    }
   } catch (error) {
-    console.log("🚀 ~ error:", error)
+    console.log("🚀 ~ embedOpenAi ~ error:", error)
+    throw new Error("Failed to embed document")
   }
 }

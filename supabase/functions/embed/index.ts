@@ -97,14 +97,14 @@ Deno.serve(async (req) => {
         )
       }
 
-      console.log(
-        `Generated embedding ${JSON.stringify({
-          table,
-          id,
-          contentColumn,
-          embeddingColumn,
-        })}`
-      )
+      // console.log(
+      //   `Generated embedding ${JSON.stringify({
+      //     table,
+      //     id,
+      //     contentColumn,
+      //     embeddingColumn,
+      //   })}`
+      // )
     }
 
     return new Response(null, {
@@ -112,7 +112,7 @@ Deno.serve(async (req) => {
       headers: { "Content-Type": "application/json" },
     })
   } catch (error) {
-    console.error("🚀 ~ error:", error)
+    console.error("🚀 ~ error:", error.message)
     return new Response(JSON.stringify({ error }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

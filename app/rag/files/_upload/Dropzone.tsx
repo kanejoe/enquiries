@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
-import { embedXenova, parseFile } from "../[id]/_actions"
+import { embedOpenAi, embedXenova, parseFile } from "../[id]/_actions"
 import { PdfOrDocFileComponent } from "./PdfOrDocFileComponent"
 import { SelectFolders } from "./SelectFolders"
 
@@ -42,6 +42,7 @@ const Dropzone: FC<DropzoneProps> = () => {
         try {
           await parseFile(data)
           await embedXenova(data.id)
+          await embedOpenAi(data.id)
         } catch (error) {
           console.error("Error parsing file:", error)
         }
