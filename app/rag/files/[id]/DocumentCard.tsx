@@ -94,7 +94,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter className="gap-x-4">
+      <CardFooter className="gap-x-4 p-1">
         {document.wordCount < 1 ? (
           <form action={parseFileWithDoc}>
             <Button variant={"secondary"} type="submit">

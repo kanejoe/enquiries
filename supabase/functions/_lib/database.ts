@@ -131,6 +131,7 @@ export interface Database {
         Row: {
           created_at: string
           created_by: string
+          file_extension: string
           folder_id: number | null
           id: number
           name: string
@@ -139,6 +140,7 @@ export interface Database {
         Insert: {
           created_at?: string
           created_by?: string
+          file_extension: string
           folder_id?: number | null
           id?: never
           name: string
@@ -147,6 +149,7 @@ export interface Database {
         Update: {
           created_at?: string
           created_by?: string
+          file_extension?: string
           folder_id?: number | null
           id?: never
           name?: string
@@ -483,6 +486,7 @@ export interface Database {
           created_at: string | null
           created_by: string | null
           created_by_email: string | null
+          file_extension: string | null
           folder_id: number | null
           id: number | null
           name: string | null
@@ -564,6 +568,56 @@ export interface Database {
           p_old_sequence: number
         }
         Returns: undefined
+      }
+      get_documents_by_tag_name: {
+        Args: {
+          p_tag_name: string
+        }
+        Returns: {
+          id: number
+          name: string
+          folder_id: number
+          storage_object_id: string
+          created_by: string
+          created_at: string
+          tags: Json
+        }[]
+      }
+      get_documents_with_tags: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: number
+          name: string
+          folder_id: number
+          storage_object_id: string
+          created_by: string
+          created_at: string
+          tags: Json
+        }[]
+      }
+      get_single_document_with_tags: {
+        Args: {
+          p_document_id: number
+        }
+        Returns: {
+          id: number
+          name: string
+          folder_id: number
+          storage_object_id: string
+          created_by: string
+          created_at: string
+          tags: Json
+        }[]
+      }
+      get_tags_with_documents: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: number
+          tag_name: string
+          created_by: string
+          created_at: string
+          documents: Json
+        }[]
       }
       inc_sequence: {
         Args: {

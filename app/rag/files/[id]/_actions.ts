@@ -6,7 +6,6 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Database, Tables } from "@/lib/database.types"
 import {
-  createServerSupabaseClient,
   getDocumentSectionsByDocumentId,
   getFileByStorageObjectPath,
   getStoragePathByDocumentId,
@@ -48,6 +47,20 @@ export async function parseFile(document: Tables<"documents">) {
 
   await upsertDocumentSections(parsedDoc, doc.id)
   return
+}
+
+type TdocumentId = Tables<"documents">["id"]
+
+export async function embedXenova(documentId: TdocumentId) {
+  const supabaseClient = createServerComponentClient<Database>({ cookies })
+  const { data, error } = await supabaseClient.functions.invoke("embed", {
+    body: {
+      ids: ["2"],
+      table: "document_sections",
+      contentColumn: "content",
+      embeddingColumn: "xenova_embedding",
+    },
+  })
 }
 
 export async function embedContent(

@@ -32,7 +32,7 @@ const EditDocumentNameButton: FC<EditDocumentNameButtonProps> = ({
           e.stopPropagation() // to stop the parent onClick event
           setIsFolderOpen(true)
         }}
-        className="ml-2 mt-px size-4 cursor-pointer transition hover:text-blue-700"
+        className="ml-2 mt-px size-4 shrink-0 cursor-pointer transition hover:text-blue-700"
       />
 
       <Dialog open={isFolderOpen} onOpenChange={setIsFolderOpen}>

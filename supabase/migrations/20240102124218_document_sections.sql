@@ -64,12 +64,20 @@ on document_sections for delete to authenticated using (
   )
 );
 
+-- Create a function to get the supabase_url from the vault
+create function supabase_url()
+returns text
+language plpgsql
+security definer
+as $$
+declare
+  secret_value text;
+begin
+  select decrypted_secret into secret_value from vault.decrypted_secrets where name = 'supabase_url';
+  return secret_value;
+end;
+$$;
 
--- CREATE POLICY "Allow langchain querying for authenticated users" 
---   ON "public"."document_sections"
--- AS PERMISSIVE FOR SELECT
--- TO authenticated
--- USING (true);
 
 -- General purpose trigger function to generate text embeddings
 -- on newly inserted rows.
@@ -124,8 +132,14 @@ begin
 end;
 $$;
 
-create trigger embed_document_sections
-  after insert on document_sections
-  referencing new table as inserted
-  for each statement
-  execute procedure private.embed(content, xenova_embedding, 5);
+-- create trigger embed_document_sections
+--   after insert on document_sections
+--   referencing new table as inserted
+--   for each statement
+--   execute procedure private.embed(content, xenova_embedding, 5);
+
+-- create trigger embed_document_sections_update
+--   after update of content on document_sections
+--   for each row
+--   when (new.content is distinct from old.content)
+--   execute procedure private.embed('content', 'xenova_embedding', 5);

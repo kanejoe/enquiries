@@ -58,6 +58,9 @@ Deno.serve(async (req) => {
     .select(`id, ${contentColumn}` as "*")
     .in("id", ids)
     .is(embeddingColumn, null)
+  console.log("🚀 ~ Deno.serve ~ rows:", rows)
+
+  return
 
   if (selectError) {
     return new Response(JSON.stringify({ error: selectError }), {
@@ -81,7 +84,7 @@ Deno.serve(async (req) => {
 
     const embedding = Array.from(output.data)
     // const embedding = JSON.stringify(Array.from(output.data))
-    // console.log("🚀 ~ file: index.ts:83 ~ Deno.serve ~ embedding:", embedding)
+    console.log("🚀 ~ file: index.ts:83 ~ Deno.serve ~ embedding:", embedding)
 
     const { error } = await supabase
       .from(table)
@@ -111,3 +114,16 @@ Deno.serve(async (req) => {
     headers: { "Content-Type": "application/json" },
   })
 })
+
+/* To invoke locally:
+
+  1. Run `npx supabase start` (see: https://supabase.com/docs/reference/cli/supabase-start)
+  2. Make an HTTP request:
+
+  curl --request POST 'http://localhost:54321/functions/v1/embed' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
+  --header 'Content-Type: application/json' \
+  --data '{ 'ids': `["2"]`, 'table': 'document_sections', 'contentColumn': 'content', 'embeddingColumn': 'xenova_embedding'}'
+  
+
+*/

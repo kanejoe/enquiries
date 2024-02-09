@@ -35,7 +35,7 @@ const Page = ({ searchParams }: PageProps) => {
   return (
     <div className="">
       <div className="mb-8 mt-1 flex justify-between">
-        <h1 className="overflow-hidden text-ellipsis whitespace-nowrap bg-gradient-to-r from-red-900 to-blue-800 bg-clip-text text-3xl font-bold text-transparent">
+        <h1 className="mr-8 overflow-hidden text-ellipsis whitespace-nowrap bg-gradient-to-r from-red-900 to-blue-800 bg-clip-text text-3xl font-bold text-transparent">
           {document.name}
         </h1>
         <Button variant={"outline"} asChild className="shrink-0 shadow-none ">
@@ -49,7 +49,6 @@ const Page = ({ searchParams }: PageProps) => {
             <DocumentTags documentId={Number(id)} />
             {/* <DocumentDetails document={document} />*/}
             <SummariseContent document={document} />
-          
           </div>
         </div>
         <div className="col-span-7">
