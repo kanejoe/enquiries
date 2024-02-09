@@ -8,17 +8,18 @@ import { z } from "zod"
 
 import { useUpdateDocumentName } from "@/lib/hooks/useFolders"
 import { TDocument } from "@/lib/hooks/useTags"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Spinner } from "@/components/Spinner"
 
 const editDocumentNameSchema = z.object({
   name: z.string().min(2, {
@@ -29,9 +30,11 @@ const editDocumentNameSchema = z.object({
 function EditDocumentNameForm({
   documentId,
   documentName,
+  afterSave,
 }: {
   documentId: TDocument["id"]
   documentName: TDocument["name"]
+  afterSave: () => void
 }) {
   const form = useForm<z.infer<typeof editDocumentNameSchema>>({
     resolver: zodResolver(editDocumentNameSchema),
@@ -60,28 +63,34 @@ function EditDocumentNameForm({
       name: data.name,
     })
     form.reset()
+    afterSave()
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="gap-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Update Document Name</FormLabel>
-              <FormControl>
-                <Input placeholder="document name..." {...field} />
-              </FormControl>
-              {/* <FormDescription>Document or file name</FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="mt-2">
-          Submit
-        </Button>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <fieldset disabled={status === "pending"} className="group space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Update Document Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="document name..." {...field} />
+                </FormControl>
+                {/* <FormDescription>Document or file name</FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="mt-2">
+            <span className="inline-flex items-center justify-center">
+              <span className="group-disabled:opacity-0">Save</span>
+              <Spinner className="absolute size-4 group-enabled:opacity-0" />
+            </span>
+          </Button>
+        </fieldset>
       </form>
     </Form>
   )

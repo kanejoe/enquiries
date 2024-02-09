@@ -2,7 +2,7 @@ import { FC } from "react"
 import Link from "next/link"
 import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons"
 import { format as formatD } from "date-fns"
-import { File, FileText, TagsIcon } from "lucide-react"
+import { Edit, File, FilePenLine, FileText, TagsIcon } from "lucide-react"
 
 import { getIconForFileType } from "@/lib/fileIcons"
 import type { TDocuments, TExtendedDocuments } from "@/lib/hooks/useFolders"
@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/table"
 
 import { parseFile } from "./_actions"
+import { EditDocumentNameButton } from "./EditDocumentNameButton"
 
 interface DocumentCardProps {
   document: TExtendedDocuments
@@ -38,7 +39,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
 
   return (
     <Card className="shadow">
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-4">
         <CardTitle className="flex text-lg">
           {/* {getIconForFileType(
             document.name || "",
@@ -53,11 +54,21 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
         <Table>
           <TableBody>
             <TableRow>
-              <TableCell className="">File Name</TableCell>
-              <TableCell className="">{document.name}</TableCell>
+              <TableCell className="w-1/4 align-top text-sm font-semibold">
+                File Name
+              </TableCell>
+              <TableCell className="flex pl-3">
+                <span className="">{document.name}</span>
+                <EditDocumentNameButton
+                  documentId={document.id}
+                  documentName={document.name}
+                />
+              </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Word Count</TableCell>
+              <TableCell className="w-1/4 align-top text-sm font-semibold">
+                Word Count
+              </TableCell>
               <TableCell>
                 <Badge variant="secondary">
                   {document.wordCount.toLocaleString("en-IE")} words
@@ -65,13 +76,17 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Summary</TableCell>
+              <TableCell className="w-1/4 align-top text-sm font-semibold">
+                Summary
+              </TableCell>
               <TableCell>
                 <Badge variant="outline">None</Badge>
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Embeddings</TableCell>
+              <TableCell className="w-1/4 align-top text-sm font-semibold">
+                Embeddings
+              </TableCell>
               <TableCell>
                 <Badge variant="outline">None</Badge>
               </TableCell>

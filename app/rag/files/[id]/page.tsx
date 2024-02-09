@@ -43,16 +43,13 @@ const Page = ({ searchParams }: PageProps) => {
         </Button>
       </div>
       <div className="grid h-128 grid-cols-12 gap-x-20">
-        <div className="col-span-5 mb-4">
+        <div className="col-span-5 mb-8">
           <div className="flex flex-col gap-y-4">
             <DocumentCard document={document} />
             <DocumentTags documentId={Number(id)} />
             {/* <DocumentDetails document={document} />*/}
             <SummariseContent document={document} />
-            <EditDocumentNameForm
-              documentId={document.id}
-              documentName={document.name}
-            />
+          
           </div>
         </div>
         <div className="col-span-7">

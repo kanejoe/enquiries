@@ -50,7 +50,7 @@ const DocumentTags: FC<TDocumentTagProps> = ({ documentId }) => {
             <span className="">Document Tags</span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="">
+        <CardContent className="pb-2">
           <CardDescription className="mb-3">
             {haveCurrentTags
               ? "Current Tags Applied"
