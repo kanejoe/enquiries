@@ -53,14 +53,17 @@ export async function embedXenova(documentId: TdocumentId) {
   const supabaseClient = createServerSupabaseClient()
 
   try {
-    const { data, error } = await supabaseClient.functions.invoke("embed", {
-      body: {
-        documentId: documentId,
-        table: "document_sections",
-        contentColumn: "content",
-        embeddingColumn: "xenova_embedding",
-      },
-    })
+    const { data, error } = await supabaseClient.functions.invoke(
+      "embed_xenova",
+      {
+        body: {
+          documentId: documentId,
+          table: "document_sections",
+          contentColumn: "content",
+          embeddingColumn: "xenova_embedding",
+        },
+      }
+    )
 
     if (error) {
       console.error("🚀 ~ error:", error)
@@ -107,7 +110,8 @@ export async function embedOpenAi(documentId: TdocumentId) {
         continue
       }
 
-      const embeddingResponse = await embeddings.embedQuery(content)
+      const formattedContent = content.replace(/\n/g, " ").trim()
+      const embeddingResponse = await embeddings.embedQuery(formattedContent)
 
       const { data, error } = await supabaseClient
         .from(table)

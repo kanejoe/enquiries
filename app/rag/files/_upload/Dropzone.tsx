@@ -32,6 +32,7 @@ const FormSchema = z.object({
 
 const Dropzone: FC<DropzoneProps> = () => {
   const router = useRouter()
+
   const [files, setFiles] = useState<ExtendedFile[]>([]) // Initialize with an empty array and type 'ExtendedFile[]'
 
   const { mutateAsync: uploadFile, status: addFolderStatus } =
@@ -41,10 +42,11 @@ const Dropzone: FC<DropzoneProps> = () => {
         toast.success(`File successfully uploaded! ${data.name}`)
         try {
           await parseFile(data)
-          await embedOpenAi(data.id)
-          await embedXenova(data.id)
+          await Promise.any([embedXenova(data.id), embedOpenAi(data.id)])
         } catch (error) {
           console.error("Error parsing file:", error)
+          toast.error("Error parsing file.")
+          return
         }
       },
       onError: () => toast.error("Error uploading file."),
@@ -81,6 +83,22 @@ const Dropzone: FC<DropzoneProps> = () => {
     // Revoke the data uris to avoid memory leaks
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview))
   }, [files])
+
+  let pending = false
+
+  // useEffect(() => {
+  //   function beforeUnload(e: BeforeUnloadEvent) {
+  //     console.log("🚀 ~ beforeUnload ~ e:", e)
+  //     // if (!pending) return
+  //     e.preventDefault()
+  //   }
+
+  //   window.addEventListener("beforeunload", beforeUnload)
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", beforeUnload)
+  //   }
+  // }, [pending])
 
   const removeAll = () => setFiles([])
 

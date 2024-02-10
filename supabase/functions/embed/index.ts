@@ -7,15 +7,15 @@ import { Database } from "../_lib/database.ts"
 env.useBrowserCache = false
 env.allowLocalModels = false
 
-const generateEmbedding = await pipeline(
-  "feature-extraction",
-  "Supabase/gte-small"
-)
-
 const supabaseUrl = Deno.env.get("SUPABASE_URL")
 const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")
 
 Deno.serve(async (req) => {
+  const generateEmbedding = await pipeline(
+    "feature-extraction",
+    "Supabase/gte-small"
+  )
+
   if (!supabaseUrl || !supabaseAnonKey) {
     return new Response(
       JSON.stringify({
@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
     .from(table)
     .select(`id, ${contentColumn}` as "*")
     .eq("document_id", documentId)
-    .is(embeddingColumn, null)
+  // .is(embeddingColumn, null)
 
   if (selectError) {
     return new Response(JSON.stringify({ error: selectError }), {
@@ -69,20 +69,21 @@ Deno.serve(async (req) => {
   try {
     for (const row of rows) {
       const { id, [contentColumn]: content } = row
+      console.log("🚀 ~ Deno.serve ~ content:", content)
 
       if (!content) {
         console.error(`No content available in column '${contentColumn}'`)
         continue
       }
 
-      const output = await generateEmbedding(content, {
+      const trimmed = content.replace(/\n/g, " ").trim()
+      const output = await generateEmbedding(trimmed, {
         pooling: "mean",
         normalize: true,
       })
 
       const embedding = Array.from(output.data)
       // const embedding = JSON.stringify(Array.from(output.data))
-      // console.log("🚀 ~ file: index.ts:83 ~ Deno.serve ~ embedding:", embedding)
 
       const { error } = await supabase
         .from(table)
