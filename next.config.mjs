@@ -5,6 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
+    // typedRoutes: true,
     // serverComponentsExternalPackages: ["pdf-parse"],
     // outputFileTracingExcludes: ["**canvas**"],
     // esmExternals: "loose",

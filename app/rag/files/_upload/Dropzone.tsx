@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
 import { embedOpenAi, embedXenova, parseFile } from "../[id]/_actions"
+import { CustomDropzone } from "./CustomDropzone"
 import { PdfOrDocFileComponent } from "./PdfOrDocFileComponent"
 import { SelectFolders } from "./SelectFolders"
 
@@ -84,22 +85,6 @@ const Dropzone: FC<DropzoneProps> = () => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview))
   }, [files])
 
-  let pending = false
-
-  // useEffect(() => {
-  //   function beforeUnload(e: BeforeUnloadEvent) {
-  //     console.log("🚀 ~ beforeUnload ~ e:", e)
-  //     // if (!pending) return
-  //     e.preventDefault()
-  //   }
-
-  //   window.addEventListener("beforeunload", beforeUnload)
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", beforeUnload)
-  //   }
-  // }, [pending])
-
   const removeAll = () => setFiles([])
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -115,6 +100,10 @@ const Dropzone: FC<DropzoneProps> = () => {
 
   return (
     <div className="mt-6">
+      {/* <div className="m-20">
+        <CustomDropzone />
+      </div> */}
+
       {files.length > 0 && files[0] ? (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
