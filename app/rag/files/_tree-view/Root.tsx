@@ -3,13 +3,14 @@ import { ReactNode, useReducer } from "react"
 import { cn } from "@/lib/utils"
 
 import { RovingTabindexRoot } from "./RovingTabindex"
-import { TreeViewContext, treeviewReducer } from "./TreeViewProvider"
+import { TFolderId, TreeViewContext, treeviewReducer } from "./TreeViewProvider"
 
 type RootProps = {
   children: ReactNode | ReactNode[]
   className?: string
-  value: string | null
-  onChange: (id: string) => void
+  value: TFolderId | null
+  onChange: (id: TFolderId) => void
+  initialIds: TFolderId[]
 }
 
 export function Root({
@@ -17,12 +18,15 @@ export function Root({
   className,
   value,
   onChange,
-  // label,
+  initialIds,
 }: RootProps) {
-  const [open, dispatch] = useReducer(
-    treeviewReducer,
-    new Map<string, boolean>()
-  )
+  // Initialize the state with all provided IDs set to true
+  const initialState = initialIds.reduce((state, id) => {
+    state.set(id, false)
+    return state
+  }, new Map<TFolderId, boolean>())
+
+  const [open, dispatch] = useReducer(treeviewReducer, initialState)
 
   return (
     <TreeViewContext.Provider
@@ -37,7 +41,7 @@ export function Root({
         as="ul"
         className={cn("flex flex-col overflow-auto", className)}
       >
-        {children}
+        <div className="">{children}</div>
       </RovingTabindexRoot>
     </TreeViewContext.Provider>
   )

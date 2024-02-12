@@ -7,16 +7,18 @@ import { ReactNode, useState } from "react"
 import { type FoldersType } from "@/types/folders"
 
 import { NewFolderButton } from "./NewFolderButton"
-import { Node } from "./Node"
+import { NodeWrapper } from "./NodeWrapper"
 import { NoFoldersEmptyState } from "./NoFoldersEmptyState"
 import { Root } from "./Root"
+import { TFolderId } from "./TreeViewProvider"
 
 export type TreeNodeType = FoldersType & {
   icon?: ReactNode
 }
 
 export const TreeViewApp = ({ treeData }: { treeData: TreeNodeType[] }) => {
-  const [selected, select] = useState<string | null>(null)
+  const [selected, select] = useState<TFolderId | null>(null)
+  const folderIds = extractFolderIds(treeData)
 
   if (!treeData || treeData.length === 0)
     return (
@@ -38,12 +40,24 @@ export const TreeViewApp = ({ treeData }: { treeData: TreeNodeType[] }) => {
           className="h-full rounded-lg border-[1.5px] border-slate-100"
           value={selected}
           onChange={select}
+          initialIds={folderIds}
         >
-          {treeData.map((node) => (
-            <Node node={node} key={node.folder_id} />
-          ))}
+          <NodeWrapper treeData={treeData} />
         </Root>
       </div>
     </div>
   )
+}
+
+function extractFolderIds(
+  data: FoldersType[],
+  ids: TFolderId[] = []
+): TFolderId[] {
+  for (const item of data) {
+    ids.push(item.folder_id) // Add the current folder's ID
+    if (item.children && item.children.length) {
+      extractFolderIds(item.children, ids) // Recursively process children
+    }
+  }
+  return ids
 }

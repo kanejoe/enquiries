@@ -4,12 +4,15 @@ import { Tables } from "@/lib/database.types"
 
 export type TFolderId = Tables<"folders">["id"]
 
-// TreeViewState is a Map of ids (string) to open state (boolean) of a particular Node.
+// TreeViewState is a Map of folder ids to open state (boolean) of a particular Node.
 export type TreeViewState = Map<TFolderId, boolean>
 
 export enum TreeViewActionTypes {
   OPEN = "OPEN",
   CLOSE = "CLOSE",
+  OPEN_ALL = "OPEN_ALL", // New action type for opening all nodes
+  CLOSE_ALL = "CLOSE_ALL", // New action type for opening all nodes
+  OPEN_MULTIPLE = "OPEN_MULTIPLE", // New action type for opening multiple nodes
 }
 
 export type TreeViewActions =
@@ -20,6 +23,16 @@ export type TreeViewActions =
   | {
       type: TreeViewActionTypes.CLOSE
       id: TFolderId
+    }
+  | {
+      type: TreeViewActionTypes.OPEN_ALL // No id needed for opening all nodes
+    }
+  | {
+      type: TreeViewActionTypes.CLOSE_ALL // No id needed for closing all nodes
+    }
+  | {
+      type: TreeViewActionTypes.OPEN_MULTIPLE
+      ids: TFolderId[] // Array of ids
     }
 
 // treeviewReducer is a reducer that takes in a TreeViewState and a TreeViewAction and returns a new TreeViewState.
@@ -34,6 +47,27 @@ export function treeviewReducer(
     case TreeViewActionTypes.CLOSE:
       return new Map(state).set(action.id, false)
 
+    case TreeViewActionTypes.OPEN_ALL:
+      const newStateOpen = new Map(state)
+      for (let key of newStateOpen.keys()) {
+        newStateOpen.set(key, true)
+      }
+      return newStateOpen
+
+    case TreeViewActionTypes.CLOSE_ALL:
+      const newStateClose = new Map(state)
+      for (let key of newStateClose.keys()) {
+        newStateClose.set(key, false)
+      }
+      return newStateClose
+
+    case TreeViewActionTypes.OPEN_MULTIPLE:
+      const newStateMultiple = new Map(state)
+      action.ids.forEach((id) => {
+        newStateMultiple.set(id, true)
+      })
+      return newStateMultiple
+
     default:
       throw new Error("Tree Reducer received an unknown action")
   }
@@ -43,7 +77,7 @@ export function treeviewReducer(
 export type TreeViewContextType = {
   open: TreeViewState
   dispatch: Dispatch<TreeViewActions>
-  selectedId: string | null
+  selectedId: TFolderId | null
   selectId: (id: TFolderId) => void
 }
 
