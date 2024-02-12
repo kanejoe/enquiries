@@ -1,7 +1,11 @@
 import { createContext, Dispatch } from "react"
 
+import { Tables } from "@/lib/database.types"
+
+export type TFolderId = Tables<"folders">["id"]
+
 // TreeViewState is a Map of ids (string) to open state (boolean) of a particular Node.
-export type TreeViewState = Map<string, boolean>
+export type TreeViewState = Map<TFolderId, boolean>
 
 export enum TreeViewActionTypes {
   OPEN = "OPEN",
@@ -11,11 +15,11 @@ export enum TreeViewActionTypes {
 export type TreeViewActions =
   | {
       type: TreeViewActionTypes.OPEN
-      id: string
+      id: TFolderId
     }
   | {
       type: TreeViewActionTypes.CLOSE
-      id: string
+      id: TFolderId
     }
 
 // treeviewReducer is a reducer that takes in a TreeViewState and a TreeViewAction and returns a new TreeViewState.
@@ -40,12 +44,12 @@ export type TreeViewContextType = {
   open: TreeViewState
   dispatch: Dispatch<TreeViewActions>
   selectedId: string | null
-  selectId: (id: string) => void
+  selectId: (id: TFolderId) => void
 }
 
 //  TreeViewContext is the context that is used to provide the TreeView state and dispatch to the TreeView component.
 export const TreeViewContext = createContext<TreeViewContextType>({
-  open: new Map<string, boolean>(),
+  open: new Map<TFolderId, boolean>(),
   dispatch: () => {},
   selectedId: null,
   selectId: () => {},

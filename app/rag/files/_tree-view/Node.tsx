@@ -22,7 +22,7 @@ export function Node({
   const { isFocusable, getRovingProps } = useRovingTabindex(
     folder_id.toString()
   )
-  const isOpen = open.get(folder_id.toString())
+  const isOpen = open.get(folder_id)
 
   return (
     <li
@@ -40,22 +40,19 @@ export function Node({
             className={cn(
               "group flex items-center space-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-sm border-[1.5px] border-transparent px-1 font-medium",
               "hover:rounded-md hover:border-slate-200 hover:bg-slate-50 hover:shadow-sm",
-              isFocusable && "group-focus:border-slate-300",
-              selectedId === folder_id.toString()
-                ? "bg-slate-100"
-                : "bg-transparent"
+              isFocusable && "group-focus:border-slate-300"
             )}
-            onClick={(e) => {
-              open.get(folder_id.toString())
+            onClick={() => {
+              open.get(folder_id)
                 ? dispatch({
                     type: TreeViewActionTypes.CLOSE,
-                    id: folder_id.toString(),
+                    id: folder_id,
                   })
                 : dispatch({
                     type: TreeViewActionTypes.OPEN,
-                    id: folder_id.toString(),
+                    id: folder_id,
                   })
-              selectId(folder_id.toString())
+              selectId(folder_id)
             }}
           >
             {(children && children.length) ||
@@ -86,8 +83,7 @@ export function Node({
         </div>
       </MotionConfig>
       <AnimatePresence initial={false}>
-        {(children?.length || documents?.length) &&
-        open.get(folder_id.toString()) ? (
+        {(children?.length || documents?.length) && open.get(folder_id) ? (
           <motion.ul
             className="pl-4"
             initial={{ height: 0, opacity: 0 }}
