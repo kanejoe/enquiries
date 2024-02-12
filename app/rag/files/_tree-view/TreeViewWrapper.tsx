@@ -9,7 +9,7 @@ import { TreeViewApp } from "./TreeView"
 
 interface TreeViewWrapperProps {}
 
-const TreeViewWrapper: FC<TreeViewWrapperProps> = (props) => {
+const TreeViewWrapper: FC<TreeViewWrapperProps> = () => {
   const {
     data: foldersWithDocs,
     error: foldersError,

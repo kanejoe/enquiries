@@ -1,4 +1,4 @@
-import { createContext, Dispatch } from "react"
+import { createContext, type Dispatch } from "react"
 
 import { Tables } from "@/lib/database.types"
 
@@ -10,8 +10,7 @@ export type TreeViewState = Map<TFolderId, boolean>
 export enum TreeViewActionTypes {
   OPEN = "OPEN",
   CLOSE = "CLOSE",
-  OPEN_ALL = "OPEN_ALL", // New action type for opening all nodes
-  CLOSE_ALL = "CLOSE_ALL", // New action type for opening all nodes
+  CLOSE_MULTIPLE = "CLOSE_MULTIPLE", // New action type for opening all nodes
   OPEN_MULTIPLE = "OPEN_MULTIPLE", // New action type for opening multiple nodes
 }
 
@@ -25,10 +24,8 @@ export type TreeViewActions =
       id: TFolderId
     }
   | {
-      type: TreeViewActionTypes.OPEN_ALL // No id needed for opening all nodes
-    }
-  | {
-      type: TreeViewActionTypes.CLOSE_ALL // No id needed for closing all nodes
+      type: TreeViewActionTypes.CLOSE_MULTIPLE
+      ids: TFolderId[] // Array of ids
     }
   | {
       type: TreeViewActionTypes.OPEN_MULTIPLE
@@ -47,24 +44,17 @@ export function treeviewReducer(
     case TreeViewActionTypes.CLOSE:
       return new Map(state).set(action.id, false)
 
-    case TreeViewActionTypes.OPEN_ALL:
-      const newStateOpen = new Map(state)
-      for (let key of newStateOpen.keys()) {
-        newStateOpen.set(key, true)
-      }
-      return newStateOpen
-
-    case TreeViewActionTypes.CLOSE_ALL:
-      const newStateClose = new Map(state)
-      for (let key of newStateClose.keys()) {
-        newStateClose.set(key, false)
-      }
-      return newStateClose
+    case TreeViewActionTypes.CLOSE_MULTIPLE:
+      const newStateMultipleClose = new Map(state)
+      action.ids.forEach((id) => {
+        newStateMultipleClose.set(id, false) // false for close
+      })
+      return newStateMultipleClose
 
     case TreeViewActionTypes.OPEN_MULTIPLE:
       const newStateMultiple = new Map(state)
       action.ids.forEach((id) => {
-        newStateMultiple.set(id, true)
+        newStateMultiple.set(id, true) // true for open
       })
       return newStateMultiple
 

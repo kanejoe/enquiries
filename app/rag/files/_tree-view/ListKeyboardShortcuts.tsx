@@ -2,6 +2,11 @@ import { KeyboardEvent, useContext } from "react"
 import isHotkey from "is-hotkey"
 
 import {
+  TreeViewActionTypes,
+  TreeViewContext,
+  TreeViewState,
+} from "../../../../lib/context/TreeViewProvider/TreeViewProvider"
+import {
   getFirstFocusableId,
   getLastFocusableId,
   getNextFocusableId,
@@ -11,11 +16,6 @@ import {
   RovingTabindexItem,
   useRovingTabindex,
 } from "./RovingTabindex"
-import {
-  TreeViewActionTypes,
-  TreeViewContext,
-  TreeViewState,
-} from "./TreeViewProvider"
 
 /*
 export function ListKeyBoardShortCuts ({

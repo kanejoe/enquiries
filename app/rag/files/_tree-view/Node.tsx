@@ -4,12 +4,15 @@ import { Dot } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+import {
+  TreeViewActionTypes,
+  TreeViewContext,
+} from "../../../../lib/context/TreeViewProvider/TreeViewProvider"
 import { Arrow } from "./Arrow"
 import { DocumentsList } from "./DocumentsList"
 import { MenuDialog } from "./MenuDialog"
 import { useRovingTabindex } from "./RovingTabindex"
 import { TreeNodeType } from "./TreeView"
-import { TreeViewActionTypes, TreeViewContext } from "./TreeViewProvider"
 
 type NodeProps = {
   node: TreeNodeType

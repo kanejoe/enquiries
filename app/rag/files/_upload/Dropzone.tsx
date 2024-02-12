@@ -9,7 +9,11 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
+import { TreeViewActionTypes } from "@/lib/context/TreeViewProvider/TreeViewProvider"
+import { useTreeViewContext } from "@/lib/context/TreeViewProvider/useTreeViewContext"
 import { getFileExtension } from "@/lib/fileIcons"
+import { findFolderPath } from "@/lib/helpers/findFolderPath"
+import { useFolders } from "@/lib/hooks/useFolders"
 import { useAddStorageFile } from "@/lib/hooks/useStorageFiles"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -33,17 +37,30 @@ const FormSchema = z.object({
 
 const Dropzone: FC<DropzoneProps> = () => {
   const router = useRouter()
+  const { dispatch } = useTreeViewContext()
+
+  const { data: folders } = useFolders()
 
   const [files, setFiles] = useState<ExtendedFile[]>([]) // Initialize with an empty array and type 'ExtendedFile[]'
 
   const { mutateAsync: uploadFile, status: addFolderStatus } =
     useAddStorageFile({
       onSuccess: async (data) => {
-        router.push(`/rag/files/${data.id}`)
+        if (folders && folders.length && data.folder_id) {
+          const allFolderIds = folders.map((folder) => folder.id)
+          const idsToOpen = findFolderPath(folders, data.folder_id)
+
+          dispatch({
+            type: TreeViewActionTypes.CLOSE_MULTIPLE,
+            ids: allFolderIds,
+          })
+          dispatch({ type: TreeViewActionTypes.OPEN_MULTIPLE, ids: idsToOpen })
+        }
+        // router.push(`/rag/files/${data.id}`)
         toast.success(`File successfully uploaded! ${data.name}`)
         try {
           await parseFile(data)
-          await Promise.any([embedXenova(data.id), embedOpenAi(data.id)])
+          await Promise.any([/*embedXenova(data.id),*/ embedOpenAi(data.id)])
         } catch (error) {
           console.error("Error parsing file:", error)
           toast.error("Error parsing file.")
