@@ -2,7 +2,15 @@ import { FC } from "react"
 import Link from "next/link"
 import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons"
 import { format as formatD } from "date-fns"
-import { Edit, File, FilePenLine, FileText, TagsIcon } from "lucide-react"
+import {
+  Check,
+  Edit,
+  File,
+  FilePenLine,
+  FileText,
+  TagsIcon,
+  TicketCheckIcon,
+} from "lucide-react"
 
 import { getIconForFileType } from "@/lib/fileIcons"
 import type { TDocuments, TExtendedDocuments } from "@/lib/hooks/useFolders"
@@ -37,6 +45,10 @@ interface DocumentCardProps {
 
 const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
   const parseFileWithDoc = parseFile.bind(null, document)
+
+  const isVectorized = document.document_sections.every(
+    (section) => section.isvectorized
+  )
 
   return (
     <Card className="shadow">
@@ -89,10 +101,18 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
                 Embeddings
               </TableCell>
               <TableCell className="flex">
-                <Badge variant="outline" className="">
-                  None
-                </Badge>
-                <AddEmbeddingButton documentId={document.id} />
+                {isVectorized ? (
+                  <Badge variant={"outline"} className="bg-emerald-600">
+                    <Check className="size-4 text-white" />
+                  </Badge>
+                ) : (
+                  <>
+                    <Badge variant="outline" className="">
+                      None
+                    </Badge>
+                    <AddEmbeddingButton documentId={document.id} />
+                  </>
+                )}
               </TableCell>
             </TableRow>
           </TableBody>

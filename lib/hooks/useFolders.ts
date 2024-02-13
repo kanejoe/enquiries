@@ -23,7 +23,13 @@ interface EditDocumentNameFormData {
 }
 
 export type TDocuments = Tables<"documents">
-export type TExtendedDocuments = TDocuments & {
+export type TDocumentSections = Tables<"document_sections">
+// Define a type that includes the document and its sections
+export type TDocumentWithSections = TDocuments & {
+  document_sections: Pick<TDocumentSections, "content" | "isvectorized">[]
+}
+
+export type TExtendedDocuments = TDocumentWithSections & {
   content: string
   wordCount: number
 }
@@ -78,14 +84,16 @@ const useFolders = () => {
   })
 }
 
-const fetchDocumentById = async (documentId: string) => {
+const fetchDocumentById = async (
+  documentId: string
+): Promise<TDocumentWithSections> => {
   const supabase = createClientComponentClient<Database>()
   const { data } = await supabase
     .from("documents")
     .select(
       ` *,
         document_sections (
-          *
+          content, isvectorized
         )
       `
     )
@@ -262,7 +270,7 @@ const useUpdateDocumentName = (options: {
 
       return data
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [keys.getDocumentsWithTags],
       })

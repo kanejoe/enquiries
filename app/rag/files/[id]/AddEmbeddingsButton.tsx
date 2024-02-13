@@ -4,7 +4,7 @@ import { Component1Icon } from "@radix-ui/react-icons"
 import { TDocument } from "@/lib/hooks/useTags"
 import { cn } from "@/lib/utils"
 
-import { embedOpenAi, embedXenova } from "./_actions"
+import { embedOpenAi } from "./_actions"
 
 interface AddEmbeddingButtonProps {
   documentId: TDocument["id"]
@@ -21,11 +21,6 @@ const AddEmbeddingButton: FC<AddEmbeddingButtonProps> = ({ documentId }) => {
 
         // Mark this state update as non-urgent with startTransition
         startTransition(async () => {
-          try {
-            await embedXenova(documentId)
-          } catch (error) {
-            console.error("🚀 ~ onClick={ ~ error:", error)
-          }
           try {
             await embedOpenAi(documentId)
           } catch (error) {
