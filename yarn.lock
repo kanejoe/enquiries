@@ -2312,9 +2312,9 @@
     jose "^4.14.4"
 
 "@supabase/functions-js@^2.1.5":
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/@supabase/functions-js/-/functions-js-2.1.5.tgz#ed1b85f499dfda21d40fe39b86ab923117cb572b"
-  integrity sha512-BNzC5XhCzzCaggJ8s53DP+WeHHGT/NfTsx2wUSSGKR2/ikLFQTBCDzMvGz/PxYMqRko/LwncQtKXGOYp1PkPaw==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@supabase/functions-js/-/functions-js-2.2.0.tgz#57afd97308a63088e7db381f2b11fcc466336cc1"
+  integrity sha512-lAmxD/mZ8vk2mg1CmXQWzK5mOHk7kDxAnxoyqUj2BVPvacEZ52P8nFkInEuSMqx6P6FKy64selW1Vyhui9racA==
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
 
@@ -2333,9 +2333,9 @@
     whatwg-url "^5.0.0"
 
 "@supabase/postgrest-js@^1.9.0":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-1.9.2.tgz#39c839022ce73f4eb5da6fb7724fb6a6392150c7"
-  integrity sha512-I6yHo8CC9cxhOo6DouDMy9uOfW7hjdsnCxZiaJuIVZm1dBGTFiQPgfMa9zXCamEWzNyWRjZvupAUuX+tqcl5Sw==
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-1.11.0.tgz#06a9e689e54b68d6895f39e725f8f15acfeb24cd"
+  integrity sha512-Q2WwEid0I2rZfSZ0hDjmI20Fhu31Hzl4bwYTGJjLNMGbUOLoAQSaw0Hv/yHLZnl6OmOrH/trZqDiE5WocHN0oQ==
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
 
@@ -2375,29 +2375,29 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tanstack/query-core@5.20.1":
-  version "5.20.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.20.1.tgz#e5541be149b62c0bc8c53deb6b02cc74e62b38c1"
-  integrity sha512-OONHHYG5vzjob4An+EfzbW7TRyb+sCA0AEgHzUIMlV9NYlF7wIwbla3PUfB3ocnaK1gZyROf0Lux/CBSu0exBQ==
+"@tanstack/query-core@5.20.5":
+  version "5.20.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.20.5.tgz#12bb02a937cc8f4f158b1428c0ddef5a1f48479b"
+  integrity sha512-T1W28gGgWn0A++tH3lxj3ZuUVZZorsiKcv+R50RwmPYz62YoDEkG4/aXHZELGkRp4DfrW07dyq2K5dvJ4Wl1aA==
 
-"@tanstack/query-devtools@5.20.1":
-  version "5.20.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.20.1.tgz#643e0994c23a6c7820825cc5dd1a9dcaf35071a7"
-  integrity sha512-sSYo+GW7tx28M6FpcGqzo/zblbTEKrCG8THXOPoNy+EL1Z7kX4JXhRcihyKu3mY8MS/wsGghrZ/R0VTt6JXmBA==
+"@tanstack/query-devtools@5.20.2":
+  version "5.20.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.20.2.tgz#33780ea54529fecb9e572bd21a731b8f5efb765f"
+  integrity sha512-BZfSjhk/NGPbqte5E3Vc1Zbj28uWt///4I0DgzAdWrOtMVvdl0WlUXK23K2daLsbcyfoDR4jRI4f2Z5z/mMzuw==
 
-"@tanstack/react-query-devtools@5.20.1":
-  version "5.20.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.20.1.tgz#6840da5f824897afc6020eca5b75682c04037557"
-  integrity sha512-VMjNjWLTu4+k0pGAhcsI8igtUI93ksrn4QDruaxbXdvLE3Yvfj8eaDVCemkmAySk7pCQJf4hhdByB/yOKSmIsg==
+"@tanstack/react-query-devtools@5.20.5":
+  version "5.20.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.20.5.tgz#1c60908835a346a86ca12035208a8a7fa624b660"
+  integrity sha512-Wl7IzNuKCb4h41a5iH/YXNwalHItqJPCAr4r8+0iUYOLHNOf3E9P0G4kzZ9sqDoWKxY04qst6Vrij9bwPzLQRQ==
   dependencies:
-    "@tanstack/query-devtools" "5.20.1"
+    "@tanstack/query-devtools" "5.20.2"
 
-"@tanstack/react-query@5.20.1":
-  version "5.20.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.20.1.tgz#fadb2ef0d5ee1517af97f79a7f45a7100596a914"
-  integrity sha512-KRkOtJ47tv9B3EXfjHkbPkiFzOzYCOid8BrYBozk0rm9JpDB2xSf71q8w1PRudlQW6QUQIEDI9E6NIMh6AlLUw==
+"@tanstack/react-query@5.20.5":
+  version "5.20.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.20.5.tgz#ebf57b6d3344478d505ad8db09a8b29262a35dab"
+  integrity sha512-6MHwJ8G9cnOC/XKrwt56QMc91vN7hLlAQNUA0ubP7h9Jj3a/CmkUwT6ALdFbnVP+PsYdhW3WONa8WQ4VcTaSLQ==
   dependencies:
-    "@tanstack/query-core" "5.20.1"
+    "@tanstack/query-core" "5.20.5"
 
 "@tanstack/react-table@8.11.8":
   version "8.11.8"
@@ -3034,10 +3034,10 @@ agentkeepalive@^4.2.1:
   dependencies:
     humanize-ms "^1.2.1"
 
-ai@2.2.34:
-  version "2.2.34"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.34.tgz#1c882cffdacf26b5de5f699ae3fb3eda1bbf85d5"
-  integrity sha512-5U/Q9Kkc24vfgq+NpwgbXnS5wgk++ljx1sAyfOFdG2byOR57gkX8wK1gVwiz0CaoZzVj62IqdmnQBoSCAIsbCA==
+ai@2.2.35:
+  version "2.2.35"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.35.tgz#1e9df1e47710e60858db83b24e648c56f9c82673"
+  integrity sha512-YzR56VAMjqvGIVzMUFwH7jjo7K+Z3Old4nXcigiWsuqXnWQeQi3iPR8p2/xOZzmuZyMTOC+6jjbIJ8hoEOhfcQ==
   dependencies:
     eventsource-parser "1.0.0"
     nanoid "3.3.6"
@@ -4851,10 +4851,10 @@ fraction.js@^4.3.7:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.7.tgz#06ca0085157e42fda7f9e726e79fefc4068840f7"
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
 
-framer-motion@11.0.3:
-  version "11.0.3"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.0.3.tgz#b2a87e7ae166a9e27da33da9cfb50a0db5f94fa7"
-  integrity sha512-6x2poQpIWBdbZwLd73w6cKZ1I9IEPIU94C6/Swp1Zt3LJ+sB5bPe1E2wC6EH5hSISXNkMJ4afH7AdwS7MrtkWw==
+framer-motion@11.0.5:
+  version "11.0.5"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.0.5.tgz#2ae1341d8605a01c50009d3bb195a67e4e2bfc69"
+  integrity sha512-Lb0EYbQcSK/pgyQUJm+KzsQrKrJRX9sFRyzl9hSr9gFG4Mk8yP7BjhuxvRXzblOM/+JxycrJdCDVmOQBsjpYlw==
   dependencies:
     tslib "^2.4.0"
   optionalDependencies:
@@ -6416,10 +6416,10 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.1.0.tgz#2098d41c2dc56500e6c88584aa656c84de7d0484"
   integrity sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==
 
-lucide-react@0.325.0:
-  version "0.325.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.325.0.tgz#5da166770554e4f4360e0dad0c8fb0b79d31048b"
-  integrity sha512-/H6IPtPMQUwXjHTFylCYBq/j8J3AJKG5Uil3mcm1E58wKkCfoKVzJH7toZU3U20wJrL7dP51dNX3yLgAPod+qQ==
+lucide-react@0.330.0:
+  version "0.330.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.330.0.tgz#6e17ade4953ac3ca322f9564f2fd900f21829244"
+  integrity sha512-CQwY+Fpbt2kxCoVhuN0RCZDCYlbYnqB870Bl/vIQf3ER/cnDDQ6moLmEkguRyruAUGd4j3Lc4mtnJosXnqHheA==
 
 lucide-react@^0.274.0:
   version "0.274.0"
@@ -7844,10 +7844,10 @@ openai-edge@1.2.2:
   resolved "https://registry.yarnpkg.com/openai-edge/-/openai-edge-1.2.2.tgz#0b1cd5aec2c366bbd25cdeba05399aa6eef73230"
   integrity sha512-C3/Ao9Hkx5uBPv9YFBpX/x59XMPgPUU4dyGg/0J2sOJ7O9D98kD+lfdOc7v/60oYo5xzMGct80uFkYLH+X2qgw==
 
-openai@4.27.0:
-  version "4.27.0"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-4.27.0.tgz#4ada66a19c369b202e8a939b8bd287e4dca036f4"
-  integrity sha512-j1ZEx9NiBpm31rxWqQTjQt1QvH/8001xHsc/pRoPjkRDYWONCb+qkR6L9C7Wl6ar72Mz1ybtn1bv6fqAoTPlKw==
+openai@4.28.0:
+  version "4.28.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-4.28.0.tgz#ded00e3d98c25758b5406c9675ec27a957e00930"
+  integrity sha512-JM8fhcpmpGN0vrUwGquYIzdcEQHtFuom6sRCbbCM6CfzZXNuRk33G7KfeRAIfnaCxSpzrP5iHtwJzIm6biUZ2Q==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"

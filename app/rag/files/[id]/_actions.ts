@@ -13,7 +13,7 @@ import { getFileExtension } from "@/lib/utils"
 
 import { ParsePdf } from "./docParser"
 
-type TdocumentId = Tables<"documents">["id"]
+type TDocumentId = Tables<"documents">["id"]
 
 type PDFPage = {
   pageContent: string
@@ -49,7 +49,7 @@ export async function parseFile(document: Tables<"documents">) {
   return
 }
 
-export async function embedXenova(documentId: TdocumentId) {
+export async function embedXenova(documentId: TDocumentId) {
   const supabaseClient = createServerSupabaseClient()
 
   try {
@@ -77,7 +77,7 @@ export async function embedXenova(documentId: TdocumentId) {
   }
 }
 
-export async function embedOpenAi(documentId: TdocumentId) {
+export async function embedOpenAi(documentId: TDocumentId) {
   const supabaseClient = createServerSupabaseClient()
 
   const table = "document_sections"
@@ -117,6 +117,7 @@ export async function embedOpenAi(documentId: TdocumentId) {
         .from(table)
         .update({
           [embeddingColumn]: embeddingResponse as any,
+          isvectorized: true,
         })
         .eq("id", id)
 

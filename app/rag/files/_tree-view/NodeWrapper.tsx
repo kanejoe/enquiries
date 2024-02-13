@@ -1,6 +1,5 @@
 import { TreeViewActionTypes } from "@/lib/context/TreeViewProvider/TreeViewProvider"
 import { useTreeViewContext } from "@/lib/context/TreeViewProvider/useTreeViewContext"
-import { findParentIds } from "@/lib/helpers/findParentIds"
 import { useFolders } from "@/lib/hooks/useFolders"
 import { Button } from "@/components/ui/button"
 import LoadingSkeleton from "@/components/LoadingSkeleton"

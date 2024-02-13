@@ -55,11 +55,11 @@ const EditFolderForm: FC<EditFolderFormProps> = ({
   })
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    const data = await editFolderName(values)
+    editFolderName(values)
     afterSave()
   }
 

@@ -6,8 +6,9 @@ create table document_sections (
   document_id bigint not null references documents (id),
   content text not null, -- corresponds to Document.pageContent
   metadata jsonb, -- corresponds to Document.metadata
-  xenova_embedding vector (384), -- 1536 works for OpenAI embeddings, change if needed
-  openai_embedding vector (1536)-- 1536 works for OpenAI embeddings, change if needed
+  -- xenova_embedding vector (384), -- 1536 works for OpenAI embeddings, change if needed
+  openai_embedding vector (1536), -- 1536 works for OpenAI embeddings, change if needed
+  iscectorized boolean default false
 );
 
 -- Create an index on the embedding vector

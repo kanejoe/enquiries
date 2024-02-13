@@ -4,6 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { Database, Tables } from "@/lib/database.types"
+import { TFolder } from "@/lib/types/TableTypes"
 
 import { countWords } from "../countWords"
 import { organizeFolders } from "../organise-folders"
@@ -48,9 +49,11 @@ const fetchFoldersWithDocuments = async () => {
   return tree
 }
 
-const fetchFolders = async () => {
+type TFolderPicked = Pick<TFolder, "id" | "folder_name" | "parent_folder_id">
+
+const fetchFolders = async (): Promise<TFolderPicked[]> => {
   const supabase = createClientComponentClient<Database>()
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("folders")
     .select("id, folder_name, parent_folder_id")
     .throwOnError()
@@ -75,7 +78,7 @@ const useFolders = () => {
   })
 }
 
-const fetchDocumentById = async (documentId: string): Promise<TDocuments> => {
+const fetchDocumentById = async (documentId: string) => {
   const supabase = createClientComponentClient<Database>()
   const { data } = await supabase
     .from("documents")
@@ -244,7 +247,7 @@ const useUpdateDocumentName = (options: {
   return useMutation({
     mutationFn: async (
       formData: EditDocumentNameFormData
-    ): Promise<Tables<"documents">> => {
+    ): Promise<TDocuments> => {
       const { data } = await supabase
         .from("documents")
         .update({ name: formData.name })
