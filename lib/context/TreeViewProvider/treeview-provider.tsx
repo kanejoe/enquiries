@@ -3,14 +3,14 @@
 import { type ReactNode } from "react"
 
 import { TreeViewContext } from "./TreeViewProvider"
-import { useTreeViewProvider } from "./useTreeViewProvider"
+import { useTreeViewData } from "./useTreeViewData"
 
 export const TreeViewContextProvider = ({
   children,
 }: {
   children: ReactNode
 }): JSX.Element => {
-  const { open, dispatch, selectedId, selectId } = useTreeViewProvider()
+  const { open, dispatch, selectedId, selectId } = useTreeViewData()
 
   return (
     <TreeViewContext.Provider

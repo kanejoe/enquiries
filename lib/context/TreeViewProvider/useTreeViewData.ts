@@ -1,8 +1,9 @@
-import { useReducer } from "react"
+import { useReducer, useState } from "react"
 
 import { TFolderId, treeviewReducer } from "./TreeViewProvider"
 
-export const useTreeViewProvider = () => {
+export const useTreeViewData = () => {
+  const [selectedId, selectId] = useState<TFolderId | null>(null)
   //   const { track } = useEventTracking()
 
   const initialIds: number[] = []
@@ -15,7 +16,7 @@ export const useTreeViewProvider = () => {
   return {
     open,
     dispatch,
-    selectedId: null,
-    selectId: (id: TFolderId) => console.log(id),
+    selectedId,
+    selectId,
   }
 }

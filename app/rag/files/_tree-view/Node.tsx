@@ -2,13 +2,14 @@ import { useContext } from "react"
 import { AnimatePresence, motion, MotionConfig } from "framer-motion"
 import { Dot } from "lucide-react"
 
-import { cn } from "@/lib/utils"
-
+import { Arrow } from "@/lib/components/ui/Arrow"
 import {
   TreeViewActionTypes,
   TreeViewContext,
-} from "../../../../lib/context/TreeViewProvider/TreeViewProvider"
-import { Arrow } from "./Arrow"
+} from "@/lib/context/TreeViewProvider/TreeViewProvider"
+import { useTreeViewContext } from "@/lib/context/TreeViewProvider/useTreeViewContext"
+import { cn } from "@/lib/utils"
+
 import { DocumentsList } from "./DocumentsList"
 import { MenuDialog } from "./MenuDialog"
 import { useRovingTabindex } from "./RovingTabindex"
@@ -21,7 +22,7 @@ type NodeProps = {
 export function Node({
   node: { folder_id, folder_name, children, documents },
 }: NodeProps) {
-  const { open, dispatch, selectId, selectedId } = useContext(TreeViewContext)
+  const { open, dispatch, selectId } = useTreeViewContext()
   const { isFocusable, getRovingProps } = useRovingTabindex(
     folder_id.toString()
   )
