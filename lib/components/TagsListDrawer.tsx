@@ -32,10 +32,6 @@ const TagsListDrawer = ({ tagName }: TagsListDrawerProps): JSX.Element => {
     }
   }, [tagName]) // This tells React to rerun the effect when tagName changes
 
-  interface TagsTableProps {
-    tagName?: string
-  }
-
   return (
     <DrawerComponent
       isOpen={open}

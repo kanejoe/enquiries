@@ -14,7 +14,6 @@ const TagsTable: FC<TagsTableProps> = ({ tagName }) => {
   const { data: documents } = useFetchDocumentsByTagName(tagName)
 
   return (
-    // <div className="inline-block min-w-full pb-2 pl-6 align-middle">
     <div className="overflow-hidden rounded-lg shadow ring-1 ring-black ring-opacity-5">
       <table className="min-w-full divide-y divide-gray-300">
         <thead className="bg-gray-50">
@@ -57,7 +56,6 @@ const TagsTable: FC<TagsTableProps> = ({ tagName }) => {
         </tbody>
       </table>
     </div>
-    // </div>
   )
 }
 

@@ -1,17 +1,7 @@
 import { FC } from "react"
-import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons"
 import { format as formatD } from "date-fns"
-import {
-  Check,
-  Edit,
-  File,
-  FilePenLine,
-  FileText,
-  TagsIcon,
-  TicketCheckIcon,
-} from "lucide-react"
+import { Check, FileText } from "lucide-react"
 
-import { TagsListDrawer } from "@/lib/components/TagsListDrawer"
 import { getIconForFileType } from "@/lib/fileIcons"
 import type { TDocuments, TExtendedDocuments } from "@/lib/types/TableTypes"
 import { Badge } from "@/components/ui/badge"
@@ -24,16 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 
 import { parseFile } from "./_actions"
 import { AddEmbeddingButton } from "./AddEmbeddingsButton"

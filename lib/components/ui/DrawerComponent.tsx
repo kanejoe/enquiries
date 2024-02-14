@@ -33,9 +33,10 @@ export function DrawerComponent({
       open={isOpen}
       onOpenChange={isOpenChange}
       shouldScaleBackground={true}
+      direction="right"
     >
       <DrawerContent>
-        <div className="mx-auto w-full max-w-lg">
+        <div className="mx-auto w-full max-w-2xl">
           <DrawerHeader>
             <DrawerTitle className="font-geistsans text-xl text-blue-800">
               {title}

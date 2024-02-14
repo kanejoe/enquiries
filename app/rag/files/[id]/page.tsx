@@ -9,11 +9,7 @@ import { useDocument } from "@/lib/hooks/useFolders"
 import { useFetchStorageFileUrl } from "@/lib/hooks/useStorageFiles"
 import { Button } from "@/components/ui/button"
 
-import { TagsTable } from "../../../../lib/components/TagsTable"
-// actions
 import { DocumentCard } from "./DocumentCard"
-import { DocumentDetails } from "./DocumentDetails"
-import { EditDocumentNameForm } from "./DocumentNameForm"
 import { DocumentTags } from "./DocumentTags"
 import { SummariseContent } from "./SummariseContent"
 import { PdfViewer } from "./ViewPdf"
@@ -34,7 +30,11 @@ const Page = ({ searchParams }: PageProps) => {
   if (!document) return null
 
   return (
-    <div className="">
+    <>
+      <Suspense fallback={null}>
+        <TagsListDrawer tagName={tagName} key={tagName} />
+      </Suspense>
+
       <div className="mb-8 mt-1 flex justify-between">
         <h1 className="mr-8 overflow-hidden text-ellipsis whitespace-nowrap bg-gradient-to-r from-red-900 to-blue-800 bg-clip-text text-3xl font-bold text-transparent">
           {document.name}
@@ -47,7 +47,7 @@ const Page = ({ searchParams }: PageProps) => {
         <div className="col-span-5 mb-8">
           <div className="flex flex-col gap-y-4">
             <DocumentCard document={document} />
-            <TagsListDrawer tagName={tagName} />
+
             <DocumentTags documentId={Number(id)} />
             {/* <DocumentDetails document={document} />*/}
             <SummariseContent document={document} />
@@ -55,15 +55,9 @@ const Page = ({ searchParams }: PageProps) => {
         </div>
         <div className="col-span-7">
           {file ? <PdfViewer signedUrl={file.signedUrl} /> : null}
-
-          {/* {tagName !== undefined ? (
-            <TagsTable tagName={tagName || ""} />
-          ) : file ? (
-            <PdfViewer signedUrl={file.signedUrl} />
-          ) : null} */}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
