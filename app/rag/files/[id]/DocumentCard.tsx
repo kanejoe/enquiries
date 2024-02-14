@@ -1,5 +1,4 @@
 import { FC } from "react"
-import { format as formatD } from "date-fns"
 import { Check, FileText } from "lucide-react"
 
 import { getIconForFileType } from "@/lib/fileIcons"
@@ -9,12 +8,12 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
+import { SummarizeModal } from "@/app/rag/files/[id]/SummarizeModal"
 
 import { parseFile } from "./_actions"
 import { AddEmbeddingButton } from "./AddEmbeddingsButton"
@@ -64,7 +63,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
                 Word Count
               </TableCell>
               <TableCell>
-                <Badge variant="secondary">
+                <Badge variant="secondary" className="ml-0.5">
                   {document.wordCount.toLocaleString("en-IE")} words
                 </Badge>
               </TableCell>
@@ -74,7 +73,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
                 Summary
               </TableCell>
               <TableCell>
-                <Badge variant="outline">None</Badge>
+                <SummarizeModal documentId={document.id} />
               </TableCell>
             </TableRow>
             <TableRow>

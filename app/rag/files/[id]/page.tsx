@@ -47,10 +47,10 @@ const Page = ({ searchParams }: PageProps) => {
         <div className="col-span-5 mb-8">
           <div className="flex flex-col gap-y-4">
             <DocumentCard document={document} />
-
             <DocumentTags documentId={Number(id)} />
+
             {/* <DocumentDetails document={document} />*/}
-            <SummariseContent document={document} />
+            {/* <SummariseContent document={document} /> */}
           </div>
         </div>
         <div className="col-span-7">

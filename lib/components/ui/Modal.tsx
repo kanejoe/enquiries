@@ -9,8 +9,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 
-type ModalProps = {
-  title: string
+type ModalComponentProps = {
+  title: string | JSX.Element
   description?: string
   children: ReactNode
   footer?: JSX.Element
@@ -18,17 +18,17 @@ type ModalProps = {
   onOpenChange: (open: boolean) => void
 }
 
-export const Modal = ({
+export const ModalComponent = ({
   title,
   description,
   children,
   footer,
   open,
   onOpenChange,
-}: ModalProps): JSX.Element => {
+}: ModalComponentProps): JSX.Element => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description ? (
