@@ -4,17 +4,18 @@ import { Suspense } from "react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 
+import { TagsListDrawer } from "@/lib/components/TagsListDrawer"
 import { useDocument } from "@/lib/hooks/useFolders"
 import { useFetchStorageFileUrl } from "@/lib/hooks/useStorageFiles"
 import { Button } from "@/components/ui/button"
 
+import { TagsTable } from "../../../../lib/components/TagsTable"
 // actions
 import { DocumentCard } from "./DocumentCard"
 import { DocumentDetails } from "./DocumentDetails"
 import { EditDocumentNameForm } from "./DocumentNameForm"
 import { DocumentTags } from "./DocumentTags"
 import { SummariseContent } from "./SummariseContent"
-import { TagsTable } from "./TagsTable"
 import { PdfViewer } from "./ViewPdf"
 
 type PageProps = {
@@ -46,17 +47,20 @@ const Page = ({ searchParams }: PageProps) => {
         <div className="col-span-5 mb-8">
           <div className="flex flex-col gap-y-4">
             <DocumentCard document={document} />
+            <TagsListDrawer tagName={tagName} />
             <DocumentTags documentId={Number(id)} />
             {/* <DocumentDetails document={document} />*/}
             <SummariseContent document={document} />
           </div>
         </div>
         <div className="col-span-7">
-          {tagName !== undefined ? (
+          {file ? <PdfViewer signedUrl={file.signedUrl} /> : null}
+
+          {/* {tagName !== undefined ? (
             <TagsTable tagName={tagName || ""} />
           ) : file ? (
             <PdfViewer signedUrl={file.signedUrl} />
-          ) : null}
+          ) : null} */}
         </div>
       </div>
     </div>

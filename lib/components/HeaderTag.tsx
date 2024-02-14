@@ -1,4 +1,4 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { CrossCircledIcon } from "@radix-ui/react-icons"
 
 import { TTagFormData } from "@/lib/hooks/useTags"

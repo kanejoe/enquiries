@@ -1,5 +1,4 @@
 import { FC } from "react"
-import Link from "next/link"
 import { ChevronDownIcon, PlusIcon, StarIcon } from "@radix-ui/react-icons"
 import { format as formatD } from "date-fns"
 import {
@@ -12,6 +11,7 @@ import {
   TicketCheckIcon,
 } from "lucide-react"
 
+import { TagsListDrawer } from "@/lib/components/TagsListDrawer"
 import { getIconForFileType } from "@/lib/fileIcons"
 import type { TDocuments, TExtendedDocuments } from "@/lib/types/TableTypes"
 import { Badge } from "@/components/ui/badge"
