@@ -4,12 +4,17 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { Database, Tables } from "@/lib/database.types"
-import { TFolder } from "@/lib/types/TableTypes"
+import {
+  TFolders,
+  type TDocuments,
+  type TDocumentSections,
+  type TDocumentWithSections,
+  type TExtendedDocuments,
+} from "@/lib/types/TableTypes"
 
 import { countWords } from "../countWords"
 import { organizeFolders } from "../organise-folders"
 import { keys } from "./keys"
-import { TDocument } from "./useTags"
 
 // types
 interface EditFormData {
@@ -20,18 +25,6 @@ interface EditFormData {
 interface EditDocumentNameFormData {
   id: number
   name: string
-}
-
-export type TDocuments = Tables<"documents">
-export type TDocumentSections = Tables<"document_sections">
-// Define a type that includes the document and its sections
-export type TDocumentWithSections = TDocuments & {
-  document_sections: Pick<TDocumentSections, "content" | "isvectorized">[]
-}
-
-export type TExtendedDocuments = TDocumentWithSections & {
-  content: string
-  wordCount: number
 }
 
 interface FormData {
@@ -55,7 +48,7 @@ const fetchFoldersWithDocuments = async () => {
   return tree
 }
 
-type TFolderPicked = Pick<TFolder, "id" | "folder_name" | "parent_folder_id">
+type TFolderPicked = Pick<TFolders, "id" | "folder_name" | "parent_folder_id">
 
 const fetchFolders = async (): Promise<TFolderPicked[]> => {
   const supabase = createClientComponentClient<Database>()
@@ -154,7 +147,7 @@ const useAddSubFolder = (options: {
   const supabase = createClientComponentClient<Database>()
   const queryClient = useQueryClient()
   return useMutation<Tables<"folders">, Error, FormData>({
-    mutationFn: async (formData: FormData): Promise<Tables<"folders">> => {
+    mutationFn: async (formData: FormData): Promise<TFolders> => {
       const { data } = await supabase
         .from("folders")
         .insert({
@@ -223,7 +216,7 @@ const useEditFolderName = (options: {
   const supabase = createClientComponentClient<Database>()
   const queryClient = useQueryClient()
   return useMutation<Tables<"folders">, Error, EditFormData>({
-    mutationFn: async (formData: EditFormData): Promise<Tables<"folders">> => {
+    mutationFn: async (formData: EditFormData): Promise<TFolders> => {
       const { data } = await supabase
         .from("folders")
         .update({ folder_name: formData.folder_name })

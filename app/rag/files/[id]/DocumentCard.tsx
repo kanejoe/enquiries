@@ -13,7 +13,7 @@ import {
 } from "lucide-react"
 
 import { getIconForFileType } from "@/lib/fileIcons"
-import type { TDocuments, TExtendedDocuments } from "@/lib/hooks/useFolders"
+import type { TDocuments, TExtendedDocuments } from "@/lib/types/TableTypes"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -108,7 +108,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
                 ) : (
                   <>
                     <Badge variant="outline" className="">
-                      None
+                      Click to Generate
                     </Badge>
                     <AddEmbeddingButton documentId={document.id} />
                   </>

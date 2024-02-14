@@ -1,6 +1,6 @@
 import { Tables } from "../database.types"
 
-export type TFolder = Tables<"folders">
+export type TFolders = Tables<"folders">
 
 export type TFoldersExtended = {
   folder_id: number
@@ -15,4 +15,18 @@ export type TDocumentsExtended = {
   document_name: string | null
   document_created_at: string | null
   storage_object_path: string | null
+}
+
+export type TDocuments = Tables<"documents">
+
+export type TDocumentSections = Tables<"document_sections">
+
+// Define a type that includes the document and its sections
+export type TDocumentWithSections = TDocuments & {
+  document_sections: Pick<TDocumentSections, "content" | "isvectorized">[]
+}
+
+export type TExtendedDocuments = TDocumentWithSections & {
+  content: string
+  wordCount: number
 }
