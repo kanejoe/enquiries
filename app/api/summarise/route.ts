@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   }
 
   const summaryPrompt = `
-        In less than 200 words, summarize the following content professionally. This is a strict limit, so be consise.
+        In less than 400 words, summarize the following content professionally. This is a strict limit, so be consise.
         It should be a professional summary.  You are a professional lawyer giving the summary, but you don't need to state this fact.
         Do not cut off the summary mid-sentence or mid-paragraph.
         The summary should be in your own words.  Do not copy and paste from the original content.  You can use the original content as a reference.
@@ -35,6 +35,9 @@ export async function POST(req: Request) {
         END OF CONTEXT BLOCK
          AI assistant will take into account ontly the CONTEXT BLOCK that is provided.
          AI assistant will not invent anything that is not drawn directly from the context.
+         Answer in markdown.
+         Answer with bulletpoints.
+         Put defined terms (those in quotes) in italics and bold.
         `
 
   // Request the OpenAI API for the response based on the prompt
@@ -51,8 +54,8 @@ export async function POST(req: Request) {
         content: summaryPrompt,
       },
     ],
-    max_tokens: 200,
-    temperature: 0.5, // you want absolute certainty
+    max_tokens: 800,
+    temperature: 0.4, // you want absolute certainty
     top_p: 1,
     frequency_penalty: 0.1,
     presence_penalty: 0.0,

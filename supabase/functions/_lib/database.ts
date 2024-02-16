@@ -648,6 +648,13 @@ export interface Database {
           openai_embedding: string | null
         }[]
       }
+      sub_vector: {
+        Args: {
+          v: string
+          dimensions: number
+        }
+        Returns: string
+      }
       supabase_url: {
         Args: Record<PropertyKey, never>
         Returns: string

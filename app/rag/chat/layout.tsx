@@ -1,13 +1,11 @@
 import { PropsWithChildren } from "react"
-import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+
+import { createServerSupabaseClient } from "@/lib/supabase.server"
 
 export default async function ChatLayout({ children }: PropsWithChildren) {
   // Keep cookies in the JS execution context for Next.js build
-  const cookieStore = cookies()
-
-  const supabase = createServerComponentClient({ cookies: () => cookieStore })
+  const supabase = createServerSupabaseClient()
 
   const {
     data: { user },
@@ -17,5 +15,5 @@ export default async function ChatLayout({ children }: PropsWithChildren) {
     return redirect("/login")
   }
 
-  return <>{children}</>
+  return <div className="h-[90vh] font-geistsans">{children}</div>
 }

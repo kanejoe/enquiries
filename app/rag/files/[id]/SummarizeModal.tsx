@@ -2,12 +2,12 @@ import { useCallback, useState } from "react"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
 import { useCompletion } from "ai/react"
 import { GanttChartSquareIcon } from "lucide-react"
+import ReactMarkdown from "react-markdown"
 
 import { ModalComponent } from "@/lib/components/ui/Modal"
 import { TDocuments } from "@/lib/types/TableTypes"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { CardFooter } from "@/components/ui/card" // Import the missing CardTitle component
 
 type SummarizeModalProps = {
   documentId: TDocuments["id"]
@@ -54,8 +54,8 @@ const SummarizeModal = ({ documentId }: SummarizeModalProps): JSX.Element => {
 
       <ModalComponent open={open} onOpenChange={setOpen} title={title()}>
         <div className="">
-          <div className="text-pretty text-sm">
-            {content ? content : completion}
+          <div className="text-pretty font-albertsans text-sm [&>*]:px-4 [&>ul>li]:my-4 [&>ul]:list-disc">
+            {content ? <ReactMarkdown>{content}</ReactMarkdown> : completion}
           </div>
         </div>
 

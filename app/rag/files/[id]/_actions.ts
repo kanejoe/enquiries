@@ -123,7 +123,7 @@ export async function embedOpenAi(documentId: TDocumentId) {
 
       if (error) {
         console.error(
-          `Failed to save embedding on '${table}' table with id ${id}`
+          `Failed to save embedding on '${table}' table with id ${id}. Error: ${error.message}. Details: ${error.details}`
         )
         continue // Skip to the next iteration on error
       }

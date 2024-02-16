@@ -1,5 +1,6 @@
 import { FC, useTransition } from "react"
 import { Component1Icon } from "@radix-ui/react-icons"
+import { toast } from "sonner"
 
 import { TDocument } from "@/lib/hooks/useTags"
 import { cn } from "@/lib/utils"
@@ -23,8 +24,11 @@ const AddEmbeddingButton: FC<AddEmbeddingButtonProps> = ({ documentId }) => {
         startTransition(async () => {
           try {
             await embedOpenAi(documentId)
-          } catch (error) {
-            console.error("🚀 ~ onClick={ ~ error:", error)
+          } catch (error: unknown) {
+            if (error instanceof Error) {
+              console.error("🚀 ~ onClick={ ~ error:", error)
+              toast.error(`Error embedding data. ${error.message}`)
+            }
           }
         })
       }}

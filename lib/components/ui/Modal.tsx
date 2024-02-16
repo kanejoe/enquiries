@@ -28,7 +28,7 @@ export const ModalComponent = ({
 }: ModalComponentProps): JSX.Element => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[625px]">
+      <DialogContent className="max-w-2xl sm:max-w-[625px] md:w-3/4 md:max-w-xl">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description ? (
