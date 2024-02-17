@@ -86,7 +86,7 @@ export function ChatPanel({
             )
           )}
         </div>
-        <div className="w-full pt-2 dark:border-white/20 md:w-[calc(100%-.5rem)] md:border-transparent md:pt-0 md:dark:border-transparent">
+        <div className="w-[calc(100%-.5rem)] pt-2 dark:border-white/20 md:border-transparent md:pt-0 md:dark:border-transparent">
           <ChatPromptForm
             onSubmit={async (value) => {
               await append({
@@ -99,7 +99,7 @@ export function ChatPanel({
             setInput={setInput}
             isLoading={isLoading}
           />
-          <FooterText className="hidden sm:block" />
+          <FooterText className="mt-2 hidden sm:block" />
         </div>
       </div>
     </div>
