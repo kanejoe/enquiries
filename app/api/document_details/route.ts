@@ -2,7 +2,7 @@ import { OpenAIStream, StreamingTextResponse } from "ai"
 import OpenAI from "openai"
 import { ChatCompletionCreateParams } from "openai/resources"
 
-import { getDocumentSectionsByDocumentId } from "@/lib/supabase.server"
+import { getDocumentSectionsByDocumentId } from "@/lib/supabase-funcs/supabase.server"
 
 export const runtime = "edge"
 

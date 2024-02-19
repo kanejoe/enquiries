@@ -1,14 +1,12 @@
 "use server"
 
-import { OpenAIEmbeddings } from "@langchain/openai"
-
 import { Tables } from "@/lib/database.types"
 import {
   createServerSupabaseClient,
   getFileByStorageObjectPath,
   getStoragePathByDocumentId,
   upsertDocumentSections,
-} from "@/lib/supabase.server"
+} from "@/lib/supabase-funcs/supabase.server"
 import { getFileExtension } from "@/lib/utils"
 import { fetchEmbeddings } from "@/lib/utils/embeddings"
 

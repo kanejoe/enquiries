@@ -22,14 +22,3 @@ export async function fetchEmbeddings(content: string): Promise<any> {
     throw new Error("Failed to fetch embeddings due to an error.")
   }
 }
-
-// Example usage (uncomment and adjust according to your environment and needs)
-// (async () => {
-//   const content = "Your text here";
-//   try {
-//     const embeddings = await fetchEmbeddings(content);
-//     console.log(embeddings);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// })();

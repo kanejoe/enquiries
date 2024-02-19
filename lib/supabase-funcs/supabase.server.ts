@@ -8,6 +8,7 @@ type Views<T extends keyof Database["public"]["Views"]> =
   Database["public"]["Views"][T]["Row"]
 type StorageView = Views<"documents_with_storage_path_and_created_by_email">
 type DocumentsTable = Tables<"documents">
+type DocumentSectionsTable = Tables<"document_sections">
 
 export const createServerSupabaseClient = cache(() =>
   createServerComponentClient<Database>({ cookies })
@@ -214,11 +215,48 @@ export async function getDocumentSectionsByDocumentId(
  * @returns {Promise<Array<any>>} The array of tags.
  * @throws {Error} If there is an error retrieving the tags.
  */
-export async function getTags() {
+export async function getTags(): Promise<Array<any>> {
   const supabase = createServerSupabaseClient()
   const { data: tags, error } = await supabase.from("tags").select("*")
   if (error) {
     throw new Error(error.message)
   }
   return tags
+}
+
+/**
+ * Inserts embeddings into a specified table in the Supabase database.
+ *
+ * @param table - The name of the table to insert the embeddings into.
+ * @param embeddingColumn - The name of the column in the table that will store the embeddings.
+ * @param documentId - The ID of the document to associate the embeddings with.
+ * @param embeddingResponse - An array of numbers representing the embeddings to be inserted.
+ * @returns A Promise that resolves to the updated document sections table.
+ * @throws An error if there is a problem saving the embeddings.
+ */
+export async function insertEmbeddings(
+  table: string,
+  embeddingColumn: string,
+  documentId: DocumentSectionsTable["id"],
+  embeddingResponse: number[]
+): Promise<DocumentSectionsTable> {
+  const supabase = createServerSupabaseClient()
+
+  const { data, error } = await supabase
+    .from(table)
+    .update({
+      [embeddingColumn]: embeddingResponse as any,
+      isvectorized: true,
+    })
+    .eq("id", documentId)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  if (!data) {
+    throw new Error("Failed to save embedding")
+  }
+
+  return data
 }
