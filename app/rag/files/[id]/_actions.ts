@@ -10,6 +10,7 @@ import {
   upsertDocumentSections,
 } from "@/lib/supabase.server"
 import { getFileExtension } from "@/lib/utils"
+import { fetchEmbeddings } from "@/lib/utils/embeddings"
 
 import { ParsePdf } from "./docParser"
 
@@ -95,10 +96,6 @@ export async function embedOpenAi(documentId: TDocumentId) {
     throw new Error("Failed to find document or content")
   }
 
-  const embeddings = new OpenAIEmbeddings({
-    modelName: "text-embedding-3-small",
-  })
-
   const updatedRows = [] // Initialize an array to store the results
 
   try {
@@ -110,8 +107,7 @@ export async function embedOpenAi(documentId: TDocumentId) {
         continue
       }
 
-      const formattedContent = content.replace(/\n/g, " ").trim()
-      const embeddingResponse = await embeddings.embedQuery(formattedContent)
+      const embeddingResponse = await fetchEmbeddings(content)
 
       const { data, error } = await supabaseClient
         .from(table)
