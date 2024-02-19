@@ -5,6 +5,12 @@ const embeddings = new OpenAIEmbeddings({
 })
 
 // Define the function to fetch embeddings
+/**
+ * Fetches embeddings for the given content.
+ * @param content The input content to fetch embeddings for.
+ * @returns A promise that resolves to the embedding response.
+ * @throws An error if fetching embeddings fails.
+ */
 export async function fetchEmbeddings(content: string): Promise<any> {
   try {
     // Format the input content
