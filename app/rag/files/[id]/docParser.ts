@@ -1,7 +1,8 @@
 import { Document } from "@langchain/core/documents"
-import { DocxLoader } from "langchain/document_loaders/fs/docx"
+// import { DocxLoader } from "langchain/document_loaders/fs/docx"
 import { PDFLoader } from "langchain/document_loaders/fs/pdf"
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
+import mammoth from "mammoth"
 
 type PDFPage = {
   documnent_id: number
@@ -51,19 +52,4 @@ export async function prepareDoc(page: PDFPage): Promise<Document[]> {
     }),
   ])
   return docs
-}
-
-// export function truncateStringByBytes(str: string, bytes: number) {
-//   const enc = new TextEncoder()
-//   return new TextDecoder("utf-8").decode(enc.encode(str).slice(0, bytes))
-// }
-
-export async function parseDocx(fileBlob: Blob, document_id: number) {
-  // console.log("🚀 ~ parseDocx ~ fileBlob:", fileBlob)
-  try {
-    const loader = new DocxLoader(fileBlob)
-    const pages = (await loader.load()) as PDFPage[]
-  } catch (error: unknown) {
-    // console.log("🚀 ~ parseDocx ~ error:", error)
-  }
 }

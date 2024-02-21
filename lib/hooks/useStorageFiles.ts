@@ -1,8 +1,11 @@
 // import { Database } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import mammoth from "mammoth"
 
 import { Database, Tables } from "@/lib/database.types"
+
+// import { extractTextFromFileBlob } from "@/app/rag/files/[id]/docParser"
 
 type TDocuments = Tables<"documents">
 
@@ -58,7 +61,8 @@ const useAddStorageFile = (options: {
   return useMutation<Response, Error, Input>({
     mutationFn: async (input: Input): Promise<Response> => {
       const { selectedFile, folder_id } = input
-
+      // const res = await extractTextFromFileBlob(selectedFile)
+      // console.log("🚀 ~ mutationFn: ~ res:", res)
       const { data, error } = await supabase.storage
         .from("files")
         .upload(
@@ -151,4 +155,29 @@ export function removeInvalidCharacters(key: string): string {
 
   // Replace all invalid characters with an empty string
   return key.replace(invalidCharRegex, "")
+}
+
+export async function extractTextFromFileBlob(fileBlob: Blob): Promise<string> {
+  // var reader = new FileReader()
+  // reader.onloadend = function (event) {
+  //   var arrayBuffer = reader.result
+  //   mammoth
+  //     .extractRawText({ arrayBuffer: arrayBuffer as ArrayBuffer })
+  //     .then(function (resultObject) {
+  //       console.log("🚀 ~ resultObject:", resultObject.value)
+  //       // result2.innerHTML = resultObject.value
+  //       console.log(resultObject.value)
+  //     })
+  // }
+  // reader.readAsArrayBuffer(fileBlob)
+  try {
+    const data = await fileBlob.arrayBuffer()
+    const textResult = await mammoth.extractRawText({ arrayBuffer: data })
+    console.log("🚀 ~ extractTextFromFileBlob ~ textResult:", textResult.value)
+    return textResult.value
+  } catch (error) {
+    console.error("Error extracting text:", (error as Error).message) // Add type assertion to specify the type of 'error'
+    console.error("File size:", fileBlob.size)
+    throw new Error("Failed to extract text from file")
+  }
 }

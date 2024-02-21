@@ -40,7 +40,7 @@ export async function parseFile(document: Tables<"documents">) {
   if (fileType === "pdf") {
     parsedDoc = await ParsePdf(file, doc.id)
   } else if (fileType === "docx" || fileType === "doc") {
-    // parsedDoc = await parseDocx(file, doc.id)
+    // parsedDoc = await extractTextFromFileBlob(file)
   }
   if (!parsedDoc) throw new Error("Failed to parse document")
 

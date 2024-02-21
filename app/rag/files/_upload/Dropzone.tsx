@@ -4,6 +4,7 @@ import { FC, useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { CloudArrowUpIcon } from "@heroicons/react/20/solid"
 import { zodResolver } from "@hookform/resolvers/zod"
+import mammoth from "mammoth"
 import { DropEvent, useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -49,7 +50,6 @@ const Dropzone: FC<DropzoneProps> = () => {
         if (folders && folders.length && data.folder_id) {
           const allFolderIds = folders.map((folder) => folder.id)
           const idsToOpen = findFolderPath(folders, data.folder_id)
-
           dispatch({
             type: TreeViewActionTypes.CLOSE_MULTIPLE,
             ids: allFolderIds,
@@ -61,6 +61,7 @@ const Dropzone: FC<DropzoneProps> = () => {
         try {
           await parseFile(data)
           await Promise.any([embedOpenAi(data.id)])
+          toast.success(`File successfully parsed and embedded! ${data.name}`)
         } catch (error) {
           console.error("Error parsing file:", error)
           toast.error("Error parsing file.")
@@ -107,6 +108,7 @@ const Dropzone: FC<DropzoneProps> = () => {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const file_to_upload = files[0]
     if (!file_to_upload) return
+
     await uploadFile({
       selectedFile: file_to_upload,
       folder_id: data.folder_id,
