@@ -27,6 +27,11 @@ const contents = [
     url: "tags",
     description: "tags",
   },
+  {
+    id: "toc004",
+    url: "query",
+    description: "query",
+  },
 ]
 
 export function TOC() {
