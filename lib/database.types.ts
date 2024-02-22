@@ -42,6 +42,7 @@ export type Database = {
           isvectorized: boolean | null
           metadata: Json | null
           openai_embedding: string | null
+          xenova_embedding: string | null
         }
         Insert: {
           content: string
@@ -50,6 +51,7 @@ export type Database = {
           isvectorized?: boolean | null
           metadata?: Json | null
           openai_embedding?: string | null
+          xenova_embedding?: string | null
         }
         Update: {
           content?: string
@@ -58,6 +60,7 @@ export type Database = {
           isvectorized?: boolean | null
           metadata?: Json | null
           openai_embedding?: string | null
+          xenova_embedding?: string | null
         }
         Relationships: [
           {
@@ -646,6 +649,19 @@ export type Database = {
           isvectorized: boolean | null
           metadata: Json | null
           openai_embedding: string | null
+          xenova_embedding: string | null
+        }[]
+      }
+      match_documents: {
+        Args: {
+          query_embedding: string
+          match_threshold: number
+          match_count: number
+        }
+        Returns: {
+          id: number
+          content: string
+          similarity: number
         }[]
       }
       match_documents_cosine: {

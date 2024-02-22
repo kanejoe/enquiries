@@ -62,3 +62,50 @@ as $$
   order by document_sections.openai_embedding <=> query_embedding
   limit match_count;
 $$;
+
+
+/*
+Function: match_documents
+
+Description:
+This function takes a query embedding, match threshold, and match count as input parameters and returns a table of documents that match the query based on their similarity to the query embedding.
+
+Parameters:
+- query_embedding: A vector representing the embedding of the query.
+- match_threshold: The minimum similarity threshold for a document to be considered a match.
+- match_count: The maximum number of matching documents to return.
+
+Returns:
+A table with the following columns:
+- id: The ID of the document.
+- content: The content of the document.
+- title: The title of the document.
+- similarity: The similarity score between the document and the query.
+
+Example Usage:
+SELECT * FROM match_documents(query_embedding, 0.8, 10);
+*/
+
+create or replace function match_documents (
+  query_embedding vector(1536),
+  match_threshold float,
+  match_count int
+)
+returns table (
+  id bigint,
+  content text,
+  -- title text,
+  similarity float
+)
+language sql stable
+as $$
+  select
+    document_sections.id,
+    document_sections.content,
+    -- document_sections.metadata ->> 'title' as title,
+    1 - (document_sections.openai_embedding <=> query_embedding) as similarity
+  from document_sections
+  where 1 - (document_sections.openai_embedding <=> query_embedding) > match_threshold
+  order by similarity desc
+  limit match_count;
+$$;

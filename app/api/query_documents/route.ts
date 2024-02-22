@@ -31,10 +31,11 @@ export async function POST(req: Request) {
     const query_embedding = await getEmbeddings(currentMessageContent)
 
     const { data: matchDocuments } = await supabaseClient.rpc(
-      "match_documents_cosine",
+      "match_documents",
       {
         query_embedding: query_embedding,
-        match_threshold: 0.78,
+        // match_threshold: 0.78,
+        match_threshold: 0.02,
         match_count: 5,
       }
     )
@@ -44,7 +45,8 @@ export async function POST(req: Request) {
       "match_document_sections",
       {
         embedding: query_embedding,
-        match_threshold: 0.78, // Choose an appropriate threshold for your data
+        // match_threshold: 0.78, // Choose an appropriate threshold for your data - 78 percent is a good starting point
+        match_threshold: 0.02,
       }
     )
     console.log("🚀 ~ POST ~ documents:", documents)

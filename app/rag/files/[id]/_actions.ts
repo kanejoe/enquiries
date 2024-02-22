@@ -65,7 +65,7 @@ export async function embedXenova(documentId: TDocumentId) {
     )
 
     if (error) {
-      console.error("🚀 ~ error:", error)
+      console.error("🚀 ~ error:", error.message)
       throw new Error("Failed to embed document") // Re-throw to indicate failure to caller
     }
 

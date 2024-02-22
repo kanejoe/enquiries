@@ -20,19 +20,22 @@ export async function getEmbeddings(content: string): Promise<any> {
     const formattedContent = content.replace(/\n/g, " ").trim()
 
     // Fetch the embeddings
-    const embeddingResponse = await embeddings.embedQuery(formattedContent)
+    // const embeddingResponse = await embeddings.embedQuery(formattedContent)
 
     // Generate a one-time embedding for the query itself
-    // const embeddingResponse = await openai.embeddings.create({
-    //   model: "text-embedding-ada-002",
-    //   input: formattedContent,
-    // })
-    // const vector2 = embeddingResponse?.data[0]?.embedding ?? null
+    const {
+      data: [{ embedding }],
+    } = await openai.embeddings.create({
+      // model: "text-embedding-3-small",
+      model: "text-embedding-ada-002",
+      input: formattedContent,
+      // dimensions: 1536,
+    })
 
     // Return the embedding response
     // You might want to adjust the return based on the actual structure of embeddingResponse
     // return vector2
-    return embeddingResponse
+    return embedding
   } catch (error) {
     // Handle any errors that occur during the fetch
     console.error("Failed to fetch embeddings:", error)
