@@ -7,8 +7,8 @@ create table document_sections (
   content text not null, -- corresponds to Document.pageContent
   metadata jsonb, -- corresponds to Document.metadata
   openai_embedding vector (1536), -- 1536 works for OpenAI embeddings, change if needed
-  -- embedding vector (3072), -- 3072 works for text-embedding-3-large
-  isvectorized boolean default false
+  isvectorized boolean default false,
+  xenova_embedding vector (384) -- 384 works for 'Supabase/gte-small'
 );
 
 -- Create an index on the embedding vector

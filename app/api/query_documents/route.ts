@@ -1,9 +1,10 @@
 import { Message, OpenAIStream, StreamingTextResponse } from "ai"
+import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 import { Configuration, OpenAIApi } from "openai-edge"
 
 import { createServerSupabaseClient } from "@/lib//supabase-funcs/supabase.server"
 import { getContext } from "@/lib/utils/context"
-import { fetchEmbeddings } from "@/lib/utils/embeddings"
+import { getEmbeddings } from "@/lib/utils/embeddings"
 
 // Create an OpenAI API client (that's edge friendly!)
 const config = new Configuration({
@@ -27,12 +28,22 @@ export async function POST(req: Request) {
       throw new Error("No message content provided")
     }
     console.log("🚀 ~ POST ~ currentMessageContent:", currentMessageContent)
-    const embedding = await fetchEmbeddings(currentMessageContent)
+    const query_embedding = await getEmbeddings(currentMessageContent)
+
+    const { data: matchDocuments } = await supabaseClient.rpc(
+      "match_documents_cosine",
+      {
+        query_embedding: query_embedding,
+        match_threshold: 0.78,
+        match_count: 5,
+      }
+    )
+    console.log("🚀 ~ POST ~ matchDocuments:", matchDocuments)
 
     const { data: documents } = await supabaseClient.rpc(
       "match_document_sections",
       {
-        embedding: embedding,
+        embedding: query_embedding,
         match_threshold: 0.78, // Choose an appropriate threshold for your data
       }
     )

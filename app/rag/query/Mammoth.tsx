@@ -6,7 +6,7 @@ function DocxParser() {
   const [textContent, setTextContent] = useState("")
   const [markdownContent, setMarkdownContent] = useState("")
 
-  const parseWordDocxFile = (event) => {
+  const parseWordDocxFile = (event: { target: any }) => {
     const inputElement = event.target
     const files = inputElement.files || []
     if (!files.length) return
@@ -19,14 +19,14 @@ function DocxParser() {
 
       mammoth
         .convertToHtml({ arrayBuffer: arrayBuffer })
-        .then(function (resultObject) {
+        .then(function (resultObject: { value: React.SetStateAction<string> }) {
           setHtmlContent(resultObject.value)
           console.log(resultObject.value)
         })
 
       mammoth
         .extractRawText({ arrayBuffer: arrayBuffer })
-        .then(function (resultObject) {
+        .then(function (resultObject: { value: React.SetStateAction<string> }) {
           setTextContent(resultObject.value)
           console.log(resultObject.value)
         })

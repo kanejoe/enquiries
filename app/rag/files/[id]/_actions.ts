@@ -8,7 +8,7 @@ import {
   upsertDocumentSections,
 } from "@/lib/supabase-funcs/supabase.server"
 import { getFileExtension } from "@/lib/utils"
-import { fetchEmbeddings } from "@/lib/utils/embeddings"
+import { getEmbeddings } from "@/lib/utils/embeddings"
 
 import { ParsePdf } from "./docParser"
 
@@ -105,7 +105,7 @@ export async function embedOpenAi(documentId: TDocumentId) {
         continue
       }
 
-      const embeddingResponse = await fetchEmbeddings(content)
+      const embeddingResponse = await getEmbeddings(content)
 
       const { data, error } = await supabaseClient
         .from(table)

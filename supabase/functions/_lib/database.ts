@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   graphql_public: {
     Tables: {
       [_ in never]: never
@@ -80,7 +80,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "folders_with_documents"
             referencedColumns: ["document_id"]
-          }
+          },
         ]
       }
       document_tags: {
@@ -124,7 +124,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "tags"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       documents: {
@@ -190,7 +190,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "objects"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       download_stats: {
@@ -240,7 +240,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "folders_with_documents"
             referencedColumns: ["document_id"]
-          }
+          },
         ]
       }
       folders: {
@@ -286,7 +286,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "folders_with_documents"
             referencedColumns: ["folder_id"]
-          }
+          },
         ]
       }
       precedents: {
@@ -351,7 +351,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       properties: {
@@ -447,7 +447,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "precedents"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       tags: {
@@ -476,7 +476,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -528,7 +528,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "folders_with_documents"
             referencedColumns: ["storage_object_id"]
-          }
+          },
         ]
       }
       folders_with_documents: {
@@ -556,7 +556,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "folders_with_documents"
             referencedColumns: ["folder_id"]
-          }
+          },
         ]
       }
     }
@@ -646,6 +646,18 @@ export interface Database {
           isvectorized: boolean | null
           metadata: Json | null
           openai_embedding: string | null
+        }[]
+      }
+      match_documents_cosine: {
+        Args: {
+          query_embedding: string
+          match_threshold: number
+          match_count: number
+        }
+        Returns: {
+          id: number
+          content: string
+          similarity: number
         }[]
       }
       sub_vector: {
@@ -798,7 +810,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "buckets"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -877,7 +889,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -886,14 +898,14 @@ export type Tables<
     ? R
     : never
   : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
-      Database["public"]["Views"])
-  ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+        Database["public"]["Views"])
+    ? (Database["public"]["Tables"] &
+        Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -901,7 +913,7 @@ export type TablesInsert<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
@@ -909,12 +921,12 @@ export type TablesInsert<
     ? I
     : never
   : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+    ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -922,7 +934,7 @@ export type TablesUpdate<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
@@ -930,12 +942,12 @@ export type TablesUpdate<
     ? U
     : never
   : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+    ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -943,10 +955,10 @@ export type Enums<
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
+    : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
-  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
-  : never
+    ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+    : never
 

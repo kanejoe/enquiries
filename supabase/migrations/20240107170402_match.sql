@@ -28,7 +28,7 @@ $$;
 /*
   Function: match_documents_cosine
   
-  Description: This function calculates the cosine similarity between a query embedding and the embeddings of documents stored in the 'documents' table. It returns the top 'match_count' documents that have a similarity score greater than 'match_threshold'.
+  Description: This function calculates the cosine similarity between a query embedding and the embeddings of documents stored in the 'document_sections' table. It returns the top 'match_count' documents that have a similarity score greater than 'match_threshold'.
   
   Parameters:
     - query_embedding: The embedding vector of the query document.
