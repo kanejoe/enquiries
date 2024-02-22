@@ -2,6 +2,7 @@
 
 import { useChat } from "ai/react"
 
+import DocxParser from "./Mammoth"
 import { PromptForm } from "./PromptForm"
 
 export default function IndexPage() {
@@ -34,6 +35,9 @@ export default function IndexPage() {
               </div>
             ))
           : null}
+      </div>
+      <div className="">
+        <DocxParser />
       </div>
     </div>
   )

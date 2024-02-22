@@ -1052,22 +1052,39 @@
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.4.0.tgz#08d6c5e20cf7e4cc02fd181c4b0c225cd31dbb60"
   integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
 
-"@langchain/community@~0.0.29":
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/@langchain/community/-/community-0.0.31.tgz#2f9cddf292347dbd0e4cb8d9611e98728ce14368"
-  integrity sha512-bXcEeoTujsxqpJIh2TX8i5dVDkuUebPDG6xg8OaZTOGi9jA5KjwwQ8riiP1tWvr4mFscPAQ7bGZmTU6qBx1c6Q==
+"@langchain/community@~0.0.32":
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@langchain/community/-/community-0.0.32.tgz#d0e4ce8eeb8152cc9c3ace402e97cefd1ef5ce74"
+  integrity sha512-jN4BxGKAmLbA87hqXH5Mx1IRMMVOgcn1TY1MLOVyBcBa12EvHFx8suogtXgA2ekfc8U8nIryVb1ftSupwUBv/A==
   dependencies:
-    "@langchain/core" "~0.1.29"
+    "@langchain/core" "~0.1.32"
     "@langchain/openai" "~0.0.14"
     flat "^5.0.2"
     langsmith "~0.1.1"
     uuid "^9.0.0"
     zod "^3.22.3"
 
-"@langchain/core@~0.1.13", "@langchain/core@~0.1.29":
+"@langchain/core@~0.1.13":
   version "0.1.31"
   resolved "https://registry.yarnpkg.com/@langchain/core/-/core-0.1.31.tgz#499c541fec25f5a72e090ea23ef4f514643ed1ef"
   integrity sha512-XVMl5AhnCJtbzRvWU9CM8Fd5A3ftKSF0O+Z/WjoPUTP3OLAi3+7l+B6aFpuzdnmofzFdAUedtlaPGq3qDwfhEg==
+  dependencies:
+    ansi-styles "^5.0.0"
+    camelcase "6"
+    decamelize "1.2.0"
+    js-tiktoken "^1.0.8"
+    langsmith "~0.1.1"
+    ml-distance "^4.0.0"
+    p-queue "^6.6.2"
+    p-retry "4"
+    uuid "^9.0.0"
+    zod "^3.22.4"
+    zod-to-json-schema "^3.22.3"
+
+"@langchain/core@~0.1.32":
+  version "0.1.32"
+  resolved "https://registry.yarnpkg.com/@langchain/core/-/core-0.1.32.tgz#cd6748cc91b8b208ba7c736c16c6dbeb291dc86c"
+  integrity sha512-7b8wBQMej2QxaDDS0fCQa3/zrA2raTh1RBe2h1som7QxFpWJkHSxwVwdvGUotX9SopmsY99TK54sK0amfDvBBA==
   dependencies:
     ansi-styles "^5.0.0"
     camelcase "6"
@@ -4507,10 +4524,10 @@ eslint-plugin-react@7.33.2, eslint-plugin-react@^7.33.2:
     semver "^6.3.1"
     string.prototype.matchall "^4.0.8"
 
-eslint-plugin-tailwindcss@3.14.2:
-  version "3.14.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-tailwindcss/-/eslint-plugin-tailwindcss-3.14.2.tgz#70995ee0c7ae7f8bf9ca23817077276b9874bf87"
-  integrity sha512-fNzdf4poZP2yQC0xC2prQxMuArMSb5mnellLQvwb9HC3NcLzxs+0IVKWIg1BqUqyui0c+bbjMmhWcKUWK67SLQ==
+eslint-plugin-tailwindcss@3.14.3:
+  version "3.14.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-tailwindcss/-/eslint-plugin-tailwindcss-3.14.3.tgz#7d845869da1485e7f74226ccbc2c05e278f2a48e"
+  integrity sha512-1MKT8CrVuqVJleHxb7ICHsF2QwO0G+VJ28athTtlcOkccp0qmwK7nCUa1C9paCZ+VVgQU4fonsjLz/wUxoMHJQ==
   dependencies:
     fast-glob "^3.2.5"
     postcss "^8.4.4"
@@ -6258,14 +6275,14 @@ kleur@^4.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
-langchain@0.1.20:
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.1.20.tgz#d1e5e3ae97ac007fb318517995385a30aed6487e"
-  integrity sha512-NaO4Ovbwb0EHqyo83Wg7TKQE7tV1WGvnGdncpMiazBL9Qgv+vYpDpOV66C64M2C/4fYrNJV/BKDljjFhSE8PSw==
+langchain@0.1.21:
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.1.21.tgz#48900f2e218cfd91ff792b78c113e04ce031f448"
+  integrity sha512-OOcCFIgx23WyyNS1VJBLbC3QL5plQBVfp2drXw1OJAarZ8yEY3cgJq8NbTY37sMnLoJ2olFEzMuAOdlTur4cwQ==
   dependencies:
     "@anthropic-ai/sdk" "^0.9.1"
-    "@langchain/community" "~0.0.29"
-    "@langchain/core" "~0.1.29"
+    "@langchain/community" "~0.0.32"
+    "@langchain/core" "~0.1.32"
     "@langchain/openai" "~0.0.14"
     binary-extensions "^2.2.0"
     expr-eval "^2.0.2"
@@ -6427,10 +6444,10 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.2.0.tgz#0bd445ca57363465900f4d1f9bd8db343a4d95c3"
   integrity sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==
 
-lucide-react@0.335.0:
-  version "0.335.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.335.0.tgz#034a374d653082971de3f1b93f899b68c92e00fd"
-  integrity sha512-FNmIG4JLdvpK86ZFJjrT0SnFEa95KhsiNokVicA5mWEf1oe+ujP2C/bTr0PVQzr/wzvZpzgxaOySq0O79q2oMA==
+lucide-react@0.336.0:
+  version "0.336.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.336.0.tgz#bbb09598e9c451564c5d428ea6f201ec902885d2"
+  integrity sha512-e06J4Qrdrk3BP/hf3MnkW3LnymdthfyEtVbdEg0xPQ/olTEKfOfTv03DYmdRm1+XpaNQdCpiHT7Vi6regbxDCQ==
 
 lucide-react@^0.274.0:
   version "0.274.0"
@@ -9659,10 +9676,10 @@ type-detect@4.0.8:
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
   integrity sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==
 
-type-fest@4.10.2:
-  version "4.10.2"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.10.2.tgz#3abdb144d93c5750432aac0d73d3e85fcab45738"
-  integrity sha512-anpAG63wSpdEbLwOqH8L84urkL6PiVIov3EMmgIhhThevh9aiMQov+6Btx0wldNcvm4wV+e2/Rt1QdDwKHFbHw==
+type-fest@4.10.3:
+  version "4.10.3"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.10.3.tgz#ff01cb0a1209f59583d61e1312de9715e7ea4874"
+  integrity sha512-JLXyjizi072smKGGcZiAJDCNweT8J+AuRxmPZ1aG7TERg4ijx9REl8CNhbr36RV4qXqL1gO1FF9HL8OkVmmrsA==
 
 type-fest@^0.20.2:
   version "0.20.2"
