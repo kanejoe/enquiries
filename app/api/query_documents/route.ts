@@ -30,26 +30,22 @@ export async function POST(req: Request) {
     console.log("🚀 ~ POST ~ currentMessageContent:", currentMessageContent)
     const query_embedding = await getEmbeddings(currentMessageContent)
 
-    const { data: matchDocuments } = await supabaseClient.rpc(
-      "match_documents",
-      {
-        query_embedding: query_embedding,
-        // match_threshold: 0.78,
-        match_threshold: 0.02,
-        match_count: 5,
-      }
+    const { data: documents } = await supabaseClient.rpc("match_documents", {
+      query_embedding: query_embedding,
+      // match_threshold: 0.78, // Choose an appropriate threshold for your data - 78 percent is a good starting point
+      match_threshold: 0.02,
+      match_count: 5,
+    })
+    console.log(
+      "🚀 ~ POST ~ documents:",
+      documents?.map((doc: any) => {
+        return {
+          id: doc.id,
+          similarity: doc.similarity,
+          document_id: doc.document_id,
+        }
+      })
     )
-    console.log("🚀 ~ POST ~ matchDocuments:", matchDocuments)
-
-    const { data: documents } = await supabaseClient.rpc(
-      "match_document_sections",
-      {
-        embedding: query_embedding,
-        // match_threshold: 0.78, // Choose an appropriate threshold for your data - 78 percent is a good starting point
-        match_threshold: 0.02,
-      }
-    )
-    console.log("🚀 ~ POST ~ documents:", documents)
 
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",

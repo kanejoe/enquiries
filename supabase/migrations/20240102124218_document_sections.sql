@@ -31,14 +31,18 @@ on document_sections for insert to authenticated with check (
 );
 
 -- Create a policy to allow authenticated users to query document sections
-create policy "Users can query their own document sections"
-on document_sections for select to authenticated using (
-  document_id in (
-    select id
-    from documents
-    where created_by = auth.uid()
-  )
-);
+-- create policy "Users can query their own document sections"
+-- on document_sections for select to authenticated using (
+--   document_id in (
+--     select id
+--     from documents
+--     where created_by = auth.uid()
+--   )
+-- );
+
+create policy "All users can query document sections"
+on document_sections for select to authenticated using (true);
+
 
 -- Create a policy to allow authenticated users to update document sections
 create policy "Users can update their own document sections"

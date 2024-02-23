@@ -26,8 +26,7 @@ export async function getEmbeddings(content: string): Promise<any> {
     const {
       data: [{ embedding }],
     } = await openai.embeddings.create({
-      // model: "text-embedding-3-small",
-      model: "text-embedding-ada-002",
+      model: "text-embedding-3-small",
       input: formattedContent,
       // dimensions: 1536,
     })
