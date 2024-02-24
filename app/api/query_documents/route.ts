@@ -1,9 +1,9 @@
 import { Message, OpenAIStream, StreamingTextResponse } from "ai"
-import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
+import { oneLine, stripIndent } from "common-tags"
+import GPT3Tokenizer from "gpt3-tokenizer"
 import { Configuration, OpenAIApi } from "openai-edge"
 
 import { createServerSupabaseClient } from "@/lib//supabase-funcs/supabase.server"
-import { getContext } from "@/lib/utils/context"
 import { getEmbeddings } from "@/lib/utils/embeddings"
 
 // Create an OpenAI API client (that's edge friendly!)
@@ -27,7 +27,6 @@ export async function POST(req: Request) {
     if (!currentMessageContent) {
       throw new Error("No message content provided")
     }
-    console.log("🚀 ~ POST ~ currentMessageContent:", currentMessageContent)
     const query_embedding = await getEmbeddings(currentMessageContent)
 
     const { data: documents } = await supabaseClient.rpc("match_documents", {
@@ -36,22 +35,65 @@ export async function POST(req: Request) {
       match_threshold: 0.02,
       match_count: 5,
     })
-    console.log(
-      "🚀 ~ POST ~ documents:",
-      documents?.map((doc: any) => {
-        return {
-          id: doc.id,
-          similarity: doc.similarity,
-          document_id: doc.document_id,
+    if (!documents) {
+      throw new Error("No documents found")
+    }
+
+    // console.log(
+    //   "🚀 ~ POST ~ documents:",
+    //   documents?.map((doc: any) => {
+    //     return {
+    //       id: doc.id,
+    //       similarity: doc.similarity,
+    //       document_id: doc.document_id,
+    //     }
+    //   })
+    // )
+
+    const tokenizer = new GPT3Tokenizer({ type: "gpt3" })
+    let tokenCount = 0
+    let contextText = ""
+
+    // Concat matched documents
+    if (documents) {
+      for (let i = 0; i < documents.length; i++) {
+        const document = documents[i]
+        const content = document?.content ?? ""
+        const encoded = tokenizer.encode(content)
+        tokenCount += encoded.text.length
+
+        // Limit context to max 1500 tokens (configurable)
+        if (tokenCount > 8000) {
+          break
         }
-      })
-    )
+
+        contextText += `${content?.trim()}\n---\n`
+      }
+    }
+
+    const prompt = stripIndent`${oneLine`
+      You are a very enthusiastic knowledgeable Irish lawyer who has trained to the highest level in the law and in Ireland.
+      Quote from the given sections where applicable. 
+      Given the following sections from context, answer the question using only that information,
+      outputted in markdown format. If you are unsure and the answer is not explicitly written in the documentation, say
+      "Sorry, I don't know how to help with that."`}
+
+      Context sections:
+      ${contextText}
+
+      Question: """
+      ${currentMessageContent}
+      """
+
+      Answer as markdown (including related quoted text as code snippets if available):
+    `
 
     const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      // model: "gpt-3.5-turbo",
+      model: "gpt-4-turbo-preview",
       stream: true,
       messages: messages.map((message: any) => ({
-        content: message.content,
+        content: prompt,
         role: message.role,
       })),
     })

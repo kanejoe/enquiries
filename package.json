@@ -19,7 +19,8 @@
     "test": "jest --watchAll",
     "json-server": "json-server --watch data/db.json --port 3001",
     "gen:types": "npx supabase gen types typescript --local > supabase/functions/_lib/database.ts",
-    "gen:types1": "npx supabase gen types typescript --local > lib/database.types.ts"
+    "gen:types1": "npx supabase gen types typescript --local > lib/database.types.ts",
+    "canvas": "cd ./node_modules/canvas && npx node-pre-gyp install --fallback-to-build --update-binary && cd ../.."
   },
   "dependencies": {
     "@casl/ability": "6.5.0",
@@ -58,10 +59,12 @@
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.0",
     "cmdk": "0.2.1",
+    "common-tags": "1.8.2",
     "date-fns": "3.3.1",
     "encoding": "0.1.13",
     "framer-motion": "11.0.5",
     "geist": "1.2.2",
+    "gpt3-tokenizer": "1.1.5",
     "immer": "10.0.3",
     "is-hotkey": "0.2.0",
     "langchain": "0.1.21",
@@ -107,6 +110,7 @@
     "@testing-library/react-hooks": "8.0.1",
     "@total-typescript/ts-reset": "0.5.1",
     "@types/babel__core": "7.20.5",
+    "@types/common-tags": "1.8.4",
     "@types/jest": "29.5.12",
     "@types/lodash": "4.14.202",
     "@types/node": "20.11.19",
