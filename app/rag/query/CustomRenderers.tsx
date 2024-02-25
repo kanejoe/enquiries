@@ -9,7 +9,7 @@ export const renderers = {
   ),
   // Renderer for list items
   li: ({ node, ...props }: { node?: any }) => (
-    <li className="ml-4" {...props} />
+    <li className="ml-4 text-sm" {...props} />
   ),
   p: ({ node, ...props }: { node?: any }) => (
     <p className="mb-4 text-sm last:mb-0" {...props} />

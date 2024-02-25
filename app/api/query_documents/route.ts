@@ -63,7 +63,7 @@ export async function POST(req: Request) {
         tokenCount += encoded.text.length
 
         // Limit context to max 1500 tokens (configurable)
-        if (tokenCount > 7000) {
+        if (tokenCount > 16000) {
           break
         }
 
@@ -74,9 +74,9 @@ export async function POST(req: Request) {
     const prompt = stripIndent`${oneLine`
       You are a very enthusiastic knowledgeable Irish lawyer who has trained to the highest level in the law and in Ireland.
       Quote from the given sections where applicable. 
-      Given the following sections from context, answer the question using only that information,
-      outputted in markdown format. If you are unsure and the answer is not explicitly written in the documentation, say
-      "Sorry, I don't know how to help with that."`}
+      Only give short quoted text at any one time. Explain the quoted text in your own words.
+      Given the following sections from context, answer the question using only that information, outputted in markdown format. 
+      If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I don't know how to help with that."`}
 
       Context sections:
       ${contextText}
@@ -85,12 +85,13 @@ export async function POST(req: Request) {
       ${currentMessageContent}
       """
 
-      Answer as markdown (including related quoted text as blockquote if available):
+      Answer as markdown (including related quoted text as code if available):
     `
 
     const response = await openai.createChatCompletion({
       // model: "gpt-3.5-turbo",
       model: "gpt-4",
+      // model: "gpt-3.5-turbo-1106",
       stream: true,
       messages: messages.map((message: any) => ({
         content: prompt,

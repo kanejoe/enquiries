@@ -15,13 +15,16 @@ const CustomCodeBlock = ({
 }: CustomCodeBlockProps) => {
   return (
     <pre
-      className={`my-4 overflow-x-auto rounded-lg p-4 ${className}`}
+      className={`my-4 overflow-x-auto rounded-lg p-8 ${className}`}
       style={{
         backgroundColor: "#2d2d2d",
         whiteSpace: "pre-wrap",
       }}
     >
-      <code className={`block font-geistmono text-sm text-white`} {...rest}>
+      <code
+        className={`block px-6 font-geistmono text-sm text-white`}
+        {...rest}
+      >
         {children}
       </code>
     </pre>
