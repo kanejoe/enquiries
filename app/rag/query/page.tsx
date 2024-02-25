@@ -1,5 +1,6 @@
 "use client"
 
+import { FC, ReactNode } from "react"
 import { useChat } from "ai/react"
 import ReactMarkdown from "react-markdown"
 
@@ -34,7 +35,7 @@ export default function IndexPage() {
     })
     .join("\n\n")
 
-  const CustomBlockquote = ({ children }: { children: React.ReactNode }) => (
+  const CustomBlockquote: FC<{ children: ReactNode }> = ({ children }) => (
     <blockquote className="border-l-4 border-gray-200 pl-4 italic text-gray-600">
       {children}
     </blockquote>
@@ -87,7 +88,7 @@ export default function IndexPage() {
         {messages.length > 0 ? (
           <ReactMarkdown
             components={{
-              blockquote: CustomBlockquote,
+              // blockquote: CustomBlockquote,
               code: CustomCodeBlock,
             }}
           >
