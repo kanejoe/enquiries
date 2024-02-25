@@ -4,6 +4,10 @@ import { useChat } from "ai/react"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 
+import { EmptyScreen } from "@/lib/components/EmptyScreen"
+import { cn } from "@/lib/utils"
+
+import { ChatList } from "./chat-list"
 import { CustomBlockquote } from "./CustomBlockQuote"
 import { CustomCodeBlock } from "./CustomCodeBlock"
 import { renderers } from "./CustomRenderers"
@@ -11,7 +15,7 @@ import { renderers } from "./CustomRenderers"
 import { PromptForm } from "./PromptForm"
 
 export default function IndexPage() {
-  const { messages, append } = useChat({
+  const { messages, append, setInput } = useChat({
     api: "/api/query_documents",
     onFinish: async () => {
       console.log("Chat finished")
@@ -42,20 +46,21 @@ export default function IndexPage() {
       <div className="max-w-lg">
         <PromptForm handleMessageSubmit={handleMessageSubmit} />
       </div>
-      <div className="mb-12">
-        {messages.length > 0 ? (
-          <Markdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              blockquote: CustomBlockquote,
-              code: CustomCodeBlock,
-              ...renderers,
-            }}
-          >
-            {formattedMessages}
-          </Markdown>
-        ) : null}
+
+      <div className={cn("pb-[20px] pt-4 md:pt-10")}>
+        {messages.length ? (
+          <>
+            <ChatList messages={messages} />
+            {/* <ChatScrollAnchor trackVisibility={isLoading} /> */}
+          </>
+        ) : (
+          // <EmptyScreen setInput={setInput} />
+          <div className="text-center text-gray-500">
+            <p>Start by typing a message in the input field above</p>
+          </div>
+        )}
       </div>
+
       <div className="h-12">&nbsp;</div>
       {/* <div className="">
         <DocxParser />

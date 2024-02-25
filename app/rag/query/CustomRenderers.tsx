@@ -12,6 +12,6 @@ export const renderers = {
     <li className="ml-4" {...props} />
   ),
   p: ({ node, ...props }: { node?: any }) => (
-    <p className="mb-4 text-sm" {...props} />
+    <p className="mb-4 text-sm last:mb-0" {...props} />
   ),
 }

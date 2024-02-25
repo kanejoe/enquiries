@@ -13,9 +13,9 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      // screens: {
+      //   "2xl": "1400px",
+      // },
     },
     extend: {
       spacing: {
@@ -133,5 +133,6 @@ module.exports = {
     require("tailwind-scrollbar"),
     require("tailwindcss-animate"),
     require("tailwindcss-opentype"),
+    require("@tailwindcss/typography"),
   ],
 }
