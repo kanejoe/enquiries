@@ -1,7 +1,11 @@
 {
   "ts-node": {
     "compilerOptions": {
-      "module": "commonjs"
+      "module": "commonjs",
+      "typeRoots": [
+        "./node_modules/@types",
+        "./types"
+      ]
     }
   },
   "compilerOptions": {
@@ -48,7 +52,8 @@
     ".next/types/**/*.ts",
     "app/atomic_requisition/ReplyForm.tsx",
     "app/index.test.js",
-    "scripts/add-properties.ts"
+    "scripts/add-properties.ts",
+    "./types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

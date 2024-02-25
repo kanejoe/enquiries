@@ -63,7 +63,7 @@ export async function POST(req: Request) {
         tokenCount += encoded.text.length
 
         // Limit context to max 1500 tokens (configurable)
-        if (tokenCount > 8000) {
+        if (tokenCount > 7000) {
           break
         }
 
@@ -90,7 +90,7 @@ export async function POST(req: Request) {
 
     const response = await openai.createChatCompletion({
       // model: "gpt-3.5-turbo",
-      model: "gpt-4-turbo-preview",
+      model: "gpt-4",
       stream: true,
       messages: messages.map((message: any) => ({
         content: prompt,

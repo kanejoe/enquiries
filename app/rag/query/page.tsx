@@ -2,7 +2,8 @@
 
 import { useChat } from "ai/react"
 import ReactMarkdown from "react-markdown"
-import { CodeComponent } from "react-markdown/lib/ast-to-react"
+
+// import { CodeComponent } from "react-markdown/lib/ast-to-react"
 
 import DocxParser from "./Mammoth"
 import { PromptForm } from "./PromptForm"
@@ -39,7 +40,7 @@ export default function IndexPage() {
     </blockquote>
   )
 
-  const CustomCodeBlock: CodeComponent = ({
+  const CustomCodeBlock: any = ({
     node,
     inline,
     className,
@@ -61,7 +62,7 @@ export default function IndexPage() {
         style={{ backgroundColor: "#2d2d2d", whiteSpace: "pre-wrap" }}
       >
         <code
-          className={`language-${language} block font-geistmono text-white`}
+          className={`language-${language} block font-geistmono text-sm text-white`}
           {...props}
         >
           {children}
