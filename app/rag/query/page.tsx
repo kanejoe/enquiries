@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm"
 
 import { CustomBlockquote } from "./CustomBlockQuote"
 import { CustomCodeBlock } from "./CustomCodeBlock"
+import { renderers } from "./CustomRenderers"
 // import DocxParser from "./Mammoth"
 import { PromptForm } from "./PromptForm"
 
@@ -48,12 +49,14 @@ export default function IndexPage() {
             components={{
               blockquote: CustomBlockquote,
               code: CustomCodeBlock,
+              ...renderers,
             }}
           >
             {formattedMessages}
           </Markdown>
         ) : null}
       </div>
+      <div className="h-12">&nbsp;</div>
       {/* <div className="">
         <DocxParser />
       </div> */}
