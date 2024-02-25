@@ -85,7 +85,7 @@ export async function POST(req: Request) {
       ${currentMessageContent}
       """
 
-      Answer as markdown (including related quoted text as code snippets if available):
+      Answer as markdown (including related quoted text as blockquote if available):
     `
 
     const response = await openai.createChatCompletion({
