@@ -29,7 +29,7 @@ export default function IndexPage() {
     })
 
   return (
-    <div className="container mt-4 space-y-6 ">
+    <div className="container mt-4 space-y-6">
       <div className={cn("pb-[200px] pt-4 md:pt-10")}>
         {messages.length ? (
           <>

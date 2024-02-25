@@ -1,7 +1,7 @@
 export const renderers = {
   // Renderer for unordered lists
   ul: ({ node, ...props }: { node?: any }) => (
-    <ul className="mb-4 list-disc space-y-2 pl-5" {...props} />
+    <ul className="mb-4 list-disc space-y-2 pl-5 text-sm" {...props} />
   ),
   // Renderer for ordered lists
   ol: ({ node, ...props }: { node?: any }) => (
