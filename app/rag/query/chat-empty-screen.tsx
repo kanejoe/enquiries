@@ -16,6 +16,10 @@ const exampleMessages = [
     heading: "Give details on the a specific contract general condition",
     message: `summarise general condition 32 of the contract for sale.`,
   },
+  {
+    heading: "Ask a question on PRA fees",
+    message: `what are the land registry fee for a transfer where the consideration is €350,000 and for a subdivision and a mortgage.`,
+  },
 ]
 
 export function EmptyScreen({ setInput }: Pick<UseChatHelpers, "setInput">) {

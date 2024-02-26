@@ -22,6 +22,7 @@ export async function ParsePdf(file: Blob, document_id: number) {
   try {
     const loader = new PDFLoader(file)
     const pages = (await loader.load()) as PDFPage[]
+    console.log("🚀 ~ ParsePdf ~ pages:", pages)
 
     const documents = await Promise.all(pages.map(prepareDoc))
     const sectionsToInsert = documents.flat().map((doc: Document) => {

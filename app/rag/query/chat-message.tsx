@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm"
 import { IconOpenAI, IconUser } from "@/lib/components/ui/Icons"
 import { cn } from "@/lib/utils"
 
+import { ChatMessageActions } from "./chat-message-actions"
 import { CustomBlockquote } from "./CustomBlockQuote"
 import { CustomCodeBlock } from "./CustomCodeBlock"
 import { renderers } from "./CustomRenderers"
@@ -37,7 +38,7 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
       </div>
       <div className="ml-4 flex-1 space-y-6 overflow-hidden px-1">
         <MemoizedReactMarkdown
-          className="prose dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 break-words"
+          className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
           remarkPlugins={[remarkGfm]}
           components={{
             blockquote: CustomBlockquote,
@@ -47,6 +48,8 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
         >
           {message.content}
         </MemoizedReactMarkdown>
+
+        <ChatMessageActions message={message} />
       </div>
     </div>
   )
