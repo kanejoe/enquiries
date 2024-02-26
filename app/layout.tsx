@@ -55,7 +55,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <TailwindIndicator />
           </ThemeProvider>
           <Toaster />
-          <Sonner />
+          <Sonner richColors />
         </body>
       </html>
     </>

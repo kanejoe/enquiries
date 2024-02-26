@@ -34,17 +34,23 @@ export async function parseFile(document: Tables<"documents">) {
   }
 
   const file = await getFileByStorageObjectPath(doc.storage_object_path)
-  const fileType = getFileExtension(file.type)
+  // const fileType = getFileExtension(file.type)
+  const parsedDoc = await ParsePdf(file, doc.id)
 
-  let parsedDoc
-  if (fileType === "pdf") {
-    parsedDoc = await ParsePdf(file, doc.id)
-  } else if (fileType === "docx" || fileType === "doc") {
-    // parsedDoc = await extractTextFromFileBlob(file)
+  // let parsedDoc
+  // if (fileType === "pdf") {
+  //   parsedDoc = await ParsePdf(file, doc.id)
+  // } else if (fileType === "docx" || fileType === "doc") {
+  //   // parsedDoc = await extractTextFromFileBlob(file)
+  // }
+  // if (!parsedDoc) throw new Error("Failed to parse document")
+
+  try {
+    await upsertDocumentSections(parsedDoc, doc.id)
+  } catch (error) {
+    console.error("🚀 ~ error:", error)
+    throw new Error("Failed to upsert document sections") // Re-throw to indicate failure to caller
   }
-  if (!parsedDoc) throw new Error("Failed to parse document")
-
-  await upsertDocumentSections(parsedDoc, doc.id)
   return
 }
 

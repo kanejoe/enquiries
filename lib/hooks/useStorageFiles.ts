@@ -1,6 +1,7 @@
 // import { Database } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import diacritics from "diacritics"
 import mammoth from "mammoth"
 
 import { Database, Tables } from "@/lib/database.types"
@@ -150,11 +151,14 @@ export {
  * @param key
  */
 export function removeInvalidCharacters(key: string): string {
+  // Remove diacritics from the key
+  const keyWithoutDiacritics = diacritics.remove(key)
+
   // Regular expression to match invalid characters
   const invalidCharRegex = /[^\w\/!-\.\\*\(\)' &\$@=;:+,\?]/g
 
   // Replace all invalid characters with an empty string
-  return key.replace(invalidCharRegex, "")
+  return keyWithoutDiacritics.replace(invalidCharRegex, "")
 }
 
 export async function extractTextFromFileBlob(fileBlob: Blob): Promise<string> {

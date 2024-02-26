@@ -4,7 +4,6 @@ import { Check, FileText } from "lucide-react"
 import { getIconForFileType } from "@/lib/fileIcons"
 import type { TDocuments, TExtendedDocuments } from "@/lib/types/TableTypes"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -18,14 +17,13 @@ import { SummarizeModal } from "@/app/rag/files/[id]/SummarizeModal"
 import { parseFile } from "./_actions"
 import { AddEmbeddingButton } from "./AddEmbeddingsButton"
 import { EditDocumentNameButton } from "./EditDocumentNameButton"
+import { ParseDocumentForm } from "./parse-document-form"
 
 interface DocumentCardProps {
   document: TExtendedDocuments
 }
 
 const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
-  const parseFileWithDoc = parseFile.bind(null, document)
-
   const isVectorized = document.document_sections.every(
     (section) => section.isvectorized
   )
@@ -63,9 +61,13 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
                 Word Count
               </TableCell>
               <TableCell>
-                <Badge variant="secondary" className="ml-0.5">
-                  {document.wordCount.toLocaleString("en-IE")} words
-                </Badge>
+                {document.wordCount < 1 ? (
+                  <ParseDocumentForm document={document} />
+                ) : (
+                  <Badge variant="secondary" className="ml-0.5">
+                    {document.wordCount.toLocaleString("en-IE")} words
+                  </Badge>
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -98,15 +100,6 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter className="gap-x-4 p-1">
-        {document.wordCount < 1 ? (
-          <form action={parseFileWithDoc}>
-            <Button variant={"secondary"} type="submit">
-              Read File
-            </Button>
-          </form>
-        ) : null}
-      </CardFooter>
     </Card>
   )
 }

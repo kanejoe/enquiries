@@ -19,6 +19,7 @@ export default function IndexPage() {
     useChat({
       api: "/api/query_documents",
       onResponse(response) {
+        console.log("🚀 ~ onResponse ~ response:", response)
         if (response.status === 401) {
           toast.error(response.statusText)
         }

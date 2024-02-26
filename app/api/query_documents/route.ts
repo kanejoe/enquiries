@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       query_embedding: query_embedding,
       // match_threshold: 0.78, // Choose an appropriate threshold for your data - 78 percent is a good starting point
       match_threshold: 0.02,
-      match_count: 5,
+      match_count: 6,
     })
     if (!documents) {
       throw new Error("No documents found")
@@ -61,6 +61,7 @@ export async function POST(req: Request) {
         const content = document?.content ?? ""
         const encoded = tokenizer.encode(content)
         tokenCount += encoded.text.length
+        // console.log("🚀 ~ POST ~ tokenCount:", tokenCount)
 
         // Limit context to max 1500 tokens (configurable)
         if (tokenCount > 16000) {
@@ -90,10 +91,13 @@ export async function POST(req: Request) {
 
     const response = await openai.createChatCompletion({
       // model: "gpt-3.5-turbo",
-      model: "gpt-4",
-      // model: "gpt-4-1106-preview",
+      // model: "gpt-4",
+      // model: "gpt-4-0613",
+      model: "gpt-4-1106-preview",
       // model: "gpt-3.5-turbo-1106",
+      // model: "gpt-3.5-turbo-16k-0613",
       stream: true,
+      temperature: 0,
       messages: messages.map((message: any) => ({
         content: prompt,
         role: message.role,
