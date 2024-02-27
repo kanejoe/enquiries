@@ -9,6 +9,7 @@ type Views<T extends keyof Database["public"]["Views"]> =
 type StorageView = Views<"documents_with_storage_path_and_created_by_email">
 type DocumentsTable = Tables<"documents">
 type DocumentSectionsTable = Tables<"document_sections">
+type ChatQueriesTable = Tables<"chatqueries">
 
 export const createServerSupabaseClient = cache(() =>
   createServerComponentClient<Database>({ cookies })
@@ -256,6 +257,39 @@ export async function insertEmbeddings(
 
   if (!data) {
     throw new Error("Failed to save embedding")
+  }
+
+  return data
+}
+
+/**
+ * Inserts chat queries into the "chat_queries" table in the Supabase database.
+ *
+ * @param payload - The data to be inserted.
+ * @returns A Promise that resolves to the inserted data.
+ * @throws An error if there is a problem inserting the chat queries.
+ */
+export async function insertChatQueries(payload: {
+  message_id: string
+  title: string
+  createdAt: number
+  path: string
+  messages: {
+    role: string
+    content: string
+  }[]
+}): Promise<ChatQueriesTable> {
+  const supabase = createServerSupabaseClient()
+  const { data, error } = await supabase
+    .from("chat_queries")
+    .insert([{ ...payload }])
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  if (!data) {
+    throw new Error("Failed to save chat query")
   }
 
   return data

@@ -55,7 +55,7 @@ export function PromptForm({
                 onClick={(e) => {
                   e.preventDefault()
                   router.refresh()
-                  router.push("/rag/query")
+                  router.push("/rag/query/chat")
                 }}
                 className={cn(
                   buttonVariants({ size: "sm", variant: "outline" }),

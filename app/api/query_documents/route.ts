@@ -3,7 +3,11 @@ import { oneLine, stripIndent } from "common-tags"
 import GPT3Tokenizer from "gpt3-tokenizer"
 import { Configuration, OpenAIApi } from "openai-edge"
 
-import { createServerSupabaseClient } from "@/lib//supabase-funcs/supabase.server"
+import {
+  createServerSupabaseClient,
+  insertChatQueries,
+} from "@/lib//supabase-funcs/supabase.server"
+import { nanoid } from "@/lib/utils"
 import { getEmbeddings } from "@/lib/utils/embeddings"
 
 // Create an OpenAI API client (that's edge friendly!)
@@ -19,7 +23,10 @@ export async function POST(req: Request) {
   // Create a Supabase client
   const supabaseClient = createServerSupabaseClient()
   try {
-    const { messages } = (await req.json()) as { messages: Message[] }
+    const { id, messages } = (await req.json()) as {
+      messages: Message[]
+      id: string
+    }
     // console.log("🚀 ~ POST ~ messages:", messages)
     const currentMessageContent =
       (messages && messages[messages.length - 1]?.content) || ""
@@ -104,11 +111,40 @@ export async function POST(req: Request) {
       })),
     })
 
-    const stream = OpenAIStream(response)
+    const stream = OpenAIStream(response, {
+      // This callback is called when the completion is ready
+      onCompletion: async (completion: string) => {
+        const title = messages[0]?.content.substring(0, 100) ?? ""
+        const message_id = id ?? nanoid()
+        const createdAt = Date.now()
+        const path = `/query/${message_id}`
+
+        const payload = {
+          message_id,
+          title,
+          createdAt,
+          path,
+          messages: [
+            ...messages,
+            {
+              content: completion,
+              role: "assistant",
+            },
+          ],
+        }
+
+        try {
+          await insertChatQueries(payload)
+        } catch (e) {
+          console.log("🚀 ~ POST ~ e:", e.message)
+          // throw e
+        }
+      },
+    })
     // Respond with the stream
     return new StreamingTextResponse(stream)
   } catch (e) {
-    console.log("🚀 ~ POST ~ e:", e)
+    console.log("🚀 ~ POST ~ e:", JSON.stringify(e))
     throw e
   }
 }

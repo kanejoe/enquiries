@@ -18,7 +18,7 @@ const exampleMessages = [
   },
   {
     heading: "Ask a question on PRA fees",
-    message: `what are the land registry fee for a transfer where the consideration is €350,000 and for a subdivision and a mortgage.`,
+    message: `what are the land registry fees for a transfer where the consideration is €350,000 and for a subdivision and a mortgage.`,
   },
 ]
 
@@ -26,9 +26,7 @@ export function EmptyScreen({ setInput }: Pick<UseChatHelpers, "setInput">) {
   return (
     <div className="mx-auto max-w-2xl px-4 font-albertsans">
       <div className="rounded-lg border bg-background p-8">
-        <h1 className="mb-2  text-lg font-semibold">
-          Welcome to your Documents AI Chatbot
-        </h1>
+        <h1 className="mb-2  text-lg font-semibold">Documents AI Chatbot</h1>
         <p className="leading-normal text-muted-foreground">
           You can start a conversation here or try the following examples:
         </p>

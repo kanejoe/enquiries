@@ -31,9 +31,10 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
           toast.error(response.statusText)
         }
       },
-      onFinish() {
-        if (!path.includes("query")) {
-          window.history.pushState({}, "", `/query/${id}`)
+      onFinish(message) {
+        console.log("🚀 ~ onFinish ~ message:", message)
+        if (!path.includes("chat")) {
+          window.history.pushState({}, "", `/rag/query/chat/${id}`)
         }
       },
     })

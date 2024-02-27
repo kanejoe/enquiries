@@ -34,6 +34,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      chatqueries: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: number
+          message_id: string
+          messages: Json
+          path: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          id?: never
+          message_id: string
+          messages: Json
+          path: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: never
+          message_id?: string
+          messages?: Json
+          path?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chatqueries_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       document_sections: {
         Row: {
           content: string
