@@ -285,6 +285,7 @@ export async function insertChatQueries(payload: {
     .insert([{ ...payload }])
 
   if (error) {
+    console.log("🚀 ~ error:", error)
     throw new Error(error.message)
   }
 

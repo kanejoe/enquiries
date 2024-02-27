@@ -133,12 +133,8 @@ export async function POST(req: Request) {
           ],
         }
 
-        try {
-          await insertChatQueries(payload)
-        } catch (e) {
-          console.log("🚀 ~ POST ~ e:", e.message)
-          // throw e
-        }
+        console.log("🚀 ~ POST ~ payload:", JSON.stringify(payload))
+        // await insertChatQueries(payload)
       },
     })
     // Respond with the stream
