@@ -18,7 +18,7 @@ const exampleMessages = [
   },
   {
     heading: "Ask a question on PRA fees",
-    message: `what are the land registry fees for a transfer where the consideration is €350,000 and for a subdivision and a mortgage.`,
+    message: `what are the land registry fees for a transfer where the consideration is €350,000 and with a subdivision, a mortgage/charge and a certified copy folio.`,
   },
 ]
 

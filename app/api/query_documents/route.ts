@@ -2,7 +2,6 @@ import { Message, OpenAIStream, StreamingTextResponse } from "ai"
 import { oneLine, stripIndent } from "common-tags"
 import GPT3Tokenizer from "gpt3-tokenizer"
 import OpenAI from "openai"
-import { Configuration, OpenAIApi } from "openai-edge"
 
 import {
   createServerSupabaseClient,
@@ -11,13 +10,7 @@ import {
 import { nanoid } from "@/lib/utils"
 import { getEmbeddings } from "@/lib/utils/embeddings"
 
-const openai1 = new OpenAI()
-
-// Create an OpenAI API client (that's edge friendly!)
-const config = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-})
-const openai = new OpenAIApi(config)
+const openai = new OpenAI()
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = "edge"
@@ -83,7 +76,7 @@ export async function POST(req: Request) {
     }
 
     const prompt = stripIndent`${oneLine`
-      You are a very enthusiastic knowledgeable Irish lawyer who has trained to the highest level in the law and in Ireland.
+      You are a very enthusiastic knowledgeable Irish lawyer who has trained to the highest level in the law in Ireland.
       Quote from the given sections and context where applicable. 
       Only give short quoted text at any one time. Explain the quoted text in your own words.
       Given the following sections from context, answer the question using only that information, outputted in markdown format. 
@@ -96,23 +89,40 @@ export async function POST(req: Request) {
       ${currentMessageContent}
       """
 
-      Answer as markdown (including related quoted text as code if available):
+      Answer as markdown (including related quoted text as blockquotes if available):
     `
-
-    const response = await openai.createChatCompletion({
-      // model: "gpt-3.5-turbo",
-      // model: "gpt-4",
-      // model: "gpt-4-0613",
+    const response = await openai.chat.completions.create({
       model: "gpt-4-1106-preview",
-      // model: "gpt-3.5-turbo-1106",
-      // model: "gpt-3.5-turbo-16k-0613",
+      temperature: 0.1,
       stream: true,
-      temperature: 0,
-      messages: messages.map((message: any) => ({
-        content: prompt,
-        role: message.role,
-      })),
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful assistant with a high level of intelligence. You are a very knowledgeable Irish lawyer who is trained to the highest level in the law.",
+        },
+        {
+          role: "user",
+          content: `${prompt}`,
+        },
+      ],
     })
+    // console.log("🚀 ~ POST ~ resp1:", resp1.choices[0]?.message.content)
+
+    // const response1 = await openai.createChatCompletion({
+    //   // model: "gpt-3.5-turbo",
+    //   // model: "gpt-4",
+    //   // model: "gpt-4-0613",
+    //   model: "gpt-4-1106-preview",
+    //   // model: "gpt-3.5-turbo-1106",
+    //   // model: "gpt-3.5-turbo-16k-0613",
+    //   stream: true,
+    //   temperature: 0,
+    //   messages: messages.map((message: any) => ({
+    //     content: prompt,
+    //     role: message.role,
+    //   })),
+    // })
 
     const stream = OpenAIStream(response, {
       // This callback is called when the completion is ready
