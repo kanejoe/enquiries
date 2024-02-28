@@ -298,3 +298,32 @@ export async function insertChatQueries(payload: {
 
   return data
 }
+
+/**
+ * Retrieves a chat query from the "chat_queries" table by its message_id.
+ * @param message_id The message_id of the chat query to retrieve.
+ * @returns A promise that resolves to the retrieved chat query, or null if not found.
+ * @throws If an error occurs during the retrieval process.
+ */
+export async function getChatQueryByMessageId(
+  message_id: ChatQueriesTable["message_id"]
+): Promise<ChatQueriesTable | null> {
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data: chatQuery } = await supabase
+      .from("chatqueries")
+      .select("*")
+      .eq("message_id", message_id)
+      .single()
+    return chatQuery
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error:", error.message)
+      throw new Error(error.message)
+    } else {
+      console.error("An unknown error occurred:", error)
+      throw new Error("An unknown error occurred")
+    }
+  }
+}

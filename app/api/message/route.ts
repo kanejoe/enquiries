@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server"
+import { oneLine, stripIndent } from "common-tags"
+import OpenAI from "openai"
 
 import { insertChatQueries } from "@/lib/supabase-funcs/supabase.server"
+
+const openai = new OpenAI()
 
 const payload = {
   message_id: "dK6bEyB",
@@ -22,6 +26,31 @@ const payload = {
 }
 
 export async function GET(request: Request) {
-  await insertChatQueries(payload)
-  return NextResponse.json({ payload }, { status: 200 })
+  // await insertChatQueries(payload)
+  const question =
+    "what are the land registry fees for a transfer where the consideration is €350,000 and for a subdivision and a mortgage."
+  const prompt = stripIndent`
+            summarize in 15 words or less the following text:
+            ${question}
+            so it can be used as a title or headline text.
+          `
+
+  const titleResponse = await openai.chat.completions.create({
+    model: "gpt-4-1106-preview",
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a helpful assistant with a high level of intelligence.",
+      },
+      {
+        role: "user",
+        content: `${prompt}`,
+      },
+    ],
+  })
+
+  const title = titleResponse.choices[0]?.message.content
+
+  return NextResponse.json({ title }, { status: 200 })
 }

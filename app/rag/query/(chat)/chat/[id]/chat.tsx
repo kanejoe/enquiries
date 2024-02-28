@@ -14,9 +14,10 @@ import { ChatScrollAnchor } from "./chat-scroll-anchor"
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[]
   id?: string
+  title?: string
 }
 
-export function Chat({ id, initialMessages, className }: ChatProps) {
+export function Chat({ id, initialMessages, title, className }: ChatProps) {
   const path = usePathname()
 
   const { messages, append, setInput, isLoading, reload, input, stop } =
@@ -44,7 +45,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
       <div className={cn("pb-[200px] pt-4 md:pt-10")}>
         {messages.length ? (
           <>
-            <ChatList messages={messages} />
+            <ChatList messages={messages} title={title} />
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (

@@ -1,6 +1,7 @@
 import { Message, OpenAIStream, StreamingTextResponse } from "ai"
 import { oneLine, stripIndent } from "common-tags"
 import GPT3Tokenizer from "gpt3-tokenizer"
+import OpenAI from "openai"
 import { Configuration, OpenAIApi } from "openai-edge"
 
 import {
@@ -9,6 +10,8 @@ import {
 } from "@/lib//supabase-funcs/supabase.server"
 import { nanoid } from "@/lib/utils"
 import { getEmbeddings } from "@/lib/utils/embeddings"
+
+const openai1 = new OpenAI()
 
 // Create an OpenAI API client (that's edge friendly!)
 const config = new Configuration({
@@ -114,7 +117,18 @@ export async function POST(req: Request) {
     const stream = OpenAIStream(response, {
       // This callback is called when the completion is ready
       onCompletion: async (completion: string) => {
-        const title = messages[0]?.content.substring(0, 100) ?? ""
+        const titleResponse = await openai1.completions.create({
+          model: "gpt-4-1106-preview",
+          prompt: stripIndent`
+            summarize in 30 words or less the following text:
+            ${messages[0]?.content}
+            so it can be used as a title or headline text.
+          `,
+          max_tokens: 40,
+          temperature: 0,
+        })
+
+        const title = await getGetTitleSummary(messages[0]?.content || "")
         const message_id = id ?? nanoid()
         const path = `/query/${message_id}`
 
@@ -141,4 +155,40 @@ export async function POST(req: Request) {
     console.log("🚀 ~ POST ~ e:", JSON.stringify(e))
     throw e
   }
+}
+
+/**
+ * Retrieves a summarized title or headline text for the given question.
+ *
+ * @param question - The text to be summarized.
+ * @returns A Promise that resolves to a string representing the summarized title or headline text.
+ */
+export async function getGetTitleSummary(question: string): Promise<string> {
+  const openai = new OpenAI()
+
+  const prompt = stripIndent`
+            summarize in 15 words or less the following text:
+            ${question}
+            so it can be used as a title or headline text.
+          `
+
+  const titleResponse = await openai.chat.completions.create({
+    model: "gpt-4-1106-preview",
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a helpful assistant with a high level of intelligence.",
+      },
+      {
+        role: "user",
+        content: `${prompt}`,
+      },
+    ],
+  })
+
+  const title =
+    titleResponse.choices[0]?.message.content ?? question.substring(0, 100)
+
+  return title
 }

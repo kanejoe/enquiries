@@ -2409,17 +2409,17 @@
   dependencies:
     "@tanstack/query-core" "5.24.1"
 
-"@tanstack/react-table@8.12.0":
-  version "8.12.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.12.0.tgz#069210657f9f6c6c17584cc955a8ebb25b8642f8"
-  integrity sha512-LlEQ1Gpz4bfpiET+qmle4BhKDgKN3Y/sssc+O/wLqX8HRtjV+nhusYbllZlutZfMR8oeef83whKTj/VhaV8EeA==
+"@tanstack/react-table@8.13.0":
+  version "8.13.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.13.0.tgz#9b9cb19ac500989e8f7cc7661e8356976e6b9678"
+  integrity sha512-wUB6SGQS70SzSczInfiIuCRjGBDcqqMtgIp75fscHWkH8hSKLkuWLCDC5V5or57UrLew1WD1YyY+XheistAZNQ==
   dependencies:
-    "@tanstack/table-core" "8.12.0"
+    "@tanstack/table-core" "8.13.0"
 
-"@tanstack/table-core@8.12.0":
-  version "8.12.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.12.0.tgz#ada34e17ca761fed99353b48e8cb7deacc971025"
-  integrity sha512-cq/ylWVrOwixmwNXQjgZaQw1Izf7+nPxjczum7paAnMtwPg1S2qRAJU+Jb8rEBUWm69voC/zcChmePlk2hc6ug==
+"@tanstack/table-core@8.13.0":
+  version "8.13.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.13.0.tgz#976b51166ece836c1c1c91b77324425f5e8964ac"
+  integrity sha512-/OU4oWkrhSDeOTtt8CNq8XZQ3eS86rCJvCZD3ev7XIdXtKo0LOGp9hLqoYeaPgDNW7D/WXP2IHAA1hRVFICF5A==
 
 "@testing-library/dom@^9.0.0":
   version "9.3.4"
@@ -3042,10 +3042,10 @@ agentkeepalive@^4.2.1:
   dependencies:
     humanize-ms "^1.2.1"
 
-ai@2.2.36:
-  version "2.2.36"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.36.tgz#3791f0bec00021990ab8e78a4c7e4b5ff7161bd1"
-  integrity sha512-QX3ZXgHjn4cQ233PHne1m7ZP+nfP93CkDEgNCIxuiDp+mhLEIEV10F1Qk3NozJ8mmSoyIJR82ea16kMZKOi8hw==
+ai@2.2.37:
+  version "2.2.37"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-2.2.37.tgz#49bae60229937bde351d72d3ff721ccb8060edb2"
+  integrity sha512-JIYm5N1muGVqBqWnvkt29FmXhESoO5TcDxw74OE41SsM+uIou6NPDDs0XWb/ABcd1gmp6k5zym64KWMPM2xm0A==
   dependencies:
     eventsource-parser "1.0.0"
     nanoid "3.3.6"
