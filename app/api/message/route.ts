@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server"
 
+import { insertChatQueries } from "@/lib/supabase-funcs/supabase.server"
+
 const payload = {
   message_id: "dK6bEyB",
   title:
     "what are the land registry fees for a transfer where the consideration is €350,000 and for a subdivi",
-  createdAt: 1709070025769,
   path: "/query/dK6bEyB",
   messages: [
     {
       role: "user",
       content:
-        "what are the land registry fees for a transfer where the consideration is €350,000 and for a subdivision and a mortgage.",
+        "what is the land registry fee for a transfer where the consideration is €350,000 and for a subdivision and a mortgage.",
     },
     {
       content:
@@ -21,5 +22,6 @@ const payload = {
 }
 
 export async function GET(request: Request) {
+  await insertChatQueries(payload)
   return NextResponse.json({ payload }, { status: 200 })
 }

@@ -272,7 +272,6 @@ export async function insertEmbeddings(
 export async function insertChatQueries(payload: {
   message_id: string
   title: string
-  createdAt: number
   path: string
   messages: {
     role: string
@@ -281,16 +280,20 @@ export async function insertChatQueries(payload: {
 }): Promise<ChatQueriesTable> {
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
-    .from("chat_queries")
+    .from("chatqueries")
     .insert([{ ...payload }])
+    .select()
+    .single()
 
   if (error) {
-    console.log("🚀 ~ error:", error)
+    console.log("🚀 ~ error:", error.message)
+    console.log("🚀 ~ error:", error.code)
+    // console.log("🚀 ~ error:", error.details)
     throw new Error(error.message)
   }
 
   if (!data) {
-    throw new Error("Failed to save chat query")
+    throw new Error("Failed to save chat query (no data returned).")
   }
 
   return data

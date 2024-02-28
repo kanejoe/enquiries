@@ -116,13 +116,11 @@ export async function POST(req: Request) {
       onCompletion: async (completion: string) => {
         const title = messages[0]?.content.substring(0, 100) ?? ""
         const message_id = id ?? nanoid()
-        const createdAt = Date.now()
         const path = `/query/${message_id}`
 
         const payload = {
           message_id,
           title,
-          createdAt,
           path,
           messages: [
             ...messages,
@@ -133,8 +131,8 @@ export async function POST(req: Request) {
           ],
         }
 
-        console.log("🚀 ~ POST ~ payload:", JSON.stringify(payload))
-        // await insertChatQueries(payload)
+        // console.log("🚀 ~ POST ~ payload:", JSON.stringify(payload))
+        await insertChatQueries(payload)
       },
     })
     // Respond with the stream
