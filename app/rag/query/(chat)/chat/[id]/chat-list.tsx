@@ -18,7 +18,7 @@ export function ChatList({ messages, title }: ChatList) {
   return (
     <div className="relative mx-auto max-w-2xl px-12">
       {title ? (
-        <h2 className="-ml-2 mb-8 line-clamp-1 font-albertsans text-lg font-semibold">
+        <h2 className="-ml-2 mb-8 line-clamp-2 font-albertsans text-lg font-semibold">
           <MessageSquareQuote className="mr-4 inline-block size-6" />
           {title}
         </h2>

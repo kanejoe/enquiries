@@ -117,36 +117,29 @@ export async function POST(req: Request) {
     const stream = OpenAIStream(response, {
       // This callback is called when the completion is ready
       onCompletion: async (completion: string) => {
-        const titleResponse = await openai1.completions.create({
-          model: "gpt-4-1106-preview",
-          prompt: stripIndent`
-            summarize in 30 words or less the following text:
-            ${messages[0]?.content}
-            so it can be used as a title or headline text.
-          `,
-          max_tokens: 40,
-          temperature: 0,
-        })
+        try {
+          const title = await getGetTitleSummary(messages[0]?.content || "")
+          const message_id = id ?? nanoid()
+          const path = `/query/${message_id}`
 
-        const title = await getGetTitleSummary(messages[0]?.content || "")
-        const message_id = id ?? nanoid()
-        const path = `/query/${message_id}`
+          const payload = {
+            message_id,
+            title,
+            path,
+            messages: [
+              ...messages,
+              {
+                content: completion,
+                role: "assistant",
+              },
+            ],
+          }
 
-        const payload = {
-          message_id,
-          title,
-          path,
-          messages: [
-            ...messages,
-            {
-              content: completion,
-              role: "assistant",
-            },
-          ],
+          await insertChatQueries(payload)
+        } catch (error) {
+          console.log("🚀 ~ POST ~ error:", JSON.stringify(error))
+          // throw error
         }
-
-        // console.log("🚀 ~ POST ~ payload:", JSON.stringify(payload))
-        await insertChatQueries(payload)
       },
     })
     // Respond with the stream
@@ -167,28 +160,35 @@ export async function getGetTitleSummary(question: string): Promise<string> {
   const openai = new OpenAI()
 
   const prompt = stripIndent`
-            summarize in 15 words or less the following text:
+            summarize in 10 words or less the following text:
             ${question}
             so it can be used as a title or headline text.
           `
 
-  const titleResponse = await openai.chat.completions.create({
-    model: "gpt-4-1106-preview",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a helpful assistant with a high level of intelligence.",
-      },
-      {
-        role: "user",
-        content: `${prompt}`,
-      },
-    ],
-  })
+  try {
+    const titleResponse = await openai.chat.completions.create({
+      model: "gpt-4-1106-preview",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful assistant with a high level of intelligence.",
+        },
+        {
+          role: "user",
+          content: `${prompt}`,
+        },
+      ],
+    })
 
-  const title =
-    titleResponse.choices[0]?.message.content ?? question.substring(0, 100)
+    const title =
+      titleResponse.choices[0]?.message.content ?? question.substring(0, 100)
 
-  return title
+    return title
+  } catch (error) {
+    // Handle the error here
+    console.error(error)
+    return question.substring(0, 100)
+    // throw error
+  }
 }

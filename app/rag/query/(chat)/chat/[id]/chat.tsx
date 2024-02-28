@@ -19,6 +19,7 @@ export interface ChatProps extends React.ComponentProps<"div"> {
 
 export function Chat({ id, initialMessages, title, className }: ChatProps) {
   const path = usePathname()
+  const router = useRouter()
 
   const { messages, append, setInput, isLoading, reload, input, stop } =
     useChat({
@@ -34,8 +35,11 @@ export function Chat({ id, initialMessages, title, className }: ChatProps) {
       },
       onFinish(message) {
         console.log("🚀 ~ onFinish ~ message:", message)
-        if (!path.includes("chat")) {
-          window.history.pushState({}, "", `/rag/query/chat/${id}`)
+        console.log(path)
+        if (id && !path.includes(id)) {
+          console.log("🚀 ~ onFinish ~ id:", id)
+          // window.history.pushState({}, "", `/rag/query/chat/${id}`)
+          router.push(`/rag/query/chat/${id}`)
         }
       },
     })
