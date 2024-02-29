@@ -327,3 +327,55 @@ export async function getChatQueryByMessageId(
     }
   }
 }
+
+/**
+ * Retrieves all chats from the "chatqueries" table.
+ * @returns A promise that resolves to an array of all chats.
+ * @throws If an error occurs during the retrieval process.
+ */
+export async function getAllChats(): Promise<ChatQueriesTable[]> {
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data: chats } = await supabase.from("chatqueries").select("*")
+    return chats || []
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error:", error.message)
+      throw new Error(error.message)
+    } else {
+      console.error("An unknown error occurred:", error)
+      throw new Error("An unknown error occurred")
+    }
+  }
+}
+
+/**
+ * Removes a chat query from the "chat_queries" table by its ID.
+ * @param id The ID of the chat query to remove.
+ * @returns A promise that resolves to true if the chat query was successfully removed, or false if not found.
+ * @throws If an error occurs during the removal process.
+ */
+export async function removeChatQueryById(
+  id: ChatQueriesTable["id"]
+): Promise<boolean> {
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data } = await supabase.from("chatqueries").delete().eq("id", id)
+
+    if (data && (data as unknown as any[]).length > 0) {
+      return true
+    } else {
+      return false
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error:", error.message)
+      throw new Error(error.message)
+    } else {
+      console.error("An unknown error occurred:", error)
+      throw new Error("An unknown error occurred")
+    }
+  }
+}

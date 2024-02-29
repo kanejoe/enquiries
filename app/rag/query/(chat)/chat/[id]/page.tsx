@@ -6,6 +6,7 @@ import { getChatQueryByMessageId } from "@/lib/supabase-funcs/supabase.server"
 import { Spinner } from "@/components/Spinner"
 
 import { Chat } from "./chat"
+import { ChatHistory } from "./chat-history"
 
 export interface ChatPageProps {
   params: {
@@ -29,6 +30,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
         initialMessages={messages}
         title={chat.title}
       />
+      <ChatHistory />
     </Suspense>
   )
 }

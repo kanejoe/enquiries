@@ -18,6 +18,7 @@ export const runtime = "edge"
 export async function POST(req: Request) {
   // Create a Supabase client
   const supabaseClient = createServerSupabaseClient()
+
   try {
     const { id, messages } = (await req.json()) as {
       messages: Message[]
@@ -34,8 +35,7 @@ export async function POST(req: Request) {
 
     const { data: documents } = await supabaseClient.rpc("match_documents", {
       query_embedding: query_embedding,
-      // match_threshold: 0.78, // Choose an appropriate threshold for your data - 78 percent is a good starting point
-      match_threshold: 0.02,
+      match_threshold: 0.02, // Choose an appropriate threshold for your data - 78 percent is a good starting point
       match_count: 6,
     })
     if (!documents) {
@@ -64,7 +64,6 @@ export async function POST(req: Request) {
         const content = document?.content ?? ""
         const encoded = tokenizer.encode(content)
         tokenCount += encoded.text.length
-        // console.log("🚀 ~ POST ~ tokenCount:", tokenCount)
 
         // Limit context to max 1500 tokens (configurable)
         if (tokenCount > 16000) {

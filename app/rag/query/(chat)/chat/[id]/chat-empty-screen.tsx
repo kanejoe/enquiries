@@ -22,7 +22,7 @@ const exampleMessages = [
   },
   {
     heading: "Voucher query",
-    message: `I have a hotel voucher for €100.  I spent €70 in the hotel, but the management are refusing to give me credit of €30.  They say I have to use it all.  Is this legal? Quote the relevant section in the Act/law, if applicable.`,
+    message: `I have a hotel voucher for €100.  I spent €70 in the hotel, but the management are refusing to give me credit of €30.  They say I have to use it all.  Is this legal? Quote the relevant section in the Act/law and give the full title of the Act, if applicable.`,
   },
 ]
 
