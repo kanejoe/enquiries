@@ -80,6 +80,7 @@ export async function POST(req: Request) {
       Quote from the given sections and context where applicable. 
       Only give short quoted text at any one time. Explain the quoted text in your own words.
       Given the following sections from context, answer the question using only that information, outputted in markdown format. 
+      Quote Acts or Statute where applicable.
       If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I can't find any information on that."`}
 
       Context sections:
@@ -107,22 +108,13 @@ export async function POST(req: Request) {
         },
       ],
     })
-    // console.log("🚀 ~ POST ~ resp1:", resp1.choices[0]?.message.content)
 
-    // const response1 = await openai.createChatCompletion({
-    //   // model: "gpt-3.5-turbo",
-    //   // model: "gpt-4",
-    //   // model: "gpt-4-0613",
-    //   model: "gpt-4-1106-preview",
-    //   // model: "gpt-3.5-turbo-1106",
-    //   // model: "gpt-3.5-turbo-16k-0613",
-    //   stream: true,
-    //   temperature: 0,
+    // TODO: Make sure that the messages are mapped through correctly
+
     //   messages: messages.map((message: any) => ({
     //     content: prompt,
     //     role: message.role,
     //   })),
-    // })
 
     const stream = OpenAIStream(response, {
       // This callback is called when the completion is ready

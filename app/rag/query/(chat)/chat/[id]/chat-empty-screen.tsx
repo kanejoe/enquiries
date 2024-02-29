@@ -20,12 +20,16 @@ const exampleMessages = [
     heading: "Ask a question on PRA fees",
     message: `what are the land registry fees for a transfer where the consideration is €350,000 and with a subdivision, a mortgage/charge and a certified copy folio.`,
   },
+  {
+    heading: "Voucher query",
+    message: `I have a hotel voucher for €100.  I spent €70 in the hotel, but the management are refusing to give me credit of €30.  They say I have to use it all.  Is this legal? Quote the relevant section in the Act/law, if applicable.`,
+  },
 ]
 
 export function EmptyScreen({ setInput }: Pick<UseChatHelpers, "setInput">) {
   return (
     <div className="mx-auto max-w-2xl px-4 font-albertsans">
-      <div className="rounded-lg border bg-background p-8">
+      <div className="rounded-lg border bg-background p-8 shadow-lg">
         <h1 className="mb-2  text-lg font-semibold">Documents AI Chatbot</h1>
         <p className="leading-normal text-muted-foreground">
           You can start a conversation here or try the following examples:
