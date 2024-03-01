@@ -9,8 +9,9 @@ import {
 } from "@/lib/supabase-funcs/supabase.server"
 import { getFileExtension } from "@/lib/utils"
 import { getEmbeddings } from "@/lib/utils/embeddings"
+import { LoadAndParsePdf } from "@/lib/utils/parse-load-pdf"
 
-import { ParsePdf } from "./docParser"
+// import { ParsePdf } from "./docParser"
 
 type TDocumentId = Tables<"documents">["id"]
 
@@ -35,7 +36,7 @@ export async function parseFile(document: Tables<"documents">) {
 
   const file = await getFileByStorageObjectPath(doc.storage_object_path)
   // const fileType = getFileExtension(file.type)
-  const parsedDoc = await ParsePdf(file, doc.id)
+  const parsedDoc = await LoadAndParsePdf(file, doc.id)
 
   // let parsedDoc
   // if (fileType === "pdf") {
