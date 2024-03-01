@@ -6,12 +6,11 @@ import remarkGfm from "remark-gfm"
 
 import { IconOpenAI, IconUser } from "@/lib/components/ui/Icons"
 import { cn } from "@/lib/utils"
-
-import { ChatMessageActions } from "./chat-message-actions"
-import { CustomBlockquote } from "./CustomBlockQuote"
-import { CustomCodeBlock } from "./CustomCodeBlock"
-import { renderers } from "./CustomRenderers"
-import { MemoizedReactMarkdown } from "./markdown"
+import { ChatMessageActions } from "@/components/chat/chat-message-actions"
+import { CustomBlockquote } from "@/components/chat/CustomBlockQuote"
+import { CustomCodeBlock } from "@/components/chat/CustomCodeBlock"
+import { renderers } from "@/components/chat/CustomRenderers"
+import { MemoizedReactMarkdown } from "@/components/chat/markdown"
 
 export interface ChatMessageProps {
   message: Message

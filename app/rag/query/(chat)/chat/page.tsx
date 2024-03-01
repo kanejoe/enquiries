@@ -1,8 +1,7 @@
 // "use client"
 
 import { nanoid } from "@/lib/utils"
-
-import { Chat } from "./[id]/chat"
+import { Chat } from "@/components/chat/chat-intro"
 
 export default function IndexPage() {
   const id = nanoid()

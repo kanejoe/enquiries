@@ -1,16 +1,25 @@
 import { Suspense } from "react"
+import { type Metadata } from "next"
 import { notFound, redirect } from "next/navigation"
 import { type Message } from "ai"
 
 import { getChatQueryByMessageId } from "@/lib/supabase-funcs/supabase.server"
+import { ChatHistory } from "@/components/chat/chat-history"
+import { Chat } from "@/components/chat/chat-intro"
 import { Spinner } from "@/components/Spinner"
-
-import { Chat } from "./chat"
-import { ChatHistory } from "./chat-history"
 
 export interface ChatPageProps {
   params: {
     id: string
+  }
+}
+
+export async function generateMetadata({
+  params,
+}: ChatPageProps): Promise<Metadata> {
+  const chat = await getChatQueryByMessageId(params.id)
+  return {
+    title: chat?.title ?? "Chat",
   }
 }
 

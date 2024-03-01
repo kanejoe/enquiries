@@ -37,9 +37,8 @@ export function Chat({ id, initialMessages, title, className }: ChatProps) {
         console.log("🚀 ~ onFinish ~ message:", message)
         console.log(path)
         if (id && !path.includes(id)) {
-          console.log("🚀 ~ onFinish ~ id:", id)
-          // window.history.pushState({}, "", `/rag/query/chat/${id}`)
-          router.push(`/rag/query/chat/${id}`)
+          window.history.pushState({}, "", `/rag/chat/${id}`)
+          // router.push(`/rag/chat/${id}`)
         }
       },
     })
