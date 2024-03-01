@@ -25,6 +25,7 @@ export async function generateMetadata({
 
 export default async function ChatPage({ params }: ChatPageProps) {
   const chat = await getChatQueryByMessageId(params.id)
+  // console.log("🚀 ~ ChatPage ~ chat:", chat)
 
   if (!chat) {
     notFound()
@@ -39,7 +40,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
         initialMessages={messages}
         title={chat.title}
       />
-      <ChatHistory />
+      {/* <ChatHistory /> */}
     </Suspense>
   )
 }

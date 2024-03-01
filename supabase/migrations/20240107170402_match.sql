@@ -65,7 +65,20 @@ as $$
 $$;
 
 
-
+/**
+ * This SQL function, `match_documents`, is used to find matching documents based on a query embedding.
+ * It takes in a query embedding, match threshold, and match count as parameters.
+ * The function returns a table with the following columns:
+ * - id: The ID of the document section
+ * - document_id: The ID of the document
+ * - content: The content of the document section
+ * - metadata: The metadata of the document section in JSONB format
+ * - similarity: The similarity score between the query embedding and the document section's OpenAI embedding
+ *
+ * The function calculates the similarity score between the query embedding and each document section's OpenAI embedding.
+ * It then filters the results based on the match threshold and returns the top `match_count` matches.
+ * The results are ordered by the similarity score in ascending order.
+ */
 create or replace function match_documents (
   query_embedding vector(1536),
   match_threshold float,
@@ -75,6 +88,7 @@ returns table (
   id bigint,
   document_id bigint,
   content text,
+  metadata jsonb,
   similarity float
 )
 language sql stable
@@ -83,6 +97,7 @@ as $$
     document_sections.id,
     document_sections.document_id,
     document_sections.content,
+    document_sections.metadata,
     document_sections.openai_embedding <#> query_embedding as similarity
   from document_sections
   -- where document_sections.openai_embedding <#> query_embedding > match_threshold

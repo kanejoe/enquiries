@@ -184,12 +184,28 @@ export async function upsertDocumentSections(
 }
 
 /**
+ * Retrieves the name of a document from the "documents" table by its ID.
+ * @param id The ID of the document to retrieve the name for.
+ * @returns A promise that resolves to the name of the document, or null if not found.
  * Retrieves document sections from the "document_sections" table by document ID.
- *
- * @param document_id - The ID of the document.
- * @returns A promise that resolves to the retrieved document sections.
- * @throws Error if an error occurs during the retrieval process.
  */
+export async function getDocumentNameById(id: DocumentsTable["id"]): Promise<string | null> {
+  const supabase = createServerSupabaseClient();
+
+  try {
+    const { data: document } = await supabase
+      .from("documents")
+      .select("name")
+      .eq("id", id)
+      .single();
+    return document?.name || null;
+  } catch (error: unknown) {
+    if (error instanceof Error) { /* Handle error */ }
+    return null;
+  }
+}
+
+
 export async function getDocumentSectionsByDocumentId(
   document_id: Tables<"document_sections">["document_id"]
 ) {

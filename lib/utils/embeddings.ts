@@ -1,9 +1,4 @@
-import { OpenAIEmbeddings } from "@langchain/openai"
 import OpenAI from "openai"
-
-const embeddings = new OpenAIEmbeddings({
-  modelName: "text-embedding-3-small",
-})
 
 // Define the function to fetch embeddings
 /**

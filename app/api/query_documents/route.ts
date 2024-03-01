@@ -5,6 +5,7 @@ import OpenAI from "openai"
 
 import {
   createServerSupabaseClient,
+  getDocumentNameById,
   insertChatQueries,
 } from "@/lib//supabase-funcs/supabase.server"
 import { nanoid } from "@/lib/utils"
@@ -27,6 +28,7 @@ export async function POST(req: Request) {
     // console.log("🚀 ~ POST ~ messages:", messages)
     const currentMessageContent =
       (messages && messages[messages.length - 1]?.content) || ""
+    // console.log("🚀 ~ POST ~ currentMessageContent:", currentMessageContent)
 
     if (!currentMessageContent) {
       throw new Error("No message content provided")
@@ -38,41 +40,33 @@ export async function POST(req: Request) {
       match_threshold: 0.02, // Choose an appropriate threshold for your data - 78 percent is a good starting point
       match_count: 6,
     })
+
     if (!documents) {
       throw new Error("No documents found")
     }
 
+    const extendedDocuments = await Promise.all(
+      documents.map(async (doc: any) => {
+        return {
+          ...doc,
+          document_name: await getDocumentNameById(doc.document_id),
+        }
+      })
+    )
+
     // console.log(
     //   "🚀 ~ POST ~ documents:",
-    //   documents?.map((doc: any) => {
+    //   extendedDocuments?.map((doc: any) => {
     //     return {
     //       id: doc.id,
     //       similarity: doc.similarity,
     //       document_id: doc.document_id,
+    //       document_name: doc.document_name,
     //     }
     //   })
     // )
 
-    const tokenizer = new GPT3Tokenizer({ type: "gpt3" })
-    let tokenCount = 0
-    let contextText = ""
-
-    // Concat matched documents
-    if (documents) {
-      for (let i = 0; i < documents.length; i++) {
-        const document = documents[i]
-        const content = document?.content ?? ""
-        const encoded = tokenizer.encode(content)
-        tokenCount += encoded.text.length
-
-        // Limit context to max 1500 tokens (configurable)
-        if (tokenCount > 16000) {
-          break
-        }
-
-        contextText += `${content?.trim()}\n---\n`
-      }
-    }
+    const contextText = getContextTextWithLimit(extendedDocuments)
 
     const prompt = stripIndent`${oneLine`
       You are a very enthusiastic knowledgeable Irish lawyer who has trained to the highest level in the law in Ireland.
@@ -89,17 +83,21 @@ export async function POST(req: Request) {
       ${currentMessageContent}
       """
 
-      Answer as markdown (including related quoted text as blockquotes if available):
+      Answer as markdown (including related quoted text as blockquotes and not codeblocks).
     `
+
     const response = await openai.chat.completions.create({
       model: "gpt-4-1106-preview",
-      temperature: 0.1,
+      temperature: 0,
       stream: true,
       messages: [
         {
           role: "system",
-          content:
-            "You are a helpful assistant with a high level of intelligence. You are a very knowledgeable Irish lawyer who is trained to the highest level in the law.",
+          content: `
+            You are a helpful assistant with a high level of intelligence. 
+            You are a very knowledgeable Irish lawyer who is trained to the highest level in the law.
+            Reference the source documents in your response.
+          `,
         },
         {
           role: "user",
@@ -121,7 +119,7 @@ export async function POST(req: Request) {
         try {
           const title = await getGetTitleSummary(messages[0]?.content || "")
           const message_id = id ?? nanoid()
-          const path = `/query/${message_id}`
+          const path = `/chat/${message_id}`
 
           const payload = {
             message_id,
@@ -192,4 +190,37 @@ export async function getGetTitleSummary(question: string): Promise<string> {
     return question.substring(0, 100)
     // throw error
   }
+}
+
+/**
+ * Concatenates the content of matched documents up to a specified token limit.
+ *
+ * @param documents - An array of documents to concatenate.
+ * @param LIMIT - The maximum number of tokens allowed in the concatenated text. Defaults to 16000.
+ * @returns The concatenated text of the matched documents, limited by the specified token count.
+ */
+function getContextTextWithLimit(documents: any, LIMIT: number = 16000) {
+  const tokenizer = new GPT3Tokenizer({ type: "gpt3" })
+  let tokenCount = 0
+  let contextText = ""
+
+  // Concat matched documents
+  if (documents) {
+    for (let i = 0; i < documents.length; i++) {
+      const document = documents[i]
+      const content =
+        `${document?.content} [Source: ${document.document_id} - ${document.document_name}]` ??
+        ""
+      const encoded = tokenizer.encode(content)
+      tokenCount += encoded.text.length
+
+      // Limit context to max 1500 tokens (configurable)
+      if (tokenCount > LIMIT) {
+        break
+      }
+
+      contextText += `${content?.trim()}\n---\n`
+    }
+  }
+  return contextText
 }
