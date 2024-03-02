@@ -11,6 +11,7 @@ export interface ChatList {
 }
 
 export function ChatList({ messages, title }: ChatList) {
+  // console.log("🚀 ~ ChatList ~ messages:", messages)
   if (!messages.length) {
     return null
   }
@@ -23,6 +24,7 @@ export function ChatList({ messages, title }: ChatList) {
           {title}
         </h2>
       ) : null}
+
       {messages.map((message, index) => (
         <div key={index}>
           <ChatMessage message={message} />
