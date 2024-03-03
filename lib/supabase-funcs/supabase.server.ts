@@ -1,3 +1,4 @@
+
 import { cache } from "react"
 import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
@@ -504,4 +505,77 @@ export async function getChatQueryIdByMessageId(
   }
 
   return undefined
+}
+
+/**
+ * Creates a signed URL for a file in the Supabase storage.
+ * @param storage_object_path The path of the file in the storage.
+ * @param expiresIn The expiration time of the signed URL in seconds.
+ * @returns A promise that resolves to the signed URL.
+ * @throws If an error occurs during the creation of the signed URL.
+ */
+export async function createSignedUrl(
+  storage_object_path: StorageView["storage_object_path"],
+  expiresIn: number = 60
+): Promise<string> {
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data, error } = await supabase.storage
+      .from("files")
+      .createSignedUrl(storage_object_path || "", expiresIn)
+
+    if (error) {
+      throw new Error("Failed to create signed URL")
+    }
+
+    return data.signedUrl
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw error
+    }
+    throw new Error(
+      "An unknown error occurred during the creation of the signed URL."
+    )
+  }
+}
+
+/**
+ * Retrieves the storage object path from the Supabase server using the provided storage object ID.
+ *
+ * @param storage_object_id - The ID of the storage object.
+ * @returns A promise that resolves to the storage object path if found, or null if not found.
+ * @throws Error if the storage_object_id is invalid or if an error occurs during the retrieval process.
+ */
+export async function getStoragePathByObjectId(
+  storage_object_id: StorageView["storage_object_id"]
+): Promise<StorageView["storage_object_path"] | null> {
+  if (storage_object_id === null) {
+    return null
+  }
+
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data, error } = await supabase
+      .from("storage_objects")
+      .select("storage_object_path")
+      .eq("id", storage_object_id)
+      .single()
+
+    if (error) {
+      throw new Error(`Error retrieving storage object path: ${error.message}`)
+    }
+
+    return data?.storage_object_path || null
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(
+        `An error occurred during the retrieval of the storage object path: ${error.message}`
+      )
+    }
+    throw new Error(
+      "An unknown error occurred during the retrieval of the storage object path."
+    )
+  }
 }

@@ -2,6 +2,7 @@ import { Database } from "@/supabase/functions/_lib/database"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { format as formatD } from "date-fns"
 
+import { getFileExtension, getIconForFileType } from "@/lib/fileIcons"
 import { Badge } from "@/components/ui/badge"
 import {
   Table,
@@ -11,8 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-import { getFileExtension, getIconForFileType } from "../../../lib/fileIcons"
 
 type Views<T extends keyof Database["public"]["Views"]> =
   Database["public"]["Views"][T]["Row"]

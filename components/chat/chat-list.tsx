@@ -21,7 +21,7 @@ export function ChatList({ messages, title, sources }: ChatList) {
     <div className="relative mx-auto max-w-2xl px-12">
       {title ? (
         <h2 className="-ml-2 mb-8 line-clamp-2 flex font-albertsans text-lg font-semibold">
-          <BookType className="mr-6 mt-1.5 inline-block size-7 shrink-0" />
+          <BookType className="mr-6 mt-1 inline-block size-7 shrink-0" />
           <span className="underline decoration-sky-500 underline-offset-2">
             {title}
           </span>
@@ -37,7 +37,7 @@ export function ChatList({ messages, title, sources }: ChatList) {
         </div>
       ))}
 
-      <ChatSourcesList sources={sources} />
+      {sources && sources.length ? <ChatSourcesList sources={sources} /> : null}
     </div>
   )
 }
