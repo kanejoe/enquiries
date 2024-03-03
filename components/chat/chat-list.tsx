@@ -1,5 +1,5 @@
 import { type Message } from "ai"
-import { MessageSquareQuote } from "lucide-react"
+import { BookType, FileText, MessageSquareQuote } from "lucide-react"
 
 import { Separator } from "@/components/ui/separator"
 
@@ -20,9 +20,11 @@ export function ChatList({ messages, title, sources }: ChatList) {
   return (
     <div className="relative mx-auto max-w-2xl px-12">
       {title ? (
-        <h2 className="-ml-2 mb-8 line-clamp-2 font-albertsans text-lg font-semibold">
-          <MessageSquareQuote className="mr-4 inline-block size-6" />
-          {title}
+        <h2 className="-ml-2 mb-8 line-clamp-2 flex font-albertsans text-lg font-semibold">
+          <BookType className="mr-6 mt-1.5 inline-block size-7 shrink-0" />
+          <span className="underline decoration-sky-500 underline-offset-2">
+            {title}
+          </span>
         </h2>
       ) : null}
 
