@@ -138,6 +138,10 @@ export async function POST(req: Request) {
           // Insert chat queries and get the generated chat query ID
           const { id: chatQueryId } = await insertChatQueries(payload)
 
+          if (matchesTarget(completion)) {
+            return
+          }
+
           // Get an array of document section IDs from the extended documents
           const documentSectionIds: number[] = extendedDocuments.map(
             (doc: any) => doc.id
@@ -233,4 +237,12 @@ function getContextTextWithLimit(documents: any, LIMIT: number = 16000) {
     }
   }
   return contextText
+}
+
+function matchesTarget(input: string): boolean {
+  const target = "Sorry, I can't find any information on that"
+  // Normalize both strings: remove punctuation and convert to lower case
+  const normalizeString = (str: string) =>
+    str.replace(/[^\w\s]|_/g, "").toLowerCase()
+  return normalizeString(input) === normalizeString(target)
 }
