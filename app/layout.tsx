@@ -6,6 +6,7 @@ import { GeistSans } from "geist/font/sans"
 
 import { siteConfig } from "@/config/site"
 import { fontAlbertSans, fontMono, fontSans } from "@/lib/fonts"
+// import { SidebarProvider } from "@/lib/hooks/use-sidebar"
 import TanstackProvider from "@/lib/TanstackProviders"
 import { cn } from "@/lib/utils"
 import { Toaster as Sonner } from "@/components/ui/sonner"
@@ -50,9 +51,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {/* <SidebarProvider> */}
             <SiteHeader />
             <TanstackProvider>{children}</TanstackProvider>
             <TailwindIndicator />
+            {/* </SidebarProvider> */}
           </ThemeProvider>
           <Toaster />
           <Sonner richColors />
