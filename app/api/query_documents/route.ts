@@ -7,6 +7,7 @@ import {
   createServerSupabaseClient,
   getDocumentNameById,
   insertChatQueries,
+  insertChatQueryDocumentSections,
 } from "@/lib/supabase-funcs/supabase.server"
 import { nanoid } from "@/lib/utils"
 import { getEmbeddings } from "@/lib/utils/embeddings"
@@ -134,9 +135,18 @@ export async function POST(req: Request) {
             ],
           }
 
-          await insertChatQueries(payload)
+          // Insert chat queries and get the generated chat query ID
+          const { id: chatQueryId } = await insertChatQueries(payload)
+
+          // Get an array of document section IDs from the extended documents
+          const documentSectionIds: number[] = extendedDocuments.map(
+            (doc: any) => doc.id
+          )
+
+          // Insert chat query document sections using the chat query ID and document section IDs
+          await insertChatQueryDocumentSections(chatQueryId, documentSectionIds)
         } catch (error) {
-          console.log("🚀 ~ POST ~ error:", JSON.stringify(error))
+          console.log("🚀 ~ onCompletion: ~ error:", error)
           // throw error
         }
       },

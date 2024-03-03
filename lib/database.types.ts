@@ -653,6 +653,20 @@ export type Database = {
         }
         Returns: undefined
       }
+      get_documents_by_chat_query: {
+        Args: {
+          chat_query_id_param: number
+        }
+        Returns: {
+          document_id: number
+          document_name: string
+          file_extension: string
+          folder_id: number
+          storage_object_id: string
+          created_by: string
+          created_at: string
+        }[]
+      }
       get_documents_by_tag_name: {
         Args: {
           p_tag_name: string

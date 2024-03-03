@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { useChat, type Message } from "ai/react"
 import { toast } from "sonner"
 
+import { Tables } from "@/lib/database.types"
 import { cn } from "@/lib/utils"
 
 import { EmptyScreen } from "./chat-empty-screen"
@@ -15,9 +16,16 @@ export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[]
   id?: string
   title?: string
+  sources?: any
 }
 
-export function Chat({ id, initialMessages, title, className }: ChatProps) {
+export function Chat({
+  id,
+  initialMessages,
+  title,
+  className,
+  sources,
+}: ChatProps) {
   const path = usePathname()
   const router = useRouter()
 
@@ -46,7 +54,7 @@ export function Chat({ id, initialMessages, title, className }: ChatProps) {
       <div className={cn("pb-[200px] pt-4 md:pt-10")}>
         {messages.length ? (
           <>
-            <ChatList messages={messages} title={title} />
+            <ChatList messages={messages} title={title} sources={sources} />
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (

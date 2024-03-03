@@ -3,8 +3,11 @@ import { type Metadata } from "next"
 import { notFound, redirect } from "next/navigation"
 import { type Message } from "ai"
 
-import { getChatQueryByMessageId } from "@/lib/supabase-funcs/supabase.server"
-import { ChatHistory } from "@/components/chat/chat-history"
+import {
+  getChatQueryByMessageId,
+  getChatQueryIdByMessageId,
+  getDocumentsByChatQueryId,
+} from "@/lib/supabase-funcs/supabase.server"
 import { Chat } from "@/components/chat/chat-intro"
 import { Spinner } from "@/components/Spinner"
 
@@ -24,8 +27,13 @@ export async function generateMetadata({
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
-  const chat = await getChatQueryByMessageId(params.id)
-  // console.log("🚀 ~ ChatPage ~ chat:", chat)
+  const chatId = params.id
+  const documentId = await getChatQueryIdByMessageId(chatId)
+
+  const source_documents =
+    (await getDocumentsByChatQueryId(documentId || 0)) || [] // Add null check and provide a default value
+
+  const chat = await getChatQueryByMessageId(chatId)
 
   if (!chat) {
     notFound()
@@ -39,8 +47,8 @@ export default async function ChatPage({ params }: ChatPageProps) {
         id={chat.message_id}
         initialMessages={messages}
         title={chat.title}
+        sources={source_documents}
       />
-      {/* <ChatHistory /> */}
     </Suspense>
   )
 }

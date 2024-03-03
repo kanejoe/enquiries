@@ -9,7 +9,8 @@ type Views<T extends keyof Database["public"]["Views"]> =
 type StorageView = Views<"documents_with_storage_path_and_created_by_email">
 type DocumentsTable = Tables<"documents">
 type DocumentSectionsTable = Tables<"document_sections">
-type chat_queriesTable = Tables<"chat_queries">
+type ChatQueriesTable = Tables<"chat_queries">
+type ChatQueryDocumentSectionTable = Tables<"chat_query_document_section">
 
 export const createServerSupabaseClient = cache(() =>
   createServerComponentClient<Database>({ cookies })
@@ -296,7 +297,7 @@ export async function insertChatQueries(payload: {
     role: string
     content: string
   }[]
-}): Promise<chat_queriesTable> {
+}): Promise<ChatQueriesTable> {
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
     .from("chat_queries")
@@ -325,8 +326,8 @@ export async function insertChatQueries(payload: {
  * @throws If an error occurs during the retrieval process.
  */
 export async function getChatQueryByMessageId(
-  message_id: chat_queriesTable["message_id"]
-): Promise<chat_queriesTable | null> {
+  message_id: ChatQueriesTable["message_id"]
+): Promise<ChatQueriesTable | null> {
   const supabase = createServerSupabaseClient()
 
   try {
@@ -352,7 +353,7 @@ export async function getChatQueryByMessageId(
  * @returns A promise that resolves to an array of all chats.
  * @throws If an error occurs during the retrieval process.
  */
-export async function getAllChats(): Promise<chat_queriesTable[]> {
+export async function getAllChats(): Promise<ChatQueriesTable[]> {
   const supabase = createServerSupabaseClient()
 
   try {
@@ -376,7 +377,7 @@ export async function getAllChats(): Promise<chat_queriesTable[]> {
  * @throws If an error occurs during the removal process.
  */
 export async function removeChatQueryById(
-  id: chat_queriesTable["id"]
+  id: ChatQueriesTable["id"]
 ): Promise<boolean> {
   const supabase = createServerSupabaseClient()
 
@@ -397,4 +398,110 @@ export async function removeChatQueryById(
       throw new Error("An unknown error occurred")
     }
   }
+}
+
+/**
+ * Inserts a record into the "chat_query_document_section" table.
+ * @param chatQueryId The ID of the chat query.
+ * @param documentSectionId The ID of the document section.
+ * @returns A promise that resolves to the inserted record.
+ * @throws If an error occurs during the insertion process.
+ */
+export async function insertChatQueryDocumentSections(
+  chatQueryId: ChatQueriesTable["id"],
+  documentSectionIds: DocumentSectionsTable["id"][]
+): Promise<ChatQueryDocumentSectionTable[]> {
+  const supabase = createServerSupabaseClient()
+
+  // Prepare the linking records
+  const linkingRecords = documentSectionIds.map((id) => ({
+    chat_query_id: chatQueryId,
+    document_section_id: id,
+  }))
+
+  try {
+    const { data, error } = await supabase
+      .from("chat_query_document_section")
+      .insert(linkingRecords)
+      .select()
+
+    if (error) {
+      console.log("🚀 ~ error:", error)
+      throw new Error(error.message)
+    }
+
+    if (!data) {
+      throw new Error(
+        "Failed to insert chat query document section (no data returned)."
+      )
+    }
+
+    return data
+  } catch (error: unknown) {
+    console.log("🚀 ~ error:", error)
+    if (error instanceof Error) {
+      throw error
+    }
+    throw new Error("An unknown error occurred during the insertion process.")
+  }
+}
+
+/**
+ * Retrieves documents by chat query ID using the Supabase RPC.
+ * @param chatQueryId The ID of the chat query.
+ * @returns A promise that resolves to the retrieved documents.
+ * @throws If an error occurs during the retrieval process.
+ */
+export async function getDocumentsByChatQueryId(
+  chatQueryId: ChatQueriesTable["id"]
+) {
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data, error } = await supabase.rpc("get_documents_by_chat_query", {
+      chat_query_id_param: chatQueryId,
+    })
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    if (!data) {
+      throw new Error("No data returned.")
+      return []
+    }
+
+    return data
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error("An unknown error occurred during the retrieval process.")
+    }
+  }
+}
+/**
+ * Retrieves the ID of a chat query from the "chat_queries" table by its message_id.
+ * @param message_id The message_id of the chat query to retrieve.
+ * @returns A promise that resolves to the ID of the chat query, or null if not found.
+ * @throws If an error occurs during the retrieval process.
+ */
+export async function getChatQueryIdByMessageId(
+  message_id: ChatQueriesTable["message_id"]
+): Promise<ChatQueriesTable["id"] | null | undefined> {
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data: chatQuery } = await supabase
+      .from("chat_queries")
+      .select("id")
+      .eq("message_id", message_id)
+      .single()
+    return chatQuery?.id || null
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error:", error.message)
+      throw new Error(error.message)
+    }
+  }
+
+  return undefined
 }

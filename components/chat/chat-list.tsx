@@ -4,14 +4,15 @@ import { MessageSquareQuote } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 
 import { ChatMessage } from "./chat-message"
+import { ChatSourcesList } from "./chat-sources"
 
 export interface ChatList {
   messages: Message[]
   title?: string
+  sources?: any
 }
 
-export function ChatList({ messages, title }: ChatList) {
-  // console.log("🚀 ~ ChatList ~ messages:", messages)
+export function ChatList({ messages, title, sources }: ChatList) {
   if (!messages.length) {
     return null
   }
@@ -33,6 +34,8 @@ export function ChatList({ messages, title }: ChatList) {
           )}
         </div>
       ))}
+
+      <ChatSourcesList sources={sources} />
     </div>
   )
 }
