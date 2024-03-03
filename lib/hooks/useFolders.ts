@@ -3,7 +3,7 @@ import { folder_seed_data } from "@/data/folder_seed_data"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { Database, Tables } from "@/lib/database.types"
+import { Database, Tables } from "@/lib/types/database.types"
 import {
   TFolders,
   type TDocuments,

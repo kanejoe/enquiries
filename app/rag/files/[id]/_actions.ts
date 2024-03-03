@@ -1,12 +1,12 @@
 "use server"
 
-import { Tables } from "@/lib/database.types"
 import {
   createServerSupabaseClient,
   getFileByStorageObjectPath,
   getStoragePathByDocumentId,
   upsertDocumentSections,
 } from "@/lib/supabase-funcs/supabase.server"
+import { Tables } from "@/lib/types/database.types"
 import { getFileExtension } from "@/lib/utils"
 import { LoadAndParsePdf } from "@/lib/utils/parse-load-pdf"
 
@@ -74,4 +74,3 @@ export async function embedXenova(documentId: TDocumentId) {
     throw new Error("Failed to embed document due to an exception") // Ensure failure is propagated
   }
 }
-

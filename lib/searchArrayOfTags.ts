@@ -1,4 +1,4 @@
-import { type Tables } from "@/lib/database.types"
+import { type Tables } from "@/lib/types/database.types"
 
 type TTags = Tables<"tags">
 type TMinimalTag = Pick<TTags, "id" | "tag_name">

@@ -34,10 +34,8 @@ export function Chat({ id, initialMessages, title, className }: ChatProps) {
         }
       },
       onFinish(message) {
-        console.log("🚀 ~ onFinish ~ message:", message)
-        console.log(path)
         if (id && !path.includes(id)) {
-          window.history.pushState({}, "", `/rag/chat/${id}`)
+          window.history.pushState({}, "", `${path}/${id}`)
           // router.push(`/rag/chat/${id}`)
         }
       },

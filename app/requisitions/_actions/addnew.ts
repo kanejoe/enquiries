@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs"
 
-import type { Database } from "@/lib/database.types"
+import type { Database } from "@/lib/types/database.types"
 
 /**
  *

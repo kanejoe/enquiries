@@ -1,6 +1,6 @@
 import { createContext, type Dispatch } from "react"
 
-import { Tables } from "@/lib/database.types"
+import { Tables } from "@/lib/types/database.types"
 
 export type TFolderId = Tables<"folders">["id"]
 

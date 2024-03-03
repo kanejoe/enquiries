@@ -4,8 +4,8 @@ import { useCompletion } from "ai/react"
 import { AnimatePresence, motion } from "framer-motion"
 import { TagsIcon } from "lucide-react"
 
-import { Tables } from "@/lib/database.types"
 import { useFetchDocumentWithTagsById } from "@/lib/hooks/useTags"
+import { Tables } from "@/lib/types/database.types"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {

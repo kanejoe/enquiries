@@ -7,7 +7,7 @@ import {
   createServerSupabaseClient,
   getDocumentNameById,
   insertChatQueries,
-} from "@/lib//supabase-funcs/supabase.server"
+} from "@/lib/supabase-funcs/supabase.server"
 import { nanoid } from "@/lib/utils"
 import { getEmbeddings } from "@/lib/utils/embeddings"
 

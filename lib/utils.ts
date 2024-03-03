@@ -73,3 +73,29 @@ export function getFileExtension(type: string): string {
 export function splitStringBySemicolon(input: string): string[] {
   return input.split(";").map((item) => item.trim())
 }
+
+/**
+ * Sanitizes and formats the input text by replacing newline characters and hyphens with spaces,
+ * and removing consecutive spaces.
+ *
+ * @param inputText - The input text to be sanitized and formatted.
+ * @returns The sanitized and formatted text.
+ */
+export function sanitizeAndFormatText(inputText: string) {
+  // Replace newline characters and hyphens with spaces
+  let formattedText = inputText.replace(/[\n-]/g, " ")
+
+  // Remove consecutive spaces
+  formattedText = formattedText.replace(/\s+/g, " ")
+
+  return formattedText
+}
+
+/**
+ * Delays the execution of a function by the specified number of milliseconds.
+ * @param ms - The number of milliseconds to delay the execution.
+ * @returns A promise that resolves after the specified delay.
+ */
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}

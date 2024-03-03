@@ -9,7 +9,7 @@ type Views<T extends keyof Database["public"]["Views"]> =
 type StorageView = Views<"documents_with_storage_path_and_created_by_email">
 type DocumentsTable = Tables<"documents">
 type DocumentSectionsTable = Tables<"document_sections">
-type ChatQueriesTable = Tables<"chatqueries">
+type chat_queriesTable = Tables<"chat_queries">
 
 export const createServerSupabaseClient = cache(() =>
   createServerComponentClient<Database>({ cookies })
@@ -189,22 +189,25 @@ export async function upsertDocumentSections(
  * @returns A promise that resolves to the name of the document, or null if not found.
  * Retrieves document sections from the "document_sections" table by document ID.
  */
-export async function getDocumentNameById(id: DocumentsTable["id"]): Promise<string | null> {
-  const supabase = createServerSupabaseClient();
+export async function getDocumentNameById(
+  id: DocumentsTable["id"]
+): Promise<string | null> {
+  const supabase = createServerSupabaseClient()
 
   try {
     const { data: document } = await supabase
       .from("documents")
       .select("name")
       .eq("id", id)
-      .single();
-    return document?.name || null;
+      .single()
+    return document?.name || null
   } catch (error: unknown) {
-    if (error instanceof Error) { /* Handle error */ }
-    return null;
+    if (error instanceof Error) {
+      /* Handle error */
+    }
+    return null
   }
 }
-
 
 export async function getDocumentSectionsByDocumentId(
   document_id: Tables<"document_sections">["document_id"]
@@ -293,10 +296,10 @@ export async function insertChatQueries(payload: {
     role: string
     content: string
   }[]
-}): Promise<ChatQueriesTable> {
+}): Promise<chat_queriesTable> {
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
-    .from("chatqueries")
+    .from("chat_queries")
     .insert([{ ...payload }])
     .select()
     .single()
@@ -322,13 +325,13 @@ export async function insertChatQueries(payload: {
  * @throws If an error occurs during the retrieval process.
  */
 export async function getChatQueryByMessageId(
-  message_id: ChatQueriesTable["message_id"]
-): Promise<ChatQueriesTable | null> {
+  message_id: chat_queriesTable["message_id"]
+): Promise<chat_queriesTable | null> {
   const supabase = createServerSupabaseClient()
 
   try {
     const { data: chatQuery } = await supabase
-      .from("chatqueries")
+      .from("chat_queries")
       .select("*")
       .eq("message_id", message_id)
       .single()
@@ -345,15 +348,15 @@ export async function getChatQueryByMessageId(
 }
 
 /**
- * Retrieves all chats from the "chatqueries" table.
+ * Retrieves all chats from the "chat_queries" table.
  * @returns A promise that resolves to an array of all chats.
  * @throws If an error occurs during the retrieval process.
  */
-export async function getAllChats(): Promise<ChatQueriesTable[]> {
+export async function getAllChats(): Promise<chat_queriesTable[]> {
   const supabase = createServerSupabaseClient()
 
   try {
-    const { data: chats } = await supabase.from("chatqueries").select("*")
+    const { data: chats } = await supabase.from("chat_queries").select("*")
     return chats || []
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -373,12 +376,12 @@ export async function getAllChats(): Promise<ChatQueriesTable[]> {
  * @throws If an error occurs during the removal process.
  */
 export async function removeChatQueryById(
-  id: ChatQueriesTable["id"]
+  id: chat_queriesTable["id"]
 ): Promise<boolean> {
   const supabase = createServerSupabaseClient()
 
   try {
-    const { data } = await supabase.from("chatqueries").delete().eq("id", id)
+    const { data } = await supabase.from("chat_queries").delete().eq("id", id)
 
     if (data && (data as unknown as any[]).length > 0) {
       return true

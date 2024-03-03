@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import diacritics from "diacritics"
 import mammoth from "mammoth"
 
-import { Database, Tables } from "@/lib/database.types"
+import { Database, Tables } from "@/lib/types/database.types"
 
 // import { extractTextFromFileBlob } from "@/app/rag/files/[id]/docParser"
 

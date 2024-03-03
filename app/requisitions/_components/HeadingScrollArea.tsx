@@ -4,8 +4,8 @@ import Link from "next/link"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { HeadingRequisition } from "@/types/RequisitionType"
-import { Database } from "@/lib/database.types"
 import { createRequisitionTree, getHeaderNodes } from "@/lib/tree"
+import { Database } from "@/lib/types/database.types"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 

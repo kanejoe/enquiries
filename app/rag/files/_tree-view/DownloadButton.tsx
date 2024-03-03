@@ -3,7 +3,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { ArrowBigDownDash } from "lucide-react"
 
 import { DocumentsType } from "@/types/folders"
-import { Database } from "@/lib/database.types"
+import { Database } from "@/lib/types/database.types"
 import { Button } from "@/components/ui/button"
 import {
   Tooltip,

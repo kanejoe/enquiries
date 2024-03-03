@@ -1,7 +1,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { Database, Tables } from "@/lib/database.types"
+import { Database, Tables } from "@/lib/types/database.types"
 
 import { keys } from "./keys"
 import { TDocuments } from "./useFolders"

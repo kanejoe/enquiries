@@ -34,7 +34,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      chatqueries: {
+      chat_queries: {
         Row: {
           created_at: string
           created_by: string
@@ -64,10 +64,53 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "chatqueries_created_by_fkey"
+            foreignKeyName: "chat_queries_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_query_document_section: {
+        Row: {
+          chat_query_id: number
+          created_at: string
+          created_by: string
+          document_section_id: number
+        }
+        Insert: {
+          chat_query_id: number
+          created_at?: string
+          created_by?: string
+          document_section_id: number
+        }
+        Update: {
+          chat_query_id?: number
+          created_at?: string
+          created_by?: string
+          document_section_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_query_document_section_chat_query_id_fkey"
+            columns: ["chat_query_id"]
+            isOneToOne: false
+            referencedRelation: "chat_queries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_query_document_section_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_query_document_section_document_section_id_fkey"
+            columns: ["document_section_id"]
+            isOneToOne: false
+            referencedRelation: "document_sections"
             referencedColumns: ["id"]
           },
         ]
@@ -700,6 +743,7 @@ export type Database = {
           id: number
           document_id: number
           content: string
+          metadata: Json
           similarity: number
         }[]
       }

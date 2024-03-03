@@ -5,7 +5,7 @@ import { FunctionCallHandler } from "ai"
 import { useCompletion } from "ai/react"
 import { AnimatePresence, motion } from "framer-motion"
 
-import { Tables } from "@/lib/database.types"
+import { Tables } from "@/lib/types/database.types"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {

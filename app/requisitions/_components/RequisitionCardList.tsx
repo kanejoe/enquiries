@@ -3,8 +3,8 @@ import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Requisition } from "@/types/RequisitionType"
-import { Database } from "@/lib/database.types"
 import { createRequisitionTree, findNodeByReqId } from "@/lib/tree"
+import { Database } from "@/lib/types/database.types"
 import { RecursiveTree } from "@/components/RecursiveTree"
 
 import { RequisitionCard } from "../_components/RequisitionCard"
