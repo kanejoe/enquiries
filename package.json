@@ -28,6 +28,7 @@
     "@copilotkit/react-core": "0.15.0",
     "@copilotkit/react-textarea": "0.26.0",
     "@copilotkit/react-ui": "0.13.0",
+    "@cyntler/react-doc-viewer": "1.14.1",
     "@heroicons/react": "2.1.1",
     "@hookform/resolvers": "3.3.4",
     "@langchain/openai": "0.0.15",

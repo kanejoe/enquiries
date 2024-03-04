@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const RetrievalAugmentedGenerationPage: FC = () => {
   return (
-    <div className="mt-8 h-full font-albertsans underline-offset-2">
+    <div className="mt-8 h-full font-albertsans underline-offset-2 container">
       <h1 className="text-2xl font-semibold text-gray-800">
         Retrieval Augmented Generation
       </h1>

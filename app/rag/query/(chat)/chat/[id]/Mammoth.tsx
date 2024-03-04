@@ -1,16 +1,12 @@
-import React, { useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 import mammoth from "mammoth/mammoth.browser"
 
-function DocxParser() {
+function DocxParser({ file }: { file: File }) {
   const [htmlContent, setHtmlContent] = useState("")
   const [textContent, setTextContent] = useState("")
-  const [markdownContent, setMarkdownContent] = useState("")
 
-  const parseWordDocxFile = (event: { target: any }) => {
-    const inputElement = event.target
-    const files = inputElement.files || []
-    if (!files.length) return
-    const file = files[0]
+  useEffect(() => {
+    if (!file) return // Exit if no file is provided
 
     console.time("File Processing Time")
     const reader = new FileReader()
@@ -19,14 +15,14 @@ function DocxParser() {
 
       mammoth
         .convertToHtml({ arrayBuffer: arrayBuffer })
-        .then(function (resultObject: { value: React.SetStateAction<string> }) {
+        .then(function (resultObject: { value: SetStateAction<string> }) {
           setHtmlContent(resultObject.value)
-          console.log(resultObject.value)
+          // console.log(resultObject.value)
         })
 
       mammoth
         .extractRawText({ arrayBuffer: arrayBuffer })
-        .then(function (resultObject: { value: React.SetStateAction<string> }) {
+        .then(function (resultObject: { value: SetStateAction<string> }) {
           setTextContent(resultObject.value)
           console.log(resultObject.value)
         })
@@ -34,21 +30,19 @@ function DocxParser() {
       console.timeEnd("File Processing Time")
     }
     reader.readAsArrayBuffer(file)
-  }
+  }, [file]) // This ensures the effect runs only when the file prop changes
 
   return (
     <div>
-      <input type="file" onChange={parseWordDocxFile} />
-      <div>
-        <h2>HTML Content</h2>
+      <div className="max-h-[20em] overflow-y-auto rounded border p-8 shadow-md">
         <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
       </div>
-      <div>
+      {/* <div>
         <h2>Text Content</h2>
         <pre>{textContent}</pre>
-      </div>
+      </div> */}
     </div>
   )
 }
 
-export default DocxParser
+export { DocxParser }

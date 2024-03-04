@@ -58,7 +58,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             {/* </SidebarProvider> */}
           </ThemeProvider>
           <Toaster />
-          <Sonner richColors />
+          <Sonner />
         </body>
       </html>
     </>
