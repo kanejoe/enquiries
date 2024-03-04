@@ -36,7 +36,18 @@ export const getFileIconAndColor = (file: File) => {
   }
 }
 
-const FileViewer: FC<FileViewerProps> = ({ acceptedFile }) => {
+/**
+ * Renders a file viewer component.
+ *
+ * @component
+ * @param {FileViewerProps} props - The component props.
+ * @param {File} props.acceptedFile - The accepted file object.
+ * @returns {JSX.Element} The file viewer component.
+ */
+
+const FileViewer: FC<FileViewerProps> = ({
+  acceptedFile,
+}: FileViewerProps): JSX.Element => {
   const fileIconAndColor = getFileIconAndColor(acceptedFile)
   const pdfBlob = new Blob([acceptedFile], { type: "application/pdf" })
   const pdfUrl = URL.createObjectURL(pdfBlob)

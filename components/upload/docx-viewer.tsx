@@ -27,7 +27,6 @@ const DocxViewer: FC<FileViewerProps> = ({
   useEffect(() => {
     if (!acceptedFile) return // Exit if no file is provided
 
-    console.time("File Processing Time")
     const reader = new FileReader()
     reader.onloadend = function (event) {
       const arrayBuffer = reader.result
@@ -37,8 +36,6 @@ const DocxViewer: FC<FileViewerProps> = ({
         .then(function (resultObject: { value: SetStateAction<string> }) {
           setHtmlContent(resultObject.value)
         })
-
-      console.timeEnd("File Processing Time")
     }
     reader.readAsArrayBuffer(acceptedFile)
   }, [acceptedFile]) // This ensures the effect runs only when the file prop changes
