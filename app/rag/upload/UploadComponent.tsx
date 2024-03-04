@@ -1,53 +1,27 @@
 "use client"
 
 import { FC, useCallback, useState } from "react"
-import { File, FileText, UploadCloud } from "lucide-react"
+import { Cross2Icon } from "@radix-ui/react-icons"
+import { FileText, UploadCloud } from "lucide-react"
 import { useDropzone } from "react-dropzone"
 
+import { FileTypes } from "@/types/file-types"
 import { convertFileSize } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { FileViewer } from "@/components/upload/file-viewer"
 
 import { PdfViewer } from "../files/[id]/ViewPdf"
-import { DocxViewer } from "../query/(chat)/chat/[id]/DocxViewer"
+// import { DocxViewer } from "../query/(chat)/chat/[id]/DocxViewer"
 import { DocxParser } from "../query/(chat)/chat/[id]/Mammoth"
 
 interface FileUploadProgress {
   File: File
 }
 
-enum FileTypes {
-  Pdf = "pdf",
-  Docx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-}
-
-const DocxColor = {
-  bgColor: "bg-blue-400",
-  fillColor: "fill-blue-400",
-}
-
-const PdfColor = {
-  bgColor: "bg-red-600",
-  fillColor: "fill-red-400",
-}
-
 export const UploadComponent: FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [fileToUpload, setFileToUpload] = useState<FileUploadProgress[]>([])
-
-  const getFileIconAndColor = (file: File) => {
-    if (file.type.includes(FileTypes.Pdf)) {
-      return {
-        icon: <FileText size={24} className={PdfColor.fillColor} />,
-        color: PdfColor.bgColor,
-      }
-    }
-    if (file.type.includes(FileTypes.Docx)) {
-      return {
-        icon: <FileText size={24} className={DocxColor.fillColor} />,
-        color: DocxColor.bgColor,
-      }
-    }
-  }
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setFileToUpload((prevUploadProgress) => {
@@ -73,34 +47,9 @@ export const UploadComponent: FC = () => {
     },
   })
 
-  const acceptedFileItems = acceptedFiles.map((file: File) => {
-    // console.log("🚀 ~ acceptedFileItems ~ file:", file)
-    const pdfBlob = new Blob([file], { type: "application/pdf" })
-    const pdfUrl = URL.createObjectURL(pdfBlob)
-
-    const fileIconAndColor = getFileIconAndColor(file)
-    return (
-      <li key={file.name} className="">
-        <div className="mb-4 flex items-center">
-          {fileIconAndColor?.icon}
-          <span className="ml-2 text-xl font-semibold">
-            {file.name} - {convertFileSize(file.size)}
-          </span>
-        </div>
-        {file.type.includes(FileTypes.Pdf) ? (
-          <PdfViewer signedUrl={pdfUrl} />
-        ) : //   <DocxViewer file={file} />
-        file.type.includes(FileTypes.Docx) ? (
-          <DocxParser file={file} />
-        ) : //   <DocxViewer file={file} />
-        null}
-      </li>
-    )
-  })
-
   return (
     <div className="">
-      <div className="mt-8 w-128">
+      <div className="mx-auto mb-12 mt-8 w-128">
         <label
           {...getRootProps()}
           className="relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 transition duration-300 ease-in-out hover:bg-gray-100 hover:shadow"
@@ -110,12 +59,12 @@ export const UploadComponent: FC = () => {
               <UploadCloud size={20} />
             </div>
 
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-base text-gray-600">
               <span className="font-semibold">
                 Drag and Drop File or Click to Upload
               </span>
             </p>
-            <p className="text-xs text-gray-500">pdf or docx files only</p>
+            <p className="text-sm text-gray-500">pdf or docx files only</p>
           </div>
         </label>
 
@@ -127,10 +76,26 @@ export const UploadComponent: FC = () => {
         />
       </div>
 
-      <ul className="my-8">{acceptedFileItems}</ul>
+      {acceptedFiles && acceptedFiles.length > 0 && (
+        <div className="mx-h-[10em] group relative mx-auto flex max-w-screen-lg items-center justify-center gap-2 overflow-hidden rounded-lg border border-slate-200 p-8 shadow">
+          <Button
+            variant={"ghost"}
+            className="absolute right-2 top-2 rounded-xl border shadow-sm transition"
+            onClick={() => {
+              console.log("clicked", fileToUpload)
+              //   setFileToUpload([])
+            }}
+          >
+            <Cross2Icon />
+          </Button>
+          {acceptedFiles.map((file: File) => {
+            return <FileViewer key={file.lastModified} acceptedFile={file} />
+          })}
+        </div>
+      )}
 
       {uploadedFiles.length > 0 && (
-        <div>
+        <div className="0">
           <p className="my-2 mt-6 text-sm font-medium text-muted-foreground">
             Uploaded Files
           </p>

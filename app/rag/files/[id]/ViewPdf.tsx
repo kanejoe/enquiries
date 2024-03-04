@@ -1,4 +1,3 @@
-import { memo, useMemo } from "react"
 import { Viewer, Worker } from "@react-pdf-viewer/core"
 // Plugins
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout"
@@ -19,7 +18,7 @@ const PdfViewer = ({ signedUrl }: { signedUrl: string }) => {
           marginLeft: "auto",
           marginRight: "auto",
         }}
-        className="h-[calc(80vh-70px)] w-full"
+        className="h-[calc(50vh-70px)] w-full"
       >
         <Viewer fileUrl={signedUrl} plugins={[defaultLayoutPluginInstance]} />
       </div>

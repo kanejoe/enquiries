@@ -27,7 +27,7 @@ export function PdfOrDocFileComponent({
       <div className="relative flex h-full flex-col items-center justify-center gap-y-4">
         <Button
           className={cn(
-            `bordershadow-sm absolute right-2 top-2 rounded-full transition`,
+            `border shadow-sm absolute right-2 top-2 rounded-full transition`,
             getFileExtension(file.name) === "pdf" &&
               "border-red-400 bg-red-50 shadow-red-400 hover:bg-red-100",
             (getFileExtension(file.name) === "doc" ||

@@ -34,7 +34,7 @@ function DocxParser({ file }: { file: File }) {
 
   return (
     <div>
-      <div className="max-h-[20em] overflow-y-auto rounded border p-8 shadow-md">
+      <div className="max-h-[20em] overflow-y-auto rounded border p-8">
         <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
       </div>
       {/* <div>
