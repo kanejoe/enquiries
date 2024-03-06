@@ -2,7 +2,14 @@ import { LightningBoltIcon } from "@radix-ui/react-icons"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
-function FormMessageSuccess({ message }: { message: string }) {
+function FormMessageSuccess({
+  message,
+  fields,
+}: {
+  message: string
+  fields?: Record<string, string>
+}) {
+  console.log("🚀 ~ fields:", fields)
   return (
     <Alert className="bg-gradient-to-l from-gray-200 via-fuchsia-200 to-stone-100">
       <LightningBoltIcon className="mr-8 mt-0.5 size-5" />

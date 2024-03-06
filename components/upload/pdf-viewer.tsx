@@ -20,28 +20,28 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css"
  * @returns {JSX.Element} The PDF viewer component.
  */
 const PdfViewer = ({
-    signedUrl,
-    className,
+  signedUrl,
+  className,
 }: {
-    signedUrl: string
-    className?: string
+  signedUrl: string
+  className?: string
 }): JSX.Element => {
-    const defaultLayoutPluginInstance = defaultLayoutPlugin()
+  const defaultLayoutPluginInstance = defaultLayoutPlugin()
 
-    return (
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-            <div
-                style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                }}
-                // className="h-[calc(50vh-70px)] w-full"
-                className={cn(`w-full`, className)}
-            >
-                <Viewer fileUrl={signedUrl} plugins={[defaultLayoutPluginInstance]} />
-            </div>
-        </Worker>
-    )
+  return (
+    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+      <div
+        style={{
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+        // className="h-[calc(50vh-70px)] w-full"
+        className={cn(`h-[calc(80vh-70px)] w-full`, className)}
+      >
+        <Viewer fileUrl={signedUrl} plugins={[defaultLayoutPluginInstance]} />
+      </div>
+    </Worker>
+  )
 }
 
 export { PdfViewer }

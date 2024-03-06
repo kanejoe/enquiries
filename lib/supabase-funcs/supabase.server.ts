@@ -1,9 +1,9 @@
-
 import { cache } from "react"
 import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Database, Tables } from "@/lib/database.types"
+import { removeInvalidCharacters } from "@/lib/utils"
 
 type Views<T extends keyof Database["public"]["Views"]> =
   Database["public"]["Views"][T]["Row"]
@@ -577,5 +577,78 @@ export async function getStoragePathByObjectId(
     throw new Error(
       "An unknown error occurred during the retrieval of the storage object path."
     )
+  }
+}
+
+/**
+ * Uploads a file to the Supabase storage.
+ * @param selectedFile The file to upload.\
+ * @returns A promise that resolves to the upload result.
+ * @throws If an error occurs during the upload process.
+ */
+export async function saveFileToDb(
+  selectedFile: File
+): Promise<DocumentsTable["id"] | null> {
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data, error } = await supabase.storage
+      .from("files")
+      .upload(
+        `${crypto.randomUUID()}/${removeInvalidCharacters(selectedFile.name)}`,
+        selectedFile,
+        {
+          upsert: true,
+        }
+      )
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    const { data: document, error: documentError } = await supabase
+      .from("documents")
+      .select("id")
+      .eq("storage_object_id", (data as any).id)
+      .single()
+
+    if (error) {
+      throw new Error("Error retrieving document ID")
+    }
+
+    if (!document || document === null) {
+      throw new Error("Invalid data. No document found")
+    }
+
+    return document.id
+  } catch (error) {
+    throw new Error("Error uploading file: " + (error as Error).message)
+  }
+}
+/**
+ * Retrieves the ID from the "documents" table by the provided storage_object_id.
+ * @param storage_object_id The storage_object_id to search for.
+ * @returns A promise that resolves to the ID of the document, or null if not found.
+ * @throws If an error occurs during the retrieval process.
+ */
+export async function getDocumentIdByStorageObjectId(
+  storage_object_id: StorageView["storage_object_id"]
+): Promise<DocumentsTable["id"] | null> {
+  const supabase = createServerSupabaseClient()
+
+  try {
+    const { data, error } = await supabase
+      .from("documents")
+      .select("id")
+      .eq("storage_object_id", storage_object_id || "")
+      .single()
+
+    if (error) {
+      throw new Error("Error retrieving document ID")
+    }
+
+    return data?.id || null
+  } catch (error) {
+    throw new Error("Error retrieving document ID")
   }
 }

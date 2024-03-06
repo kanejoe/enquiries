@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
+import diacritics from "diacritics"
 import { customAlphabet } from "nanoid"
 import { twMerge } from "tailwind-merge"
 
@@ -98,4 +99,19 @@ export function sanitizeAndFormatText(inputText: string) {
  */
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+/**
+ * replaces a string if it contains invalid characters
+ * @param key
+ */
+export function removeInvalidCharacters(key: string): string {
+  // Remove diacritics from the key
+  const keyWithoutDiacritics = diacritics.remove(key)
+
+  // Regular expression to match invalid characters
+  const invalidCharRegex = /[^\w\/!-\.\\*\(\)' &\$@=;:+,\?]/g
+
+  // Replace all invalid characters with an empty string
+  return keyWithoutDiacritics.replace(invalidCharRegex, "")
 }

@@ -49,7 +49,7 @@ const Dropzone: FC<DropzoneProps> = () => {
     useAddStorageFile({
       onSuccess: async (data) => {
         if (folders && folders.length && data.folder_id) {
-          const allFolderIds = folders.map((folder) => folder.id)
+          const allFolderIds = folders.map((folder: { id: any }) => folder.id)
           const idsToOpen = findFolderPath(folders, data.folder_id)
           dispatch({
             type: TreeViewActionTypes.CLOSE_MULTIPLE,

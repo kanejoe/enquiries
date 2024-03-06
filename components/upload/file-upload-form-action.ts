@@ -1,12 +1,11 @@
 "use server"
 
 import { FileTypes } from "@/types/file-types"
+import { saveFileToDb } from "@/lib/supabase-funcs/supabase.server"
 import { ParseDocx } from "@/lib/utils/parse-docx"
 import { ParsePdf } from "@/lib/utils/parse-pdf"
 
 import { FormSchema } from "./upload-form-schema"
-
-// import { schema } from "./formSchema";
 
 export type FormState = {
   message: string
@@ -20,7 +19,9 @@ export async function onSubmitAction(
 ): Promise<FormState> {
   const formData = Object.fromEntries(data)
   const parsed = FormSchema.safeParse(formData)
-  let errorMessage, parsedFile, textContent
+  let errorMessage,
+    parsedFile = null,
+    textContent
 
   if (!parsed.success) {
     const fields: Record<string, string> = {}
@@ -52,8 +53,20 @@ export async function onSubmitAction(
         parsedFile?.map((section) => section.content).join("\n") ?? ""
     }
 
+    if (parsedFile) {
+      const document_id = await saveFileToDb(file)
+      console.log("🚀 ~ document_id:", document_id)
+      return {
+        message: "File parsed and saved to the database",
+        fields: {
+          document_id: document_id ? document_id.toString() : "",
+          textContent: textContent || "", // Provide a default value for textContent
+        },
+      }
+    }
+
     // console.log(textContent)
-    console.log(parsedFile)
+    // console.log(parsedFile)
   } catch (error: any) {
     console.error("An error occurred:", error.message)
     errorMessage = error.message

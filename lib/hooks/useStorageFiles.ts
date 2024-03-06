@@ -4,9 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import diacritics from "diacritics"
 import mammoth from "mammoth"
 
-import { Database, Tables } from "@/lib/types/database.types"
-
-// import { extractTextFromFileBlob } from "@/app/rag/files/[id]/docParser"
+import { Database, Tables } from "@/lib/database.types"
 
 type TDocuments = Tables<"documents">
 
@@ -62,8 +60,6 @@ const useAddStorageFile = (options: {
   return useMutation<Response, Error, Input>({
     mutationFn: async (input: Input): Promise<Response> => {
       const { selectedFile, folder_id } = input
-      // const res = await extractTextFromFileBlob(selectedFile)
-      // console.log("🚀 ~ mutationFn: ~ res:", res)
       const { data, error } = await supabase.storage
         .from("files")
         .upload(
@@ -97,7 +93,7 @@ const useAddStorageFile = (options: {
       // Return a Response object
       return document
     },
-    onSuccess: async (data, variables, context) => {
+    onSuccess: async (data: any) => {
       queryClient.invalidateQueries({ queryKey: keys.getDocuments })
       options.onSuccess(data)
     },
@@ -151,7 +147,7 @@ export {
  * @param key
  */
 export function removeInvalidCharacters(key: string): string {
-  // Remove diacritics from the key
+  // Remove diacritics from the key\
   const keyWithoutDiacritics = diacritics.remove(key)
 
   // Regular expression to match invalid characters

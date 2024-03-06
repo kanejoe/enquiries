@@ -10,7 +10,6 @@ import { PDFPage } from "../types/pdf-page"
  * @returns A promise that resolves to an array of Document objects.
  */
 export async function prepareDocument(page: PDFPage): Promise<Document[]> {
-  console.log("🚀 ~ prepareDocument ~ page:", page)
   const CHUNKSIZE = 12000
   const { metadata, pageContent } = page
   let pg = pageContent

@@ -70,7 +70,7 @@ const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
             }}
             className="w-72"
           >
-            <FormMessageSuccess message={state.message} />
+            <FormMessageSuccess message={state.message} fields={state.fields} />
           </motion.div>
         )}
 
