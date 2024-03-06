@@ -9,7 +9,9 @@ import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
+import { FileUploadButton } from "./file-upload-button"
 import { onSubmitAction } from "./file-upload-form-action"
+import { FormMessageSuccess } from "./form-message-success"
 import { FormSchema } from "./upload-form-schema"
 
 interface FileUploadFormProps {
@@ -26,19 +28,17 @@ const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
     defaultValues: { file: fileToUpload, ...(state?.fields ?? {}) },
   })
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const formData = new FormData()
-    formData.append("file", fileToUpload)
-    formAction(formData)
-  }
-
-  const formRef = useRef<HTMLFormElement>(null)
+  const formData = new FormData()
+  formData.append("file", fileToUpload)
+  const formActionWithFile = formAction.bind(null, formData)
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg py-6 transition duration-300 ease-in-out">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-y-4 rounded-lg py-6 transition duration-300 ease-in-out">
       <Form {...form}>
         {state?.message !== "" && !state.issues && (
-          <div className="text-red-500">{state.message}</div>
+          <div className="w-72">
+            <FormMessageSuccess message={state.message} />
+          </div>
         )}
         {state?.issues && (
           <div className="text-red-500">
@@ -52,16 +52,9 @@ const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
             </ul>
           </div>
         )}
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          action={formAction}
-          ref={formRef}
-        >
+        <form action={formActionWithFile}>
           <div className="">
-            <Button className="w-full" type="submit">
-              <CloudArrowUpIcon className="mr-2 size-5" />
-              Upload Document
-            </Button>
+            <FileUploadButton />
           </div>
         </form>
       </Form>
