@@ -10,9 +10,13 @@ import { PDFPage } from "../types/pdf-page"
  * @returns A promise that resolves to an array of Document objects.
  */
 export async function prepareDocument(page: PDFPage): Promise<Document[]> {
+  console.log("🚀 ~ prepareDocument ~ page:", page)
   const CHUNKSIZE = 12000
   const { metadata, pageContent } = page
-  let pg = pageContent.replace(/\n/g, " ").replace(/\x00/g, "")
+  let pg = pageContent
+    .replace(/\n/g, " ")
+    .replace(/\x00/g, "")
+    .replace(/\s+/g, " ") // used to condense multiple whitespace characters into a single space
 
   // split the docs
   const textSplitter = new RecursiveCharacterTextSplitter({
@@ -25,7 +29,7 @@ export async function prepareDocument(page: PDFPage): Promise<Document[]> {
       pageContent: pg,
       metadata: {
         pageNumber: metadata.loc.pageNumber,
-        totalPages: metadata.pdf.totalPages,
+        totalPages: metadata?.pdf?.totalPages ?? metadata.totalPages,
         text: truncateStringByBytes(pg, CHUNKSIZE),
       },
     }),

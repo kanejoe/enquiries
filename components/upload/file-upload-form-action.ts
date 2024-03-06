@@ -38,7 +38,6 @@ export async function onSubmitAction(
   }
 
   const file = parsed.data.file
-  console.log("🚀 ~ file:", file.type)
 
   try {
     if (file.type.includes(FileTypes.Pdf)) {
@@ -49,8 +48,12 @@ export async function onSubmitAction(
 
     if (file.type.includes(FileTypes.Docx)) {
       parsedFile = file ? await ParseDocx(file) : null
-      textContent = "Docx file"
+      textContent =
+        parsedFile?.map((section) => section.content).join("\n") ?? ""
     }
+
+    // console.log(textContent)
+    console.log(parsedFile)
   } catch (error: any) {
     console.error("An error occurred:", error.message)
     errorMessage = error.message
