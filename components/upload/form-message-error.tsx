@@ -11,7 +11,7 @@ const UploadFormMessageError: FC<UploadFormMessageErrorProps> = ({
   issues,
 }) => {
   return (
-    <Alert className="max-w-[20em] bg-red-50">
+    <Alert className="max-w-[20em] bg-red-50 text-lg" variant={"destructive"}>
       <ExclamationTriangleIcon className="size-5" />
       <AlertTitle>Error</AlertTitle>
       <AlertDescription>

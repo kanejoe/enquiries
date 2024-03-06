@@ -1,10 +1,11 @@
 import { FC } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { AnimatePresence, motion } from "framer-motion"
 import { useFormState } from "react-dom"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import { Form } from "@/components/ui/form"
+import { Form as FormProvider } from "@/components/ui/form"
 
 import { FileUploadButton } from "./file-upload-button"
 import { onSubmitAction } from "./file-upload-form-action"
@@ -14,6 +15,27 @@ import { FormSchema } from "./upload-form-schema"
 
 interface FileUploadFormProps {
   fileToUpload: File
+}
+
+const variants = {
+  enter: (direction: number) => {
+    return {
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0,
+    }
+  },
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => {
+    return {
+      zIndex: 0,
+      x: direction < 0 ? 100 : -100,
+      opacity: 0,
+    }
+  },
 }
 
 const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
@@ -32,19 +54,63 @@ const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-y-4 rounded-lg py-6 transition duration-300 ease-in-out">
-      <Form {...form}>
+      <FormProvider {...form}>
+        {/* Success State: Message is present and there are no issues */}
         {state?.message !== "" && !state.issues && (
-          <div className="w-72">
+          <motion.div
+            key="success"
+            custom={1}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            className="w-72"
+          >
             <FormMessageSuccess message={state.message} />
-          </div>
+          </motion.div>
         )}
-        {state?.issues && <UploadFormMessageError issues={state.issues} />}
-        <form action={formActionWithFile}>
-          <div className="">
+
+        {/* Error State: Issues are present */}
+        {state?.issues && (
+          <motion.div
+            key="error"
+            custom={1}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+          >
+            <UploadFormMessageError issues={state.issues} />
+          </motion.div>
+        )}
+
+        {/* Default State: No specific message or issues, just the file upload form */}
+        {!state?.message && !state?.issues && (
+          <motion.form
+            key="form"
+            custom={-1}
+            // variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            action={formActionWithFile}
+          >
             <FileUploadButton />
-          </div>
-        </form>
-      </Form>
+          </motion.form>
+        )}
+      </FormProvider>
     </div>
   )
 }
