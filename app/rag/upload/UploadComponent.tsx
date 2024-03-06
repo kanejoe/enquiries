@@ -19,7 +19,7 @@ export const UploadComponent: FC = () => {
   return (
     <div className="">
       <motion.div
-        className="mx-auto mb-12 mt-8 h-32 w-128"
+        className="mx-auto mb-12 mt-8 h-24 w-128"
         transition={{ duration: 0.5 }}
         layout // This prop is used to animate layout changes
       >

@@ -97,7 +97,6 @@ const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
           <motion.form
             key="form"
             custom={-1}
-            // variants={variants}
             initial="enter"
             animate="center"
             exit="exit"

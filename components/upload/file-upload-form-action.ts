@@ -1,6 +1,8 @@
 "use server"
 
-import { LoadAndParsePdf } from "@/lib/utils/parse-load-pdf"
+import { FileTypes } from "@/types/file-types"
+import { ParseDocx } from "@/lib/utils/parse-docx"
+import { ParsePdf } from "@/lib/utils/parse-pdf"
 
 import { FormSchema } from "./upload-form-schema"
 
@@ -18,6 +20,7 @@ export async function onSubmitAction(
 ): Promise<FormState> {
   const formData = Object.fromEntries(data)
   const parsed = FormSchema.safeParse(formData)
+  let errorMessage, parsedFile, textContent
 
   if (!parsed.success) {
     const fields: Record<string, string> = {}
@@ -35,13 +38,19 @@ export async function onSubmitAction(
   }
 
   const file = parsed.data.file
-  let errorMessage
-  let parsedFile
-  try {
-    parsedFile = file ? await LoadAndParsePdf(file, 1) : null
+  console.log("🚀 ~ file:", file.type)
 
-    const textContent =
-      parsedFile?.map((section) => section.content).join("\n") ?? ""
+  try {
+    if (file.type.includes(FileTypes.Pdf)) {
+      parsedFile = file ? await ParsePdf(file) : null
+      textContent =
+        parsedFile?.map((section) => section.content).join("\n") ?? ""
+    }
+
+    if (file.type.includes(FileTypes.Docx)) {
+      parsedFile = file ? await ParseDocx(file) : null
+      textContent = "Docx file"
+    }
   } catch (error: any) {
     console.error("An error occurred:", error.message)
     errorMessage = error.message

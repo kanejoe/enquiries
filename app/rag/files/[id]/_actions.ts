@@ -8,7 +8,7 @@ import {
   upsertDocumentSections,
 } from "@/lib/supabase-funcs/supabase.server"
 import { getFileExtension } from "@/lib/utils"
-import { LoadAndParsePdf } from "@/lib/utils/parse-load-pdf"
+import { LoadAndParsePdf } from "@/lib/utils/parse-pdf"
 
 // import { ParsePdf } from "./docParser"
 
