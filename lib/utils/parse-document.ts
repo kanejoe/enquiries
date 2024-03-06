@@ -1,8 +1,8 @@
 import { truncateStringByBytes } from "@/supabase/functions/_shared/docParser"
 import { Document } from "@langchain/core/documents"
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
-import { PDFPage } from "../types/pdf-page"
 
+import { PDFPage } from "../types/pdf-page"
 
 /**
  * Prepares the document by splitting the page content into smaller chunks and creating Document objects.

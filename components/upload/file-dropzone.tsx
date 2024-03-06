@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC } from "react"
 import { UploadCloud } from "lucide-react"
 import { useDropzone } from "react-dropzone"
 import { toast } from "sonner"
@@ -10,28 +10,27 @@ interface DropzoneProps {
   setFileToUpload: (file: File | undefined) => void
 }
 
-const Dropzone: FC<DropzoneProps> = ({  setFileToUpload }) => {
-  const { getRootProps, getInputProps, isDragActive } =
-    useDropzone({
-      onDropRejected: (fileRejections) => {
-        const name = fileRejections[0]?.file.name // Add null check here
+const Dropzone: FC<DropzoneProps> = ({ setFileToUpload }) => {
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDropRejected: (fileRejections) => {
+      const name = fileRejections[0]?.file.name // Add null check here
+      setFileToUpload(undefined)
+      toast.error(`File ${name} is not supported`)
+    },
+    onDropAccepted: (acceptedFile: File[]) => {
+      if (acceptedFile && acceptedFile.length > 0) {
         setFileToUpload(undefined)
-        toast.error(`File ${name} is not supported`)
-      },
-      onDropAccepted: (acceptedFile: File[]) => {
-        if (acceptedFile && acceptedFile.length > 0) {
-          setFileToUpload(undefined)
-          setFileToUpload(acceptedFile[0]) // Fix: Pass the first element of the acceptedFile array
-        }
-      },
-      maxFiles: 1,
-      multiple: false,
-      accept: {
-        "application/pdf": [".pdf"],
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-          [".docx"],
-      },
-    })
+        setFileToUpload(acceptedFile[0]) // Fix: Pass the first element of the acceptedFile array
+      }
+    },
+    maxFiles: 1,
+    multiple: false,
+    accept: {
+      "application/pdf": [".pdf"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [".docx"],
+    },
+  })
   return (
     <>
       <label
