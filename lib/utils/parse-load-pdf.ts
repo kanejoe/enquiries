@@ -12,6 +12,7 @@ import { prepareDocument } from "@/lib/utils/parse-document"
  */
 export async function LoadAndParsePdf(fileBlob: Blob, document_id: number) {
   try {
+    // throw new Error("Not implemented")
     const loader = new PDFLoader(fileBlob)
     const pages = (await loader.load()) as PDFPage[]
 

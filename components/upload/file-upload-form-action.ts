@@ -35,11 +35,22 @@ export async function onSubmitAction(
   }
 
   const file = parsed.data.file
-  const parsedFile = file ? await LoadAndParsePdf(file, 1) : null
-  console.log("🚀 ~ parsedFile:", parsedFile)
+  let errorMessage
+  let parsedFile
+  try {
+    parsedFile = file ? await LoadAndParsePdf(file, 1) : null
 
-  const textContent =
-    parsedFile?.map((section) => section.content).join("\n") ?? ""
+    const textContent =
+      parsedFile?.map((section) => section.content).join("\n") ?? ""
+  } catch (error: any) {
+    console.error("An error occurred:", error.message)
+    errorMessage = error.message
+  }
 
-  return { message: parsedFile ? "File parsed" : "No file to parse" }
+  return {
+    message: parsedFile
+      ? "File parsed"
+      : "No file provided or an error occurred while parsing the file.",
+    issues: errorMessage ? [errorMessage] : undefined,
+  }
 }

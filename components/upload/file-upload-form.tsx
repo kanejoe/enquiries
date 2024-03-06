@@ -1,16 +1,14 @@
-import { FC, useRef } from "react"
-import { CloudArrowUpIcon } from "@heroicons/react/20/solid"
+import { FC } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { X } from "lucide-react"
 import { useFormState } from "react-dom"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
 import { FileUploadButton } from "./file-upload-button"
 import { onSubmitAction } from "./file-upload-form-action"
+import { UploadFormMessageError } from "./form-message-error"
 import { FormMessageSuccess } from "./form-message-success"
 import { FormSchema } from "./upload-form-schema"
 
@@ -40,18 +38,7 @@ const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
             <FormMessageSuccess message={state.message} />
           </div>
         )}
-        {state?.issues && (
-          <div className="text-red-500">
-            <ul>
-              {state.issues.map((issue) => (
-                <li key={issue} className="flex gap-1">
-                  <X fill="red" />
-                  {issue}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {state?.issues && <UploadFormMessageError issues={state.issues} />}
         <form action={formActionWithFile}>
           <div className="">
             <FileUploadButton />
