@@ -55,7 +55,7 @@ export async function onSubmitAction(
 
     if (parsedFile) {
       const document_id = await saveFileToDb(file)
-      console.log("🚀 ~ document_id:", document_id)
+
       return {
         message: "File parsed and saved to the database",
         fields: {
