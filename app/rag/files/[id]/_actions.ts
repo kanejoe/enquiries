@@ -8,7 +8,7 @@ import {
   upsertDocumentSections,
 } from "@/lib/supabase-funcs/supabase.server"
 import { getFileExtension } from "@/lib/utils"
-import { LoadAndParsePdf } from "@/lib/utils/parse-pdf"
+import { ParsePdf } from "@/lib/utils/parse-pdf"
 
 // import { ParsePdf } from "./docParser"
 
@@ -28,7 +28,7 @@ export async function parseFile(document: Tables<"documents">) {
 
   const file = await getFileByStorageObjectPath(doc.storage_object_path)
   // const fileType = getFileExtension(file.type)
-  const parsedDoc = await LoadAndParsePdf(file, doc.id)
+  const parsedDoc = await ParsePdf(file, doc.id)
 
   // let parsedDoc
   // if (fileType === "pdf") {

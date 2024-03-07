@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { AnimatePresence, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { useFormState } from "react-dom"
 import { useForm } from "react-hook-form"
 import * as z from "zod"

@@ -11,7 +11,6 @@ function FormMessageSuccess({
   message: string
   fields?: Record<string, string>
 }) {
-  console.log("🚀 ~ fields:", fields)
   return (
     <Alert className="bg-gradient-to-l from-gray-200 via-fuchsia-200 to-stone-100">
       <LightningBoltIcon className="mr-8 mt-0.5 size-5" />
@@ -28,9 +27,9 @@ function FormMessageSuccess({
           )}
           {fields && fields.wordCount && (
             <div className="mt-2 flex gap-1">
-              {Number(fields.wordCount) > 0 ? (
+              {Number(fields.wordCount) ? (
                 <Badge variant="secondary" className="max-w-80 truncate">
-                  {fields.wordCount} words
+                  {Number(fields.wordCount).toLocaleString()} words
                 </Badge>
               ) : (
                 <Badge

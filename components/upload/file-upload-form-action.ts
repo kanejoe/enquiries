@@ -6,6 +6,7 @@ import {
   upsertDocumentSections,
 } from "@/lib/supabase-funcs/supabase.server"
 import { countWords } from "@/lib/utils/count-words"
+import { embedOpenAi } from "@/lib/utils/embed-openai"
 import { ParseDocx } from "@/lib/utils/parse-docx"
 import { ParsePdf } from "@/lib/utils/parse-pdf"
 
@@ -74,7 +75,9 @@ export async function onSubmitAction(
             document_id,
           }
         })
+
         await upsertDocumentSections(upsertData, document_id)
+        await embedOpenAi(document_id)
 
         return {
           message: `The file has been saved to the database.`,
