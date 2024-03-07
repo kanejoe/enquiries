@@ -9,8 +9,12 @@ import { Dropzone } from "@/components/upload/file-dropzone"
 import { FileUploadForm } from "@/components/upload/file-upload-form"
 import { FileViewer } from "@/components/upload/file-viewer"
 
+/**
+ * Renders the UploadComponent.
+ *
+ * @returns The UploadComponent.
+ */
 export const UploadComponent: FC = () => {
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [fileToUpload, setFileToUpload] = useState<File>()
 
   const removeAll = () => setFileToUpload(undefined)
@@ -62,14 +66,6 @@ export const UploadComponent: FC = () => {
           <FileViewer acceptedFile={fileToUpload} />
         </div>
       ) : null}
-
-      {uploadedFiles.length > 0 && (
-        <div className="0">
-          <p className="my-2 mt-6 text-sm font-medium text-muted-foreground">
-            Uploaded Files
-          </p>
-        </div>
-      )}
     </div>
   )
 }

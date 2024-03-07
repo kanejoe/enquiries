@@ -37,7 +37,7 @@ const Dropzone: FC<DropzoneProps> = ({ setFileToUpload }) => {
         {...getRootProps()}
         className={cn(
           "relative flex w-full flex-col items-center justify-center py-6 transition duration-300 ease-in-out",
-          "cursor-pointer rounded-lg border border-dashed hover:border-gray-300 hover:bg-gray-50 hover:shadow focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2",
+          "cursor-pointer rounded-lg border border-dashed hover:bg-accent hover:shadow focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2",
           isDragActive
             ? "border-yellow-600 bg-yellow-100 "
             : "border-gray-300 bg-gray-50"

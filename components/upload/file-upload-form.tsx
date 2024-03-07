@@ -56,7 +56,7 @@ const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
     <div className="flex h-full w-full flex-col items-center justify-center gap-y-4 rounded-lg py-6 transition duration-300 ease-in-out">
       <FormProvider {...form}>
         {/* Success State: Message is present and there are no issues */}
-        {state?.message !== "" && !state.issues && (
+        {state?.message !== "" && !state?.issues && (
           <motion.div
             key="success"
             custom={1}
@@ -68,7 +68,7 @@ const FileUploadForm: FC<FileUploadFormProps> = ({ fileToUpload }) => {
               x: { type: "spring", stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 },
             }}
-            className="w-72"
+            className="mx-auto -mt-6 w-5/6"
           >
             <FormMessageSuccess message={state.message} fields={state.fields} />
           </motion.div>

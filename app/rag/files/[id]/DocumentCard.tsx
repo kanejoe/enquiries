@@ -38,7 +38,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
             "shrink-0 self-center mr-4 size-6 text-slate-800"
           )} */}
           <FileText className="mr-4 mt-px size-6" />
-          <span className="">File Details</span>
+          <span className="">Details</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
