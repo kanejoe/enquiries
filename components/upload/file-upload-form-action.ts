@@ -89,9 +89,6 @@ export async function onSubmitAction(
         }
       }
     }
-
-    // console.log(textContent)
-    // console.log(parsedFile)
   } catch (error: any) {
     console.error("An error occurred:", error.message)
     errorMessage = error.message
