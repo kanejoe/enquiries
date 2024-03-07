@@ -1,7 +1,7 @@
 import { FC, useState } from "react"
 import { FilePenLine } from "lucide-react"
 
-import { TDocument } from "@/lib/hooks/useTags"
+import { TDocument } from "@/lib/hooks/use-tags"
 import {
   Dialog,
   DialogContent,

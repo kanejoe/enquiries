@@ -6,8 +6,8 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
+import { TDocument } from "@/lib/hooks/use-tags"
 import { useUpdateDocumentName } from "@/lib/hooks/useFolders"
-import { TDocument } from "@/lib/hooks/useTags"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {

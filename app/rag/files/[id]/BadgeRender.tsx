@@ -1,4 +1,4 @@
-import { TDocument, TTags } from "@/lib/hooks/useTags"
+import { TDocument, TTags } from "@/lib/hooks/use-tags"
 
 import { PotentialTag } from "../../tags/PotentialTag"
 

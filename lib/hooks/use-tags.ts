@@ -1,10 +1,11 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { Database, Tables } from "@/lib/types/database.types"
+import { Database, Tables } from "@/lib/database.types"
 
 import { keys } from "./keys"
-import { TDocuments } from "./useFolders"
+
+// import { TDocuments } from "./useFolders"
 
 // types
 export type TTags = Tables<"tags">
@@ -13,6 +14,7 @@ export type TTagFormData = TTagFormDataNoID & {
   id: TTags["id"]
 }
 export type TDocument = Tables<"documents"> // Simplified; adjust according to your actual type definition
+export type TDocuments = Tables<"documents"> // Simplified; adjust according to your actual type definition
 
 // Define a type for the document joined with its tags
 type TDocumentWithTags = TDocument & {

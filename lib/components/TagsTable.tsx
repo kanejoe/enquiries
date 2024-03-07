@@ -2,7 +2,7 @@ import { FC } from "react"
 import Link from "next/link"
 import { FileText, TagsIcon } from "lucide-react"
 
-import { useFetchDocumentsByTagName } from "@/lib/hooks/useTags"
+import { useFetchDocumentsByTagName } from "@/lib/hooks/use-tags"
 
 import { HeaderTag } from "./HeaderTag"
 

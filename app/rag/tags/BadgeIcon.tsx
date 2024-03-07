@@ -1,7 +1,7 @@
 import { CrossCircledIcon } from "@radix-ui/react-icons"
 import { toast } from "sonner"
 
-import { TTagFormData, useDeleteTag } from "@/lib/hooks/useTags"
+import { TTagFormData, useDeleteTag } from "@/lib/hooks/use-tags"
 import { Badge } from "@/components/ui/badge"
 
 type Props = {

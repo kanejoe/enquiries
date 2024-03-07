@@ -1,6 +1,6 @@
 import { Tables } from "@/lib/database.types"
 
-import { createServerSupabaseClient } from "../supabase-funcs/supabase.server"
+import { createServerSupabaseClient } from "@/lib/supabase-funcs/supabase.server"
 import { getEmbeddings } from "./embeddings"
 
 type TDocumentId = Tables<"documents">["id"]

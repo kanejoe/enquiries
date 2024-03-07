@@ -7,7 +7,7 @@ import {
   TDocument,
   TTagFormData,
   useDeleteTagFromDocument,
-} from "@/lib/hooks/useTags"
+} from "@/lib/hooks/use-tags"
 import { Badge } from "@/components/ui/badge"
 
 type Props = {

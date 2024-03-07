@@ -12,7 +12,10 @@ export async function getEmbeddings(content: string): Promise<any> {
 
   try {
     // Format the input content
-    const formattedContent = content.replace(/\n/g, " ").trim()
+    const formattedContent = content
+      .replace(/\n/g, " ")
+      // .replace(/+s/g, " ")
+      .trim()
 
     // Fetch the embeddings
     // const embeddingResponse = await embeddings.embedQuery(formattedContent)

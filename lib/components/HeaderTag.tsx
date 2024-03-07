@@ -1,7 +1,7 @@
 import { usePathname, useRouter } from "next/navigation"
 import { CrossCircledIcon } from "@radix-ui/react-icons"
 
-import { TTagFormData } from "@/lib/hooks/useTags"
+import { TTagFormData } from "@/lib/hooks/use-tags"
 import { Badge } from "@/components/ui/badge"
 
 type Props = {

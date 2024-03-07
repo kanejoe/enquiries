@@ -1,7 +1,7 @@
 import { FC, useState } from "react"
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
 
-import { useTags } from "@/lib/hooks/useTags"
+import { useTags } from "@/lib/hooks/use-tags"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {

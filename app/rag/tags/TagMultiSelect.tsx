@@ -5,7 +5,7 @@ import { CheckIcon, ChevronDown, X } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { useTags } from "@/lib/hooks/useTags"
+import { useTags } from "@/lib/hooks/use-tags"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"

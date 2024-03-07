@@ -1,8 +1,8 @@
 import { FC } from "react"
 import { toast } from "sonner"
 
-import { useAddDocumentTag, useAddTag } from "@/lib/hooks/useTags"
-import type { TDocument, TTagFormData } from "@/lib/hooks/useTags"
+import { useAddDocumentTag, useAddTag } from "@/lib/hooks/use-tags"
+import type { TDocument, TTagFormData } from "@/lib/hooks/use-tags"
 import { Badge } from "@/components/ui/badge"
 import { Spinner } from "@/components/Spinner"
 

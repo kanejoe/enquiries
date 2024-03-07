@@ -5,4 +5,5 @@ export const keys = {
   getDocumentsWithTags: ["documentsWithTags"] as const,
   getFolders: ["folders"] as const,
   getTags: ["tags"] as const,
+  getChats: ["chat_queries"] as const,
 }

@@ -2,7 +2,7 @@ import { FC, useTransition } from "react"
 import { Component1Icon } from "@radix-ui/react-icons"
 import { toast } from "sonner"
 
-import { TDocument } from "@/lib/hooks/useTags"
+import { TDocument } from "@/lib/hooks/use-tags"
 import { cn } from "@/lib/utils"
 
 import { embedOpenAi } from "./_actions"

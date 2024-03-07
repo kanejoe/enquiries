@@ -1,7 +1,7 @@
 import { FC } from "react"
 import { toast } from "sonner"
 
-import { useAddDocumentTag } from "@/lib/hooks/useTags"
+import { useAddDocumentTag } from "@/lib/hooks/use-tags"
 import { Tables } from "@/lib/types/database.types"
 import { Badge } from "@/components/ui/badge"
 
