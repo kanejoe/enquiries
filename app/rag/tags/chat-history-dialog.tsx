@@ -65,7 +65,7 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
         setOpen((open) => !open)
       }
@@ -78,12 +78,12 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
   return (
     <>
       <p
-        className="text-sm text-muted-foreground"
+        className="font-geist flex w-64 cursor-pointer justify-between rounded-md border bg-muted py-0.5 pl-1 text-sm text-slate-600 hover:text-sky-600 hover:underline"
         onClick={() => setOpen((open) => !open)}
       >
-        Press{" "}
-        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          <span className="text-xs">alt-k</span>
+        Search Chat History{" "}
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-white px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+          <span className="text-xs hover:no-underline">CtrlK</span>
         </kbd>
       </p>
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -103,12 +103,6 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
                   onSelect(chat.id.toString(), chat.message_id.toString())
                 }
               >
-                {/* <Check
-                  className={cn(
-                    "mr-3 size-5",
-                    value === chat.id.toString() ? "opacity-100" : "opacity-0"
-                  )}
-                /> */}
                 <ReaderIcon
                   className={cn(
                     "mr-3 size-4 text-slate-700",
