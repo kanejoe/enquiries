@@ -18,7 +18,7 @@ const fetchChats = async (): Promise<TChatQueries[]> => {
 
   if (!data) return []
 
-  return data.sort((a, b) => (a.created_by > b.created_by ? -1 : 1))
+  return data
 }
 
 export const useChats = () => {

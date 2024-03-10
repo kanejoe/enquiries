@@ -26,10 +26,9 @@ export async function POST(req: Request) {
       messages: Message[]
       id: string
     }
-    // console.log("🚀 ~ POST ~ messages:", messages)
+
     const currentMessageContent =
       (messages && messages[messages.length - 1]?.content) || ""
-    // console.log("🚀 ~ POST ~ currentMessageContent:", currentMessageContent)
 
     if (!currentMessageContent) {
       throw new Error("No message content provided")
@@ -77,8 +76,12 @@ export async function POST(req: Request) {
       Quote Acts or Statute where applicable.
       If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I can't find any information on that."`}
 
-      Context sections:
-      ${contextText}
+      Context sections which are the documents you will answer questions about:
+      <doc>
+        ${contextText}
+      </doc>
+
+      When quoting, print the source of the document, which is in the context text in square brackets beginning [Source: name] where name is the name of the document.
 
       Question: """
       ${currentMessageContent}
@@ -223,7 +226,7 @@ function getContextTextWithLimit(documents: any, LIMIT: number = 16000) {
     for (let i = 0; i < documents.length; i++) {
       const document = documents[i]
       const content =
-        `${document?.content} [Source: ${document.document_id} - ${document.document_name}]` ??
+        `${document?.content} [Source: ${document.document_name}] [DocId: ${document.id}] ` ??
         ""
       const encoded = tokenizer.encode(content)
       tokenCount += encoded.text.length
@@ -239,6 +242,11 @@ function getContextTextWithLimit(documents: any, LIMIT: number = 16000) {
   return contextText
 }
 
+/**
+ * Checks if the input matches the target string.
+ * @param input - The input string to compare.
+ * @returns `true` if the input matches the target string, `false` otherwise.
+ */
 function matchesTarget(input: string): boolean {
   const target = "Sorry, I can't find any information on that"
   // Normalize both strings: remove punctuation and convert to lower case

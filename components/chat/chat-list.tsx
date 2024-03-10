@@ -37,7 +37,7 @@ export function ChatList({ messages, title, sources }: ChatList) {
         </div>
       ))}
 
-      {sources && sources.length ? <ChatSourcesList sources={sources} /> : null}
+      {/* {sources && sources.length ? <ChatSourcesList sources={sources} /> : null} */}
     </div>
   )
 }

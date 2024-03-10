@@ -23,6 +23,7 @@
     "canvas": "cd ./node_modules/canvas && npx node-pre-gyp install --fallback-to-build --update-binary && cd ../.."
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "0.17.1",
     "@casl/ability": "6.5.0",
     "@casl/react": "3.1.0",
     "@copilotkit/react-core": "0.15.0",
@@ -74,7 +75,7 @@
     "is-hotkey": "0.2.0",
     "langchain": "0.1.26",
     "lodash": "4.17.21",
-    "lucide-react": "0.352.0",
+    "lucide-react": "0.354.0",
     "mammoth": "1.7.0",
     "nanoid": "5.0.6",
     "next": "14.1.3",

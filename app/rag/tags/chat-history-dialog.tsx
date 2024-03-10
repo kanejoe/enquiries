@@ -83,7 +83,7 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
       >
         Search Chat History{" "}
         <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-white px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          <span className="text-xs hover:no-underline">CtrlK</span>
+          <span className="text-xs">CtrlK</span>
         </kbd>
       </p>
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -94,7 +94,10 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
         />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
+          <CommandGroup
+            heading="Suggestions"
+            // className="max-h-80 overflow-y-auto scrollbar-thin scrollbar-track-slate-50 scrollbar-thumb-slate-200 scrollbar-corner-slate-700"
+          >
             {displayChats.map((chat) => (
               <CommandItem
                 key={chat.id}

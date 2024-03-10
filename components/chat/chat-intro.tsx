@@ -44,7 +44,7 @@ export function Chat({
       onFinish(message) {
         if (id && !path.includes(id)) {
           // window.history.pushState({}, "", `${path}/${id}`)
-          router.push(`/rag/chat/${id}`)
+          // router.push(`/rag/chat/${id}`)
         }
       },
     })
