@@ -2,17 +2,8 @@
 
 import { SetStateAction, useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import {
-  CalendarIcon,
-  EnvelopeClosedIcon,
-  FaceIcon,
-  GearIcon,
-  PersonIcon,
-  ReaderIcon,
-  RocketIcon,
-} from "@radix-ui/react-icons"
+import { ReaderIcon } from "@radix-ui/react-icons"
 import Fuse from "fuse.js"
-import { Check, ChevronsUpDown } from "lucide-react"
 
 import { TChatQueries } from "@/lib/hooks/use-chats"
 import { cn, sortByCreatedAtDescending } from "@/lib/utils"
@@ -23,8 +14,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command"
 
 interface ChatHistoryDialogProps {
@@ -78,7 +67,7 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
   return (
     <>
       <p
-        className="font-geist flex w-64 cursor-pointer justify-between rounded-md border bg-muted py-0.5 pl-1 text-sm text-slate-600 hover:text-sky-600 hover:underline"
+        className="font-geist flex w-64 cursor-pointer justify-between rounded-md border bg-muted py-0.5 pl-1 text-sm text-slate-600 hover:text-sky-600"
         onClick={() => setOpen((open) => !open)}
       >
         Search Chat History{" "}
@@ -94,10 +83,7 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
         />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup
-            heading="Suggestions"
-            // className="max-h-80 overflow-y-auto scrollbar-thin scrollbar-track-slate-50 scrollbar-thumb-slate-200 scrollbar-corner-slate-700"
-          >
+          <CommandGroup heading="Suggestions">
             {displayChats.map((chat) => (
               <CommandItem
                 key={chat.id}
