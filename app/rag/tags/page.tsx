@@ -11,6 +11,7 @@ import { splitStringBySemicolon } from "@/lib/utils"
 import { BadgeCombobox } from "./BadgeCombobox"
 import { BadgeIcon } from "./BadgeIcon"
 import { ChatDropDown } from "./chat-dropdown"
+import { ChatHistoryDialog } from "./chat-history-dialog"
 import { ExistingTags } from "./ExistingTags"
 import { PotentialTag } from "./PotentialTag"
 import { TagForm } from "./TagForm"
@@ -25,7 +26,7 @@ const split = splitStringBySemicolon(data)
 const Page = () => {
   const { data: tags } = useTags()
   const { data: dtags } = useDocumentsWithTags()
-  const { data: chats } = useChats()
+  const { data: chats, isLoading } = useChats()
 
   if (!tags) return <div>Loading...</div>
   const existingTags = findRecordsByTagName(split, tags)
@@ -35,7 +36,8 @@ const Page = () => {
     <div className="container mt-4 flex flex-col gap-y-12">
       <h1 className="font-geistsans text-xl font-semibold">Tags</h1>
 
-      <ChatDropDown chats={chats ?? []} />
+      <ChatDropDown chats={chats ?? []} isLoading={isLoading} />
+      <ChatHistoryDialog chats={chats ?? []} />
 
       <div className="">
         {existingTags.length > 0 && (

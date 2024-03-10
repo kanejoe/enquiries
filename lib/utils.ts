@@ -3,6 +3,8 @@ import diacritics from "diacritics"
 import { customAlphabet } from "nanoid"
 import { twMerge } from "tailwind-merge"
 
+import { TChatQueries } from "./hooks/use-chats"
+
 /**
  * Combines multiple class names into a single string.
  *
@@ -114,4 +116,14 @@ export function removeInvalidCharacters(key: string): string {
 
   // Replace all invalid characters with an empty string
   return keyWithoutDiacritics.replace(invalidCharRegex, "")
+}
+
+/**
+ * Sorts an array of chat queries by their created_at property in descending order.
+ * @param a - The first chat query to compare.
+ * @param b - The second chat query to compare.
+ * @returns A negative value if `b` was created later than `a`, a positive value if `a` was created later than `b`, or 0 if they were created at the same time.
+ */
+export function sortByCreatedAtDescending(a: TChatQueries, b: TChatQueries) {
+  return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
 }
