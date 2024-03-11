@@ -3,7 +3,9 @@
 import { nanoid } from "@/lib/utils"
 import { Chat } from "@/components/chat/chat-intro"
 
-import { AnthropicChat } from "./anthropic"
+import { UploadButton } from "./upload-button"
+
+// import { AnthropicChat } from "./anthropic"
 
 export default function IndexPage() {
   const id = nanoid()
@@ -21,6 +23,7 @@ export default function IndexPage() {
       {/* <button onClick={fetchData}>Fetch Data</button> */}
       {/* <AnthropicChat /> */}
       <Chat id={id} />
+      <UploadButton />
     </>
   )
 }
