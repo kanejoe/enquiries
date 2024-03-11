@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 
-import { UploadComponent } from "../upload/UploadComponent"
+import { UploadComponent } from "./upload-index"
 
 export function UploadButton() {
   const [open, setIsOpen] = useState(false)

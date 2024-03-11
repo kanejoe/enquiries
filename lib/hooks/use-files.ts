@@ -129,11 +129,67 @@ const useFetchStorageFileUrl = (id: TDocuments["id"]) => {
   })
 }
 
+const useFetchStorageFileDownload = (id: TDocuments["id"]) => {
+  const supabase = createClientComponentClient<Database>()
+
+  return useQuery({
+    queryKey: ["file", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("documents_with_storage_path_and_created_by_email")
+        .select("*")
+        .eq("id", id)
+        .single()
+
+      if (error) {
+        throw new Error(error.message) // Throw an error if the query fails
+      }
+
+      if (!data || data?.storage_object_path === null) {
+        throw new Error("Failed to find document")
+      }
+
+      const { data: file } = await supabase.storage
+        .from("files")
+        .download(data.storage_object_path || "")
+
+      if (!file) {
+        throw new Error("Failed to download storage object.")
+      }
+
+      return file
+    },
+    retry: 3,
+  })
+}
+
+const useDownloadStorageFile = (path: string) => {
+  const supabase = createClientComponentClient<Database>()
+
+  const downloadFile = async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from("files")
+        .download(path)
+      if (error) {
+        throw new Error(error.message)
+      }
+      return data
+    } catch (error) {
+      throw new Error("Failed to download file")
+    }
+  }
+
+  return downloadFile
+}
+
 export {
   useStorageFiles,
   useAddStorageFile,
   getUploadedFilesData,
   useFetchStorageFileUrl,
+  useFetchStorageFileDownload,
+  useDownloadStorageFile,
 }
 
 /**

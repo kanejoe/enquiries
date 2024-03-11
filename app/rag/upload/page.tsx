@@ -1,7 +1,7 @@
 import { FC } from "react"
 import type { Metadata } from "next"
 
-import { UploadComponent } from "./UploadComponent"
+import { UploadComponent } from "@/components/upload/upload-index"
 
 export const metadata: Metadata = {
   title: "Retrieval Augmented Generation",

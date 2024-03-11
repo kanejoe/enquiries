@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 
 import { createServerSupabaseClient } from "@/lib/supabase-funcs/supabase.server"
 
-import { UploadButton } from "./upload-button"
+import { UploadButton } from "../../../components/upload/upload-button"
 
 // import { SidebarDesktop } from "@/components/chat/sidebar-desktop"
 

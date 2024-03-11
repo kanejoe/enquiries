@@ -2,6 +2,7 @@ import { FC, useEffect, useState, type SetStateAction } from "react"
 import mammoth from "mammoth/mammoth.browser"
 
 import { cn } from "@/lib/utils"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 interface FileViewerProps {
   acceptedFile: File
@@ -22,7 +23,23 @@ const DocxViewer: FC<FileViewerProps> = ({
   acceptedFile,
   className,
 }: FileViewerProps): JSX.Element => {
+  console.log("🚀 ~ acceptedFile:", acceptedFile)
   const [htmlContent, setHtmlContent] = useState("")
+
+  if (
+    !acceptedFile ||
+    acceptedFile.type !==
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  ) {
+    return (
+      <Alert>
+        <AlertTitle>Heads up!</AlertTitle>
+        <AlertDescription>
+          File Type not supported. Please upload a DOCX file.
+        </AlertDescription>
+      </Alert>
+    )
+  }
 
   useEffect(() => {
     if (!acceptedFile) return // Exit if no file is provided
