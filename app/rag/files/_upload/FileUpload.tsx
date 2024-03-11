@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
-import { useAddStorageFile } from "@/lib/hooks/useStorageFiles"
+import { useAddStorageFile } from "@/lib/hooks/use-files"
 import {
   Form,
   FormControl,

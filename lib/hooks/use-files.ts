@@ -2,15 +2,16 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import diacritics from "diacritics"
-import mammoth from "mammoth"
 
 import { Database, Tables } from "@/lib/database.types"
 
+import { keys } from "./keys"
+
 type TDocuments = Tables<"documents">
 
-const keys = {
-  getFiles: ["files"],
-  getDocuments: ["documents"],
+type Input = {
+  selectedFile: File
+  folder_id: string
 }
 
 const fetchStorageFiles = async () => {
@@ -43,22 +44,15 @@ const getUploadedFilesData = () => {
   return queryClient.getQueriesData({ queryKey: keys.getFiles })
 }
 
-type Input = {
-  selectedFile: File
-  folder_id: string
-}
-
-type Response = Tables<"documents">
-
 const useAddStorageFile = (options: {
-  onSuccess: (data: Response) => void
+  onSuccess: (data: TDocuments) => void
   onError?: (error: Error) => void
 }) => {
   const supabase = createClientComponentClient<Database>()
 
   const queryClient = useQueryClient()
-  return useMutation<Response, Error, Input>({
-    mutationFn: async (input: Input): Promise<Response> => {
+  return useMutation<TDocuments, Error, Input>({
+    mutationFn: async (input: Input): Promise<TDocuments> => {
       const { selectedFile, folder_id } = input
       const { data, error } = await supabase.storage
         .from("files")
@@ -155,29 +149,4 @@ export function removeInvalidCharacters(key: string): string {
 
   // Replace all invalid characters with an empty string
   return keyWithoutDiacritics.replace(invalidCharRegex, "")
-}
-
-export async function extractTextFromFileBlob(fileBlob: Blob): Promise<string> {
-  // var reader = new FileReader()
-  // reader.onloadend = function (event) {
-  //   var arrayBuffer = reader.result
-  //   mammoth
-  //     .extractRawText({ arrayBuffer: arrayBuffer as ArrayBuffer })
-  //     .then(function (resultObject) {
-  //       console.log("🚀 ~ resultObject:", resultObject.value)
-  //       // result2.innerHTML = resultObject.value
-  //       console.log(resultObject.value)
-  //     })
-  // }
-  // reader.readAsArrayBuffer(fileBlob)
-  try {
-    const data = await fileBlob.arrayBuffer()
-    const textResult = await mammoth.extractRawText({ arrayBuffer: data })
-    console.log("🚀 ~ extractTextFromFileBlob ~ textResult:", textResult.value)
-    return textResult.value
-  } catch (error) {
-    console.error("Error extracting text:", (error as Error).message) // Add type assertion to specify the type of 'error'
-    console.error("File size:", fileBlob.size)
-    throw new Error("Failed to extract text from file")
-  }
 }

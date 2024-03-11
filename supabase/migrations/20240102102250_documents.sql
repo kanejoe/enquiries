@@ -5,6 +5,7 @@ create table documents (
   file_extension text not null,
   folder_id bigint references folders(id) on delete cascade,
   storage_object_id uuid not null references storage.objects (id),
+  publish_date timestamp with time zone DEFAULT NULL,
   created_by uuid not null references auth.users (id) default auth.uid(),
   created_at timestamp with time zone not null default now()
 );

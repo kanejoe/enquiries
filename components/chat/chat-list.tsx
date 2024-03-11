@@ -5,7 +5,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 
 import { ChatMessage } from "./chat-message"
-import { ChatSourcesList } from "./chat-sources"
+
+// import { ChatSourcesList } from "./chat-sources"
 
 export interface ChatList {
   messages: Message[]

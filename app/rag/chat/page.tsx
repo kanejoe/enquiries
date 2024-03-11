@@ -3,8 +3,6 @@
 import { nanoid } from "@/lib/utils"
 import { Chat } from "@/components/chat/chat-intro"
 
-import { UploadButton } from "./upload-button"
-
 // import { AnthropicChat } from "./anthropic"
 
 export default function IndexPage() {
@@ -23,7 +21,6 @@ export default function IndexPage() {
       {/* <button onClick={fetchData}>Fetch Data</button> */}
       {/* <AnthropicChat /> */}
       <Chat id={id} />
-      <UploadButton />
     </>
   )
 }

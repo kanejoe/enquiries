@@ -28,7 +28,6 @@ export function Chat({ id, initialMessages, title, sources }: ChatProps) {
       body: { id },
       api: "/api/query_documents",
       onResponse(response) {
-        // console.log("🚀 ~ onResponse ~ response:", response)
         if (response.status === 401) {
           toast.error(response.statusText)
         }
@@ -36,7 +35,6 @@ export function Chat({ id, initialMessages, title, sources }: ChatProps) {
       onFinish() {
         if (id && !path.includes(id)) {
           window.history.pushState(null, "", `${path}/${id}`)
-          // router.push(`/rag/chat/${id}`)
         }
       },
     })

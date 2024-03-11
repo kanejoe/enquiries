@@ -5,8 +5,8 @@ import Link from "next/link"
 import { useParams } from "next/navigation"
 
 import { TagsListDrawer } from "@/lib/components/TagsListDrawer"
+import { useFetchStorageFileUrl } from "@/lib/hooks/use-files"
 import { useDocument } from "@/lib/hooks/useFolders"
-import { useFetchStorageFileUrl } from "@/lib/hooks/useStorageFiles"
 import { Button } from "@/components/ui/button"
 
 import { DocumentCard } from "./DocumentCard"
