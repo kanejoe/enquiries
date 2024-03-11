@@ -5,9 +5,8 @@ import { useRouter } from "next/navigation"
 import { ReaderIcon } from "@radix-ui/react-icons"
 import Fuse from "fuse.js"
 
-import { TChatQueries } from "@/lib/hooks/use-chats"
 import { TDocuments } from "@/lib/types/TableTypes"
-import { cn, sortByCreatedAtDescending } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import {
   CommandDialog,
   CommandEmpty,
@@ -23,8 +22,9 @@ interface DocumentHistoryDialogProps {
 
 const searchOptions = {
   includeScore: true,
-  // Search in `author` and in `tags` array
+  // Search in `name`
   keys: ["name"],
+  threshold: 0.2,
 }
 
 export function DocumentListDialog({ documents }: DocumentHistoryDialogProps) {
@@ -85,25 +85,38 @@ export function DocumentListDialog({ documents }: DocumentHistoryDialogProps) {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            {displayDocuments.map((document) => (
-              <CommandItem
-                key={document.id}
-                value={document.id.toString()}
-                onSelect={() => onSelect(document.id.toString())}
-              >
-                <ReaderIcon
-                  className={cn(
-                    "mr-3 size-4 text-slate-700",
-                    value === document.id.toString()
-                      ? "opacity-100"
-                      : "opacity-100"
-                  )}
-                />
-                <span className="line-clamp-1 w-full font-geistsans text-sm text-gray-700">
-                  {document.name}
-                </span>
-              </CommandItem>
-            ))}
+            {displayDocuments.map((document) => {
+              const parts = document.name.split(new RegExp(`(${search})`, "gi"))
+
+              return (
+                <CommandItem
+                  key={document.id}
+                  value={document.id.toString()}
+                  onSelect={() => onSelect(document.id.toString())}
+                >
+                  <ReaderIcon
+                    className={cn(
+                      "mr-3 size-4 text-slate-700",
+                      value === document.id.toString()
+                        ? "opacity-100"
+                        : "opacity-100"
+                    )}
+                  />
+                  <span className="line-clamp-1 w-full font-geistsans text-sm text-gray-700">
+                    {/* {document.name} */}
+                    {parts.map((part, index) =>
+                      part.toLowerCase() === search.toLowerCase() ? (
+                        <span key={index} className="bg-yellow-200">
+                          {part}
+                        </span>
+                      ) : (
+                        part
+                      )
+                    )}
+                  </span>
+                </CommandItem>
+              )
+            })}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

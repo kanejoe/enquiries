@@ -2,7 +2,6 @@
 
 import { SetStateAction, useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { ReaderIcon } from "@radix-ui/react-icons"
 import Fuse from "fuse.js"
 import { MessageCircleMoreIcon } from "lucide-react"
 
@@ -25,6 +24,7 @@ const searchOptions = {
   includeScore: true,
   // Search in `author` and in `tags` array
   keys: ["title"],
+  threshold: 0.2,
 }
 
 export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
@@ -85,25 +85,40 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            {displayChats.map((chat) => (
-              <CommandItem
-                key={chat.id}
-                value={chat.id.toString()}
-                onSelect={() =>
-                  onSelect(chat.id.toString(), chat.message_id.toString())
-                }
-              >
-                <MessageCircleMoreIcon
-                  className={cn(
-                    "mr-3 size-4 text-slate-700",
-                    value === chat.id.toString() ? "opacity-100" : "opacity-100"
-                  )}
-                />
-                <span className="line-clamp-1 w-full font-geistsans text-sm text-gray-700">
-                  {chat.title}
-                </span>
-              </CommandItem>
-            ))}
+            {displayChats.map((chat) => {
+              const parts = chat.title.split(new RegExp(`(${search})`, "gi"))
+
+              return (
+                <CommandItem
+                  key={chat.id}
+                  value={chat.id.toString()}
+                  onSelect={() =>
+                    onSelect(chat.id.toString(), chat.message_id.toString())
+                  }
+                >
+                  <MessageCircleMoreIcon
+                    className={cn(
+                      "mr-3 size-4 text-slate-700",
+                      value === chat.id.toString()
+                        ? "opacity-100"
+                        : "opacity-100"
+                    )}
+                  />
+                  <span className="line-clamp-1 w-full font-geistsans text-sm text-gray-700">
+                    {/* {chat.title} */}
+                    {parts.map((part, index) =>
+                      part.toLowerCase() === search.toLowerCase() ? (
+                        <span key={index} className="bg-yellow-200">
+                          {part}
+                        </span>
+                      ) : (
+                        part
+                      )
+                    )}
+                  </span>
+                </CommandItem>
+              )
+            })}
           </CommandGroup>
         </CommandList>
       </CommandDialog>
