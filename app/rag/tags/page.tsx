@@ -8,10 +8,10 @@ import {
 } from "@/lib/searchArrayOfTags"
 import { splitStringBySemicolon } from "@/lib/utils"
 
+import { ChatHistoryDialog } from "@/components/chat/chat-history-dialog"
 import { BadgeCombobox } from "./BadgeCombobox"
 import { BadgeIcon } from "./BadgeIcon"
 import { ChatDropDown } from "./chat-dropdown"
-import { ChatHistoryDialog } from "./chat-history-dialog"
 import { ExistingTags } from "./ExistingTags"
 import { PotentialTag } from "./PotentialTag"
 import { TagForm } from "./TagForm"

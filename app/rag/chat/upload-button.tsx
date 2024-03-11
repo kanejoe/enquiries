@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { CloudArrowUpIcon } from "@heroicons/react/20/solid"
 
 import {
   Dialog,
@@ -18,17 +19,20 @@ export function UploadButton() {
       <div className="fixed bottom-4 right-6 z-50 flex items-center justify-center">
         <button
           type="button"
-          className="hover:bg-hover hover:text-hover rounded-xl bg-primary px-3 py-2.5 text-sm font-semibold text-white shadow-2xl shadow-slate-400 active:translate-y-px"
+          className="hover:bg-hover hover:text-hover rounded-full bg-primary px-3 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-300 active:translate-y-px"
           onClick={() => setIsOpen(true)}
         >
           {/* Add the icon with some margin */}
-          Upload Document
+          <CloudArrowUpIcon className="size-5" />
+          {/* Upload Document */}
         </button>
       </div>
       <Dialog open={open} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[925px]">
           <DialogHeader>
-            <DialogTitle>Document Upload</DialogTitle>
+            <DialogTitle className="text-center text-xl">
+              Upload a Document
+            </DialogTitle>
           </DialogHeader>
           <UploadComponent />
         </DialogContent>

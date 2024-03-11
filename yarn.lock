@@ -2400,29 +2400,29 @@
     lodash.merge "^4.6.2"
     postcss-selector-parser "6.0.10"
 
-"@tanstack/query-core@5.25.0":
-  version "5.25.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.25.0.tgz#e08ed0a9fad34c8005d1a282e57280031ac50cdc"
-  integrity sha512-vlobHP64HTuSE68lWF1mEhwSRC5Q7gaT+a/m9S+ItuN+ruSOxe1rFnR9j0ACWQ314BPhBEVKfBQ6mHL0OWfdbQ==
+"@tanstack/query-core@5.26.3":
+  version "5.26.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.26.3.tgz#0e1075de03904165d892e2b801b49f21d6a88b66"
+  integrity sha512-kKv7VHIleC7cwpMS3M63mWUFFbdiRo7JZMVUyZ4z/79RZoAi7/vGTVkCrnNqyKl+zwBRkumYL+eiYtyShGZd0A==
 
 "@tanstack/query-devtools@5.24.0":
   version "5.24.0"
   resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.24.0.tgz#b9b7828d42d5034415b1973ff4a154e880b17d59"
   integrity sha512-pThim455t69zrZaQKa7IRkEIK8UBTS+gHVAdNfhO72Xh4rWpMc63ovRje5/n6iw63+d6QiJzVadsJVdPoodSeQ==
 
-"@tanstack/react-query-devtools@5.25.0":
-  version "5.25.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.25.0.tgz#1efe7723d3eedc9793ef752d264e9801d2f9ae14"
-  integrity sha512-bqtr1Bwvo/jspJXb2l4R1DSZ848TvIzGBk4V0b6YGS5EQ3015dhm3mPqyTgh0DquK5ZR0h1yP/4DpzhhvTnFHA==
+"@tanstack/react-query-devtools@5.26.3":
+  version "5.26.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.26.3.tgz#555529374db7da20fd74ab6f65c3f5aec2ed9b49"
+  integrity sha512-byhbST7CDC8cH1tPLPYG/lNMr/QcYMMqxG9+jayiz7H//QScp9+B7cpSItp9QPaN30fCj7pIAlbCifWDcLC4/A==
   dependencies:
     "@tanstack/query-devtools" "5.24.0"
 
-"@tanstack/react-query@5.25.0":
-  version "5.25.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.25.0.tgz#f4dac794cf10dd956aa56dbbdf67049a5ba2669d"
-  integrity sha512-u+n5R7mLO7RmeiIonpaCRVXNRWtZEef/aVZ/XGWRPa7trBIvGtzlfo0Ah7ZtnTYfrKEVwnZ/tzRCBcoiqJ/tFw==
+"@tanstack/react-query@5.26.3":
+  version "5.26.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.26.3.tgz#263bc60ee0b80a95773a0b9872030ccf07edb2a0"
+  integrity sha512-fP/kEu8aVLb6ln0ySazaeyivVkSQ9EnFfA5kQ7yIQNklx5JCW7otHVY6GVjZtd/3wK6QU99yvdSH0rN0LV2vmA==
   dependencies:
-    "@tanstack/query-core" "5.25.0"
+    "@tanstack/query-core" "5.26.3"
 
 "@tanstack/react-table@8.13.2":
   version "8.13.2"
@@ -4085,10 +4085,10 @@ data-urls@^3.0.2:
     whatwg-mimetype "^3.0.0"
     whatwg-url "^11.0.0"
 
-date-fns@3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.3.1.tgz#7581daca0892d139736697717a168afbb908cfed"
-  integrity sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==
+date-fns@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.4.0.tgz#19ac3c19a39af64acb21c23587cb08504dcdc3de"
+  integrity sha512-Akz4R8J9MXBsOgF1QeWeCsbv6pntT5KCPjU0Q9prBxVmWJYPLhwAIsNg3b0QAdr0ttiozYLD3L/af7Ra0jqYXw==
 
 debug@4, debug@^4.0.0, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"
@@ -4713,10 +4713,10 @@ eslint-plugin-react@^7.33.2:
     semver "^6.3.1"
     string.prototype.matchall "^4.0.8"
 
-eslint-plugin-tailwindcss@3.14.3:
-  version "3.14.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-tailwindcss/-/eslint-plugin-tailwindcss-3.14.3.tgz#7d845869da1485e7f74226ccbc2c05e278f2a48e"
-  integrity sha512-1MKT8CrVuqVJleHxb7ICHsF2QwO0G+VJ28athTtlcOkccp0qmwK7nCUa1C9paCZ+VVgQU4fonsjLz/wUxoMHJQ==
+eslint-plugin-tailwindcss@3.15.0:
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-tailwindcss/-/eslint-plugin-tailwindcss-3.15.0.tgz#86a36855f721ebd96701e7ea2349ffb93f373f97"
+  integrity sha512-mRs8OGJMxkCl8cD0wGjr9NbcRYJCN3D1TfgmIGb1L+3opqYyTT1jjVau1s6SUdVJqci3EfbxG60TJQtgqfEtTw==
   dependencies:
     fast-glob "^3.2.5"
     postcss "^8.4.4"

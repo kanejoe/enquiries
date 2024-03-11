@@ -1,10 +1,9 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { useChat, type Message } from "ai/react"
 import { toast } from "sonner"
 
-import { Tables } from "@/lib/database.types"
 import { cn } from "@/lib/utils"
 
 import { EmptyScreen } from "./chat-empty-screen"
@@ -19,15 +18,8 @@ export interface ChatProps extends React.ComponentProps<"div"> {
   sources?: any
 }
 
-export function Chat({
-  id,
-  initialMessages,
-  title,
-  className,
-  sources,
-}: ChatProps) {
+export function Chat({ id, initialMessages, title, sources }: ChatProps) {
   const path = usePathname()
-  const router = useRouter()
 
   const { messages, append, setInput, isLoading, reload, input, stop } =
     useChat({
@@ -41,17 +33,17 @@ export function Chat({
           toast.error(response.statusText)
         }
       },
-      onFinish(message) {
+      onFinish() {
         if (id && !path.includes(id)) {
-          // window.history.pushState({}, "", `${path}/${id}`)
+          window.history.pushState(null, "", `${path}/${id}`)
           // router.push(`/rag/chat/${id}`)
         }
       },
     })
 
   return (
-    <div className="container mt-4 space-y-6">
-      <div className={cn("pb-[200px] pt-4 md:pt-10")}>
+    <div className="mt-4 space-y-6">
+      <div className={cn("pb-[80px] pt-4")}>
         {messages.length ? (
           <>
             <ChatList messages={messages} title={title} sources={sources} />

@@ -1,8 +1,13 @@
 import { ComponentProps } from "react"
 
+import { useChats } from "@/lib/hooks/use-chats"
 import { cn } from "@/lib/utils"
 
+import { ChatHistoryDialog } from "./chat-history-dialog"
+
 export function FooterText({ className, ...props }: ComponentProps<"p">) {
+  const { data: chats } = useChats()
+
   return (
     <p
       className={cn(
@@ -11,7 +16,7 @@ export function FooterText({ className, ...props }: ComponentProps<"p">) {
       )}
       {...props}
     >
-      AI chatbot built with Next.js, Tailwind CSS, and OpenAI's GPT-3
+      <ChatHistoryDialog chats={chats || []} />
     </p>
   )
 }

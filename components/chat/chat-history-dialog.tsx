@@ -40,7 +40,7 @@ export function ChatHistoryDialog({ chats }: ChatHistoryDialogProps) {
     (chatId: SetStateAction<string>, message_id: string) => {
       setValue(chatId)
       setOpen(false)
-      //   router.push(`/rag/chat/${message_id}`) // Navigate to the chat page
+      router.push(`/rag/chat/${message_id}`) // Navigate to the chat page
     },
     [router]
   ) // Include router in the dependency array
