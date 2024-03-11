@@ -1,8 +1,9 @@
 import { Message, OpenAIStream, StreamingTextResponse } from "ai"
-import { oneLine, stripIndent } from "common-tags"
+import { stripIndent } from "common-tags"
 import GPT3Tokenizer from "gpt3-tokenizer"
 import OpenAI from "openai"
 
+import { IRISH_LAWYER_PROMPT } from "@/lib/prompts"
 import {
   createServerSupabaseClient,
   getDocumentNameById,
@@ -68,27 +69,7 @@ export async function POST(req: Request) {
 
     const contextText = getContextTextWithLimit(extendedDocuments)
 
-    const prompt = stripIndent`${oneLine`
-      You are a very enthusiastic knowledgeable Irish lawyer who has trained to the highest level in the law in Ireland.
-      Quote from the given sections and context where applicable. 
-      Only give short quoted text at any one time. Explain the quoted text in your own words.
-      Given the following sections from context, answer the question using only that information, outputted in markdown format. 
-      Quote Acts or Statute where applicable.
-      If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I can't find any information on that."`}
-
-      Context sections which are the documents you will answer questions about:
-      <doc>
-        ${contextText}
-      </doc>
-
-      When quoting, print the source of the document, which is in the context text in square brackets beginning [Source: name] where name is the name of the document.
-
-      Question: """
-      ${currentMessageContent}
-      """
-
-      Answer as markdown (including related quoted text as blockquotes and not codeblocks).
-    `
+    const prompt = IRISH_LAWYER_PROMPT(contextText, currentMessageContent)
 
     const response = await openai.chat.completions.create({
       model: "gpt-4-1106-preview",
@@ -98,7 +79,7 @@ export async function POST(req: Request) {
         {
           role: "system",
           content: `
-            You are a helpful assistant with a high level of intelligence. 
+            You are a helpful assistant with a high level of intelligence.
             You are a very knowledgeable Irish lawyer who is trained to the highest level in the law.
             Reference the source documents in your response.
           `,
@@ -158,6 +139,7 @@ export async function POST(req: Request) {
         }
       },
     })
+
     // Respond with the stream
     return new StreamingTextResponse(stream)
   } catch (e) {
@@ -179,6 +161,7 @@ export async function getGetTitleSummary(question: string): Promise<string> {
             summarize in 10 words or less the following text:
             ${question}
             so it can be used as a title or headline text.
+            Do not put punctuation or quote marks in the response.
           `
 
   try {
