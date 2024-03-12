@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 
 import { ChatMessage } from "./chat-message"
+import { ChatScrollAnchor } from "./chat-scroll-anchor"
 
 // import { ChatSourcesList } from "./chat-sources"
 
@@ -12,9 +13,10 @@ export interface ChatList {
   messages: Message[]
   title?: string
   sources?: any
+  isLoading: boolean
 }
 
-export function ChatList({ messages, title, sources }: ChatList) {
+export function ChatList({ messages, title, sources, isLoading }: ChatList) {
   if (!messages.length) {
     return null
   }
@@ -39,6 +41,8 @@ export function ChatList({ messages, title, sources }: ChatList) {
             )}
           </div>
         ))}
+
+        <ChatScrollAnchor trackVisibility={isLoading} />
       </ScrollArea>
 
       {/* {sources && sources.length ? <ChatSourcesList sources={sources} /> : null} */}

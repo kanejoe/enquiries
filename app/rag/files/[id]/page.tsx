@@ -48,7 +48,7 @@ const Page = ({ searchParams }: PageProps) => {
           {document.name}
         </h1>
         <Button variant={"outline"} asChild className="shrink-0 shadow-none">
-          <Link href={"./"}>Back to Search</Link>
+          <Link href={"/rag/chat"}>go to chat</Link>
         </Button>
       </div>
       <div className="grid h-128 grid-cols-12 gap-x-20">

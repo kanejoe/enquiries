@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils"
 import { EmptyScreen } from "./chat-empty-screen"
 import { ChatList } from "./chat-list"
 import { ChatPanel } from "./chat-panel"
-import { ChatScrollAnchor } from "./chat-scroll-anchor"
+
+// import { ChatScrollAnchor } from "./chat-scroll-anchor"
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[]
@@ -44,8 +45,13 @@ export function Chat({ id, initialMessages, title, sources }: ChatProps) {
       <div className={cn("pb-[80px] pt-4")}>
         {messages.length ? (
           <>
-            <ChatList messages={messages} title={title} sources={sources} />
-            <ChatScrollAnchor trackVisibility={isLoading} />
+            <ChatList
+              messages={messages}
+              title={title}
+              sources={sources}
+              isLoading={isLoading}
+            />
+            {/* <ChatScrollAnchor trackVisibility={isLoading} /> */}
           </>
         ) : (
           <EmptyScreen setInput={setInput} />
