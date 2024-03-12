@@ -2371,10 +2371,10 @@
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
 
-"@supabase/supabase-js@2.39.7":
-  version "2.39.7"
-  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-2.39.7.tgz#61c3277a94bd9fd0574b39ecdf4fecffd73a139c"
-  integrity sha512-1vxsX10Uhc2b+Dv9pRjBjHfqmw2N2h1PyTg9LEfICR3x2xwE24By1MGCjDZuzDKH5OeHCsf4it6K8KRluAAEXA==
+"@supabase/supabase-js@2.39.8":
+  version "2.39.8"
+  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-2.39.8.tgz#2d8935438bdd6add82484ecd46edb0cd5b3f8c38"
+  integrity sha512-WpiawHjseIRcCQTZbMJtHUSOepz5+M9qE1jP9BDmg8X7ehALFwgEkiKyHAu59qm/pKP2ryyQXLtu2XZNRbUarw==
   dependencies:
     "@supabase/functions-js" "2.1.5"
     "@supabase/gotrue-js" "2.62.2"
@@ -2400,29 +2400,29 @@
     lodash.merge "^4.6.2"
     postcss-selector-parser "6.0.10"
 
-"@tanstack/query-core@5.26.3":
-  version "5.26.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.26.3.tgz#0e1075de03904165d892e2b801b49f21d6a88b66"
-  integrity sha512-kKv7VHIleC7cwpMS3M63mWUFFbdiRo7JZMVUyZ4z/79RZoAi7/vGTVkCrnNqyKl+zwBRkumYL+eiYtyShGZd0A==
+"@tanstack/query-core@5.27.3":
+  version "5.27.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.27.3.tgz#23e20fa7238884321630a6c39ca468a35748ea5c"
+  integrity sha512-1SrNjrFX8eQRQ7DF3hMUhRYzxT9lEry4Uvj2lxl819Cmlq4uWQFGjZKS6moDuZoADG9/85oDdtcHbxmYQ7+HGw==
 
-"@tanstack/query-devtools@5.24.0":
-  version "5.24.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.24.0.tgz#b9b7828d42d5034415b1973ff4a154e880b17d59"
-  integrity sha512-pThim455t69zrZaQKa7IRkEIK8UBTS+gHVAdNfhO72Xh4rWpMc63ovRje5/n6iw63+d6QiJzVadsJVdPoodSeQ==
+"@tanstack/query-devtools@5.27.3":
+  version "5.27.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.27.3.tgz#8b450ddb43dc42567cdbd289b843278361f4f207"
+  integrity sha512-1DV9NxslwYUfOGjjg2ij6d6jA/Pjv0+nkT5mpAQEsbJMSHsSKPRt1kIOR95cKv4Q90lxmmP72ueacxRhHR0jPg==
 
-"@tanstack/react-query-devtools@5.26.3":
-  version "5.26.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.26.3.tgz#555529374db7da20fd74ab6f65c3f5aec2ed9b49"
-  integrity sha512-byhbST7CDC8cH1tPLPYG/lNMr/QcYMMqxG9+jayiz7H//QScp9+B7cpSItp9QPaN30fCj7pIAlbCifWDcLC4/A==
+"@tanstack/react-query-devtools@5.27.3":
+  version "5.27.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.27.3.tgz#27987edbe4bc674bb9e71c84f60b491dfb2ed26c"
+  integrity sha512-7IcZ0p4m8jvn0ZLjpVAiSpG0cK+/MwqdjGG/OM0biYN5sqCHyRkzMqKGDZpjj97PDwJtoKCNixfUar1B9Q4fjQ==
   dependencies:
-    "@tanstack/query-devtools" "5.24.0"
+    "@tanstack/query-devtools" "5.27.3"
 
-"@tanstack/react-query@5.26.3":
-  version "5.26.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.26.3.tgz#263bc60ee0b80a95773a0b9872030ccf07edb2a0"
-  integrity sha512-fP/kEu8aVLb6ln0ySazaeyivVkSQ9EnFfA5kQ7yIQNklx5JCW7otHVY6GVjZtd/3wK6QU99yvdSH0rN0LV2vmA==
+"@tanstack/react-query@5.27.3":
+  version "5.27.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.27.3.tgz#e01769fabacf269f2ad3235adcef4f2f33e5dda0"
+  integrity sha512-a8c+lFvPdS4OR1r/p0F21Xwo6AxaJSqn/GbygzbzI+oZA6ZaUeJSs5GsazAn1x7XI/T/SDur78CuChWfMz9bhA==
   dependencies:
-    "@tanstack/query-core" "5.26.3"
+    "@tanstack/query-core" "5.27.3"
 
 "@tanstack/react-table@8.13.2":
   version "8.13.2"
@@ -2704,10 +2704,10 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@20.11.25":
-  version "20.11.25"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.25.tgz#0f50d62f274e54dd7a49f7704cc16bfbcccaf49f"
-  integrity sha512-TBHyJxk2b7HceLVGFcpAUjsa5zIdsPWlR6XHfyGzd0SFu+/NFgQgMAl96MSDZgQDvJAvV6BKsFOrt6zIL09JDw==
+"@types/node@20.11.26":
+  version "20.11.26"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.26.tgz#3fbda536e51d5c79281e1d9657dcb0131baabd2d"
+  integrity sha512-YwOMmyhNnAWijOBQweOJnQPl068Oqd4K3OFbTc6AHJwzweUwwWG3GIFY74OKks2PJUDkQPeddOQES9mLn1CTEQ==
   dependencies:
     undici-types "~5.26.4"
 
@@ -2770,10 +2770,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@18.2.64":
-  version "18.2.64"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.64.tgz#3700fbb6b2fa60a6868ec1323ae4cbd446a2197d"
-  integrity sha512-MlmPvHgjj2p3vZaxbQgFUQFvD8QiZwACfGqEdDSWou5yISWxDQ4/74nCAwsUiX7UFLKZz3BbVSPj+YxeoGGCfg==
+"@types/react@18.2.65":
+  version "18.2.65"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.65.tgz#54eb311fa9aba173c9e163d42ec188d5a42878b8"
+  integrity sha512-98TsY0aW4jqx/3RqsUXwMDZSWR1Z4CUlJNue8ueS2/wcxZOsz4xmW1X8ieaWVRHcmmQM3R8xVA4XWB3dJnWwDQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3086,10 +3086,10 @@ agentkeepalive@^4.2.1:
   dependencies:
     humanize-ms "^1.2.1"
 
-ai@3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-3.0.8.tgz#fef9b357c0214faa4e4b8078b574e46d6912f1a7"
-  integrity sha512-4lDmK+deDWxwVgPg09jftngrl2CqW+2GB/UxZd+OKC2k1WQA9w0lqUwSZOsLR5jX9kAMeO3fL+amPNuWMiXjzQ==
+ai@3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-3.0.9.tgz#a103d024c3181eba1854466d923ae8309333af63"
+  integrity sha512-v7y3+bSgGgiA1HkijvXcuHVSqZGljWRnBk/CFp5eJo+rSNFFSt/0s1IoAPZuE8hiWuqPrN9Pz9/cFKB1duh17g==
   dependencies:
     eventsource-parser "1.0.0"
     jsondiffpatch "^0.6.0"
@@ -5072,10 +5072,10 @@ fraction.js@^4.3.7:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.7.tgz#06ca0085157e42fda7f9e726e79fefc4068840f7"
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
 
-framer-motion@11.0.8:
-  version "11.0.8"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.0.8.tgz#8f97a18cbad5858d85b53bc325c40a03d0a5c203"
-  integrity sha512-1KSGNuqe1qZkS/SWQlDnqK2VCVzRVEoval379j0FiUBJAZoqgwyvqFkfvJbgW2IPFo4wX16K+M0k5jO23lCIjA==
+framer-motion@11.0.9:
+  version "11.0.9"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.0.9.tgz#0278eb56e79270f7be35e1ccc606854790de1dbe"
+  integrity sha512-VjAJ14NK6geO8UokWKUlIiYNG+Fteb1xZRjWiXXx6suPumD+y7yfG4LG+noSKpkPD99/FAUXqwDNdCJHHpoO6A==
   dependencies:
     tslib "^2.4.0"
   optionalDependencies:
@@ -6680,10 +6680,10 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.2.0.tgz#0bd445ca57363465900f4d1f9bd8db343a4d95c3"
   integrity sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==
 
-lucide-react@0.354.0:
-  version "0.354.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.354.0.tgz#c5c9d9d1d98cf9e586154f5c4e77777a8b42169f"
-  integrity sha512-qI0x/hhcuHieaUUxFejesm5T/ditszQ2x1gUkqKnTMZRAOdxT2nGzbOFYrhc0wRjuA2MN1o5JCrcRPYcHH3l8A==
+lucide-react@0.356.0:
+  version "0.356.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.356.0.tgz#4a8813ece512bffb7a40a6e10a0d6e2e5ac6ad62"
+  integrity sha512-MDInjLrmZToccH2UxEshntujBlFwtOofGB22FN/eg39FfGVYV1TT1eMIv2j4rdaTJBpYjUuX7fEo9pwYkNFgwA==
 
 lucide-react@^0.274.0:
   version "0.274.0"

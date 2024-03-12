@@ -77,49 +77,6 @@ const useFolders = () => {
   })
 }
 
-const fetchDocumentById = async (
-  documentId: string
-): Promise<TDocumentWithSections> => {
-  const supabase = createClientComponentClient<Database>()
-  const { data } = await supabase
-    .from("documents")
-    .select(
-      ` *,
-        document_sections (
-          content, isvectorized
-        )
-      `
-    )
-    .eq("id", documentId)
-    .single()
-    .throwOnError()
-
-  if (!data) throw new Error("Document not found") // Throw an error if the document is not found
-  return data
-}
-
-// https://tkdodo.eu/blog/react-query-and-type-script#the-four-generics
-// React Query hook to get a single document
-const useDocument = (documentId: string) => {
-  return useQuery<TDocuments, Error, TExtendedDocuments>({
-    queryKey: [keys.getDocuments, documentId], // Dynamic query key based on the document ID
-    queryFn: () => fetchDocumentById(documentId),
-    retry: false,
-    select: useCallback((data: any) => {
-      return Object.assign({}, data, {
-        content: data.document_sections
-          .map((section: any) => section.content)
-          .join(" "),
-        wordCount: countWords(
-          data.document_sections
-            .map((section: any) => section.content)
-            .join(" ")
-        ),
-      })
-    }, []),
-  })
-}
-
 const useSetUpFolderStructure = (options: { onSuccess: () => void }) => {
   const supabase = createClientComponentClient<Database>()
   const queryClient = useQueryClient()
@@ -277,7 +234,6 @@ const useUpdateDocumentName = (options: {
 }
 
 export {
-  useDocument,
   useFolders,
   useFoldersWithDocuments,
   useSetUpFolderStructure,

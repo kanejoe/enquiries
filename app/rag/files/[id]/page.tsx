@@ -5,12 +5,13 @@ import Link from "next/link"
 import { useParams } from "next/navigation"
 
 import { TagsListDrawer } from "@/lib/components/TagsListDrawer"
+import { useDocument } from "@/lib/hooks/use-documents"
 import {
   useFetchStorageFileDownload,
   useFetchStorageFileUrl,
 } from "@/lib/hooks/use-files"
-import { useDocument } from "@/lib/hooks/useFolders"
 import { Button } from "@/components/ui/button"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { DocxViewer } from "@/components/upload/docx-viewer"
 // import { PdfViewer } from "./ViewPdf"
 import { PdfViewer } from "@/components/upload/pdf-viewer"
@@ -25,7 +26,8 @@ type PageProps = {
 
 const Page = ({ searchParams }: PageProps) => {
   const { id } = useParams()
-  const { data: document } = useDocument(id?.toString() || "")
+  const { data: document } = useDocument(Number(id))
+
   const { data: file } = useFetchStorageFileUrl(Number(id))
   const { data: downloadedFile } = useFetchStorageFileDownload(Number(id))
 
@@ -66,10 +68,18 @@ const Page = ({ searchParams }: PageProps) => {
 
           {file && document.file_extension === "docx" && downloadedFile ? (
             <>
-              <Button onClick={() => window.open(file.signedUrl, "_blank")}>
+              {/* <Button onClick={() => window.open(file.signedUrl, "_blank")}>
                 download
-              </Button>
+              </Button> */}
               {/* <DocxViewer acceptedFile={downloadedFile as File} /> */}
+
+              <div className="">
+                <ScrollArea className="h-[600px] w-full rounded-md border p-4 font-albertsans text-sm shadow-sm">
+                  {document.document_sections
+                    .map((doc: { content: string }) => doc.content)
+                    .join(" ")}
+                </ScrollArea>
+              </div>
             </>
           ) : null}
         </div>
