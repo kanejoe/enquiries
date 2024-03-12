@@ -26,7 +26,7 @@ export function UploadButton() {
         </button>
       </div>
       <Dialog open={open} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[925px]">
+        <DialogContent className="min-h-[280px] sm:max-w-[925px]">
           <DialogHeader>
             <DialogTitle className="text-center text-xl">
               Upload a Document
