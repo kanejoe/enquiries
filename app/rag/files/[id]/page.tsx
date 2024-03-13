@@ -26,8 +26,8 @@ type PageProps = {
 
 const Page = ({ searchParams }: PageProps) => {
   const { id } = useParams()
-  const { data: document } = useDocument(Number(id))
 
+  const { data: document } = useDocument(Number(id))
   const { data: file } = useFetchStorageFileUrl(Number(id))
   const { data: downloadedFile } = useFetchStorageFileDownload(Number(id))
 

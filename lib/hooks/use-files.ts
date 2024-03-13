@@ -126,6 +126,7 @@ const useFetchStorageFileUrl = (id: TDocuments["id"]) => {
       return file
     },
     retry: false,
+    refetchOnWindowFocus: false,
   })
 }
 
@@ -160,6 +161,7 @@ const useFetchStorageFileDownload = (id: TDocuments["id"]) => {
       return file
     },
     retry: 3,
+    refetchOnWindowFocus: false,
   })
 }
 

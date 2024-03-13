@@ -43,7 +43,7 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
       onError: (error) => toast.error("Something went wrong."),
     }
   )
-  console.log("🚀 ~ data:", data)
+  // console.log("🚀 ~ data:", data)
   // console.log("🚀 ~ status:", status)
 
   return (

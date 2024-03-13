@@ -49,6 +49,7 @@ const useDocument = (documentId: TDocuments["id"]) => {
     queryKey: [keys.getDocuments, documentId], // Dynamic query key based on the document ID
     queryFn: () => fetchDocumentById(documentId),
     retry: false,
+    refetchOnWindowFocus: false,
     select: useCallback((data: any) => {
       return Object.assign({}, data, {
         content: data.document_sections
@@ -74,4 +75,3 @@ const useDocuments = () => {
 }
 
 export { useDocument, useDocuments }
-
