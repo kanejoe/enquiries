@@ -25,10 +25,10 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@anthropic-ai/sdk@0.17.1":
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.17.1.tgz#31f712f3a47091cf493e1a70f6ddae1ec9ad6afb"
-  integrity sha512-ke/JGfaa4sc1PB58L4B9hXI/BlJphXc696+cVX8Z8gQt51l++a9umZTN/7UymV8Dcat6KKYNQE8P8yeeyAldHg==
+"@anthropic-ai/sdk@0.17.2":
+  version "0.17.2"
+  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.17.2.tgz#666556d5de76adf5eff7fa9e6b118759e6a4e5d4"
+  integrity sha512-xDfL/OblarYcwTSN2xBhynXJTkaTaxr8/v1fRKdT3grOZ4TrzIdrFfaTM771proR4g3uLe76PFSF3+gPjI6Gpw==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -2393,17 +2393,17 @@
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.27.5.tgz#de4ede2094d490d0147e943212fcda51f09c0f69"
   integrity sha512-HuYOo46NhzNX1SwXCmLf/Skr8B7T56cDHUN+iOhnu7+GOkUMThda64GwZpAqQzBT8TOTBQo6RQaNe0gi3Gi2fw==
 
-"@tanstack/query-devtools@5.27.3":
-  version "5.27.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.27.3.tgz#8b450ddb43dc42567cdbd289b843278361f4f207"
-  integrity sha512-1DV9NxslwYUfOGjjg2ij6d6jA/Pjv0+nkT5mpAQEsbJMSHsSKPRt1kIOR95cKv4Q90lxmmP72ueacxRhHR0jPg==
+"@tanstack/query-devtools@5.27.8":
+  version "5.27.8"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.27.8.tgz#fa886ae72d0fe9fe5932af12ba0ba3ff484a1224"
+  integrity sha512-K94gnqvEe6TsDvi8eZYP2JrnQJOIymhVXRR+Xa0xcsryNqG+PeMIDmQQqjwIqbDq36qyUlPAyT6LxXVvVv1Nyw==
 
-"@tanstack/react-query-devtools@5.27.5":
-  version "5.27.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.27.5.tgz#6d383cd7ba12e04938dd9c95677186a559e43cad"
-  integrity sha512-knnDV5zp/KCyc9nTd3uiLgxvZ4yNCcmpGyYT0nVutpqcKqhDqRfLnTqKZ7lpAb/rnB00WV2EQ5RQTSucMCtpaA==
+"@tanstack/react-query-devtools@5.27.8":
+  version "5.27.8"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.27.8.tgz#eac277afb80e077566ffba85278b8ce4632bac10"
+  integrity sha512-nWttSF5qhRxyIYh0D9ybZHgAWCOdsBNZf2s0EskYpAxDDrF3lgf/xTzPPzxoX7Z14bxKruVUEpwjQWZg3f/Z7g==
   dependencies:
-    "@tanstack/query-devtools" "5.27.3"
+    "@tanstack/query-devtools" "5.27.8"
 
 "@tanstack/react-query@5.27.5":
   version "5.27.5"
@@ -6481,10 +6481,10 @@ kleur@^4.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
-langchain@0.1.26:
-  version "0.1.26"
-  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.1.26.tgz#1901db427565498b3b2316037deedcfdda5bb3c0"
-  integrity sha512-2hCXDev/KkBKNHCrxqq7XQxAp/kpjMtwlIuKBzaSW8gM+BOrh8q6B9PM3ItbvG4s29JCW7xlJtIEO3LaWChwkQ==
+langchain@0.1.27:
+  version "0.1.27"
+  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.1.27.tgz#fc5d0e50bf02236d16518c1ea84d7795d81ede0c"
+  integrity sha512-MqbfDqM9geSTBWkTBBRWga9TFmFSldJpFeDOLBA17xSIcqxjHKc95rq5R5eq0vJARAcJMObMLhRrzeaWA9ROPQ==
   dependencies:
     "@anthropic-ai/sdk" "^0.9.1"
     "@langchain/community" "~0.0.36"
@@ -7852,7 +7852,12 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next-themes@0.2.1, next-themes@^0.2.1:
+next-themes@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.3.0.tgz#b4d2a866137a67d42564b07f3a3e720e2ff3871a"
+  integrity sha512-/QHIrsYpd6Kfk7xakK4svpDI5mmXP0gfvCoJdGpZQ2TOrQZmsW0QxjaiLn8wbIKjtm4BTSqLoix4lxYYOnLJ/w==
+
+next-themes@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.2.1.tgz#0c9f128e847979daf6c67f70b38e6b6567856e45"
   integrity sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==
@@ -8535,7 +8540,7 @@ process@^0.11.10:
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
-prompts@^2.0.1:
+prompts@2.4.2, prompts@^2.0.1:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.4.2.tgz#7b57e73b3a48029ad10ebd44f74b01722a4cb069"
   integrity sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==
@@ -9008,10 +9013,10 @@ remark-stringify@^11.0.0:
     mdast-util-to-markdown "^2.0.0"
     unified "^11.0.0"
 
-replicate@0.27.1:
-  version "0.27.1"
-  resolved "https://registry.yarnpkg.com/replicate/-/replicate-0.27.1.tgz#5ddd8057ec25b3499cac80b9b02f228fe468522f"
-  integrity sha512-oCPVE3cRWlim9wvNtsRyfZCfHblVArc5wAt8rbwrUQ7guHcz2cNiha9/rES/kkb5x3RNAy1JyD6BY900FMTydA==
+replicate@0.28.1:
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/replicate/-/replicate-0.28.1.tgz#b08ffc90b52b437f9282bd8724dacc50b3c1a940"
+  integrity sha512-ze6UdyznwW/GGbPFvfvF3RujHliuyhSuywlzARYKG+um9TBRiBC2tfL3G1o0oNqUCU/471uEQlyJDHt9FdZCKA==
   optionalDependencies:
     readable-stream ">=4.0.0"
 
@@ -10591,7 +10596,7 @@ yargs-parser@^21.0.1, yargs-parser@^21.1.1:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
   integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
 
-yargs@^17.3.1:
+yargs@17.7.2, yargs@^17.3.1:
   version "17.7.2"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.7.2.tgz#991df39aca675a192b816e1e0363f9d75d2aa269"
   integrity sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==

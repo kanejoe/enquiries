@@ -20,10 +20,11 @@
     "json-server": "json-server --watch data/db.json --port 3001",
     "gen:types": "npx supabase gen types typescript --local > supabase/functions/_lib/database.ts",
     "gen:types1": "npx supabase gen types typescript --local > lib/database.types.ts",
-    "canvas": "cd ./node_modules/canvas && npx node-pre-gyp install --fallback-to-build --update-binary && cd ../.."
+    "canvas": "cd ./node_modules/canvas && npx node-pre-gyp install --fallback-to-build --update-binary && cd ../..",
+    "cmdl": "npx ts-node ./cli/index.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "0.17.1",
+    "@anthropic-ai/sdk": "0.17.2",
     "@casl/ability": "6.5.0",
     "@casl/react": "3.1.0",
     "@copilotkit/react-core": "0.15.0",
@@ -56,7 +57,7 @@
     "@supabase/auth-helpers-nextjs": "0.9.0",
     "@supabase/supabase-js": "2.39.8",
     "@tanstack/react-query": "5.27.5",
-    "@tanstack/react-query-devtools": "5.27.5",
+    "@tanstack/react-query-devtools": "5.27.8",
     "@tanstack/react-table": "8.13.2",
     "@xenova/transformers": "2.16.0",
     "ai": "3.0.9",
@@ -73,13 +74,13 @@
     "gpt3-tokenizer": "1.1.5",
     "immer": "10.0.4",
     "is-hotkey": "0.2.0",
-    "langchain": "0.1.26",
+    "langchain": "0.1.27",
     "lodash": "4.17.21",
     "lucide-react": "0.356.0",
     "mammoth": "1.7.0",
     "nanoid": "5.0.6",
     "next": "14.1.3",
-    "next-themes": "0.2.1",
+    "next-themes": "0.3.0",
     "openai": "4.28.4",
     "pdf-parse": "1.1.1",
     "pdfjs-dist": "3.4.120",
@@ -93,7 +94,7 @@
     "react-textarea-autosize": "8.5.3",
     "react-twc": "1.4.1",
     "remark-gfm": "4.0.0",
-    "replicate": "0.27.1",
+    "replicate": "0.28.1",
     "sharp": "0.33.2",
     "sonner": "1.4.3",
     "string-ts": "2.0.0",
@@ -140,12 +141,14 @@
     "postcss": "8.4.35",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.12",
+    "prompts": "2.4.2",
     "superjson": "2.2.1",
     "tailwind-scrollbar": "3.1.0",
     "tailwindcss": "3.4.1",
     "tailwindcss-opentype": "1.1.0",
     "ts-jest": "29.1.2",
-    "typescript": "5.4.2"
+    "typescript": "5.4.2",
+    "yargs": "17.7.2"
   },
   "resolutions": {
     "cliui": "^8.0.1"
