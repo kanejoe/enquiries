@@ -2,6 +2,7 @@ import { FC } from "react"
 import { Check, FileText } from "lucide-react"
 
 import { getIconForFileType } from "@/lib/fileIcons"
+import { useStructuredOutput } from "@/lib/hooks/use-structured-output"
 import type { TDocuments, TExtendedDocuments } from "@/lib/types/TableTypes"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -27,6 +28,8 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
   const isVectorized = document.document_sections.every(
     (section) => section.isvectorized
   )
+  // const structuredOutput = useStructuredOutput(108)
+  // console.log("🚀 ~ structuredOutput", structuredOutput.data)
 
   return (
     <Card className="shadow">

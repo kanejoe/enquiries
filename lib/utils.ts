@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import diacritics from "diacritics"
+import GPT3Tokenizer from "gpt3-tokenizer"
 import { customAlphabet } from "nanoid"
 import { twMerge } from "tailwind-merge"
 
@@ -129,4 +130,46 @@ interface WithCreatedAt {
 }
 export function sortByCreatedAtDescending<T extends WithCreatedAt>(a: T, b: T) {
   return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+}
+
+interface WithDocumentDetails {
+  name: string
+  id: number
+  content: string
+}
+
+/**
+ * Concatenates the content of matched documents up to a specified token limit.
+ *
+ * @param documents - An array of documents to concatenate.
+ * @param LIMIT - The maximum number of tokens allowed in the concatenated text. Defaults to 16000.
+ * @returns The concatenated text of the matched documents, limited by the specified token count.
+ */
+export function getContextTextWithLimit<T extends WithDocumentDetails>(
+  documents: T[],
+  LIMIT: number = 16000
+) {
+  const tokenizer = new GPT3Tokenizer({ type: "gpt3" })
+  let tokenCount = 0
+  let contextText = ""
+
+  // Concat matched documents
+  if (documents) {
+    for (let i = 0; i < documents.length; i++) {
+      const document = documents[i]
+      const content =
+        `${document?.content} [Source: ${document?.name}] [DocId: ${document?.id}] ` ??
+        ""
+      const encoded = tokenizer.encode(content)
+      tokenCount += encoded.text.length
+
+      // Limit context to max 1500 tokens (configurable)
+      if (tokenCount > LIMIT) {
+        break
+      }
+
+      contextText += `${content?.trim()}\n---\n`
+    }
+  }
+  return contextText
 }

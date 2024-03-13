@@ -69,7 +69,7 @@ export async function POST(req: Request) {
 
     const contextText = getContextTextWithLimit(extendedDocuments)
 
-    const prompt = IRISH_LAWYER_PROMPT(contextText, currentMessageContent)
+    const prompt = IRISH_LAWYER_PROMPT(await contextText, currentMessageContent)
 
     const response = await openai.chat.completions.create({
       model: "gpt-4-1106-preview",
@@ -199,7 +199,7 @@ export async function getGetTitleSummary(question: string): Promise<string> {
  * @param LIMIT - The maximum number of tokens allowed in the concatenated text. Defaults to 16000.
  * @returns The concatenated text of the matched documents, limited by the specified token count.
  */
-function getContextTextWithLimit(documents: any, LIMIT: number = 16000) {
+async function getContextTextWithLimit(documents: any, LIMIT: number = 16000) {
   const tokenizer = new GPT3Tokenizer({ type: "gpt3" })
   let tokenCount = 0
   let contextText = ""

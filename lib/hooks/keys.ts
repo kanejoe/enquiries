@@ -7,4 +7,5 @@ export const keys = {
   getFiles: ["files"] as const,
   getFolders: ["folders"] as const,
   getTags: ["tags"] as const,
+  getStructuredOutput: ["structured_output"] as const,
 }

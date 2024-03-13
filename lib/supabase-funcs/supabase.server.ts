@@ -211,6 +211,27 @@ export async function getDocumentNameById(
   }
 }
 
+export async function getDocumentContentByDocumentId(
+  document_id: Tables<"document_sections">["document_id"]
+) {
+  try {
+    const supabase = createServerSupabaseClient()
+    const { data: documentSections } = await supabase
+      .from("document_sections")
+      .select("id, content, document_id, metadata")
+      .eq("document_id", document_id)
+    return documentSections
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error:", error.message)
+      throw new Error(error.message)
+    } else {
+      console.error("An unknown error occurred:", error)
+      throw new Error("An unknown error occurred")
+    }
+  }
+}
+
 export async function getDocumentSectionsByDocumentId(
   document_id: Tables<"document_sections">["document_id"]
 ) {
