@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { keys } from "./keys"
 
@@ -26,4 +26,25 @@ const useStructuredOutput = (document_id: number) => {
   })
 }
 
-export { useStructuredOutput }
+const useStructuredOutputMutation = (
+  document_id: number,
+  options: {
+    onSuccess: () => void
+    onError: (error: Error) => void
+  }
+) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (document_id: number) => fetchDocumentById(document_id),
+    onSuccess: async (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [keys.getStructuredOutput, document_id],
+      })
+      options.onSuccess()
+      return data
+    },
+    onError: (error: Error) => options.onError(error),
+  })
+}
+
+export { useStructuredOutput, useStructuredOutputMutation }

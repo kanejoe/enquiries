@@ -1,7 +1,7 @@
 "use server"
 
+import { Tables } from "@/lib/database.types"
 import { createServerSupabaseClient } from "@/lib/supabase-funcs/supabase.server"
-import { Tables } from "@/lib/types/database.types"
 import { getEmbeddings } from "@/lib/utils/embeddings"
 
 // types

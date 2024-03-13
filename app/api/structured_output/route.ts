@@ -12,15 +12,14 @@ import {
 } from "@/lib/supabase-funcs/supabase.server"
 import { getContextTextWithLimit } from "@/lib/utils"
 
+import { folio_schema } from "./folio-schema"
+
 export const runtime = "edge"
 
-const TEMPLATE = `Extract the requested fields from the input.
-
-                    The field "entity" refers to the first mentioned entity in the input.
-
-                    Input:
-
-                    {input}`
+const TEMPLATE = `
+    Extract the requested fields from the input.
+    Input: {input}
+`
 
 /**
  * This handler initializes and calls an OpenAI Functions powered
@@ -62,41 +61,6 @@ export async function POST(req: NextRequest) {
      * We use Zod (https://zod.dev) to define our schema for convenience,
      * but you can pass JSON Schema directly if desired.
      */
-    const schema = z.object({
-      folio: z.object({
-        folio_number: z.string().describe("The folio number of the property"),
-        folio_county: z.string().describe("The county of the property"),
-      }),
-      charges: z
-        .array(
-          z.object({
-            full_details: z.string().describe("full details of the charge"),
-            charge_registered_date: z.string().describe("date of the charge"),
-            dealing_number: z
-              .string()
-              .describe(
-                "dealing number, which can be in the form LR 2683, or D2003DN022169P for example"
-              ),
-          })
-        )
-        .describe(
-          "Give a list of the charges on page 3 of the document. Start at 001 or 1 and go to the end.  List the charge number in each case."
-        ),
-      registered_owner: z
-        .array(
-          z.object({
-            details: z
-              .string()
-              .describe("name and address of the registered owner(s)"),
-          })
-        )
-        .describe("List the registered owner(s)"),
-      property_address: z
-        .string()
-        .describe(
-          "The address of the property. It should be at Part 1(A) - The Property and is a single string."
-        ),
-    })
 
     /**
      * Bind the function and schema to the OpenAI model.
@@ -108,21 +72,26 @@ export async function POST(req: NextRequest) {
     const functionCallingModel = model.bind({
       functions: [
         {
-          name: "output_formatter",
-          description: "Should always be used to properly format output",
-          parameters: zodToJsonSchema(schema),
+          name: "folio_output_formatter",
+          description: "Extract the requested fields from a plain copy folio.",
+          parameters: zodToJsonSchema(folio_schema),
         },
       ],
-      function_call: { name: "output_formatter" },
+      function_call: { name: "folio_output_formatter" },
     })
 
     const chain = prompt
       .pipe(functionCallingModel)
       .pipe(new JsonOutputFunctionsParser())
 
+    const stream = chain.stream({
+      input: contextText,
+    })
+
     const result = await chain.invoke({
       input: contextText,
     })
+    // console.log("🚀 ~ POST ~ result:", result)
 
     return NextResponse.json(result, { status: 200 })
   } catch (e: any) {

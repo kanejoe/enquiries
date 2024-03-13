@@ -1,10 +1,15 @@
 import { FC } from "react"
 import { Check, FileText } from "lucide-react"
+import { toast } from "sonner"
 
 import { getIconForFileType } from "@/lib/fileIcons"
-import { useStructuredOutput } from "@/lib/hooks/use-structured-output"
+import {
+  useStructuredOutput,
+  useStructuredOutputMutation,
+} from "@/lib/hooks/use-structured-output"
 import type { TDocuments, TExtendedDocuments } from "@/lib/types/TableTypes"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -28,82 +33,98 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
   const isVectorized = document.document_sections.every(
     (section) => section.isvectorized
   )
-  // const structuredOutput = useStructuredOutput(108)
+  // const structuredOutput = useStructuredOutput(114)
   // console.log("🚀 ~ structuredOutput", structuredOutput.data)
 
+  const { data, mutateAsync, status } = useStructuredOutputMutation(
+    document.id,
+    {
+      onSuccess: () => toast.success("Document name updated!"),
+      onError: (error) => toast.error("Something went wrong."),
+    }
+  )
+  console.log("🚀 ~ data:", data)
+  // console.log("🚀 ~ status:", status)
+
   return (
-    <Card className="shadow">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex text-lg">
-          {/* {getIconForFileType(
+    <>
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      <Card className="shadow">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex text-lg">
+            {/* {getIconForFileType(
             document.name || "",
             4,
             "shrink-0 self-center mr-4 size-6 text-slate-800"
           )} */}
-          <FileText className="mr-4 mt-px size-6" />
-          <span className="">Details</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TableCell className="w-1/4 align-top text-sm font-semibold">
-                File Name
-              </TableCell>
-              <TableCell className="flex pl-3">
-                <span className="">{document.name}</span>
-                <EditDocumentNameButton
-                  documentId={document.id}
-                  documentName={document.name}
-                />
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="w-1/4 align-top text-sm font-semibold">
-                Word Count
-              </TableCell>
-              <TableCell>
-                {document.wordCount < 1 ? (
-                  <ParseDocumentForm document={document} />
-                ) : (
-                  <Badge variant="secondary" className="ml-0.5">
-                    {document.wordCount.toLocaleString("en-IE")} words
-                  </Badge>
-                )}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="w-1/4 align-top text-sm font-semibold">
-                Summary
-              </TableCell>
-              <TableCell>
-                <SummarizeModal documentId={document.id} />
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="w-1/4 align-top text-sm font-semibold">
-                Embeddings
-              </TableCell>
-              <TableCell className="flex">
-                {isVectorized ? (
-                  <Badge variant={"outline"} className="bg-emerald-600">
-                    <Check className="size-4 text-white" />
-                  </Badge>
-                ) : (
-                  <>
-                    <Badge variant="outline" className="">
-                      Click to Generate
+            <FileText className="mr-4 mt-px size-6" />
+            <span className="">Details</span>
+            <Button onClick={() => mutateAsync(document.id)}>
+              {status === "pending" ? "Loading..." : "get folio details"}
+            </Button>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell className="w-1/4 align-top text-sm font-semibold">
+                  File Name
+                </TableCell>
+                <TableCell className="flex pl-3">
+                  <span className="">{document.name}</span>
+                  <EditDocumentNameButton
+                    documentId={document.id}
+                    documentName={document.name}
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="w-1/4 align-top text-sm font-semibold">
+                  Word Count
+                </TableCell>
+                <TableCell>
+                  {document.wordCount < 1 ? (
+                    <ParseDocumentForm document={document} />
+                  ) : (
+                    <Badge variant="secondary" className="ml-0.5">
+                      {document.wordCount.toLocaleString("en-IE")} words
                     </Badge>
-                    <AddEmbeddingButton documentId={document.id} />
-                  </>
-                )}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+                  )}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="w-1/4 align-top text-sm font-semibold">
+                  Summary
+                </TableCell>
+                <TableCell>
+                  <SummarizeModal documentId={document.id} />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="w-1/4 align-top text-sm font-semibold">
+                  Embeddings
+                </TableCell>
+                <TableCell className="flex">
+                  {isVectorized ? (
+                    <Badge variant={"outline"} className="bg-emerald-600">
+                      <Check className="size-4 text-white" />
+                    </Badge>
+                  ) : (
+                    <>
+                      <Badge variant="outline" className="">
+                        Click to Generate
+                      </Badge>
+                      <AddEmbeddingButton documentId={document.id} />
+                    </>
+                  )}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </>
   )
 }
 

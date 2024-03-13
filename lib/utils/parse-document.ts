@@ -13,7 +13,7 @@ export async function prepareDocument(page: PDFPage): Promise<Document[]> {
   const CHUNKSIZE = 12000
   const { metadata, pageContent } = page
   let pg = pageContent
-    .replace(/\n/g, " ")
+    .replace(/\n+/g, " ")
     .replace(/\x00/g, "")
     .replace(/\s+/g, " ") // used to condense multiple whitespace characters into a single space
 
