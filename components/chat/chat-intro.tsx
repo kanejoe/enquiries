@@ -6,9 +6,10 @@ import { toast } from "sonner"
 
 import { cn } from "@/lib/utils"
 
-import { EmptyScreen } from "./chat-empty-screen"
+import { ChatEmptyScreen } from "./chat-empty-screen"
 import { ChatList } from "./chat-list"
 import { ChatPanel } from "./chat-panel"
+import { ChatScrollAnchor } from "./chat-scroll-anchor"
 
 // import { ChatScrollAnchor } from "./chat-scroll-anchor"
 
@@ -51,10 +52,10 @@ export function Chat({ id, initialMessages, title, sources }: ChatProps) {
               sources={sources}
               isLoading={isLoading}
             />
-            {/* <ChatScrollAnchor trackVisibility={isLoading} /> */}
+            <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (
-          <EmptyScreen setInput={setInput} />
+          <ChatEmptyScreen setInput={setInput} />
         )}
       </div>
       <ChatPanel

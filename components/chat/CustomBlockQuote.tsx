@@ -6,7 +6,7 @@ type CustomBlockquoteProps = {
 }
 
 const CustomBlockquote = ({ children }: CustomBlockquoteProps) => (
-  <blockquote className="mx-2 border-l-4 border-gray-200 pl-2 font-geistmono text-sm italic text-gray-600">
+  <blockquote className="mx-2 border-l-4 border-gray-100 py-0.5 pl-4 text-sm italic text-gray-600">
     {children}
   </blockquote>
 )

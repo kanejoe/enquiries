@@ -124,6 +124,9 @@ export function removeInvalidCharacters(key: string): string {
  * @param b - The second chat query to compare.
  * @returns A negative value if `b` was created later than `a`, a positive value if `a` was created later than `b`, or 0 if they were created at the same time.
  */
-export function sortByCreatedAtDescending(a: TChatQueries, b: TChatQueries) {
+interface WithCreatedAt {
+  created_at: Date | string
+}
+export function sortByCreatedAtDescending<T extends WithCreatedAt>(a: T, b: T) {
   return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
 }

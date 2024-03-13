@@ -12,6 +12,15 @@ import {
 import { countWords } from "../utils/count-words"
 import { keys } from "./keys"
 
+// Method to fetch all documents
+const fetchAllDocuments = async (): Promise<TDocuments[]> => {
+  const supabase = createClientComponentClient<Database>()
+  const { data } = await supabase.from("documents").select("*").throwOnError()
+
+  if (!data) throw new Error("No documents found") // Throw an error if no documents are found
+  return data
+}
+
 const fetchDocumentById = async (
   documentId: TDocuments["id"]
 ): Promise<TDocumentWithSections> => {
@@ -55,4 +64,14 @@ const useDocument = (documentId: TDocuments["id"]) => {
   })
 }
 
-export { useDocument }
+// React Query hook to get all documents
+const useDocuments = () => {
+  return useQuery<TDocuments[], Error>({
+    queryKey: keys.getDocuments,
+    queryFn: fetchAllDocuments,
+    retry: false,
+  })
+}
+
+export { useDocument, useDocuments }
+

@@ -6,7 +6,7 @@ import { ReaderIcon } from "@radix-ui/react-icons"
 import Fuse from "fuse.js"
 
 import { TDocuments } from "@/lib/types/TableTypes"
-import { cn } from "@/lib/utils"
+import { cn, sortByCreatedAtDescending } from "@/lib/utils"
 import {
   CommandDialog,
   CommandEmpty,
@@ -24,7 +24,11 @@ const searchOptions = {
   includeScore: true,
   // Search in `name`
   keys: ["name"],
-  threshold: 0.2,
+  threshold: 0.6,
+  distance: 120,
+  minMatchCharLength: 2,
+  shouldSort: true,
+  findAllMatches: true,
 }
 
 export function DocumentListDialog({ documents }: DocumentHistoryDialogProps) {
@@ -36,6 +40,7 @@ export function DocumentListDialog({ documents }: DocumentHistoryDialogProps) {
   const [search, setSearch] = useState("")
 
   const searchResult = fuse.search(search).map((result) => result.item)
+  // console.log("🚀 ~ DocumentListDialog ~ searchResult:", fuse.search(search))
 
   const onSelect = useCallback(
     (document_id: SetStateAction<string>) => {
@@ -44,14 +49,11 @@ export function DocumentListDialog({ documents }: DocumentHistoryDialogProps) {
       router.push(`/rag/files/${document_id}`) // Navigate to the chat page
     },
     [router]
-  ) // Include router in the dependency array
+  )
 
-  //   const sortedChats = useCallback(
-  //     () => documents.sort(sortByCreatedAtDescending),
-  //     [documents]
-  //   )
-
-  const displayDocuments = search.trim() ? searchResult : documents
+  const displayDocuments = search.trim()
+    ? searchResult
+    : documents.sort(sortByCreatedAtDescending)
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -84,7 +86,7 @@ export function DocumentListDialog({ documents }: DocumentHistoryDialogProps) {
         />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
+          <CommandGroup heading="Most recently added documents">
             {displayDocuments.map((document) => {
               const parts = document.name.split(new RegExp(`(${search})`, "gi"))
 
