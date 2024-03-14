@@ -58,7 +58,7 @@ const Page = ({ searchParams }: PageProps) => {
           <div className="flex flex-col gap-y-4">
             <DocumentCard document={document} />
             <DocumentTags documentId={Number(id)} />
-            <StreamIt />
+            {/* <StreamIt /> */}
 
             {/* <DocumentDetails document={document} />*/}
             {/* <SummariseContent document={document} /> */}

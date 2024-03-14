@@ -98,6 +98,16 @@ export async function POST(req: Request) {
     //     role: message.role,
     //   })),
 
+    const serializedSources = Buffer.from(
+      JSON.stringify(
+        documents.map((doc) => {
+          return {
+            document_id: doc.document_id,
+          }
+        })
+      )
+    ).toString("base64")
+
     const stream = OpenAIStream(response, {
       // This callback is called when the completion is ready
       onCompletion: async (completion: string) => {
@@ -141,7 +151,12 @@ export async function POST(req: Request) {
     })
 
     // Respond with the stream
-    return new StreamingTextResponse(stream)
+    return new StreamingTextResponse(stream, {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Source-Document": serializedSources,
+      },
+    })
   } catch (e) {
     console.log("🚀 ~ POST ~ e:", JSON.stringify(e))
     throw e

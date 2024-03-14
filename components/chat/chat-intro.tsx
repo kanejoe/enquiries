@@ -33,6 +33,11 @@ export function Chat({ id, initialMessages, title, sources }: ChatProps) {
         if (response.status === 401) {
           toast.error(response.statusText)
         }
+        const documentSources = response.headers.get("X-Source-Document")
+        const sources = documentSources
+          ? JSON.parse(Buffer.from(documentSources, "base64").toString("utf8"))
+          : []
+        console.log("🚀 ~ onResponse ~ sources:", sources)
       },
       onFinish() {
         if (id && !path.includes(id)) {
