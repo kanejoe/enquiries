@@ -1,9 +1,7 @@
-import { register } from "module"
 import { NextRequest, NextResponse } from "next/server"
 import { PromptTemplate } from "@langchain/core/prompts"
 import { ChatOpenAI } from "@langchain/openai"
 import { JsonOutputFunctionsParser } from "langchain/output_parsers"
-import { z } from "zod"
 import { zodToJsonSchema } from "zod-to-json-schema"
 
 import {
@@ -84,9 +82,9 @@ export async function POST(req: NextRequest) {
       .pipe(functionCallingModel)
       .pipe(new JsonOutputFunctionsParser())
 
-    const stream = chain.stream({
-      input: contextText,
-    })
+    // const stream = chain.stream({
+    //   input: contextText,
+    // })
 
     const result = await chain.invoke({
       input: contextText,
