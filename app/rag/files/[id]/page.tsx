@@ -16,8 +16,10 @@ import { DocxViewer } from "@/components/upload/docx-viewer"
 // import { PdfViewer } from "./ViewPdf"
 import { PdfViewer } from "@/components/upload/pdf-viewer"
 
+import StreamChat from "../../folio/StreamTest"
 import { DocumentCard } from "./DocumentCard"
 import { DocumentTags } from "./DocumentTags"
+import StreamIt from "./StreamIt"
 import { SummariseContent } from "./SummariseContent"
 
 type PageProps = {
@@ -56,6 +58,7 @@ const Page = ({ searchParams }: PageProps) => {
           <div className="flex flex-col gap-y-4">
             <DocumentCard document={document} />
             <DocumentTags documentId={Number(id)} />
+            <StreamIt />
 
             {/* <DocumentDetails document={document} />*/}
             {/* <SummariseContent document={document} /> */}

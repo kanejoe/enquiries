@@ -1,4 +1,5 @@
-import { FC } from "react"
+import { FC, useRef } from "react"
+import { useChat } from "ai/react"
 import { Check, FileText } from "lucide-react"
 import { toast } from "sonner"
 
@@ -18,24 +19,20 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
+import { Textarea } from "@/components/ui/textarea"
 import { SummarizeModal } from "@/app/rag/files/[id]/SummarizeModal"
 
 import { parseFile } from "./_actions"
 import { AddEmbeddingButton } from "./AddEmbeddingsButton"
 import { EditDocumentNameButton } from "./EditDocumentNameButton"
 import { ParseDocumentForm } from "./parse-document-form"
+import StreamIt from "./StreamIt"
 
 interface DocumentCardProps {
   document: TExtendedDocuments
 }
 
 const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
-  const isVectorized = document.document_sections.every(
-    (section) => section.isvectorized
-  )
-  // const structuredOutput = useStructuredOutput(114)
-  // console.log("🚀 ~ structuredOutput", structuredOutput.data)
-
   const { data, mutateAsync, status } = useStructuredOutputMutation(
     document.id,
     {
@@ -44,9 +41,14 @@ const DocumentCard: FC<DocumentCardProps> = ({ document }) => {
     }
   )
 
+  const isVectorized = document.document_sections.every(
+    (section) => section.isvectorized
+  )
+
   return (
     <>
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
+
       <Card className="shadow">
         <CardHeader className="pb-4">
           <CardTitle className="flex text-lg">

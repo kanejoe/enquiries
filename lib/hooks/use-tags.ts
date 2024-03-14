@@ -34,6 +34,7 @@ const useTags = () => {
     queryKey: keys.getTags,
     queryFn: () => fetchTags(),
     retry: false,
+    refetchOnWindowFocus: false,
   })
 }
 

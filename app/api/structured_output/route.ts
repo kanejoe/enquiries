@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { PromptTemplate } from "@langchain/core/prompts"
 import { ChatOpenAI } from "@langchain/openai"
+import { StreamingTextResponse } from "ai"
 import { JsonOutputFunctionsParser } from "langchain/output_parsers"
 import { zodToJsonSchema } from "zod-to-json-schema"
 
@@ -49,12 +50,13 @@ export async function POST(req: NextRequest) {
     const contextText = getContextTextWithLimit(extended_document_sections)
 
     const model = new ChatOpenAI({
-      temperature: 0.8,
+      temperature: 0.1,
       modelName: "gpt-4-1106-preview",
       // modelName: "gpt-3.5-turbo-1106",
     })
 
     const prompt = PromptTemplate.fromTemplate(TEMPLATE)
+
     /**
      * We use Zod (https://zod.dev) to define our schema for convenience,
      * but you can pass JSON Schema directly if desired.
@@ -82,7 +84,7 @@ export async function POST(req: NextRequest) {
       .pipe(functionCallingModel)
       .pipe(new JsonOutputFunctionsParser())
 
-    // const stream = chain.stream({
+    // const stream = await chain.stream({
     //   input: contextText,
     // })
 
@@ -90,6 +92,9 @@ export async function POST(req: NextRequest) {
       input: contextText,
     })
     // console.log("🚀 ~ POST ~ result:", result)
+    // const result = "ok"
+
+    // return new StreamingTextResponse(stream)
 
     return NextResponse.json(result, { status: 200 })
   } catch (e: any) {

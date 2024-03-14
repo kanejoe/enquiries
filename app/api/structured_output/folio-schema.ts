@@ -9,7 +9,7 @@ export const folio_schema = z.object({
       .string()
       .describe("The county of the property. For example, Dublin."),
   }),
-  charges: z
+  /*charges: z
     .array(
       z.object({
         charge_number: z
@@ -109,5 +109,5 @@ export const folio_schema = z.object({
     })
     .describe(
       "If the property is leasehold, give the details of the lease. If not leasehold, leave blank"
-    ),
+    ),*/
 })
