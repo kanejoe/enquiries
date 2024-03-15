@@ -6,7 +6,10 @@ import { useCopyToClipboard } from "@/lib/hooks/use-copy-to-clipboard"
 import { cn } from "@/lib/utils"
 
 import { ChatBubbleIcon } from "../icons/ChatBubbleIcon"
+import { ClipboardIcon } from "../icons/ClipboardIcon"
+import { MagnifyingGlassIcon } from "../icons/MagnifyingGlassIcon"
 import { UserIcon } from "../icons/UserIcon"
+import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
 import { IconCheck, IconCopy } from "../ui/icons"
 
@@ -15,9 +18,10 @@ export function ChatMessageBubble({
   sources,
 }: {
   message: Message
-  sources: any[]
+  sources?: any[]
 }) {
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 })
+
   const colorClassName = message.role === "user" ? "bg-zinc-50" : "bg-zinc-100"
   const alignmentClassName = message.role === "user" ? "mr-auto" : "ml-auto"
   const ChatIcon = message.role === "user" ? <ChatUserIcon /> : <ChatAiIcon />
@@ -29,9 +33,9 @@ export function ChatMessageBubble({
 
   return (
     <div
-      className={`${alignmentClassName} ${colorClassName} relative max-w-[90%] rounded-2xl px-4 py-2 font-albertsans text-sm transition-shadow hover:shadow hover:shadow-zinc-900/25`}
+      className={`${alignmentClassName} ${colorClassName} relative max-w-[90%] rounded-2xl px-4 py-2 font-albertsans text-sm transition-shadow hover:shadow hover:shadow-zinc-900/25 dark:border-white/5`}
     >
-      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-zinc-900/5 group-hover:ring-zinc-900/10 dark:ring-white/10 dark:group-hover:ring-white/20" />
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-zinc-900/20 group-hover:ring-zinc-900/10 dark:ring-white/10 dark:group-hover:ring-white/20" />
       <div className="relative rounded-2xl px-4 pb-4 pt-2">
         <div
           className={cn(
@@ -62,33 +66,25 @@ export function ChatMessageBubble({
             </Button>
           </div>
         </div>
-        <div className="flex flex-col whitespace-pre-wrap">
-          {/* {sources && sources.length ? (
-            <>
-              <code className="mr-auto mt-4 rounded bg-slate-100 px-2 py-1">
-                <h2>🔍 Sources:</h2>
-              </code>
-              <code className="mr-2 mt-1 rounded bg-slate-200 px-2 py-1 text-xs">
-                {sources?.map((source, i) => (
-                  <div className="mt-2" key={"source:" + i}>
-                    {i + 1}. &quot;{source.pageContent}&quot;
-                    {source.metadata?.loc?.lines !== undefined ? (
-                      <div>
-                        <br />
-                        Lines {source.metadata?.loc?.lines?.from} to{" "}
-                        {source.metadata?.loc?.lines?.to}
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                ))}
-              </code>
-            </>
-          ) : (
-            ""
-          )} */}
-        </div>
+        {sources && sources.length ? (
+          <div className="mt-4 flex flex-row gap-x-4">
+            <h2 className="mr-6 mt-0.5 font-bold text-emerald-800 underline">
+              <SourceIcon />
+            </h2>
+            {sources?.map((source, i) => (
+              <div className="flex flex-row" key={"source:" + i}>
+                <Badge
+                  variant={"outline"}
+                  className="font-geistmono font-semibold tracking-wide text-emerald-900"
+                >
+                  {source.pageContent}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   )
@@ -106,6 +102,22 @@ function ChatAiIcon() {
   return (
     <div className="dark:bg-white/7.5 flex size-10 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
       <ChatBubbleIcon className="size-6 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" />
+    </div>
+  )
+}
+
+function SourceIcon() {
+  return (
+    <div className="dark:bg-white/7.5 flex size-6 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
+      <MagnifyingGlassIcon className="size-4 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" />
+    </div>
+  )
+}
+
+function CopyIcon() {
+  return (
+    <div className="dark:bg-white/7.5 flex size-6 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
+      <ClipboardIcon className="size-4 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" />
     </div>
   )
 }

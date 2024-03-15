@@ -45,8 +45,8 @@ const sources = [
 
 const ChatMessageBubbleSpec: FC<ChatMessageBubbleSpecProps> = (props) => {
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-y-8 rounded-2xl border border-zinc-200 bg-zinc-50/25 p-8 shadow-lg">
-      <ChatMessageBubble message={messageUser} sources={sources} />
+    <div className="mx-auto flex max-w-3xl flex-col gap-y-8 rounded-2xl border border-zinc-200 bg-zinc-50/25 bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] p-8 shadow-lg">
+      <ChatMessageBubble message={messageUser} />
       <ChatMessageBubble message={messageAi} sources={sources} />
     </div>
   )
