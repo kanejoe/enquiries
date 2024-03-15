@@ -12,6 +12,7 @@ import {
 } from "@/lib/supabase-funcs/supabase.server"
 import { nanoid } from "@/lib/utils"
 import { getEmbeddings } from "@/lib/utils/embeddings"
+import { metadata } from "@/app/layout"
 
 const openai = new OpenAI()
 
@@ -63,6 +64,7 @@ export async function POST(req: Request) {
     //       similarity: doc.similarity,
     //       document_id: doc.document_id,
     //       document_name: doc.document_name,
+    //       pageNumber: doc.metadata.pageNumber,
     //     }
     //   })
     // )
@@ -97,16 +99,6 @@ export async function POST(req: Request) {
     //     content: prompt,
     //     role: message.role,
     //   })),
-
-    const serializedSources = Buffer.from(
-      JSON.stringify(
-        documents.map((doc) => {
-          return {
-            document_id: doc.document_id,
-          }
-        })
-      )
-    ).toString("base64")
 
     const stream = OpenAIStream(response, {
       // This callback is called when the completion is ready
@@ -149,6 +141,17 @@ export async function POST(req: Request) {
         }
       },
     })
+
+    const serializedSources = Buffer.from(
+      JSON.stringify(
+        documents.map((doc) => {
+          return {
+            document_id: doc.document_id,
+            pageNumber: (doc?.metadata as any)?.pageNumber,
+          }
+        })
+      )
+    ).toString("base64")
 
     // Respond with the stream
     return new StreamingTextResponse(stream, {
