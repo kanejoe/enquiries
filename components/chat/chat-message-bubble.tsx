@@ -4,14 +4,22 @@ import type { Message } from "ai/react"
 
 import { useCopyToClipboard } from "@/lib/hooks/use-copy-to-clipboard"
 import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { IconCheck, IconCopy } from "@/components/ui/icons"
+import { ChatBubbleIcon } from "@/components/icons/ChatBubbleIcon"
+import { CheckIcon } from "@/components/icons/CheckIcon"
+import { ClipboardIcon } from "@/components/icons/ClipboardIcon"
+import { MagnifyingGlassIcon } from "@/components/icons/MagnifyingGlassIcon"
+import { UserIcon } from "@/components/icons/UserIcon"
 
-import { ChatBubbleIcon } from "../icons/ChatBubbleIcon"
-import { ClipboardIcon } from "../icons/ClipboardIcon"
-import { MagnifyingGlassIcon } from "../icons/MagnifyingGlassIcon"
-import { UserIcon } from "../icons/UserIcon"
-import { Badge } from "../ui/badge"
-import { Button } from "../ui/button"
-import { IconCheck, IconCopy } from "../ui/icons"
+import {
+  ChatAiIcon,
+  ChatUserIcon,
+  CopyIcon,
+  PasteIcon,
+  SourceIcon,
+} from "./chat-bubble-icons"
 
 export function ChatMessageBubble({
   message,
@@ -57,11 +65,7 @@ export function ChatMessageBubble({
               className="text-xs hover:bg-zinc-200 focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
               onClick={onCopy}
             >
-              {isCopied ? (
-                <IconCheck className="text-slate-600" />
-              ) : (
-                <IconCopy className="text-slate-600" />
-              )}
+              {isCopied ? <PasteIcon /> : <CopyIcon />}
               <span className="sr-only">Copy code</span>
             </Button>
           </div>
@@ -86,38 +90,6 @@ export function ChatMessageBubble({
           ""
         )}
       </div>
-    </div>
-  )
-}
-
-function ChatUserIcon() {
-  return (
-    <div className="dark:bg-white/7.5 flex size-10 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-emerald-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
-      <UserIcon className="size-6 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" />
-    </div>
-  )
-}
-
-function ChatAiIcon() {
-  return (
-    <div className="dark:bg-white/7.5 flex size-10 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
-      <ChatBubbleIcon className="size-6 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" />
-    </div>
-  )
-}
-
-function SourceIcon() {
-  return (
-    <div className="dark:bg-white/7.5 flex size-6 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
-      <MagnifyingGlassIcon className="size-4 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" />
-    </div>
-  )
-}
-
-function CopyIcon() {
-  return (
-    <div className="dark:bg-white/7.5 flex size-6 items-center justify-center rounded-full bg-zinc-900/5 ring-1 ring-zinc-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-zinc-900/25 dark:ring-white/15 dark:group-hover:bg-emerald-300/10 dark:group-hover:ring-emerald-400">
-      <ClipboardIcon className="size-4 fill-zinc-700/10 stroke-zinc-700 transition-colors duration-300 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-emerald-300/10 dark:group-hover:stroke-emerald-400" />
     </div>
   )
 }
