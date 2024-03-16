@@ -6,12 +6,6 @@ import { useCopyToClipboard } from "@/lib/hooks/use-copy-to-clipboard"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { IconCheck, IconCopy } from "@/components/ui/icons"
-import { ChatBubbleIcon } from "@/components/icons/ChatBubbleIcon"
-import { CheckIcon } from "@/components/icons/CheckIcon"
-import { ClipboardIcon } from "@/components/icons/ClipboardIcon"
-import { MagnifyingGlassIcon } from "@/components/icons/MagnifyingGlassIcon"
-import { UserIcon } from "@/components/icons/UserIcon"
 
 import {
   ChatAiIcon,
@@ -21,12 +15,17 @@ import {
   SourceIcon,
 } from "./chat-bubble-icons"
 
+interface Source {
+  document_id: number
+  document_name: string
+}
+
 export function ChatMessageBubble({
   message,
   sources,
 }: {
   message: Message
-  sources?: any[]
+  sources?: Source[]
 }) {
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 })
 
@@ -41,7 +40,7 @@ export function ChatMessageBubble({
 
   return (
     <div
-      className={`${alignmentClassName} ${colorClassName} relative max-w-[90%] rounded-2xl px-4 py-2 font-albertsans text-sm transition-shadow hover:shadow hover:shadow-zinc-900/25 dark:border-white/5`}
+      className={`${alignmentClassName} ${colorClassName} relative mr-8 max-w-[90%] rounded-2xl px-4 py-2 font-albertsans text-sm transition-shadow hover:shadow hover:shadow-zinc-900/25 dark:border-white/5`}
     >
       <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-zinc-900/20 group-hover:ring-zinc-900/10 dark:ring-white/10 dark:group-hover:ring-white/20" />
       <div className="relative rounded-2xl px-4 pb-4 pt-2">
@@ -56,7 +55,7 @@ export function ChatMessageBubble({
           <div
             className={cn(
               `w-4 shrink-0`,
-              message.role === "user" ? "ml-4" : "mr-4"
+              message.role === "user" ? "ml-4 mr-4" : "-ml-3 mr-4"
             )}
           >
             <Button
@@ -72,7 +71,7 @@ export function ChatMessageBubble({
         </div>
         {sources && sources.length ? (
           <div className="mt-4 flex flex-row gap-x-4">
-            <h2 className="mr-6 mt-0.5 font-bold text-emerald-800 underline">
+            <h2 className="mr-4 mt-0.5 font-bold text-emerald-800 underline">
               <SourceIcon />
             </h2>
             {sources?.map((source, i) => (
@@ -81,7 +80,7 @@ export function ChatMessageBubble({
                   variant={"outline"}
                   className="font-geistmono font-semibold tracking-wide text-emerald-900"
                 >
-                  {source.pageContent}
+                  {source.document_name}
                 </Badge>
               </div>
             ))}
