@@ -35,14 +35,14 @@ interface ChatMessageBubbleSpecProps {
 }
 
 const ChatMessageBubbleSpec: FC<ChatMessageBubbleSpecProps> = ({
-  height = "540px",
+  height = "600px",
 }: ChatMessageBubbleSpecProps) => {
   const divStyle = { maxHeight: height }
   return (
     <div className="mx-auto max-w-3xl rounded-2xl border border-zinc-200 bg-zinc-50/25 bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] py-8 pl-8 pr-2 shadow-lg">
       <div
         style={divStyle} // Apply inline style here
-        className={`flex flex-col gap-y-8 overflow-y-auto scrollbar-thin scrollbar-track-zinc-50 scrollbar-thumb-zinc-200`}
+        className={`flex flex-col gap-y-8 overflow-y-auto scrollbar-thin scrollbar-track-zinc-50 scrollbar-thumb-zinc-100`}
       >
         <ChatMessageBubble message={messageUser} />
         <ChatMessageBubble message={messageAi} sources={sources} />
