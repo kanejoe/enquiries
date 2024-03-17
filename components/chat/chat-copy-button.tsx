@@ -25,7 +25,7 @@ const ChatCopyButton: FC<ChatCopyButtonProps> = ({ copyText }) => {
     <Button
       variant="ghost"
       size="sm"
-      className="text-xs hover:bg-zinc-200 focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
+      className="text-xs transition-opacity hover:bg-zinc-200 focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
       onClick={onCopy}
     >
       {isCopied ? <PasteIcon /> : <CopyIcon />}

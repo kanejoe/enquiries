@@ -3,6 +3,8 @@ import { UseChatHelpers } from "ai/react"
 import { IconArrowRight } from "@/lib/components/ui/Icons"
 import { Button } from "@/components/ui/button"
 
+import { ChatHeaderIcon } from "./chat-bubble-icons"
+
 const exampleMessages = [
   {
     heading: "Ask a question about a lease",
@@ -30,9 +32,14 @@ export function ChatEmptyScreen({
   setInput,
 }: Pick<UseChatHelpers, "setInput">) {
   return (
-    <div className="mx-auto max-w-2xl px-4 font-albertsans">
-      <div className="rounded-lg border bg-background p-8 shadow-lg">
-        <h1 className="mb-2  text-lg font-semibold">Documents AI Chatbot</h1>
+    <div className="font-albertsans">
+      <div className="rounded-2xl border bg-background bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] p-16 shadow-lg">
+        <h1 className="mb-4 flex flex-row text-2xl font-semibold text-zinc-600">
+          <span className="w-16 shrink-0">
+            <ChatHeaderIcon />
+          </span>
+          <span className="mt-0.5">Documents AI Chatbot</span>
+        </h1>
         <p className="leading-normal text-muted-foreground">
           You can start a conversation here or try the following examples:
         </p>
@@ -44,8 +51,8 @@ export function ChatEmptyScreen({
               className="h-auto p-0 text-base"
               onClick={() => setInput(message.message)}
             >
-              <IconArrowRight className="mr-2 text-muted-foreground" />
-              {message.heading}
+              <IconArrowRight className="mr-6 text-muted-foreground" />
+              <span className="text-zinc-600">{message.heading}</span>
             </Button>
           ))}
         </div>

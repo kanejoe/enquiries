@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { ChatHeaderIcon } from "./chat-bubble-icons"
 
 interface ChatMessageHeaderProps {
-  title: string
+  title?: string
   isoDateString?: string
 }
 
@@ -27,11 +27,14 @@ const ChatMessageHeader: FC<ChatMessageHeaderProps> = ({
           <ChatHeaderIcon />
         </div>
         <div className="mt-1 overflow-hidden overflow-ellipsis whitespace-nowrap pr-8 font-albertsans text-xl font-semibold text-zinc-600">
-          {title}
+          {title?.trim().length ? title : "New Chat"}
         </div>
       </h2>
       <div className="mr-4 mt-2 flex w-full justify-end">
-        <Badge variant={"secondary"} className="bg-zinc-100">
+        <Badge
+          variant={"secondary"}
+          className="bg-zinc-100 font-geistmono font-normal text-zinc-800"
+        >
           {readableDate}
         </Badge>
       </div>

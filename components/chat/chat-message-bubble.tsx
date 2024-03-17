@@ -1,5 +1,6 @@
 "use client"
 
+import { ComponentProps } from "react"
 import type { Message } from "ai/react"
 
 import { cn } from "@/lib/utils"
@@ -19,13 +20,15 @@ interface Source {
   document_name: string
 }
 
+interface ChatMessageBubbleProps extends ComponentProps<"div"> {
+  message: Message
+  sources?: Source[]
+}
+
 export function ChatMessageBubble({
   message,
   sources,
-}: {
-  message: Message
-  sources?: Source[]
-}) {
+}: ChatMessageBubbleProps) {
   const colorClassName = message.role === "user" ? "bg-zinc-50" : "bg-zinc-100"
   const alignmentClassName = message.role === "user" ? "mr-auto" : "ml-auto"
   const ChatIcon = message.role === "user" ? <ChatUserIcon /> : <ChatAiIcon />

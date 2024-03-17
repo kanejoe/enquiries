@@ -41,9 +41,8 @@ export function ChatList({ messages, title, sources, isLoading }: ChatList) {
             )}
           </div>
         ))}
-
-        <ChatScrollAnchor trackVisibility={isLoading} />
       </ScrollArea>
+      <ChatScrollAnchor trackVisibility={isLoading} />
 
       {/* {sources && sources.length ? <ChatSourcesList sources={sources} /> : null} */}
     </div>

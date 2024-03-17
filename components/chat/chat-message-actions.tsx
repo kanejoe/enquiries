@@ -6,8 +6,9 @@ import { useCopyToClipboard } from "@/lib/hooks/use-copy-to-clipboard"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { IconCheck, IconCopy } from "@/components/ui/icons"
+import { ComponentProps } from "react"
 
-interface ChatMessageActionsProps extends React.ComponentProps<"div"> {
+interface ChatMessageActionsProps extends ComponentProps<"div"> {
   message: Message
 }
 
