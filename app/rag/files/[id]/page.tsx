@@ -30,6 +30,7 @@ const Page = ({ searchParams }: PageProps) => {
   const { id } = useParams()
 
   const { data: document } = useDocument(Number(id))
+  // console.log("🚀 ~ Page ~ document:", document)
   const { data: file } = useFetchStorageFileUrl(Number(id))
   const { data: downloadedFile } = useFetchStorageFileDownload(Number(id))
 
