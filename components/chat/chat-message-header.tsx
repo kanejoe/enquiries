@@ -2,6 +2,7 @@
 
 import { FC } from "react"
 
+import { getReadableDate } from "@/lib/date-utils"
 import { Badge } from "@/components/ui/badge"
 
 import { ChatHeaderIcon } from "./chat-bubble-icons"
@@ -16,16 +17,7 @@ const ChatMessageHeader: FC<ChatMessageHeaderProps> = ({
   isoDateString,
 }) => {
   const date = isoDateString ? new Date(isoDateString) : new Date()
-  // Adjusting Intl.DateTimeFormat to the desired format
-  const readableDate = new Intl.DateTimeFormat("en-IE", {
-    weekday: "short", // Short name of the day
-    day: "numeric", // Numeric day of the month
-    month: "short", // Short name of the month
-    year: "numeric", // Numeric year
-    hour: "numeric", // Numeric hour
-    minute: "2-digit", // Two-digit minute
-    hour12: true, // 12-hour time
-  }).format(date)
+  const readableDate = getReadableDate(date)
 
   return (
     <div className="rounded-2xl border border-zinc-200 bg-zinc-50/25 bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] px-4 py-4 shadow-sm transition-shadow hover:shadow-md">

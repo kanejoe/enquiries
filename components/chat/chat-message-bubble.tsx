@@ -4,6 +4,12 @@ import type { Message } from "ai/react"
 
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 import { ChatAiIcon, ChatUserIcon, SourceIcon } from "./chat-bubble-icons"
 import { ChatCopyButton } from "./chat-copy-button"
@@ -51,7 +57,16 @@ export function ChatMessageBubble({
           <div className="mt-4 border-t border-dotted">
             <div className="mt-4 flex flex-row gap-x-4 ">
               <h2 className="mr-4 mt-0.5 font-bold text-emerald-800 underline">
-                <SourceIcon />
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <SourceIcon />
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-secondary-foreground">
+                      <p>Sources of Information</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </h2>
               {sources?.map((source, i) => (
                 <div className="flex flex-row" key={"source:" + i}>

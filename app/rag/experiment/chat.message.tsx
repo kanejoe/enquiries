@@ -1,9 +1,6 @@
 import { FC } from "react"
 import type { Message } from "ai/react"
 
-import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-import { ChatHeaderIcon } from "@/components/chat/chat-bubble-icons"
 import { ChatMessageBubble } from "@/components/chat/chat-message-bubble"
 import { ChatMessageHeader } from "@/components/chat/chat-message-header"
 
