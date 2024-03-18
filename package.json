@@ -111,7 +111,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "8.4.1",
-    "@ianvs/prettier-plugin-sort-imports": "4.2.0",
+    "@ianvs/prettier-plugin-sort-imports": "4.2.1",
     "@tailwindcss/typography": "0.5.10",
     "@tanstack/eslint-plugin-query": "5.27.7",
     "@testing-library/jest-dom": "6.4.2",
@@ -139,7 +139,7 @@
     "jest-environment-jsdom": "29.7.0",
     "jest-worker": "29.7.0",
     "perf_hooks": "0.0.1",
-    "postcss": "8.4.35",
+    "postcss": "8.4.36",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.12",
     "prompts": "2.4.2",
