@@ -2,6 +2,7 @@
 
 import { ComponentProps } from "react"
 import type { Message } from "ai/react"
+import remarkGfm from "remark-gfm"
 
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -11,6 +12,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { CustomBlockquote } from "@/components/chat/CustomBlockQuote"
+import { CustomCodeBlock } from "@/components/chat/CustomCodeBlock"
+import { renderers } from "@/components/chat/CustomRenderers"
+import { MemoizedReactMarkdown } from "@/components/chat/markdown"
 
 import { ChatAiIcon, ChatUserIcon, SourceIcon } from "./chat-bubble-icons"
 import { ChatCopyButton } from "./chat-copy-button"
@@ -46,7 +51,19 @@ export function ChatMessageBubble({
           )}
         >
           <div className="">{ChatIcon}</div>
-          <div className="mt-0 text-balance ">{message.content}</div>
+          <div className="">
+            <MemoizedReactMarkdown
+              className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
+              remarkPlugins={[remarkGfm]}
+              components={{
+                blockquote: CustomBlockquote,
+                code: CustomCodeBlock,
+                ...renderers,
+              }}
+            >
+              {message.content}
+            </MemoizedReactMarkdown>
+          </div>
           <div
             className={cn(
               `w-4 shrink-0`,

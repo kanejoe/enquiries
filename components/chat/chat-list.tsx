@@ -32,16 +32,14 @@ export function ChatList({ messages, title, sources, isLoading }: ChatList) {
         </h2>
       ) : null}
 
-      <ScrollArea className="h-[600px] w-full rounded-md">
-        {messages.map((message, index) => (
-          <div key={index}>
-            <ChatMessage message={message} />
-            {index < messages.length - 1 && (
-              <Separator className="my-4 md:my-8" />
-            )}
-          </div>
-        ))}
-      </ScrollArea>
+      {messages.map((message, index) => (
+        <div key={index}>
+          <ChatMessage message={message} />
+          {index < messages.length - 1 && (
+            <Separator className="my-4 md:my-8" />
+          )}
+        </div>
+      ))}
       <ChatScrollAnchor trackVisibility={isLoading} />
 
       {/* {sources && sources.length ? <ChatSourcesList sources={sources} /> : null} */}

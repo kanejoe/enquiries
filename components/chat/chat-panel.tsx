@@ -88,7 +88,7 @@ export function ChatPanel({
             )
           )}
         </div>
-        <div className="space-y-4 border-t bg-background bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4 [&:has(:focus-visible)]:shadow-[#D7EDEA]">
+        <div className="space-y-4 border-t bg-background bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] px-4 py-2 shadow-lg [&:has(:focus-visible)]:shadow-[#D7EDEA]">
           <PromptForm
             onSubmit={async (value) => {
               await append({
