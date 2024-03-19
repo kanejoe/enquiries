@@ -74,7 +74,8 @@ export async function POST(req: Request) {
     const prompt = IRISH_LAWYER_PROMPT(await contextText, currentMessageContent)
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4-1106-preview",
+      // model: "gpt-4-1106-preview",
+      model: "gpt-3.5-turbo-1106",
       temperature: 0,
       stream: true,
       messages: [

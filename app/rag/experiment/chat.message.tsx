@@ -1,8 +1,7 @@
 "use client"
 
 import { FC, useState } from "react"
-import type { Message } from "ai/react"
-import { motion } from "framer-motion"
+import { useChat, type Message } from "ai/react"
 
 import { ChatEmptyScreen } from "@/components/chat/chat-empty-screen"
 import { ChatMessageHeader } from "@/components/chat/chat-message-header"
@@ -19,25 +18,29 @@ const sources = [
 interface ChatMessageBubbleProps {
   id: string
   height?: string
-  isLoading?: boolean
-  messages: Message[]
   title?: string
   created_at: string
+  endpoint: string
 }
 
 const ChatMessageBubble: FC<ChatMessageBubbleProps> = ({
   height = "430px",
-  isLoading,
-  messages,
   title,
   created_at,
   id,
+  endpoint = "api/query_documents",
 }: ChatMessageBubbleProps) => {
-  const [input, setInput] = useState("")
+  const { messages, input, setInput, isLoading, append, reload, stop } =
+    useChat({
+      api: endpoint,
+    })
+
   const divStyle = { maxHeight: height }
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-y-6">
+    <div className="mx-auto flex max-w-4xl flex-col gap-y-6">
+      {/*  <div className="mx-8 grid grid-cols-12 gap-4">*/}
+      {/* <div className="col-span-9"> */}
       {messages.length ? (
         <>
           <ChatMessageHeader title={title} isoDateString={created_at} />
@@ -47,7 +50,7 @@ const ChatMessageBubble: FC<ChatMessageBubbleProps> = ({
               style={divStyle} // Apply inline style here
               className={`flex flex-col gap-y-8 overflow-y-auto scrollbar-thin scrollbar-track-zinc-50 scrollbar-thumb-zinc-100`}
             >
-              <ChatMessageList messages={messages} />
+              <ChatMessageList messages={messages} isLoading={isLoading} />
             </div>
           </div>
           <ChatScrollAnchor trackVisibility={isLoading} />
@@ -55,8 +58,18 @@ const ChatMessageBubble: FC<ChatMessageBubbleProps> = ({
       ) : (
         <ChatEmptyScreen setInput={setInput} />
       )}
-      <ChatPanel id={id} input={input} setInput={setInput} />
+      <ChatPanel
+        id={id}
+        input={input}
+        setInput={setInput}
+        messages={messages}
+        isLoading={isLoading}
+        stop={stop}
+        append={append}
+        reload={reload}
+      />
     </div>
+    // </div>
   )
 }
 

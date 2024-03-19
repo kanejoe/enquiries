@@ -1,9 +1,12 @@
 import React from "react"
 import type { Message } from "ai/react"
 
+import { nanoid } from "@/lib/utils"
+
 import { ChatMessageBubble } from "./chat.message"
 
 const IndexPage: React.FC = () => {
+  const id = nanoid()
   // const messages: Message[] = []
 
   const messages: Message[] = [
@@ -31,12 +34,12 @@ const IndexPage: React.FC = () => {
   const created_at = "2024-03-03T08:50:50.09186+00:00"
 
   return (
-    <div className="mt-8">
+    <div className="mt-2">
       <ChatMessageBubble
-        id="1"
-        messages={messages}
+        id={id}
         title={title}
         created_at={created_at}
+        endpoint="/api/query_documents"
       />
     </div>
   )

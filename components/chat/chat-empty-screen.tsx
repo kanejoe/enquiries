@@ -51,8 +51,10 @@ export function ChatEmptyScreen({
               className="h-auto p-0 text-base"
               onClick={() => setInput(message.message)}
             >
-              <IconArrowRight className="mr-6 text-muted-foreground" />
-              <span className="text-zinc-600">{message.heading}</span>
+              <IconArrowRight className="mr-6 shrink-0 text-muted-foreground" />
+              <span className="line-clamp-1 select-none text-zinc-600">
+                {message.heading}
+              </span>
             </Button>
           ))}
         </div>

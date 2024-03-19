@@ -41,9 +41,9 @@ export function ChatPanel({
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
 
   return (
-    <div className="fixed inset-x-0 bottom-0.5 w-full duration-300 ease-in-out animate-in">
+    <div className="fixed inset-x-0 bottom-0.5 mx-auto w-full max-w-4xl duration-300 ease-in-out animate-in">
       <ButtonScrollToBottom />
-      <div className="mx-auto sm:max-w-2xl sm:px-4">
+      <div className="mx-auto">
         <div className="flex h-12 items-center justify-center">
           {isLoading ? (
             <Button
@@ -88,7 +88,7 @@ export function ChatPanel({
             )
           )}
         </div>
-        <div className="space-y-4 border-t bg-background bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] px-4 py-2 shadow-lg [&:has(:focus-visible)]:shadow-[#D7EDEA]">
+        <div className="space-y-4 rounded-t-2xl border-t bg-background bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] px-4 py-2 shadow-lg [&:has(:focus-visible)]:shadow-[#D7EDEA]">
           <PromptForm
             onSubmit={async (value) => {
               await append({
