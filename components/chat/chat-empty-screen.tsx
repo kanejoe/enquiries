@@ -34,7 +34,7 @@ export function ChatEmptyScreen({
   return (
     <div className="font-albertsans">
       <div className="rounded-2xl border bg-background bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] p-16 shadow-lg">
-        <h1 className="mb-4 flex flex-row text-2xl font-semibold text-zinc-600">
+        <h1 className="mb-4 flex flex-row text-3xl font-semibold text-zinc-600">
           <span className="w-16 shrink-0">
             <ChatHeaderIcon />
           </span>

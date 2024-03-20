@@ -37,7 +37,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html
         lang="en"
         suppressHydrationWarning
-        className="scroll-smooth antialiased scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-slate-300"
+        className="scroll-smooth antialiased"
       >
         <head />
         <body
